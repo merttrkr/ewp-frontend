@@ -6,6 +6,7 @@ import {
   Tabs,
   useColorModeValue,
 } from '@chakra-ui/react';
+import InstitutionInformationForm from './form-components/InstitutionInformationForm';
 
 
 
@@ -15,12 +16,14 @@ export default function TabComponent() {
   return (
     <Tabs isFitted variant='enclosed'>
       <TabList mb='1em'>
-        <Tab>One</Tab>
-        <Tab>Two</Tab>
+        <Tab>Partner Kurumların Bilgileri</Tab>
+        <Tab>Partner Kurumların İş Birliği Koşulları</Tab>
+        <Tab>Ön İzleme / Kaydetme</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
-          <p>one!</p>
+        <InstitutionInformationForm pageName= 'Kurum Bilgilerim' subText={'Lütfen kurumunuzun bilgilerini doldurunuz.'}/>
+        <InstitutionInformationForm pageName= 'Partner Kurum Bilgileri'subText={'Lütfen partner kurumun bilgilerini doldurunuz.'}/>
         </TabPanel>
         <TabPanel>
           <p>two!</p>

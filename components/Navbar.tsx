@@ -21,9 +21,14 @@ import {
   CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
-  MoonIcon, 
-  SunIcon 
+  MoonIcon,
+  SunIcon,
 } from '@chakra-ui/icons';
+import Image from 'next/image';
+
+const logoSrc = '/logo_ewp.png' 
+const darkLogoSrc = '/logo_ewp_dark.png'
+
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
@@ -31,19 +36,22 @@ export default function Navbar() {
   return (
     <Box>
       <Flex
+        justify={'space-between'}
         bg={useColorModeValue('gray.50', 'black.500')}
         color={useColorModeValue('gray.800', 'white')}
         minH={'60px'}
-        py={{ base: 2 }} 
+        py={{ base: 2 }}
         px={{ base: 4 }}
         borderBottom={1}
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}>
+        align={'center'}
+      >
         <Flex
           flex={{ base: 1, md: 'auto' }}
           ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
+          display={{ base: 'flex', md: 'none' }}
+        >
           <IconButton
             onClick={onToggle}
             icon={
@@ -53,29 +61,27 @@ export default function Navbar() {
             aria-label={'Toggle Navigation'}
           />
         </Flex>
-        <Text
-            textAlign={useBreakpointValue({ base: 'left', md: 'left', sm:'left'})}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
-            Logo
-          </Text>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'center' }}>
+       
+        <Image width={100} height='36' src= {colorMode === 'light' ? logoSrc : darkLogoSrc} alt={'EWP Logo'}></Image>
+      
+        
+        <Flex display={{base: 'none', md:'flex'}}>
+          <DesktopNav /></Flex>
+        
+            <Box width={100}>
+            <Stack
           
-
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            <DesktopNav />
-          </Flex>
-        </Flex>
-
-        <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
           direction={'row'}
-          spacing={6}>
+          spacing={6}
+        >
           <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-              </Button>
+            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+          </Button>
         </Stack>
+            </Box>
+        
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -105,7 +111,8 @@ const DesktopNav = () => {
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
-                }}>
+                }}
+              >
                 {navItem.label}
               </Link>
             </PopoverTrigger>
@@ -117,7 +124,8 @@ const DesktopNav = () => {
                 bg={popoverContentBgColor}
                 p={4}
                 rounded={'xl'}
-                minW={'sm'}>
+                minW={'sm'}
+              >
                 <Stack>
                   {navItem.children.map((child) => (
                     <DesktopSubNav key={child.label} {...child} />
@@ -140,13 +148,15 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       display={'block'}
       p={2}
       rounded={'md'}
-      _hover={{ bg: useColorModeValue('gray.200', 'gray.900') }}>
+      _hover={{ bg: useColorModeValue('gray.200', 'gray.900') }}
+    >
       <Stack direction={'row'} align={'center'}>
         <Box>
           <Text
             transition={'all .3s ease'}
             _groupHover={{ color: 'gray.400' }}
-            fontWeight={500}>
+            fontWeight={500}
+          >
             {label}
           </Text>
           <Text fontSize={'sm'}>{subLabel}</Text>
@@ -158,7 +168,8 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
           _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
           justify={'flex-end'}
           align={'center'}
-          flex={1}>
+          flex={1}
+        >
           <Icon color={'gray.500'} w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
@@ -171,7 +182,8 @@ const MobileNav = () => {
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
       p={4}
-      display={{ md: 'none' }}>
+      display={{ md: 'none' }}
+    >
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -192,10 +204,12 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         align={'center'}
         _hover={{
           textDecoration: 'none',
-        }}>
+        }}
+      >
         <Text
           fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}>
+          color={useColorModeValue('gray.600', 'gray.200')}
+        >
           {label}
         </Text>
         {children && (
@@ -216,7 +230,8 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           borderLeft={1}
           borderStyle={'solid'}
           borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}>
+          align={'start'}
+        >
           {children &&
             children.map((child) => (
               <Link key={child.label} py={2} href={child.href}>
@@ -237,7 +252,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: Array<NavItem> = [
-  { 
+  {
     label: 'İkili Anlaşmalar',
     children: [
       {
@@ -262,5 +277,4 @@ const NAV_ITEMS: Array<NavItem> = [
       },
     ],
   },
-
 ];
