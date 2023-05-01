@@ -103,48 +103,9 @@ export default function InstitutionConditionsForm({
         </Flex>
 
         <Flex gap={3} justifyContent={"right"} pr={4}>
-          <Button
-            fontFamily={"heading"}
-            mt={8}
-            w={"15%"}
-            bg={ButtonColor}
-            color={"white"}
-            _hover={{
-              bg: ButtonHoverColor,
-              boxShadow: "xl",
-            }}
-          >
-            Kaydet
-          </Button>
-          <Button
-            border={"2px"}
-            fontFamily={"heading"}
-            mt={8}
-            w={"auto"}
-            color={ButtonColor}
-            _hover={{
-              color: ButtonHoverColor,
-              bg: "white",
-              boxShadow: "xl",
-            }}
-          >
-            Aynı Koşulları Partnerime De Ekle
-          </Button>
-          <Button
-            border={"2px"}
-            fontFamily={"heading"}
-            mt={8}
-            w={"10%"}
-            bg="white"
-            color={ButtonColor}
-            _hover={{
-              color: ButtonHoverColor,
-              bg: "white",
-              boxShadow: "xl",
-            }}
-          >
-            Clear
-          </Button>
+          <Button variant="submit">Kaydet</Button>
+          <Button variant="condition">Aynı Koşulları Partnerime De Ekle</Button>
+          <Button variant="clear">Clear</Button>
         </Flex>
       </Box>
     </Stack>

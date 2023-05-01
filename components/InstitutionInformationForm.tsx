@@ -25,10 +25,6 @@ export default function InstitutionInformationForm({
   const FormBackground = useColorModeValue("gray.50", "gray.700");
   const BorderColor = useColorModeValue("gray.200", "gray.600");
   const HeadingColor = useColorModeValue("gray.600", "gray.100");
-  const ButtonColor = useColorModeValue("#20558B", "#0E3051");
-  const apos = "'";
-
-  const ButtonHoverColor = useColorModeValue("#9C1F23", "gray.600");
   return (
     <Stack
       margin="5"
@@ -80,7 +76,7 @@ export default function InstitutionInformationForm({
             <SelectAutoComplete selectLabel="Departman / Bölüm Adı" />
             <TextInput
               placeHolder="IIA-15"
-              textInputLabel="İkili Anlaşma ID{apos}si (IIA-ID)"
+              textInputLabel="İkili Anlaşma IDsi (IIA-ID)"
             />
             <TextInput
               placeHolder="01/05/2023"
@@ -89,34 +85,8 @@ export default function InstitutionInformationForm({
           </Stack>
         </Flex>
         <Flex gap={3} justifyContent={"right"} pr={4}>
-          <Button
-            fontFamily={"heading"}
-            mt={8}
-            w={"15%"}
-            bg={ButtonColor}
-            color={"white"}
-            _hover={{
-              bg: ButtonHoverColor,
-              boxShadow: "xl",
-            }}
-          >
-            Kaydet
-          </Button>
-          <Button
-            border={"2px"}
-            fontFamily={"heading"}
-            mt={8}
-            w={"15%"}
-            bg="white"
-            color={ButtonColor}
-            _hover={{
-              color: ButtonHoverColor,
-              bg: "white",
-              boxShadow: "xl",
-            }}
-          >
-            Temizle
-          </Button>
+          <Button variant="submit">Kaydet</Button>
+          <Button variant="clear">Temizle</Button>
         </Flex>
       </Box>
     </Stack>
