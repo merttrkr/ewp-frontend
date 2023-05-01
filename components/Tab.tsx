@@ -1,4 +1,5 @@
 import {
+  Flex,
   Tab,
   TabList,
   TabPanel,
@@ -10,93 +11,21 @@ import InstitutionInformationForm from "./form-components/InstitutionInformation
 import InstitutionConditionsForm from "./form-components/InstitutionConditionsForm";
 
 export default function TabComponent() {
-  const HeaderBackground = useColorModeValue("white", "gray.800");
-  const BorderColor = useColorModeValue("gray.200", "gray.600");
 
   return (
-    <Tabs isFitted variant="enclosed">
-      <TabList
-        shadow={"md"}
-        borderTop={"aliceblue"}
-        mb="1em"
-        bg={"gray.50"}
-        px={12}
-        pt={1}
-      >
-        <Tab
-          _selected={{
-            bg: "gray.100",
-            color: "#9C1F23",
-            borderColor: "inherit",
-            borderBottom: "none",
-            mb: "-2px",
-            fontWeight: "medium",
-            fontSize: "sm",
-          }}
-          _hover={{
-            bg: "gray.200",
-          }}
-          fontWeight={"small"}
-          fontSize={"sm"}
-          m="1"
-          justifyContent={"left"}
-          borderRight="1px"
-          borderColor={"gray.100"}
-          pl={"5"}
-          borderTopRadius={"xl"}
-        >
+    <Tabs variant="colorful" colorScheme="gray" >
+      <TabList>
+        <Tab>
           Partner Kurumların Bilgileri
         </Tab>
-        <Tab
-          _selected={{
-            bg: "gray.100",
-            color: "#9C1F23",
-            borderColor: "inherit",
-            borderBottom: "none",
-            mb: "-2px",
-            fontWeight: "medium",
-            fontSize: "sm",
-          }}
-          _hover={{
-            bg: "gray.200",
-          }}
-          fontWeight={"small"}
-          fontSize={"sm"}
-          m="1"
-          justifyContent={"left"}
-          borderRight="1px"
-          borderColor={"gray.100"}
-          pl={"5"}
-          borderTopRadius={"xl"}
-        >
+        <Tab>
           Partner Kurumların İş Birliği Koşulları
         </Tab>
-        <Tab
-          _selected={{
-            bg: "gray.100",
-            color: "#9C1F23",
-            borderColor: "inherit",
-            borderBottom: "none",
-            mb: "-2px",
-            fontWeight: "medium",
-            fontSize: "sm",
-          }}
-          _hover={{
-            bg: "gray.200",
-          }}
-          fontWeight={"small"}
-          fontSize={"sm"}
-          m="1"
-          justifyContent={"left"}
-          borderRight="1px"
-          borderColor={"gray.100"}
-          pl={"5"}
-          borderTopRadius={"xl"}
-        >
+        <Tab>
           Ön İzleme / Kaydetme
         </Tab>
       </TabList>
-      <TabPanels px={"10"}>
+      <TabPanels >
         <TabPanel>
           <InstitutionInformationForm
             pageName="Kurum Bilgilerim"
@@ -119,5 +48,6 @@ export default function TabComponent() {
         </TabPanel>
       </TabPanels>
     </Tabs>
+
   );
 }
