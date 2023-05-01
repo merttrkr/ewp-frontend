@@ -7,18 +7,21 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import InstitutionInformationForm from './form-components/InstitutionInformationForm';
+import InstitutionConditionsForm from './form-components/InstitutionConditionsForm';
+
 
 
 
 export default function TabComponent() {
   const HeaderBackground = useColorModeValue('white', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
+  
   return (
-    <Tabs isFitted variant='enclosed'>
-      <TabList mb='1em'>
-        <Tab>Partner Kurumların Bilgileri</Tab>
-        <Tab>Partner Kurumların İş Birliği Koşulları</Tab>
-        <Tab>Ön İzleme / Kaydetme</Tab>
+    <Tabs  isFitted variant='enclosed'>
+      <TabList  shadow={'md'} borderTop={'aliceblue'}  mb='1em'>
+        <Tab fontWeight={'small'} fontSize={'xl'} m='1'>Partner Kurumların Bilgileri</Tab>
+        <Tab fontWeight={'small'} fontSize={'xl'} m='1'>Partner Kurumların İş Birliği Koşulları</Tab>
+        <Tab fontWeight={'small'} fontSize={'xl'} m='1'>Ön İzleme / Kaydetme</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
@@ -26,7 +29,7 @@ export default function TabComponent() {
         <InstitutionInformationForm pageName= 'Partner Kurum Bilgileri'subText={'Lütfen partner kurumun bilgilerini doldurunuz.'}/>
         </TabPanel>
         <TabPanel>
-          <p>two!</p>
+        <InstitutionConditionsForm pageName= 'Kurumuma Ait Koşullar'subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}/>
         </TabPanel>
       </TabPanels>
     </Tabs>

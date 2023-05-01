@@ -10,7 +10,7 @@ export default function PageNameContainer({ pageName }: PageNameProps) {
   const HeadingColor =  useColorModeValue('gray.600', 'gray.100');
   return (
     <Stack w='full' bg={HeaderBackground} marginLeft={0} borderBottom='1px' borderColor={BorderColor}>
-      <Heading pl={3} py={4}  as='h3' size='md' fontWeight={'small'} noOfLines={1} color={HeadingColor}>
+      <Heading pl={3} py={4}  as='h1' fontSize={'lg'}  fontWeight={'small'}  noOfLines={1} color={HeadingColor}>
         {pageName}
       </Heading>
     </Stack>

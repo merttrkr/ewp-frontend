@@ -34,16 +34,18 @@ export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Box>
+    <Box >
       <Flex
+        
         justify={'space-between'}
-        bg={useColorModeValue('gray.50', 'black.500')}
+        bg={useColorModeValue('gray.100', 'black.500')}
         color={useColorModeValue('gray.800', 'white')}
-        minH={'60px'}
+        minH={'70px'}
         py={{ base: 2 }}
         px={{ base: 4 }}
         borderBottom={1}
         borderStyle={'solid'}
+       
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align={'center'}
       >
@@ -92,20 +94,21 @@ export default function Navbar() {
 }
 
 const DesktopNav = () => {
-  const linkColor = useColorModeValue('gray.600', 'gray.200');
+  const linkColor = useColorModeValue('#20558B', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
   return (
-    <Stack direction={'row'} spacing={4}>
+    <Stack  direction={'row'} spacing={4} >
       {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
+        <Box  key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
               <Link
+                
                 p={2}
                 href={navItem.href ?? '#'}
-                fontSize={'sm'}
+                fontSize={'md'}
                 fontWeight={500}
                 color={linkColor}
                 _hover={{
@@ -143,6 +146,7 @@ const DesktopNav = () => {
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
     <Link
+    
       href={href}
       role={'group'}
       display={'block'}
@@ -153,6 +157,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       <Stack direction={'row'} align={'center'}>
         <Box>
           <Text
+          
             transition={'all .3s ease'}
             _groupHover={{ color: 'gray.400' }}
             fontWeight={500}
@@ -162,6 +167,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
           <Text fontSize={'sm'}>{subLabel}</Text>
         </Box>
         <Flex
+        
           transition={'all .3s ease'}
           transform={'translateX(-10px)'}
           opacity={0}
@@ -180,12 +186,13 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 const MobileNav = () => {
   return (
     <Stack
+      
       bg={useColorModeValue('white', 'gray.800')}
       p={4}
       display={{ md: 'none' }}
     >
       {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
+        <MobileNavItem  key={navItem.label} {...navItem} />
       ))}
     </Stack>
   );
@@ -195,8 +202,9 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Stack spacing={4} onClick={children && onToggle}>
+    <Stack  spacing={4} onClick={children && onToggle}>
       <Flex
+      
         py={2}
         as={Link}
         href={href ?? '#'}
@@ -207,6 +215,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         }}
       >
         <Text
+        
           fontWeight={600}
           color={useColorModeValue('gray.600', 'gray.200')}
         >
@@ -225,6 +234,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 
       <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
         <Stack
+        
           mt={2}
           pl={4}
           borderLeft={1}
@@ -234,7 +244,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         >
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
+              <Link fontSize={'2xl'} key={child.label} py={2} href={child.href}>
                 {child.label}
               </Link>
             ))}
