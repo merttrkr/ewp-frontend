@@ -18,10 +18,19 @@ export default function TabComponent() {
   
   return (
     <Tabs  isFitted variant='enclosed'>
-      <TabList  shadow={'md'} borderTop={'aliceblue'}  mb='1em'>
-        <Tab fontWeight={'small'} fontSize={'xl'} m='1'>Partner Kurumların Bilgileri</Tab>
-        <Tab fontWeight={'small'} fontSize={'xl'} m='1'>Partner Kurumların İş Birliği Koşulları</Tab>
-        <Tab fontWeight={'small'} fontSize={'xl'} m='1'>Ön İzleme / Kaydetme</Tab>
+      <TabList   shadow={'md'} borderTop={'aliceblue'}  mb='1em'>
+        <Tab _hover={{
+              bg: 'gray.50',
+             
+            }}  fontWeight={'small'} fontSize={'xl'} m='1'>Partner Kurumların Bilgileri</Tab>
+        <Tab _hover={{
+              bg: 'gray.50',
+              
+            }} fontWeight={'small'} fontSize={'xl'} m='1'>Partner Kurumların İş Birliği Koşulları</Tab>
+        <Tab _hover={{
+              bg: 'gray.50',
+              
+            }}  fontWeight={'small'} fontSize={'xl'} m='1'>Ön İzleme / Kaydetme</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
