@@ -8,9 +8,9 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { MdArrowDropDown } from "react-icons/md";
 import SelectAutoComplete from "@/components/form-components/SelectAutoComplete";
 import TextInput from "./form-components/TextInput";
+import DatePickerInput from "./form-components/DatePickerInput";
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -78,10 +78,8 @@ export default function InstitutionInformationForm({
               placeHolder="IIA-15"
               textInputLabel="İkili Anlaşma IDsi (IIA-ID)"
             />
-            <TextInput
-              placeHolder="01/05/2023"
-              textInputLabel="İmzalanma Tarihi"
-            />
+            <DatePickerInput datePickerInputLabel="İmzalanma Tarihi" />
+            <Flex w={"full"} bg={"gray.100"}></Flex>
           </Stack>
         </Flex>
         <Flex gap={3} justifyContent={"right"} pr={4}>
