@@ -7,25 +7,18 @@ import {
   Tabs,
   useColorModeValue,
 } from "@chakra-ui/react";
-import InstitutionInformationForm from "./form-components/InstitutionInformationForm";
-import InstitutionConditionsForm from "./form-components/InstitutionConditionsForm";
+import InstitutionInformationForm from "./InstitutionInformationForm";
+import InstitutionConditionsForm from "./InstitutionConditionsForm";
 
 export default function TabComponent() {
-
   return (
-    <Tabs variant="colorful" colorScheme="gray" >
+    <Tabs variant="colorful" colorScheme="gray">
       <TabList>
-        <Tab>
-          Partner Kurumların Bilgileri
-        </Tab>
-        <Tab>
-          Partner Kurumların İş Birliği Koşulları
-        </Tab>
-        <Tab>
-          Ön İzleme / Kaydetme
-        </Tab>
+        <Tab>Partner Kurumların Bilgileri</Tab>
+        <Tab>Partner Kurumların İş Birliği Koşulları</Tab>
+        <Tab>Ön İzleme / Kaydetme</Tab>
       </TabList>
-      <TabPanels >
+      <TabPanels>
         <TabPanel>
           <InstitutionInformationForm
             pageName="Kurum Bilgilerim"
@@ -48,6 +41,5 @@ export default function TabComponent() {
         </TabPanel>
       </TabPanels>
     </Tabs>
-
   );
 }

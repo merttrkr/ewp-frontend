@@ -51,5 +51,3 @@ const variants = {
 
 // export the component theme
 export const tabsTheme = defineMultiStyleConfig({ variants });
-
-// now we can use the `colorful` variant with a different color Scheme

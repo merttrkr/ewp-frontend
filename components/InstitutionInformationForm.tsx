@@ -1,18 +1,16 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
   Heading,
   Input,
-  Select,
-  SelectField,
   Stack,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MdArrowDropDown } from "react-icons/md";
 import SelectAutoComplete from "@/components/form-components/SelectAutoComplete";
+import TextInput from "./form-components/TextInput";
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -67,96 +65,27 @@ export default function InstitutionInformationForm({
         <Flex>
           <Stack w="50%" spacing={4} p="5">
             <SelectAutoComplete selectLabel="Kurum / Üniversite Adı" />
-            <Stack>
-              <Heading
-                pl="1"
-                as="h3"
-                size="sm"
-                fontWeight={"bold"}
-                noOfLines={1}
-                color={HeadingColor}
-              >
-                İkili Anlaşma Kodu (IIA-Kodu)
-              </Heading>
-              <Input
-                placeholder="IIA-15"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-              />
-            </Stack>
+            <TextInput
+              placeHolder="IIA-15"
+              textInputLabel="İkili Anlaşma Kodu (IIA-Kodu)"
+            />
+            <TextInput
+              placeHolder="Mert Türker"
+              textInputLabel="Anlaşmayı İmzalayacak Yetkili"
+            />
 
-            <Stack>
-              <Heading
-                pl="1"
-                as="h3"
-                size="sm"
-                fontWeight={"bold"}
-                noOfLines={1}
-                color={HeadingColor}
-              >
-                Anlaşmayı İmzalayacak Yetkili
-              </Heading>
-              <Input
-                placeholder="Mert Türker"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-              />
-            </Stack>
             <SelectAutoComplete selectLabel="İletişim Kurulabilecek Yetkililer" />
           </Stack>
           <Stack w="50%" spacing={4} p="5">
             <SelectAutoComplete selectLabel="Departman / Bölüm Adı" />
-            <Stack>
-              <Heading
-                pl="1"
-                as="h3"
-                size="sm"
-                fontWeight={"bold"}
-                noOfLines={1}
-                color={HeadingColor}
-              >
-                İkili Anlaşma ID{apos}si (IIA-ID)
-              </Heading>
-              <Input
-                placeholder="IIA-15"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-              />
-            </Stack>
-
-            <Stack>
-              <Heading
-                pl="1"
-                as="h3"
-                size="sm"
-                fontWeight={"bold"}
-                noOfLines={1}
-                color={HeadingColor}
-              >
-                İmzalanma Tarihi
-              </Heading>
-              <Input
-                placeholder="Mert Türker"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-              />
-            </Stack>
+            <TextInput
+              placeHolder="IIA-15"
+              textInputLabel="İkili Anlaşma ID{apos}si (IIA-ID)"
+            />
+            <TextInput
+              placeHolder="01/05/2023"
+              textInputLabel="İmzalanma Tarihi"
+            />
           </Stack>
         </Flex>
         <Flex gap={3} justifyContent={"right"} pr={4}>
