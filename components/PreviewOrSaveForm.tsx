@@ -9,8 +9,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import DisplayText from "./form-components/DisplayText";
-import TextInput from "./form-components/TextInput";
-import SelectAutoComplete from "./form-components/SelectAutoComplete";
 
 type PreviewOrSaveFormProps = {
   pageName: String;
@@ -52,10 +50,10 @@ export default function PreviewOrSaveForm({
         <Button variant="condition" type="submit">
           Anlaşmayı Taslak Olarak Kaydet
         </Button>
-        <Button variant="submit" type="reset">
+        <Button variant="previewOrSave" type="reset">
           Karşı Kuruma Anlaşma Bildirimi Gönder
         </Button>
-        <Button variant="submit" type="reset">
+        <Button variant="previewOrSave" type="reset">
           Anlaşmayı Onayla
         </Button>
       </Flex>
