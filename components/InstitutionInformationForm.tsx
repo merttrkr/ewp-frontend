@@ -61,23 +61,17 @@ export default function InstitutionInformationForm({
         <Flex>
           <Stack w="50%" spacing={4} p="5">
             <SelectAutoComplete selectLabel="Kurum / Üniversite Adı" />
+            <TextInput name="IIA-15" label="İkili Anlaşma Kodu (IIA-Kodu)" />
             <TextInput
-              placeHolder="IIA-15"
-              textInputLabel="İkili Anlaşma Kodu (IIA-Kodu)"
-            />
-            <TextInput
-              placeHolder="Mert Türker"
-              textInputLabel="Anlaşmayı İmzalayacak Yetkili"
+              name="Mert Türker"
+              label="Anlaşmayı İmzalayacak Yetkili"
             />
 
             <SelectAutoComplete selectLabel="İletişim Kurulabilecek Yetkililer" />
           </Stack>
           <Stack w="50%" spacing={4} p="5">
             <SelectAutoComplete selectLabel="Departman / Bölüm Adı" />
-            <TextInput
-              placeHolder="IIA-15"
-              textInputLabel="İkili Anlaşma IDsi (IIA-ID)"
-            />
+            <TextInput name="IIA-15" label="İkili Anlaşma IDsi (IIA-ID)" />
             <DatePickerInput datePickerInputLabel="İmzalanma Tarihi" />
             <Flex w={"full"} bg={"gray.100"}></Flex>
           </Stack>

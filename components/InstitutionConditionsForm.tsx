@@ -76,10 +76,7 @@ export default function InstitutionConditionsForm({
             <SelectAutoComplete selectLabel="Hangi Akademik Yıllar Arasında Başlıyor ?" />
             <SelectAutoComplete selectLabel="Yıl Bazında Hareketlilik (mobilite) Sayısı" />
             <SelectAutoComplete selectLabel="ISCED Kodu ve Konu Alanları" />
-            <TextInput
-              placeHolder="0"
-              textInputLabel="Yıl Bazında Toplam Ay sayısı"
-            />
+            <TextInput name="0" label="Yıl Bazında Toplam Ay sayısı" />
           </Stack>
           <Stack w="50%" spacing={4} p="5">
             <SelectAutoComplete selectLabel="Gönderen Kurumun İlgili Bölümü / Departmanı" />
