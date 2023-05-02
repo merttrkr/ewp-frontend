@@ -46,7 +46,7 @@ export default function PreviewOrSaveForm({
       >
         {pageName}
       </Heading>
-      <Flex gap={3} justifyContent={"right"} pr={4}>
+      <Flex gap={3} justifyContent={"center"} p={6}>
         <Button variant="condition" type="submit">
           Anlaşmayı Taslak Olarak Kaydet
         </Button>

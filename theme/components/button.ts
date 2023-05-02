@@ -19,7 +19,6 @@ const submitVariant = defineStyle((props) => {
   const { colorScheme: c } = props
   return {
     fontFamily: "heading",
-    mt: "8",
     w: "15%",
     bg: mode("#20558B", "#0E3051"),
     color: "white",
@@ -38,7 +37,6 @@ const clearVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    mt: "8",
     w: "15%",
     bg: "white",
     color: mode("#20558B", "#0E3051"),
@@ -60,7 +58,6 @@ const conditionVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    mt: "8",
     w: "auto",
     color: mode("#20558B", "#0E3051"),
     borderRadius: 'md',
@@ -81,7 +78,6 @@ const previewOrSaveVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    mt: "8",
     w: "auto",
     bg: mode("#9C1F23", "#0E3051"),
     color: "white",

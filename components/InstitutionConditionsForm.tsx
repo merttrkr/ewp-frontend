@@ -102,7 +102,7 @@ export default function InstitutionConditionsForm({
           <SelectAutoComplete selectLabel="Öğrenim Seviyesini Seçiniz" />
         </Flex>
 
-        <Flex gap={3} justifyContent={"right"} pr={4}>
+        <Flex gap={3} justifyContent={"right"} pr={4} mt={"8"}>
           <Button variant="submit">Kaydet</Button>
           <Button variant="condition">Aynı Koşulları Partnerime De Ekle</Button>
           <Button variant="clear">Clear</Button>
