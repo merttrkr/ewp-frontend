@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import InstitutionInformationForm from "./InstitutionInformationForm";
 import InstitutionConditionsForm from "./InstitutionConditionsForm";
+import PreviewOrSaveForm from "./PreviewOrSaveForm";
 
 export default function TabComponent() {
   return (
@@ -38,6 +39,10 @@ export default function TabComponent() {
             pageName="Partner Kuruma Ait Koşullar"
             subText={"Lütfen partner kuruma ait koşulları doldurunuz."}
           />
+        </TabPanel>
+        <TabPanel>
+          <PreviewOrSaveForm pageName="Kurumuma Ait Bilgiler" />
+          <PreviewOrSaveForm pageName="Partner Kuruma Ait Bilgiler" />
         </TabPanel>
       </TabPanels>
     </Tabs>

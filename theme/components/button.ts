@@ -19,7 +19,6 @@ const submitVariant = defineStyle((props) => {
   const { colorScheme: c } = props
   return {
     fontFamily: "heading",
-    mt: "8",
     w: "15%",
     bg: mode("#20558B", "#0E3051"),
     color: "white",
@@ -30,10 +29,6 @@ const submitVariant = defineStyle((props) => {
       boxShadow: "xl",
       transform: "scale(1.02, 1.02)",
     },
-    _active: {
-      bg: `${c}.700`,
-      transform: "scale(1, 1)",
-    },
   }
 })
 
@@ -42,7 +37,6 @@ const clearVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    mt: "8",
     w: "15%",
     bg: "white",
     color: mode("#20558B", "#0E3051"),
@@ -64,7 +58,6 @@ const conditionVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    mt: "8",
     w: "auto",
     color: mode("#20558B", "#0E3051"),
     borderRadius: 'md',
@@ -80,6 +73,24 @@ const conditionVariant = defineStyle(() => {
   }
 })
 
+// Defining a custom variant
+const previewOrSaveVariant = defineStyle(() => {
+  return {
+    border: "2px",
+    fontFamily: "heading",
+    w: "auto",
+    bg: mode("#9C1F23", "#0E3051"),
+    color: "white",
+    borderRadius: 'md',
+    transition: 'transform 0.15s ease-out, background 0.15s ease-out',
+    _hover: {
+      bg: '#20558B',
+      boxShadow: "xl",
+      transform: "scale(1.02, 1.02)",
+    }
+  }
+})
+
 export const buttonTheme = defineStyleConfig({
   baseStyle,
   sizes,
@@ -87,5 +98,6 @@ export const buttonTheme = defineStyleConfig({
     submit: submitVariant,
     clear: clearVariant,
     condition: conditionVariant,
+    previewOrSave: previewOrSaveVariant,
   },
 })
