@@ -1,19 +1,23 @@
-import {
-  Stack,
-  Heading,
-  useColorModeValue,
-  Input,
-} from "@chakra-ui/react";
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
+import { Stack, Heading, useColorModeValue, Input } from '@chakra-ui/react';
 
-type TextInputProps = {
-  textInputLabel: String;
-  placeHolder: string;
+type FormInputProps = {
+  label: string;
+  name: string;
+  type?: string;
 };
 
-export default function App({ textInputLabel,placeHolder }: TextInputProps) {
+const FormInput: React.FC<FormInputProps> = ({
+  label,
+  name,
+  type = 'text',
+}) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-  
-
   return (
     <Stack>
       <Heading
@@ -23,11 +27,14 @@ export default function App({ textInputLabel,placeHolder }: TextInputProps) {
         fontWeight={'bold'}
         noOfLines={1}
         color={HeadingColor}
-      >
-        {textInputLabel}
-      </Heading>
+      ></Heading>
+      <label htmlFor={name} className='block text-ct-blue-600 mb-3'>
+        {label}
+      </label>
       <Input
-        placeholder={placeHolder}
+        type={type}
+        {...register(name)}
+        placeholder='test'
         bg={'gray.100'}
         border={0}
         color={'gray.500'}
@@ -37,4 +44,6 @@ export default function App({ textInputLabel,placeHolder }: TextInputProps) {
       />
     </Stack>
   );
-}
+};
+
+export default FormInput;
