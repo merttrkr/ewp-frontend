@@ -83,8 +83,12 @@ export default function InstitutionInformationForm({
           </Stack>
         </Flex>
         <Flex gap={3} justifyContent={"right"} pr={4}>
-          <Button variant="submit">Kaydet</Button>
-          <Button variant="clear">Temizle</Button>
+          <Button variant="submit" type="submit">
+            Kaydet
+          </Button>
+          <Button variant="clear" type="reset">
+            Temizle
+          </Button>
         </Flex>
       </Box>
     </Stack>
