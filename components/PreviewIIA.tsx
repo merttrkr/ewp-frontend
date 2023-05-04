@@ -142,7 +142,7 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
         </HStack>
       </Flex>
       <Flex pt={1} pb={4}>
-        <Button variant="previewOrSave">Anlaşma Detaylarını Görüntüle</Button>
+        <Button variant="autoWidthFull">Anlaşma Detaylarını Görüntüle</Button>
       </Flex>
     </Stack>
   );

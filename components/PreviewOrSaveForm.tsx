@@ -50,10 +50,10 @@ export default function PreviewOrSaveForm({
         <Button variant="condition" type="submit">
           Anlaşmayı Taslak Olarak Kaydet
         </Button>
-        <Button variant="previewOrSave" type="reset">
+        <Button variant="autoWidthFull" type="reset">
           Karşı Kuruma Anlaşma Bildirimi Gönder
         </Button>
-        <Button variant="previewOrSave" type="reset">
+        <Button variant="autoWidthFull" type="reset">
           Anlaşmayı Onayla
         </Button>
       </Flex>

@@ -59,10 +59,12 @@ const conditionVariant = defineStyle(() => {
     border: "2px",
     fontFamily: "heading",
     w: "auto",
-    color: mode("#20558B", "#0E3051"),
+    borderColor: "#20558B",
+    color: '#20558B',
     borderRadius: 'md',
     transition: 'transform 0.15s ease-out, background 0.15s ease-out',
     _hover: {
+      borderColor: '#9C1F23',
       color: '#9C1F23',
       boxShadow: "xl",
       transform: "scale(1.02, 1.02)",
@@ -70,11 +72,15 @@ const conditionVariant = defineStyle(() => {
     _active: {
       transform: "scale(1, 1)",
     },
+
+    _dark: {
+      color: "white"
+    }
   }
 })
 
 // Defining a custom variant
-const previewOrSaveVariant = defineStyle(() => {
+const autoWidthFullVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
@@ -100,6 +106,6 @@ export const buttonTheme = defineStyleConfig({
     submit: submitVariant,
     clear: clearVariant,
     condition: conditionVariant,
-    previewOrSave: previewOrSaveVariant,
+    autoWidthFull: autoWidthFullVariant,
   },
 })
