@@ -35,23 +35,23 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
         padding={3}
         color={"white"}
       >
-        <Box fontSize="md" width={"33%"} align={"center"}>
+        <Flex fontSize="md" width={"33%"} justify={"center"}>
           Kurum Adları
-        </Box>
-        <Box width={"33%"} align={"center"}>
+        </Flex>
+        <Flex width={"33%"} justify={"center"}>
           <VStack>
             <Text fontSize="md">Kendi Kurumum</Text>
             <Text fontSize="sm">
               Izmir Institute Of Technology[iyte.edu.tr]
             </Text>
           </VStack>
-        </Box>
-        <Box width={"33%"} align={"center"}>
+        </Flex>
+        <Flex width={"33%"} justify={"center"}>
           <VStack>
             <Text fontSize="md">Partnerim</Text>
             <Text fontSize="sm">Selcuk University[selcuk.edu.tr]</Text>
           </VStack>
-        </Box>
+        </Flex>
       </Flex>
       <Flex direction={"column"} width={"full"}>
         <HStack
@@ -60,21 +60,21 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
           borderColor={BorderColor}
           py={"2"}
         >
-          <Box
+          <Flex
             fontSize="sm"
             width={"33%"}
-            align={"center"}
             color={TitleColor}
             fontWeight={"medium"}
+            justify={"center"}
           >
             Anlaşmanın Durumu
-          </Box>
-          <Box fontSize="sm" width={"33%"} align={"center"}>
+          </Flex>
+          <Flex fontSize="sm" width={"33%"} justify={"center"}>
             Selçuk university tarafından onaylanmayı bekliyor
-          </Box>
-          <Box fontSize="sm" width={"33%"} align={"center"}>
+          </Flex>
+          <Flex fontSize="sm" width={"33%"} justify={"center"}>
             Selçuk university tarafından onaylanmayı bekliyor
-          </Box>
+          </Flex>
         </HStack>
         <HStack
           justifyContent={"space-evenly"}
@@ -82,19 +82,19 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
           borderColor={BorderColor}
           py={"2"}
         >
-          <Box
+          <Flex
             fontSize="sm"
             width={"33%"}
-            align={"center"}
+            justify={"center"}
             color={TitleColor}
             fontWeight={"medium"}
           >
             Anlaşmanın IIA Kodu
-          </Box>
-          <Box fontSize="sm" width={"33%"} align={"center"}>
+          </Flex>
+          <Flex fontSize="sm" width={"33%"} justify={"center"}>
             IIA-1
-          </Box>
-          <Box fontSize="sm" width={"33%"} align={"center"}></Box>
+          </Flex>
+          <Flex fontSize="sm" width={"33%"} justify={"center"}></Flex>
         </HStack>
         <HStack
           justifyContent={"space-evenly"}
@@ -102,21 +102,21 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
           borderColor={BorderColor}
           py={"2"}
         >
-          <Box
+          <Flex
             fontSize="sm"
             width={"33%"}
-            align={"center"}
+            justify={"center"}
             color={TitleColor}
             fontWeight={"medium"}
           >
             Erasmus Kodu
-          </Box>
-          <Box fontSize="sm" width={"33%"} align={"center"}>
+          </Flex>
+          <Flex fontSize="sm" width={"33%"} justify={"center"}>
             TR IZMIR03
-          </Box>
-          <Box fontSize="sm" width={"33%"} align={"center"}>
+          </Flex>
+          <Flex fontSize="sm" width={"33%"} justify={"center"}>
             TR KONYA03
-          </Box>
+          </Flex>
         </HStack>
         <HStack
           justifyContent={"space-evenly"}
@@ -124,27 +124,25 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
           borderColor={BorderColor}
           py={"2"}
         >
-          <Box
+          <Flex
             fontSize="sm"
             width={"33%"}
-            align={"center"}
+            justify={"center"}
             color={TitleColor}
             fontWeight={"medium"}
           >
             Son Güncellenme Tarihi
-          </Box>
-          <Box fontSize="sm" width={"33%"} align={"center"}>
+          </Flex>
+          <Flex fontSize="sm" width={"33%"} justify={"center"}>
             04/05/2023 23.18
-          </Box>
-          <Box fontSize="sm" width={"33%"} align={"center"}>
+          </Flex>
+          <Flex fontSize="sm" width={"33%"} justify={"center"}>
             04/05/2023 23.18
-          </Box>
+          </Flex>
         </HStack>
       </Flex>
       <Flex pt={1} pb={4}>
-        <Button variant="previewOrSave" type="submit">
-          Anlaşma Detaylarını Görüntüle
-        </Button>
+        <Button variant="previewOrSave">Anlaşma Detaylarını Görüntüle</Button>
       </Flex>
     </Stack>
   );
