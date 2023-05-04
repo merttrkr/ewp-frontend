@@ -27,10 +27,9 @@ const FormInput: React.FC<FormInputProps> = ({
         fontWeight={"bold"}
         noOfLines={1}
         color={HeadingColor}
-      ></Heading>
-      <label htmlFor={name} className="block text-ct-blue-600 mb-3">
-        {label}
-      </label>
+      >
+        <label htmlFor={name}>{label}</label>
+      </Heading>
       <Input
         type={type}
         {...register(name)}

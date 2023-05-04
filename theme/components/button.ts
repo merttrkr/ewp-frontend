@@ -81,9 +81,11 @@ const previewOrSaveVariant = defineStyle(() => {
     w: "auto",
     bg: mode("#9C1F23", "#0E3051"),
     color: "white",
+    borderColor: "#9C1F23",
     borderRadius: 'md',
     transition: 'transform 0.15s ease-out, background 0.15s ease-out',
     _hover: {
+      borderColor: "#20558B",
       bg: '#20558B',
       boxShadow: "xl",
       transform: "scale(1.02, 1.02)",
