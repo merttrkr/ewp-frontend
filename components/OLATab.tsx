@@ -38,8 +38,10 @@ export default function TabComponent() {
           />
         </TabPanel>
         <TabPanel>
-          <PreviewOrSaveForm pageName='Kurumuma Ait Bilgiler' />
-          <PreviewOrSaveForm pageName='Partner Kuruma Ait Bilgiler' />
+        <SendingInstitutionInformationForm
+            pageName='Alıcı Kurum Üniversite Bilgisi'
+            subText=''
+          />
         </TabPanel>
         <TabPanel>
           <MobilityProgramForm pageName='Mobility Program'></MobilityProgramForm>
