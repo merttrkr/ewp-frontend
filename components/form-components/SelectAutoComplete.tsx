@@ -8,61 +8,61 @@ import {
   InputRightElement,
   Heading,
   useColorModeValue,
-} from "@chakra-ui/react";
-import * as React from "react";
+} from '@chakra-ui/react';
+import * as React from 'react';
 import {
   AutoComplete,
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteList,
-} from "@choc-ui/chakra-autocomplete";
-import { FiChevronRight, FiChevronDown } from "react-icons/fi";
+} from '@choc-ui/chakra-autocomplete';
+import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 
 type SelectAutoCompleteProps = {
   selectLabel: String;
   placeHolder: string;
 };
 
-function App({
-  selectLabel,
-  placeHolder,
-}: SelectAutoCompleteProps) {
+function App({ selectLabel, placeHolder }: SelectAutoCompleteProps) {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const countries = [
-    "nigeria",
-    "japan",
-    "india",
-    "united states",
-    "south korea",
+    'nigeria',
+    'japan',
+    'india',
+    'united states',
+    'south korea',
   ];
 
   return (
-    <Flex  justify="left" align="center" w="full">
+    <Flex justify='left' align='center' w='full'>
       <FormControl>
-      <Heading  
-                pl='1'
-                pb='2'
-                as='h3'
-                size='sm'
-                fontWeight={'bold'}
-                noOfLines={1}
-                color={HeadingColor}
-              >{selectLabel}</Heading>
+        <Heading
+          pl='1'
+          pb='2'
+          as='h3'
+          size='sm'
+          fontWeight={'bold'}
+          noOfLines={1}
+          color={HeadingColor}
+        >
+          {selectLabel}
+        </Heading>
         <AutoComplete openOnFocus>
           {({ isOpen }) => (
             <>
               <InputGroup>
-                <AutoCompleteInput variant="filled" placeholder={placeHolder} />
-                <InputRightElement> <Icon as={isOpen ? FiChevronRight : FiChevronDown} /></InputRightElement>
-                   
-
+                <AutoCompleteInput variant='filled' placeholder={placeHolder} />
+                <InputRightElement>
+                  {' '}
+                  <Icon as={isOpen ? FiChevronRight : FiChevronDown} />
+                </InputRightElement>
               </InputGroup>
               <AutoCompleteList>
                 {countries.map((country, cid) => (
                   <AutoCompleteItem
                     key={`option-${cid}`}
                     value={country}
-                    textTransform="capitalize"
+                    textTransform='capitalize'
                   >
                     {country}
                   </AutoCompleteItem>

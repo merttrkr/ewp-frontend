@@ -4,7 +4,7 @@ import { buttonTheme } from '@/theme/components/button'
 import { tabsTheme } from './components/tabs'
 
 export const theme = extendTheme({
-  components: { 
+  components: {
     Button: buttonTheme,
     Tabs: tabsTheme,
 

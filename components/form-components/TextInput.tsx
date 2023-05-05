@@ -1,32 +1,32 @@
-import React from "react";
-import { useFormContext, useForm } from "react-hook-form";
-import { Stack, Heading, useColorModeValue, Input } from "@chakra-ui/react";
+import React from 'react';
+import { useFormContext, useForm } from 'react-hook-form';
+import { Stack, Heading, useColorModeValue, Input } from '@chakra-ui/react';
 
 type FormInputProps = {
   label: string;
   name: string;
-  placeHolder:string;
+  placeHolder: string;
   type?: string;
 };
 
 const FormInput: React.FC<FormInputProps> = ({
   label,
   name,
-  type = "text",
+  type = 'text',
   placeHolder,
 }) => {
   const {
     register,
     formState: { errors },
   } = useForm();
-  const HeadingColor = useColorModeValue("gray.600", "gray.100");
+  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
     <Stack>
       <Heading
-        pl="1"
-        as="h3"
-        size="sm"
-        fontWeight={"bold"}
+        pl='1'
+        as='h3'
+        size='sm'
+        fontWeight={'bold'}
         noOfLines={1}
         color={HeadingColor}
       >
@@ -36,11 +36,11 @@ const FormInput: React.FC<FormInputProps> = ({
         type={type}
         {...register(name)}
         placeholder={placeHolder}
-        bg={"gray.100"}
+        bg={'gray.100'}
         border={0}
-        color={"gray.500"}
+        color={'gray.500'}
         _placeholder={{
-          color: "gray.500",
+          color: 'gray.500',
         }}
       />
     </Stack>

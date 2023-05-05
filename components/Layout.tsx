@@ -1,10 +1,9 @@
-
 import Navbar from './Navbar';
 import Head from 'next/head';
 import Footer from './Footer';
 
 type LayoutProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 export default function Layout({ children }: LayoutProps) {
@@ -16,9 +15,9 @@ export default function Layout({ children }: LayoutProps) {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-        <Navbar />
-       {children}
-       <Footer/>
+      <Navbar />
+      {children}
+      <Footer />
     </div>
   );
 }

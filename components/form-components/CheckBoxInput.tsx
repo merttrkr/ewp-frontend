@@ -5,7 +5,7 @@ import {
   Input,
   Checkbox,
   Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 type CheckBoxInputProps = {
   checkBoxInputLabel: String;
@@ -16,15 +16,15 @@ export default function App({
   checkBoxInputLabel,
   placeHolder,
 }: CheckBoxInputProps) {
-  const HeadingColor = useColorModeValue("gray.600", "gray.100");
+  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
 
   return (
     <Stack>
       <Heading
-        pl="1"
-        as="h3"
-        size="sm"
-        fontWeight={"bold"}
+        pl='1'
+        as='h3'
+        size='sm'
+        fontWeight={'bold'}
         noOfLines={1}
         color={HeadingColor}
       >
@@ -33,10 +33,10 @@ export default function App({
       <Checkbox
         pl={4}
         py={2}
-        colorScheme="gray"
+        colorScheme='gray'
         border={0}
-        borderRadius={"md"}
-        bg={"gray.100"}
+        borderRadius={'md'}
+        bg={'gray.100'}
         defaultChecked
       >
         {placeHolder}
