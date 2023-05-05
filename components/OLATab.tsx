@@ -13,6 +13,7 @@ import PreviewOrSaveForm from './PreviewOrSaveForm';
 import StudentInformationForm from './StudentInformationForm';
 import SendingInstitutionInformationForm from './SendingInstitutionInformationForm';
 import MobilityProgramForm from './MobilityProgramForm';
+import CommitmentSignatureForm from './CommitmentSignatureForm';
 
 export default function TabComponent() {
   return (
@@ -44,7 +45,10 @@ export default function TabComponent() {
           />
         </TabPanel>
         <TabPanel>
-          <MobilityProgramForm pageName='Mobility Program'></MobilityProgramForm>
+          
+        </TabPanel>
+        <TabPanel>
+          <CommitmentSignatureForm subText='' pageName='Taahhüt Metni'></CommitmentSignatureForm>
         </TabPanel>
       </TabPanels>
     </Tabs>
