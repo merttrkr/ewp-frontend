@@ -117,11 +117,11 @@ export default function StudentInformationForm({
               placeHolder='placeholder..'
               selectLabel='Öğrencinin Öğrenim Seviyesi'
             />
-
+      
             <TextInput
               placeHolder='placeholder..'
               name='0'
-              label='European Student Identifer (öğrencinin global ID`si)'
+              label='European Student Identifer (Öğrencinin Global ID`si)'
               isDisabled
             />
             <TextInput
