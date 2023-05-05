@@ -39,16 +39,21 @@ export default function TabComponent() {
           />
         </TabPanel>
         <TabPanel>
-        <SendingInstitutionInformationForm
+          <SendingInstitutionInformationForm
             pageName='Alıcı Kurum Üniversite Bilgisi'
             subText=''
           />
         </TabPanel>
         <TabPanel>
-          
+          <MobilityProgramForm
+            pageName={'Hareketlilik Programı'}
+          ></MobilityProgramForm>
         </TabPanel>
         <TabPanel>
-          <CommitmentSignatureForm subText='' pageName='Taahhüt Metni'></CommitmentSignatureForm>
+          <CommitmentSignatureForm
+            subText=''
+            pageName='Taahhüt Metni'
+          ></CommitmentSignatureForm>
         </TabPanel>
       </TabPanels>
     </Tabs>
