@@ -20,10 +20,12 @@ import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 
 type SelectAutoCompleteProps = {
   selectLabel: String;
+  placeHolder: string;
 };
 
 function App({
   selectLabel,
+  placeHolder,
 }: SelectAutoCompleteProps) {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const countries = [
@@ -50,7 +52,7 @@ function App({
           {({ isOpen }) => (
             <>
               <InputGroup>
-                <AutoCompleteInput variant="filled" placeholder="Search..." />
+                <AutoCompleteInput variant="filled" placeholder={placeHolder} />
                 <InputRightElement> <Icon as={isOpen ? FiChevronRight : FiChevronDown} /></InputRightElement>
                    
 

@@ -5,6 +5,7 @@ import { Stack, Heading, useColorModeValue, Input } from "@chakra-ui/react";
 type FormInputProps = {
   label: string;
   name: string;
+  placeHolder:string;
   type?: string;
 };
 
@@ -12,6 +13,7 @@ const FormInput: React.FC<FormInputProps> = ({
   label,
   name,
   type = "text",
+  placeHolder,
 }) => {
   const {
     register,
@@ -33,7 +35,7 @@ const FormInput: React.FC<FormInputProps> = ({
       <Input
         type={type}
         {...register(name)}
-        placeholder="test"
+        placeholder={placeHolder}
         bg={"gray.100"}
         border={0}
         color={"gray.500"}

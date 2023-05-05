@@ -13,15 +13,16 @@ import {
 import SelectAutoComplete from "@/components/form-components/SelectAutoComplete";
 import TextInput from "@/components/form-components/TextInput";
 import CheckBoxInput from "@/components/form-components/CheckBoxInput";
-type InstitutionConditionsFormProps = {
+import DisplayText from "./form-components/DisplayText";
+type StudentInformationFormProps = {
   pageName: String;
   subText: String;
 };
 
-export default function InstitutionConditionsForm({
+export default function StudentInformationForm({
   pageName,
   subText,
-}: InstitutionConditionsFormProps) {
+}: StudentInformationFormProps) {
   const HeaderBackground = useColorModeValue("gray.100", "gray.800");
   const BorderColor = useColorModeValue("gray.200", "gray.600");
   const HeadingColor = useColorModeValue("gray.600", "gray.100");
@@ -65,13 +66,14 @@ export default function InstitutionConditionsForm({
         borderRadius={"xl"}
       >
         <Flex p="5">
-          <SelectAutoComplete placeHolder="placeholder.." selectLabel="Koşul Seçiniz" />
+          <SelectAutoComplete placeHolder="placeholder.." selectLabel="Seçilmiş Hareketlilik (Mobilite) Tipi" />
         </Flex>
 
         <Flex>
           <Stack w="50%" spacing={4} p="5">
-            <SelectAutoComplete placeHolder="placeholder.." selectLabel="Gönderen Kurum / Üniversite" />
-            <SelectAutoComplete placeHolder="placeholder.." selectLabel="Alıcı Kurum / Üniversite" />
+            <DisplayText label='Omobility-id' content="DENEME-ID-2"/>
+            <TextInput placeHolder="placeholder.." label='Öğrencinin İsmi'name = 'name'/> 
+
             <SelectAutoComplete placeHolder="placeholder.." selectLabel="Gönderen Kurumdaki İletişim Kurulabilecek Yetkililer" />
             <SelectAutoComplete placeHolder="placeholder.." selectLabel="Hangi Akademik Yıllar Arasında Başlıyor ?" />
             <SelectAutoComplete placeHolder="placeholder.." selectLabel="Yıl Bazında Hareketlilik (mobilite) Sayısı" />

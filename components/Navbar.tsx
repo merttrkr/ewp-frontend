@@ -280,6 +280,11 @@ const NAV_ITEMS: Array<NavItem> = [
         subLabel: "Öğrenim Anlaşmaları Oluştur/İncele",
         href: "/learning-agreements",
       },
+      {
+        label: 'Öğrenim Anlaşmasi edit',
+        subLabel: 'Öğrenim Anlaşmalası edit',
+        href: '/learning-agreements/edit-learning-agreement',
+      },
     ],
   },
 ];

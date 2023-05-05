@@ -15,17 +15,17 @@ export default function TabComponent() {
   return (
     <Tabs variant="colorful" colorScheme="gray">
       <TabList>
-        <Tab>Partner Kurumların Bilgileri</Tab>
-        <Tab>Partner Kurumların İş Birliği Koşulları</Tab>
-        <Tab>Ön İzleme / Kaydetme</Tab>
-        <Tab>Ön İzleme / Kaydetme</Tab>
-        <Tab>Ön İzleme / Kaydetme</Tab>
+        <Tab>Öğrenciye Ait Bilgiler</Tab>
+        <Tab>Gönderen Kurum / Üniversite Bilgisi</Tab>
+        <Tab>Alıcı Kurum / Üniversite Bilgisi</Tab>
+        <Tab>Hareketlilik (Mobilite) Programı</Tab>
+        <Tab>Taahüt / İmza Bilgileri</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
           <InstitutionInformationForm
-            pageName="Kurum Bilgilerim"
-            subText={"Lütfen kurumunuzun bilgilerini doldurunuz."}
+            pageName="Öğrenciye Ait Bilgiler"
+            subText={""}
           />
           <InstitutionInformationForm
             pageName="Partner Kurum Bilgileri"
