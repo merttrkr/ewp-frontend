@@ -32,6 +32,7 @@ export default function MobilityProgramForm({
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+  const TableColor = useColorModeValue('#20558B', 'gray.400');
   return (
     <Stack
       margin='5'
@@ -66,82 +67,69 @@ export default function MobilityProgramForm({
       >
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Kurum / Üniversite Adı'
-            />
             <TextInput
               placeHolder='placeholder..'
               name='IIA-15'
-              label='İkili Anlaşma Kodu (IIA-Kodu)'
-            />
-            <TextInput
-              placeHolder='placeholder..'
-              name='Mert Türker'
-              label='Anlaşmayı İmzalayacak Yetkili'
-            />
-
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='İletişim Kurulabilecek Yetkililer'
+              label='Hareketliliğin Başlangıç Tarihi'
             />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Departman / Bölüm Adı'
-            />
             <TextInput
               placeHolder='placeholder..'
               name='IIA-15'
-              label='İkili Anlaşma IDsi (IIA-ID)'
+              label='Hareketliliğin Bitiş Tarihi'
             />
-            <DatePickerInput datePickerInputLabel='İmzalanma Tarihi' />
+
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
         </Flex>
-        <TableContainer>
-          <Table variant='striped'>
-            <Thead>
-              <Tr>
-                <Th>To convert</Th>
-                <Th>into</Th>
-                <Th isNumeric>multiply by</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                <Td>inches</Td>
-                <Td>millimetres (mm)</Td>
-                <Td isNumeric>25.4</Td>
-              </Tr>
-              <Tr>
-                <Td>feet</Td>
-                <Td>centimetres (cm)</Td>
-                <Td isNumeric>30.48</Td>
-              </Tr>
-              <Tr>
-                <Td>yards</Td>
-                <Td>metres (m)</Td>
-                <Td isNumeric>0.91444</Td>
-              </Tr>
-            </Tbody>
-            <Tfoot>
-              <Tr>
-                <Th>To convert</Th>
-                <Th>into</Th>
-                <Th isNumeric>multiply by</Th>
-              </Tr>
-            </Tfoot>
-          </Table>
-        </TableContainer>
-        <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-          <Button variant='submit' type='submit'>
-            Kaydet
-          </Button>
-          <Button variant='clear' type='reset'>
-            Temizle
-          </Button>
+        <Flex direction={'column'} rowGap={3} p={5}>
+          <Text fontSize={'md'} fontWeight={'bold'} color={'gray.600'}>
+            Alıcı Kurumda Çalışılması Planlanılan Komponentler(Dersler)
+          </Text>
+          <TableContainer bg={'gray.200'}>
+            <Table variant='striped' size={'sm'} colorScheme='blue'>
+              <Thead>
+                <Tr>
+                  <Th>Dersin Adı</Th>
+                  <Th>Dersin Kredi Tipi</Th>
+                  <Th>Dersin Kredi Değeri</Th>
+                  <Th>Eğitim Dönemi Sayısı</Th>
+                  <Th>Toplam Eğitim Dönemi Sayısı</Th>
+                  <Th>Dersin Kodu</Th>
+                  <Th>
+                    Dersin Gönderen Kurumda Sayılması İçin Tanıma Koşulları
+                  </Th>
+                  <Th>Dersi Tanımlayan Kısa Açıklama</Th>
+                  <Th>Durumu</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr boxSize={'1'}>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>25.4</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                </Tr>
+                <Tr boxSize={'1'}>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>25.4</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                </Tr>
+              </Tbody>
+            </Table>
+          </TableContainer>
         </Flex>
       </Box>
     </Stack>
