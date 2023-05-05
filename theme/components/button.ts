@@ -99,6 +99,26 @@ const autoWidthFullVariant = defineStyle(() => {
   }
 })
 
+// Defining a custom variant
+const whiteVariant = defineStyle(() => {
+  return {
+    border: "2px",
+    fontFamily: "heading",
+    w: "auto",
+    h: "8",
+    fontSize: "sm",
+    color: mode("white", "#0E3051"),
+    borderColor: mode("white", "#0E3051"),
+    borderRadius: 'md',
+    transition: 'transform 0.15s ease-out, background 0.15s ease-out',
+    _hover: {
+      boxShadow: "xl",
+      transform: "scale(1.02, 1.02)",
+    }
+  }
+})
+
+
 export const buttonTheme = defineStyleConfig({
   baseStyle,
   sizes,
@@ -107,5 +127,6 @@ export const buttonTheme = defineStyleConfig({
     clear: clearVariant,
     condition: conditionVariant,
     autoWidthFull: autoWidthFullVariant,
+    white: whiteVariant,
   },
 })
