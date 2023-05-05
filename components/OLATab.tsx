@@ -11,6 +11,7 @@ import InstitutionInformationForm from './InstitutionInformationForm';
 import InstitutionConditionsForm from './InstitutionConditionsForm';
 import PreviewOrSaveForm from './PreviewOrSaveForm';
 import StudentInformationForm from './StudentInformationForm';
+import SendingInstitutionInformationForm from './SendingInstitutionInformationForm';
 
 export default function TabComponent() {
   return (
@@ -26,16 +27,13 @@ export default function TabComponent() {
         <TabPanel>
           <StudentInformationForm
             pageName='Öğrenciye Ait Bilgiler'
-            subText=''/>
+            subText=''
+          />
         </TabPanel>
         <TabPanel>
-          <InstitutionConditionsForm
-            pageName='Kurumuma Ait Koşullar'
-            subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
-          />
-          <InstitutionConditionsForm
-            pageName='Partner Kuruma Ait Koşullar'
-            subText={'Lütfen partner kuruma ait koşulları doldurunuz.'}
+          <SendingInstitutionInformationForm
+            pageName='Gönderen Kurum Üniversite Bilgisi'
+            subText=''
           />
         </TabPanel>
         <TabPanel>
