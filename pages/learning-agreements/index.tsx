@@ -1,7 +1,9 @@
-import TabComponent from "@/components/OLATab";
+import PreviewOLA from "@/components/PreviewOLA";
 
-export default function CreateAndInspectLAs() {
-  return <TabComponent />;
+export default function DisplayLAs() {
+  return (
+    <>
+      <PreviewOLA OLA={"1"}></PreviewOLA>
+    </>
+  );
 }
-
-
