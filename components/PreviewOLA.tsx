@@ -9,6 +9,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import DisplayText from './form-components/DisplayText';
+import { FiChevronRight } from 'react-icons/fi';
 
 type PreviewOLAProps = {
   OLA: String;
@@ -17,8 +18,6 @@ type PreviewOLAProps = {
 export default function PreviewOLA({ OLA }: PreviewOLAProps) {
   const HeaderBackground = useColorModeValue('#9C1F23', '#9C1F23');
   const FormBackground = useColorModeValue('gray.100', 'gray.700');
-  const BorderColor = useColorModeValue('gray.200', 'gray.600');
-  const TitleColor = useColorModeValue('#20558B', 'gray.400');
   return (
     <Stack
       margin='6'
@@ -32,30 +31,37 @@ export default function PreviewOLA({ OLA }: PreviewOLAProps) {
         bg={HeaderBackground}
         w={'full'}
         borderTopRadius={'xl'}
-        padding={3}
-        pl={6}
+        py={3}
+        px={10}
         color={'white'}
-        gap={2}
+        justify={'space-between'}
       >
-        <Text fontWeight={'bold'} fontSize={'sm'}>
-          Seçilen Hareketlilik Tipi:
-        </Text>
-        <Text fontSize={'sm'}>Uzun Dönem</Text>
+        <Flex gap={2}>
+          <Text fontWeight={'bold'} fontSize={'sm'}>
+            Seçilen Hareketlilik Tipi:
+          </Text>
+          <Text fontSize={'sm'}>Uzun Dönem</Text>
+        </Flex>
+
+        <Button variant={'white'} rightIcon={<FiChevronRight />}>
+          Edit Agreement
+        </Button>
       </Flex>
-      <Flex width={'full'} gap={5} justify={'space-around'}>
+
+      <Flex width={'full'} gap={5} justify={'space-around'} padding={6}>
         <Flex
           flexDirection={'column'}
           justify={'flex-start'}
           width={'50%'}
           pl={'5'}
-          rowGap={'3'}
+          rowGap={'4'}
         >
           <DisplayText
             label={'Hareketlilik Başlangıç Tarihi: '}
             content={'26/12/2022'}
           ></DisplayText>
           <DisplayText
-            label={'Alanın ISCED-F Kodu: '}
+            label={'Hareketliliğin Geçerli Olacağı Akademik Yıl: '}
             content={'Placeholder'}
           ></DisplayText>
           <DisplayText
@@ -68,15 +74,15 @@ export default function PreviewOLA({ OLA }: PreviewOLAProps) {
           ></DisplayText>
 
           <DisplayText
-            label={'Gönderen Kurum Yetkili Kişisi: '}
+            label={'Gönderen Kurum Yetkili Kişinin Adı Soyadı: '}
             content={'Placeholder'}
           ></DisplayText>
           <DisplayText
-            label={'Alıcı Kurum Yetkili Kişisi: '}
+            label={'Alıcı Kurum Yetkili Kişinin Adı Soyadı: '}
             content={'Placeholder'}
           ></DisplayText>
           <DisplayText
-            label={'Hareketliliğin Geçerli Olacağı Akademik Yıl: '}
+            label={'Öğrencinin Adı Soyadı: '}
             content={'Placeholder'}
           ></DisplayText>
         </Flex>
@@ -85,7 +91,7 @@ export default function PreviewOLA({ OLA }: PreviewOLAProps) {
           justify={'flex-start'}
           width={'50%'}
           pl={'5'}
-          rowGap={'3'}
+          rowGap={'4'}
         >
           <DisplayText
             label={'Hareketlilik Bitiş Tarihi: '}
@@ -111,10 +117,11 @@ export default function PreviewOLA({ OLA }: PreviewOLAProps) {
             label={'Alıcı Kurum Yetkili Kişinin E-Postası: '}
             content={'Placeholder'}
           ></DisplayText>
+          <DisplayText
+            label={'Öğrencinin E-Postası: '}
+            content={'Placeholder'}
+          ></DisplayText>
         </Flex>
-      </Flex>
-      <Flex pt={1} pb={4}>
-        <Button variant='autoWidthFull'>Anlaşma Detaylarını Görüntüle</Button>
       </Flex>
     </Stack>
   );

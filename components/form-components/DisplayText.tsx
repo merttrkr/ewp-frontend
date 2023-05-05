@@ -6,21 +6,22 @@ type DisplayTextProps = {
 };
 
 export default function DisplayText({ label, content }: DisplayTextProps) {
-  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+  const HeadingColor = useColorModeValue('gray.700', 'gray.300');
+  const TextColor = useColorModeValue('#20558B', 'gray.400');
 
   return (
     <Stack>
       <Heading
         pl='1'
         as='h3'
-        size='sm'
-        fontWeight={'bold'}
+        fontSize='md'
+        fontWeight={'medium'}
         noOfLines={1}
         color={HeadingColor}
       >
         {label}
       </Heading>
-      <Text pl={2} fontWeight={'medium'} color={'#20558B'}>
+      <Text pl={2} fontWeight={'medium'} fontSize='sm' color={TextColor}>
         {content}
       </Text>
     </Stack>
