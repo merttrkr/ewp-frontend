@@ -12,6 +12,7 @@ import InstitutionConditionsForm from './InstitutionConditionsForm';
 import PreviewOrSaveForm from './PreviewOrSaveForm';
 import StudentInformationForm from './StudentInformationForm';
 import SendingInstitutionInformationForm from './SendingInstitutionInformationForm';
+import MobilityProgramForm from './MobilityProgramForm';
 
 export default function TabComponent() {
   return (
@@ -21,7 +22,7 @@ export default function TabComponent() {
         <Tab>Gönderen Kurum / Üniversite Bilgisi</Tab>
         <Tab>Alıcı Kurum / Üniversite Bilgisi</Tab>
         <Tab>Hareketlilik (Mobilite) Programı</Tab>
-        <Tab>Taahüt / İmza Bilgileri</Tab>
+        <Tab>Taahhüt / İmza Bilgileri</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
@@ -39,6 +40,9 @@ export default function TabComponent() {
         <TabPanel>
           <PreviewOrSaveForm pageName='Kurumuma Ait Bilgiler' />
           <PreviewOrSaveForm pageName='Partner Kuruma Ait Bilgiler' />
+        </TabPanel>
+        <TabPanel>
+          <MobilityProgramForm pageName='Mobility Program'></MobilityProgramForm>
         </TabPanel>
       </TabPanels>
     </Tabs>
