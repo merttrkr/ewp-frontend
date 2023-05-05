@@ -7,9 +7,11 @@ type FormInputProps = {
   name: string;
   placeHolder: string;
   type?: string;
+  isDisabled?:boolean
 };
 
 const FormInput: React.FC<FormInputProps> = ({
+  isDisabled = false,
   label,
   name,
   type = 'text',
@@ -33,6 +35,7 @@ const FormInput: React.FC<FormInputProps> = ({
         <label htmlFor={name}>{label}</label>
       </Heading>
       <Input
+        isDisabled = {isDisabled}
         type={type}
         {...register(name)}
         placeholder={placeHolder}

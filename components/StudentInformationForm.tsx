@@ -14,6 +14,7 @@ import SelectAutoComplete from '@/components/form-components/SelectAutoComplete'
 import TextInput from '@/components/form-components/TextInput';
 import CheckBoxInput from '@/components/form-components/CheckBoxInput';
 import DisplayText from './form-components/DisplayText';
+import DatePickerInput from './form-components/DatePickerInput';
 type StudentInformationFormProps = {
   pageName: String;
   subText: String;
@@ -74,82 +75,64 @@ export default function StudentInformationForm({
 
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
-            <DisplayText label='Omobility-id' content='DENEME-ID-2' />
             <TextInput
-              placeHolder='placeholder..'
+              label='Omobility-id'
+              placeHolder='DENEME-ID-2'
+              name='omobilityId'
+              isDisabled
+            />
+            <TextInput
+              placeHolder='Test Test'
               label='Öğrencinin İsmi'
               name='name'
             />
 
             <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Gönderen Kurumdaki İletişim Kurulabilecek Yetkililer'
+              placeHolder='Kadın'
+              selectLabel='Öğrencinin Cinsiyet'
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Hangi Akademik Yıllar Arasında Başlıyor ?'
+            <DatePickerInput datePickerInputLabel='Öğrencinin Doğum Tarihi' />
+            <TextInput
+              placeHolder='test@gmail.com'
+              label='Öğrencinin E-postası'
+              name='eposta'
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Yıl Bazında Hareketlilik (mobilite) Sayısı'
-            />
+
             <SelectAutoComplete
               placeHolder='placeholder..'
               selectLabel='ISCED Kodu ve Konu Alanları'
             />
+          </Stack>
+          <Stack w='50%' spacing={4} p='5'>
+            <TextInput
+              placeHolder='Test Test'
+              label='Öğrencinin Soy İsmi'
+              name='name'
+            />
+            <SelectAutoComplete
+              placeHolder='placeholder..'
+              selectLabel='Öğencinin Ulusu'
+            />
+            <SelectAutoComplete
+              placeHolder='placeholder..'
+              selectLabel='Öğrencinin Öğrenim Seviyesi'
+            />
+
             <TextInput
               placeHolder='placeholder..'
               name='0'
-              label='Yıl Bazında Toplam Ay sayısı'
+              label='European Student Identifer (öğrencinin global ID`si)'
+              isDisabled
+            />
+            <TextInput
+              placeHolder='placeholder..'
+              name='0'
+              label='ISCED Açıklaması'
             />
           </Stack>
-          <Stack w='50%' spacing={4} p='5'>
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Gönderen Kurumun İlgili Bölümü / Departmanı'
-            />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Alıcı Kurumun İlgili Bölümü / Departmanı'
-            />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Hangi Akademik Yıllar Arasında Bitiyor ?'
-            />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Gönderen Kurumun İlgili Bölümü / Departmanı'
-            />
-            <CheckBoxInput
-              placeHolder='Karma'
-              checkBoxInputLabel='Karma Eğitim Olacaksa Aşağıdaki Kutucuğu İşaretleyiniz'
-            />
-            <HStack spacing={4}>
-              <SelectAutoComplete
-                placeHolder='placeholder..'
-                selectLabel='İstenilen Yabancı Dil'
-              />
-              <Box w={'50%'}>
-                <SelectAutoComplete
-                  placeHolder='placeholder..'
-                  selectLabel='Seviyesi'
-                />
-              </Box>
-            </HStack>
-          </Stack>
-        </Flex>
-        <Flex p='5'>
-          <SelectAutoComplete
-            placeHolder='placeholder..'
-            selectLabel='Öğrenim Seviyesini Seçiniz'
-          />
         </Flex>
 
-        <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-          <Button variant='submit'>Kaydet</Button>
-          <Button variant='condition'>Aynı Koşulları Partnerime De Ekle</Button>
-          <Button variant='clear'>Clear</Button>
-        </Flex>
+
       </Box>
     </Stack>
   );

@@ -10,6 +10,7 @@ import {
 import InstitutionInformationForm from './InstitutionInformationForm';
 import InstitutionConditionsForm from './InstitutionConditionsForm';
 import PreviewOrSaveForm from './PreviewOrSaveForm';
+import StudentInformationForm from './StudentInformationForm';
 
 export default function TabComponent() {
   return (
@@ -23,14 +24,9 @@ export default function TabComponent() {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <InstitutionInformationForm
+          <StudentInformationForm
             pageName='Öğrenciye Ait Bilgiler'
-            subText={''}
-          />
-          <InstitutionInformationForm
-            pageName='Partner Kurum Bilgileri'
-            subText={'Lütfen partner kurumun bilgilerini doldurunuz.'}
-          />
+            subText=''/>
         </TabPanel>
         <TabPanel>
           <InstitutionConditionsForm
