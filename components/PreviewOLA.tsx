@@ -44,7 +44,7 @@ export default function PreviewOLA({ OLA }: PreviewOLAProps) {
         </Flex>
 
         <Button variant={'white'} rightIcon={<FiChevronRight />}>
-          Edit Agreement
+          Anlaşmayı Düzenle
         </Button>
       </Flex>
 

@@ -14,12 +14,10 @@ import DatePickerInput from '../form-components/DatePickerInput';
 
 type InstitutionInformationFormProps = {
   pageName: String;
-  subText: String;
 };
 
 export default function InstitutionInformationForm({
   pageName,
-  subText,
 }: InstitutionInformationFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -29,7 +27,7 @@ export default function InstitutionInformationForm({
     <Stack
       marginBottom='20'
       px={6}
-      py={6}
+      py={3}
       w='100%'
       bg={HeaderBackground}
       marginLeft={0}
@@ -47,7 +45,6 @@ export default function InstitutionInformationForm({
         >
           {pageName}
         </Heading>
-        <Text>{subText}</Text>
       </Box>
       <Box
         as={'form'}

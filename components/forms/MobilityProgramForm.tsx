@@ -36,7 +36,7 @@ export default function MobilityProgramForm({
     <Stack
       marginBottom='20'
       px={6}
-      py={6}
+      py={3}
       w='100%'
       bg={HeaderBackground}
       marginLeft={0}

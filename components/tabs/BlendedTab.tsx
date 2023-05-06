@@ -1,5 +1,7 @@
 import {
+  Box,
   Flex,
+  Heading,
   Tab,
   TabList,
   TabPanel,
@@ -13,6 +15,7 @@ import MobilityProgramForm from '../forms/MobilityProgramForm';
 import CommitmentSignatureForm from '../forms/CommitmentSignatureForm';
 
 export default function TabComponent() {
+  const HeadingColor = useColorModeValue('gray.600', 'gray.300');
   return (
     <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
@@ -22,24 +25,26 @@ export default function TabComponent() {
         <Tab>Hareketlilik (Mobilite) Programı</Tab>
         <Tab>Taahhüt / İmza Bilgileri</Tab>
       </TabList>
+      <Box pl='12'>
+        <Heading
+          as='h3'
+          size='md'
+          py='1'
+          fontWeight={'medium'}
+          color={HeadingColor}
+        >
+          Karma Hareketlilik
+        </Heading>
+      </Box>
       <TabPanels>
         <TabPanel>
-          <StudentInformationForm
-            pageName='Öğrenciye Ait Bilgiler'
-            subText=''
-          />
+          <StudentInformationForm pageName='Öğrenciye Ait Bilgiler' />
         </TabPanel>
         <TabPanel>
-          <SendingInstitutionInformationForm
-            pageName='Gönderen Kurum Üniversite Bilgisi'
-            subText=''
-          />
+          <SendingInstitutionInformationForm pageName='Gönderen Kurum Üniversite Bilgisi' />
         </TabPanel>
         <TabPanel>
-          <SendingInstitutionInformationForm
-            pageName='Alıcı Kurum Üniversite Bilgisi'
-            subText=''
-          />
+          <SendingInstitutionInformationForm pageName='Alıcı Kurum Üniversite Bilgisi' />
         </TabPanel>
         <TabPanel>
           <MobilityProgramForm
@@ -47,10 +52,7 @@ export default function TabComponent() {
           ></MobilityProgramForm>
         </TabPanel>
         <TabPanel>
-          <CommitmentSignatureForm
-            subText=''
-            pageName='Taahhüt Metni'
-          ></CommitmentSignatureForm>
+          <CommitmentSignatureForm pageName='Taahhüt Metni'></CommitmentSignatureForm>
         </TabPanel>
       </TabPanels>
     </Tabs>

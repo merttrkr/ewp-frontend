@@ -3,23 +3,18 @@ import {
   Button,
   Flex,
   Heading,
-  Input,
   Stack,
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Td,
   Text,
-  Tfoot,
   Th,
   Thead,
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
-import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '../form-components/TextInput';
-import DatePickerInput from '../form-components/DatePickerInput';
+
 import ModalInput from '../form-components/ModalInput';
 
 type MobilityProgramFormProps = {
@@ -38,7 +33,7 @@ export default function MobilityProgramForm({
     <Stack
       marginBottom='20'
       px={6}
-      py={6}
+      py={3}
       w='100%'
       bg={HeaderBackground}
       marginLeft={0}

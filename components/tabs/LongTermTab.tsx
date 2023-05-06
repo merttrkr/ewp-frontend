@@ -40,22 +40,13 @@ export default function TabComponent() {
       </Box>
       <TabPanels>
         <TabPanel>
-          <StudentInformationForm
-            pageName='Öğrenciye Ait Bilgiler'
-            subText=''
-          />
+          <StudentInformationForm pageName='Öğrenciye Ait Bilgiler' />
         </TabPanel>
         <TabPanel>
-          <SendingInstitutionInformationForm
-            pageName='Gönderen Kurum Üniversite Bilgisi'
-            subText=''
-          />
+          <SendingInstitutionInformationForm pageName='Gönderen Kurum Üniversite Bilgisi' />
         </TabPanel>
         <TabPanel>
-          <SendingInstitutionInformationForm
-            pageName='Alıcı Kurum Üniversite Bilgisi'
-            subText=''
-          />
+          <SendingInstitutionInformationForm pageName='Alıcı Kurum Üniversite Bilgisi' />
         </TabPanel>
         <TabPanel>
           <MobilityProgramForm
@@ -68,10 +59,7 @@ export default function TabComponent() {
           ></VirtualComponentForm>
         </TabPanel>
         <TabPanel>
-          <CommitmentSignatureForm
-            subText=''
-            pageName='Taahhüt Metni'
-          ></CommitmentSignatureForm>
+          <CommitmentSignatureForm pageName='Taahhüt Metni'></CommitmentSignatureForm>
         </TabPanel>
       </TabPanels>
     </Tabs>

@@ -17,12 +17,10 @@ import DisplayText from '../form-components/DisplayText';
 import DatePickerInput from '../form-components/DatePickerInput';
 type SendingInstitutionInformationFormProps = {
   pageName: String;
-  subText: String;
 };
 
 export default function SendingInstitutionInformationForm({
   pageName,
-  subText,
 }: SendingInstitutionInformationFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -36,7 +34,7 @@ export default function SendingInstitutionInformationForm({
     <Stack
       marginBottom='20'
       px={6}
-      py={6}
+      py={3}
       w='100%'
       bg={HeaderBackground}
       marginLeft={0}
@@ -54,7 +52,6 @@ export default function SendingInstitutionInformationForm({
         >
           {pageName}
         </Heading>
-        <Text>{subText}</Text>
       </Box>
 
       <Box
