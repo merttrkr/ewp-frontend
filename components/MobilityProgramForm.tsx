@@ -31,8 +31,7 @@ export default function MobilityProgramForm({
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
-  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-  const TableColor = useColorModeValue('#20558B', 'gray.400');
+  const HeadingColor = useColorModeValue('gray.600', 'gray.300');
   return (
     <Stack
       margin='5'
@@ -59,26 +58,24 @@ export default function MobilityProgramForm({
         bg={FormBackground}
         borderRadius={'xl'}
       >
-        <Flex>
-          <Stack w='50%' spacing={4} p='5'>
+        <Flex gap={5} p='5'>
+          <Stack w='50%'>
             <TextInput
               placeHolder='placeholder..'
               name='IIA-15'
               label='Hareketliliğin Başlangıç Tarihi'
             />
           </Stack>
-          <Stack w='50%' spacing={4} p='5'>
+          <Stack w='50%'>
             <TextInput
               placeHolder='placeholder..'
               name='IIA-15'
               label='Hareketliliğin Bitiş Tarihi'
             />
-
-            <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
         </Flex>
         <Flex direction={'column'} rowGap={3} p={5}>
-          <Text fontSize={'md'} fontWeight={'bold'} color={'gray.600'}>
+          <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
             Alıcı Kurumda Çalışılması Planlanılan Komponentler(Dersler)
           </Text>
           <TableContainer bg={'gray.200'}>
@@ -126,7 +123,7 @@ export default function MobilityProgramForm({
           </TableContainer>
         </Flex>
         <Flex direction={'column'} rowGap={3} p={5}>
-          <Text fontSize={'md'} fontWeight={'bold'} color={'gray.600'}>
+          <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
             Değişiklik Teklifleri
           </Text>
           <TableContainer bg={'gray.200'}>
@@ -173,11 +170,11 @@ export default function MobilityProgramForm({
             </Table>
           </TableContainer>
         </Flex>
-        <Flex direction={'column'} columnGap={5} pt={'10'}>
-          <Text fontSize={'md'} fontWeight={'bold'} pl={5} color={'gray.600'}>
+        <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
+          <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
             Derslerin Toplam Kredi Değeri
           </Text>
-          <Flex justify={'space-between'} p={5}>
+          <Flex justify={'space-between'} gap={5}>
             <SelectAutoComplete
               placeHolder='placeholder..'
               selectLabel='Yabancı Dil'
