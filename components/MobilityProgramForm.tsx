@@ -47,13 +47,7 @@ export default function MobilityProgramForm({
       borderRadius={'xl'}
     >
       <Box pl={6} py={4}>
-        <Heading
-          as='h3'
-          size='md'
-          fontWeight={'medium'}
-          noOfLines={1}
-          color={HeadingColor}
-        >
+        <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
           {pageName}
         </Heading>
       </Box>
@@ -105,7 +99,7 @@ export default function MobilityProgramForm({
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr boxSize={'1'}>
+                <Tr>
                   <Td>inches</Td>
                   <Td>millimetres</Td>
                   <Td>inches</Td>
@@ -116,7 +110,7 @@ export default function MobilityProgramForm({
                   <Td>inches</Td>
                   <Td>millimetres</Td>
                 </Tr>
-                <Tr boxSize={'1'}>
+                <Tr>
                   <Td>inches</Td>
                   <Td>millimetres</Td>
                   <Td>inches</Td>
@@ -130,6 +124,69 @@ export default function MobilityProgramForm({
               </Tbody>
             </Table>
           </TableContainer>
+        </Flex>
+        <Flex direction={'column'} rowGap={3} p={5}>
+          <Text fontSize={'md'} fontWeight={'bold'} color={'gray.600'}>
+            Değişiklik Teklifleri
+          </Text>
+          <TableContainer bg={'gray.200'}>
+            <Table variant='striped' size={'sm'} colorScheme='blue'>
+              <Thead>
+                <Tr>
+                  <Th>Dersin Adı</Th>
+                  <Th>Dersin Kredi Tipi</Th>
+                  <Th>Dersin Kredi Değeri</Th>
+                  <Th>Eğitim Dönemi Sayısı</Th>
+                  <Th>Toplam Eğitim Dönemi Sayısı</Th>
+                  <Th>Dersin Kodu</Th>
+                  <Th>
+                    Dersin Gönderen Kurumda Sayılması İçin Tanıma Koşulları
+                  </Th>
+                  <Th>Dersi Tanımlayan Kısa Açıklama</Th>
+                  <Th>Durumu</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>25.4</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                </Tr>
+                <Tr>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                  <Td>25.4</Td>
+                  <Td>inches</Td>
+                  <Td>millimetres</Td>
+                </Tr>
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </Flex>
+        <Flex direction={'column'} columnGap={5} pt={5}>
+          <Text fontSize={'md'} fontWeight={'bold'} pl={5} color={'gray.600'}>
+            Derslerin Toplam Kredi Değeri
+          </Text>
+          <Flex justify={'space-between'} p={5}>
+            <SelectAutoComplete
+              placeHolder='placeholder..'
+              selectLabel='Yabancı Dil'
+            />
+            <SelectAutoComplete
+              placeHolder='placeholder..'
+              selectLabel='Dil Yeterlilik Seviyesi'
+            />
+          </Flex>
         </Flex>
       </Box>
     </Stack>
