@@ -7,9 +7,9 @@ import {
   Tabs,
   useColorModeValue,
 } from '@chakra-ui/react';
-import InstitutionInformationForm from './InstitutionInformationForm';
-import InstitutionConditionsForm from './InstitutionConditionsForm';
-import PreviewOrSaveForm from './PreviewOrSaveForm';
+import InstitutionInformationForm from '../forms/InstitutionInformationForm';
+import InstitutionConditionsForm from '../forms/InstitutionConditionsForm';
+import PreviewOrSaveForm from '../forms/PreviewOrSaveForm';
 
 export default function TabComponent() {
   return (

@@ -7,11 +7,11 @@ import {
   Tabs,
   useColorModeValue,
 } from '@chakra-ui/react';
-import StudentInformationForm from './StudentInformationForm';
-import SendingInstitutionInformationForm from './SendingInstitutionInformationForm';
-import MobilityProgramForm from './MobilityProgramForm';
-import CommitmentSignatureForm from './CommitmentSignatureForm';
-import VirtualComponentForm from './VirtualComponentForm';
+import StudentInformationForm from '../forms/StudentInformationForm';
+import SendingInstitutionInformationForm from '../forms/SendingInstitutionInformationForm';
+import MobilityProgramForm from '../forms/MobilityProgramForm';
+import CommitmentSignatureForm from '../forms/CommitmentSignatureForm';
+import VirtualComponentForm from '../forms/VirtualComponentForm';
 
 export default function TabComponent() {
   return (
@@ -21,7 +21,6 @@ export default function TabComponent() {
         <Tab>Gönderen Kurum / Üniversite Bilgisi</Tab>
         <Tab>Alıcı Kurum / Üniversite Bilgisi</Tab>
         <Tab>Hareketlilik (Mobilite) Programı</Tab>
-        <Tab>Sanal Dersler/ Sanal Komponentler</Tab>
         <Tab>Taahhüt / İmza Bilgileri</Tab>
       </TabList>
       <TabPanels>
@@ -47,11 +46,6 @@ export default function TabComponent() {
           <MobilityProgramForm
             pageName={'Hareketlilik Programı'}
           ></MobilityProgramForm>
-        </TabPanel>
-        <TabPanel>
-          <VirtualComponentForm
-            pageName={'Virtual Compnent'}
-          ></VirtualComponentForm>
         </TabPanel>
         <TabPanel>
           <CommitmentSignatureForm

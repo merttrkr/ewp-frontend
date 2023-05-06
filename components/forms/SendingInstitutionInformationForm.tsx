@@ -13,17 +13,17 @@ import {
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '@/components/form-components/TextInput';
 import CheckBoxInput from '@/components/form-components/CheckBoxInput';
-import DisplayText from './form-components/DisplayText';
-import DatePickerInput from './form-components/DatePickerInput';
-type CommitmentSignatureFormProps = {
+import DisplayText from '../form-components/DisplayText';
+import DatePickerInput from '../form-components/DatePickerInput';
+type SendingInstitutionInformationFormProps = {
   pageName: String;
   subText: String;
 };
 
-export default function CommitmentSignatureForm({
+export default function SendingInstitutionInformationForm({
   pageName,
   subText,
-}: CommitmentSignatureFormProps) {
+}: SendingInstitutionInformationFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
@@ -46,7 +46,13 @@ export default function CommitmentSignatureForm({
       borderRadius={'xl'}
     >
       <Box pl={6} py={4}>
-        <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
+        <Heading
+          as='h3'
+          size='md'
+          fontWeight={'medium'}
+          noOfLines={1}
+          color={HeadingColor}
+        >
           {pageName}
         </Heading>
         <Text>{subText}</Text>
@@ -60,67 +66,70 @@ export default function CommitmentSignatureForm({
         bg={FormBackground}
         borderRadius={'xl'}
       >
-        <HStack pl={5}>
-          <Box w={'50%'}>
-            <Heading
-              as='text'
-              size='sm'
-              fontWeight={'normal'}
-              color={HeadingColor}
-            >
-              Gönderen Kurumdaki Sorumlu Kişinin İmza Bilgileri
-            </Heading>
-          </Box>
-
-          <Box w={'50%'}>
-            <Heading
-              as='text'
-              size='sm'
-              fontWeight={'normal'}
-              color={HeadingColor}
-            >
-              Gönderen Kurumdaki Sorumlu Kişinin İmza Bilgileri
-            </Heading>
-          </Box>
-        </HStack>
 
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
             <TextInput
+              label='Kurum / Üniversite Adı'
+              placeHolder='Selcuk University'
+              name='sendingInstitutionName'
+              
+            />
+            <SelectAutoComplete
+              placeHolder='placeholder..'
+              selectLabel='Departman / Bölüm Adı'
+            />
+            <TextInput
               placeHolder='Test Test'
-              label='Sorumlu Kişinin Adı Soyadı'
+              label='Akademik Personelin İsmi'
               name='personalName'
             />
             <TextInput
               placeHolder='Test Test'
-              label='Mevkisi / Pozisyonu'
+              label='Akademik Personelin Soy İsmi'
               name='personalSurname'
             />
             <TextInput
               placeHolder='test@gmail.com'
-              label='E-postası'
+              label='Akademik Personelin E-postası'
               name='personalEposta'
             />
-          </Stack>
 
+            
+          </Stack>
           <Stack w='50%' spacing={4} p='5'>
-            <TextInput
+            
+          <TextInput
               placeHolder='Test Test'
-              label='Sorumlu Kişinin Adı Soyadı'
+              label='İdari Personelin İsmi'
               name='personalName'
             />
             <TextInput
               placeHolder='Test Test'
-              label='Mevkisi / Pozisyonu'
+              label='İdari Personelin Soy İsmi'
               name='personalSurname'
             />
             <TextInput
               placeHolder='test@gmail.com'
-              label='E-postası'
+              label='İdari Personelin E-postası'
               name='personalEposta'
+            />
+      
+            <TextInput
+              placeHolder='placeholder..'
+              name='0'
+              label='Telefon Numarası (E164 Formatında Belirtiniz)'
+              
+            />
+            <TextInput
+              placeHolder='placeholder..'
+              name='0'
+              label='Dahili'
             />
           </Stack>
         </Flex>
+
+
       </Box>
     </Stack>
   );

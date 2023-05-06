@@ -9,8 +9,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from './form-components/TextInput';
-import DatePickerInput from './form-components/DatePickerInput';
+import TextInput from '../form-components/TextInput';
+import DatePickerInput from '../form-components/DatePickerInput';
 
 type InstitutionInformationFormProps = {
   pageName: String;

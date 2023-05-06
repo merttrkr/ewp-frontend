@@ -7,10 +7,10 @@ import {
   Tabs,
   useColorModeValue,
 } from '@chakra-ui/react';
-import StudentInformationForm from './StudentInformationForm';
-import SendingInstitutionInformationForm from './SendingInstitutionInformationForm';
-import MobilityProgramForm from './MobilityProgramForm';
-import CommitmentSignatureForm from './CommitmentSignatureForm';
+import StudentInformationForm from '../forms/StudentInformationForm';
+import SendingInstitutionInformationForm from '../forms/SendingInstitutionInformationForm';
+import MobilityProgramForm from '../forms/MobilityProgramForm';
+import CommitmentSignatureForm from '../forms/CommitmentSignatureForm';
 
 export default function TabComponent() {
   return (

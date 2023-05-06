@@ -8,7 +8,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import DisplayText from './form-components/DisplayText';
+import DisplayText from '../form-components/DisplayText';
 
 type PreviewOrSaveFormProps = {
   pageName: String;

@@ -13,8 +13,8 @@ import {
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '@/components/form-components/TextInput';
 import CheckBoxInput from '@/components/form-components/CheckBoxInput';
-import DisplayText from './form-components/DisplayText';
-import DatePickerInput from './form-components/DatePickerInput';
+import DisplayText from '../form-components/DisplayText';
+import DatePickerInput from '../form-components/DatePickerInput';
 type StudentInformationFormProps = {
   pageName: String;
   subText: String;
@@ -34,10 +34,10 @@ export default function StudentInformationForm({
   const ButtonHoverColor = useColorModeValue('#9C1F23', 'gray.600');
   return (
     <Stack
-      margin='5'
+      
       marginBottom='20'
       px={6}
-      py={6}
+      py='6'
       w='100%'
       bg={HeaderBackground}
       marginLeft={0}
