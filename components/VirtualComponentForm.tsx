@@ -20,6 +20,7 @@ import {
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from './form-components/TextInput';
 import DatePickerInput from './form-components/DatePickerInput';
+import ModalInput from './form-components/ModalInput';
 
 type MobilityProgramFormProps = {
   pageName: String;
@@ -63,7 +64,9 @@ export default function MobilityProgramForm({
           <Heading fontSize={'lg'} color={TitleColor}>
             Sanal Ders (Komponent) Ekle - Tablo C
           </Heading>
-          <Flex></Flex>
+          <Flex>
+            <ModalInput placeHolder='Ders Ekle +' />
+          </Flex>
           <Flex direction={'column'} rowGap={3}>
             <Text fontSize={'md'} color={HeadingColor} fontWeight={'bold'}>
               Onaylanmış Teklifler

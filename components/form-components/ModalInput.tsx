@@ -12,6 +12,7 @@ import {
   Input,
   useDisclosure,
   Stack,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 import SelectAutoComplete from './SelectAutoComplete';
@@ -23,6 +24,7 @@ type ModalInputProps = {
 
 export default function InitialFocus({ placeHolder }: ModalInputProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const HeadingColor = useColorModeValue('gray.600', 'gray.300');
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -40,11 +42,13 @@ export default function InitialFocus({ placeHolder }: ModalInputProps) {
         onClose={onClose}
       >
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Yeni Bir Ders Ekleme Ekranı</ModalHeader>
+        <ModalContent p={5}>
+          <ModalHeader color={HeadingColor}>
+            Yeni Bir Ders Ekleme Ekranı
+          </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
-            <Stack>
+          <ModalBody pb={3}>
+            <Stack gap={2}>
               <TextInput
                 name='firstname'
                 placeHolder='Mert Türker'
@@ -78,7 +82,7 @@ export default function InitialFocus({ placeHolder }: ModalInputProps) {
           </ModalBody>
 
           <ModalFooter>
-            <Button variant={'submit'} mr={3}>
+            <Button variant={'autoWidthFull'} mr={3}>
               Kaydet
             </Button>
             <Button variant={'clear'}>İptal</Button>
