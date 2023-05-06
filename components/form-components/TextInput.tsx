@@ -1,13 +1,19 @@
 import React from 'react';
 import { useFormContext, useForm } from 'react-hook-form';
-import { Stack, Heading, useColorModeValue, Input } from '@chakra-ui/react';
+import {
+  Stack,
+  Heading,
+  useColorModeValue,
+  Input,
+  FormControl,
+} from '@chakra-ui/react';
 
 type FormInputProps = {
   label: string;
   name: string;
   placeHolder: string;
   type?: string;
-  isDisabled?:boolean
+  isDisabled?: boolean;
 };
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -24,28 +30,30 @@ const FormInput: React.FC<FormInputProps> = ({
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
     <Stack>
-      <Heading
-        pl='1'
-        as='h3'
-        size='sm'
-        fontWeight={'bold'}
-        noOfLines={1}
-        color={HeadingColor}
-      >
-        <label htmlFor={name}>{label}</label>
-      </Heading>
-      <Input
-        isDisabled = {isDisabled}
-        type={type}
-        {...register(name)}
-        placeholder={placeHolder}
-        bg={'gray.100'}
-        border={0}
-        color={'gray.500'}
-        _placeholder={{
-          color: 'gray.500',
-        }}
-      />
+      <FormControl>
+        <Heading
+          pl='1'
+          as='h3'
+          size='sm'
+          fontWeight={'bold'}
+          color={HeadingColor}
+          pb='2'
+        >
+          <label htmlFor={name}>{label}</label>
+        </Heading>
+        <Input
+          isDisabled={isDisabled}
+          type={type}
+          {...register(name)}
+          placeholder={placeHolder}
+          bg={'gray.100'}
+          border={0}
+          color={'gray.500'}
+          _placeholder={{
+            color: 'gray.500',
+          }}
+        />
+      </FormControl>
     </Stack>
   );
 };
