@@ -24,7 +24,7 @@ export default function TabComponent() {
         <Tab>Gönderen Kurum / Üniversite Bilgisi</Tab>
         <Tab>Alıcı Kurum / Üniversite Bilgisi</Tab>
         <Tab>Hareketlilik (Mobilite) Programı</Tab>
-        <Tab>Sanal Dersler/ Sanal Komponentler</Tab>
+        <Tab>Sanal Dersler/ Komponentler</Tab>
         <Tab>Taahhüt / İmza Bilgileri</Tab>
       </TabList>
       <Box pl='12'>

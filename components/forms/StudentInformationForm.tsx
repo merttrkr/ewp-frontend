@@ -118,7 +118,12 @@ export default function StudentInformationForm({
             />
           </Stack>
         </Flex>
+        <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
+          <Button variant='submit'>Kaydet</Button>
+          <Button variant='clear'>Sıfırla</Button>
+        </Flex>
       </Box>
+      
     </Stack>
   );
 }

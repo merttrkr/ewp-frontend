@@ -14,10 +14,12 @@ import DatePickerInput from '../form-components/DatePickerInput';
 
 type InstitutionInformationFormProps = {
   pageName: String;
+  subText: String;
 };
 
 export default function InstitutionInformationForm({
   pageName,
+  subText,
 }: InstitutionInformationFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -36,15 +38,10 @@ export default function InstitutionInformationForm({
       borderRadius={'xl'}
     >
       <Box pl={6} py={4}>
-        <Heading
-          as='h3'
-          size='md'
-          fontWeight={'medium'}
-          noOfLines={1}
-          color={HeadingColor}
-        >
+        <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
           {pageName}
         </Heading>
+        <Text>{subText}</Text>
       </Box>
       <Box
         as={'form'}

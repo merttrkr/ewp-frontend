@@ -43,13 +43,7 @@ export default function InstitutionConditionsForm({
       borderRadius={'xl'}
     >
       <Box pl={6} py={4}>
-        <Heading
-          as='h3'
-          size='md'
-          fontWeight={'medium'}
-          noOfLines={1}
-          color={HeadingColor}
-        >
+        <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
           {pageName}
         </Heading>
         <Text>{subText}</Text>
