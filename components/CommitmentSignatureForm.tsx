@@ -62,13 +62,23 @@ export default function CommitmentSignatureForm({
       >
         <HStack pl={5}>
           <Box w={'50%'}>
-            <Heading as='text' size='md' fontWeight={''} color={HeadingColor}>
+            <Heading
+              as='text'
+              size='sm'
+              fontWeight={'normal'}
+              color={HeadingColor}
+            >
               Gönderen Kurumdaki Sorumlu Kişinin İmza Bilgileri
             </Heading>
           </Box>
 
           <Box w={'50%'}>
-            <Heading as='text' size='md' fontWeight={''} color={HeadingColor}>
+            <Heading
+              as='text'
+              size='sm'
+              fontWeight={'normal'}
+              color={HeadingColor}
+            >
               Gönderen Kurumdaki Sorumlu Kişinin İmza Bilgileri
             </Heading>
           </Box>

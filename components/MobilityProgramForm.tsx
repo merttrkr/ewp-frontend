@@ -173,7 +173,7 @@ export default function MobilityProgramForm({
             </Table>
           </TableContainer>
         </Flex>
-        <Flex direction={'column'} columnGap={5} pt={5}>
+        <Flex direction={'column'} columnGap={5} pt={'10'}>
           <Text fontSize={'md'} fontWeight={'bold'} pl={5} color={'gray.600'}>
             Derslerin Toplam Kredi Değeri
           </Text>
