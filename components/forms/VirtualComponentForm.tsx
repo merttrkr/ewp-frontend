@@ -36,7 +36,6 @@ export default function MobilityProgramForm({
   const TitleColor = useColorModeValue('gray.800', 'gray.200');
   return (
     <Stack
-      margin='5'
       marginBottom='20'
       px={6}
       py={6}

@@ -23,7 +23,6 @@ export default function PreviewOrSaveForm({
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
     <Stack
-      margin='5'
       marginBottom='20'
       px={6}
       py={6}

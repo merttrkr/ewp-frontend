@@ -34,7 +34,6 @@ export default function CommitmentSignatureForm({
   const ButtonHoverColor = useColorModeValue('#9C1F23', 'gray.600');
   return (
     <Stack
-      margin='5'
       marginBottom='20'
       px={6}
       py={6}

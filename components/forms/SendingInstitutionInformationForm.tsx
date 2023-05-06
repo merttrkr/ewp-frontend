@@ -34,7 +34,6 @@ export default function SendingInstitutionInformationForm({
   const ButtonHoverColor = useColorModeValue('#9C1F23', 'gray.600');
   return (
     <Stack
-      margin='5'
       marginBottom='20'
       px={6}
       py={6}
@@ -66,14 +65,12 @@ export default function SendingInstitutionInformationForm({
         bg={FormBackground}
         borderRadius={'xl'}
       >
-
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
             <TextInput
               label='Kurum / Üniversite Adı'
               placeHolder='Selcuk University'
               name='sendingInstitutionName'
-              
             />
             <SelectAutoComplete
               placeHolder='placeholder..'
@@ -94,12 +91,9 @@ export default function SendingInstitutionInformationForm({
               label='Akademik Personelin E-postası'
               name='personalEposta'
             />
-
-            
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
-            
-          <TextInput
+            <TextInput
               placeHolder='Test Test'
               label='İdari Personelin İsmi'
               name='personalName'
@@ -114,22 +108,15 @@ export default function SendingInstitutionInformationForm({
               label='İdari Personelin E-postası'
               name='personalEposta'
             />
-      
+
             <TextInput
               placeHolder='placeholder..'
               name='0'
               label='Telefon Numarası (E164 Formatında Belirtiniz)'
-              
             />
-            <TextInput
-              placeHolder='placeholder..'
-              name='0'
-              label='Dahili'
-            />
+            <TextInput placeHolder='placeholder..' name='0' label='Dahili' />
           </Stack>
         </Flex>
-
-
       </Box>
     </Stack>
   );

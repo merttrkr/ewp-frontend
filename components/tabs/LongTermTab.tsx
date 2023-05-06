@@ -28,14 +28,18 @@ export default function TabComponent() {
         <Tab>Taahhüt / İmza Bilgileri</Tab>
       </TabList>
       <Box pl='12'>
-        <Heading as='h3' size='lg' fontWeight={'medium'} color={HeadingColor}>
+        <Heading
+          as='h3'
+          size='md'
+          py='1'
+          fontWeight={'medium'}
+          color={HeadingColor}
+        >
           Uzun Dönem Hareketlilik
         </Heading>
       </Box>
       <TabPanels>
-      
         <TabPanel>
-          
           <StudentInformationForm
             pageName='Öğrenciye Ait Bilgiler'
             subText=''

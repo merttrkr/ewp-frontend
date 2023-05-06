@@ -34,7 +34,6 @@ export default function StudentInformationForm({
   const ButtonHoverColor = useColorModeValue('#9C1F23', 'gray.600');
   return (
     <Stack
-      
       marginBottom='20'
       px={6}
       py='6'
@@ -117,7 +116,7 @@ export default function StudentInformationForm({
               placeHolder='placeholder..'
               selectLabel='Öğrencinin Öğrenim Seviyesi'
             />
-      
+
             <TextInput
               placeHolder='placeholder..'
               name='0'
@@ -131,8 +130,6 @@ export default function StudentInformationForm({
             />
           </Stack>
         </Flex>
-
-
       </Box>
     </Stack>
   );
