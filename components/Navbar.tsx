@@ -239,7 +239,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         >
           {children &&
             children.map((child) => (
-              <Link fontSize={'2xl'} key={child.label} py={2} href={child.href}>
+              <Link fontSize={'xl'} key={child.label} py={2} href={child.href}>
                 {child.label}
               </Link>
             ))}
@@ -276,14 +276,25 @@ const NAV_ITEMS: Array<NavItem> = [
     label: 'Öğrenim Anlaşmaları',
     children: [
       {
-        label: 'Öğrenim Anlaşmaları Oluştur/İncele',
-        subLabel: 'Öğrenim Anlaşmaları Oluştur/İncele',
-        href: '/learning-agreements',
+        label: 'Uzun Dönem Öğrenim Anlaşması Oluştur',
+        subLabel: 'Uzun Dönem Öğrenim Anlaşması Oluştur',
+        href: '/learning-agreements/create-long-term-la',
       },
       {
-        label: 'Öğrenim Anlaşmasi edit',
-        subLabel: 'Öğrenim Anlaşmalası edit',
-        href: '/learning-agreements/edit-learning-agreement',
+        label: 'Kısa Süreli Doktora Öğrenim Anlaşması Oluştur',
+        subLabel: 'Doktora Öğrenim Anlaşması Oluştur',
+        href: '/learning-agreements/create-short-term-doctoral-la',
+      },
+      {
+        label: 'Karma Öğrenim Anlaşması Oluştur',
+        subLabel: 'Karma Öğrenim Anlaşması Oluştur',
+        href: '/learning-agreements/create-blended-la',
+      },
+
+      {
+        label: 'Öğrenim Anlaşmalarını İncele',
+        subLabel: 'Tüm Öğrenim Anlaşmalarını İncele',
+        href: '/learning-agreements',
       },
     ],
   },
