@@ -57,6 +57,7 @@ export default function StudentInformationForm({
           <SelectAutoComplete
             placeHolder='placeholder..'
             selectLabel='Seçilmiş Hareketlilik (Mobilite) Tipi'
+            isDisabled
           />
         </Flex>
 
@@ -123,7 +124,6 @@ export default function StudentInformationForm({
           <Button variant='clear'>Sıfırla</Button>
         </Flex>
       </Box>
-      
     </Stack>
   );
 }

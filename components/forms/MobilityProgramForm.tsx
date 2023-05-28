@@ -59,23 +59,15 @@ export default function MobilityProgramForm({
       >
         <Flex gap={5} p='5'>
           <Stack w='50%'>
-            <TextInput
-              placeHolder='placeholder..'
-              name='IIA-15'
-              label='Hareketliliğin Başlangıç Tarihi'
-            />
+            <DatePickerInput datePickerInputLabel='Hareketliliğin Başlangıç Tarihi' />
           </Stack>
           <Stack w='50%'>
-            <TextInput
-              placeHolder='placeholder..'
-              name='IIA-15'
-              label='Hareketliliğin Bitiş Tarihi'
-            />
+            <DatePickerInput datePickerInputLabel='Hareketliliğin Bitiş Tarihi' />
           </Stack>
         </Flex>
         <Flex direction={'column'} rowGap={3} p={5}>
           <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
-            Alıcı Kurumda Çalışılması Planlanılan Komponentler(Dersler)
+            Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler)
           </Text>
           <TableContainer bg={'gray.200'}>
             <Table variant='striped' size={'sm'} colorScheme='blue'>
@@ -96,26 +88,26 @@ export default function MobilityProgramForm({
               </Thead>
               <Tbody>
                 <Tr>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>25.4</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
                 </Tr>
                 <Tr>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>25.4</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
                 </Tr>
               </Tbody>
             </Table>
@@ -144,26 +136,26 @@ export default function MobilityProgramForm({
               </Thead>
               <Tbody>
                 <Tr>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>25.4</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
                 </Tr>
                 <Tr>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
-                  <Td>25.4</Td>
-                  <Td>inches</Td>
-                  <Td>millimetres</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
+                  <Td>placeholder</Td>
                 </Tr>
               </Tbody>
             </Table>

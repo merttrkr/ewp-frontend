@@ -21,9 +21,14 @@ import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 type SelectAutoCompleteProps = {
   selectLabel: String;
   placeHolder: string;
+  isDisabled?: boolean;
 };
 
-function App({ selectLabel, placeHolder }: SelectAutoCompleteProps) {
+function App({
+  selectLabel,
+  placeHolder,
+  isDisabled = false,
+}: SelectAutoCompleteProps) {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const countries = [
     'nigeria',
@@ -51,7 +56,11 @@ function App({ selectLabel, placeHolder }: SelectAutoCompleteProps) {
           {({ isOpen }) => (
             <>
               <InputGroup>
-                <AutoCompleteInput variant='filled' placeholder={placeHolder} />
+                <AutoCompleteInput
+                  disabled={isDisabled}
+                  variant='filled'
+                  placeholder={placeHolder}
+                />
                 <InputRightElement>
                   {' '}
                   <Icon as={isOpen ? FiChevronRight : FiChevronDown} />
