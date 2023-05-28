@@ -3,15 +3,13 @@ import {
   Button,
   Flex,
   Heading,
-  Input,
+  IconButton,
   Stack,
   Table,
-  TableCaption,
   TableContainer,
   Tbody,
   Td,
   Text,
-  Tfoot,
   Th,
   Thead,
   Tr,
@@ -20,6 +18,7 @@ import {
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '../form-components/TextInput';
 import DatePickerInput from '../form-components/DatePickerInput';
+import { BiTrash } from 'react-icons/bi';
 
 type MobilityProgramFormProps = {
   pageName: String;
@@ -66,8 +65,14 @@ export default function MobilityProgramForm({
           </Stack>
         </Flex>
         <Flex direction={'column'} rowGap={3} p={5}>
-          <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
+          <Text fontSize={'lg'} fontWeight={'bold'} color={HeadingColor}>
             Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler)
+          </Text>
+          <Button width={150} variant='autoWidthFull'>
+            Ders Ekle +
+          </Button>
+          <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
+            Onaylanmış Teklifler
           </Text>
           <TableContainer bg={'gray.200'}>
             <Table variant='striped' size={'sm'} colorScheme='blue'>
@@ -121,6 +126,7 @@ export default function MobilityProgramForm({
             <Table variant='striped' size={'sm'} colorScheme='blue'>
               <Thead>
                 <Tr>
+                  <Th></Th>
                   <Th>Dersin Adı</Th>
                   <Th>Dersin Kredi Tipi</Th>
                   <Th>Dersin Kredi Değeri</Th>
@@ -136,6 +142,15 @@ export default function MobilityProgramForm({
               </Thead>
               <Tbody>
                 <Tr>
+                  <Td>
+                    <IconButton
+                      colorScheme='blue'
+                      aria-label='delete button'
+                      icon={<BiTrash />}
+                      height={8}
+                      borderRadius='md'
+                    />
+                  </Td>
                   <Td>placeholder</Td>
                   <Td>placeholder</Td>
                   <Td>placeholder</Td>
@@ -147,6 +162,15 @@ export default function MobilityProgramForm({
                   <Td>placeholder</Td>
                 </Tr>
                 <Tr>
+                  <Td>
+                    <IconButton
+                      colorScheme='blue'
+                      aria-label='delete button'
+                      icon={<BiTrash />}
+                      height={8}
+                      borderRadius='md'
+                    />
+                  </Td>
                   <Td>placeholder</Td>
                   <Td>placeholder</Td>
                   <Td>placeholder</Td>
