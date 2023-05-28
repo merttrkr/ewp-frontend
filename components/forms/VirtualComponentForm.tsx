@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   Heading,
+  IconButton,
   Stack,
   Table,
   TableContainer,
@@ -16,6 +17,9 @@ import {
 } from '@chakra-ui/react';
 
 import ModalInput from '../form-components/ModalInput';
+import { BiTrash } from 'react-icons/bi';
+import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
+import TextInput from '../form-components/TextInput';
 
 type MobilityProgramFormProps = {
   pageName: String;
@@ -28,7 +32,7 @@ export default function MobilityProgramForm({
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
-  const TitleColor = useColorModeValue('gray.800', 'gray.200');
+
   return (
     <Stack
       marginBottom='20'
@@ -53,16 +57,20 @@ export default function MobilityProgramForm({
         padding={5}
         bg={FormBackground}
         borderRadius={'xl'}
+        display='flex'
+        flexDirection='column'
+        gap={10}
       >
-        <Flex direction={'column'} rowGap={5} p={5}>
-          <Heading fontSize={'lg'} color={TitleColor}>
-            Sanal Ders (Komponent) Ekle - Tablo C
-          </Heading>
-          <Flex>
-            <ModalInput placeHolder='Ders Ekle +' />
-          </Flex>
-          <Flex direction={'column'} rowGap={3}>
-            <Text fontSize={'md'} color={HeadingColor} fontWeight={'bold'}>
+        <Flex direction={'column'}>
+          <Flex direction={'column'} rowGap={3} p={5}>
+            <Text fontSize={'lg'} fontWeight={'bold'} color={HeadingColor}>
+              Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler) -
+              Tablo C
+            </Text>
+            <Button width={150} variant='autoWidthFull'>
+              Ders Ekle +
+            </Button>
+            <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
             </Text>
             <TableContainer bg={'gray.200'}>
@@ -84,32 +92,32 @@ export default function MobilityProgramForm({
                 </Thead>
                 <Tbody>
                   <Tr>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>25.4</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
                   </Tr>
                   <Tr>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>25.4</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
                   </Tr>
                 </Tbody>
               </Table>
             </TableContainer>
           </Flex>
-          <Flex direction={'column'} rowGap={3}>
+          <Flex direction={'column'} rowGap={3} p={5}>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Değişiklik Teklifleri
             </Text>
@@ -117,6 +125,7 @@ export default function MobilityProgramForm({
               <Table variant='striped' size={'sm'} colorScheme='blue'>
                 <Thead>
                   <Tr>
+                    <Th></Th>
                     <Th>Dersin Adı</Th>
                     <Th>Dersin Kredi Tipi</Th>
                     <Th>Dersin Kredi Değeri</Th>
@@ -132,41 +141,73 @@ export default function MobilityProgramForm({
                 </Thead>
                 <Tbody>
                   <Tr>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>25.4</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
+                    <Td>
+                      <IconButton
+                        colorScheme='blue'
+                        aria-label='delete button'
+                        icon={<BiTrash />}
+                        height={8}
+                        borderRadius='md'
+                      />
+                    </Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
                   </Tr>
                   <Tr>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
-                    <Td>25.4</Td>
-                    <Td>inches</Td>
-                    <Td>millimetres</Td>
+                    <Td>
+                      <IconButton
+                        colorScheme='blue'
+                        aria-label='delete button'
+                        icon={<BiTrash />}
+                        height={8}
+                        borderRadius='md'
+                      />
+                    </Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
+                    <Td>placeholder</Td>
                   </Tr>
                 </Tbody>
               </Table>
             </TableContainer>
           </Flex>
-          <Flex gap={5}>
+
+          <Flex pl={5}>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Derslerin Toplam Kredi Değeri:
             </Text>
             <Text>0</Text>
           </Flex>
-          <Flex justify={'right'} gap={2}>
-            <Button variant='submit'>Kaydet</Button>
-            <Button variant='clear'>Sıfırla</Button>
+
+          <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
+            <Flex justify={'space-between'} gap={5}>
+              <SelectAutoComplete
+                placeHolder='placeholder..'
+                selectLabel='Yabancı Dil'
+              />
+              <SelectAutoComplete
+                placeHolder='placeholder..'
+                selectLabel='Dil Yeterlilik Seviyesi'
+              />
+            </Flex>
           </Flex>
+        </Flex>
+        <Flex justify={'right'} gap={2}>
+          <Button variant='submit'>Kaydet</Button>
+          <Button variant='clear'>Sıfırla</Button>
         </Flex>
       </Box>
     </Stack>

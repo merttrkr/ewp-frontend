@@ -1,10 +1,12 @@
 import {
-  Flex,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  Flex,
+  Text,
+  Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
 import InstitutionInformationForm from '../forms/InstitutionInformationForm';
@@ -12,6 +14,8 @@ import InstitutionConditionsForm from '../forms/InstitutionConditionsForm';
 import PreviewOrSaveForm from '../forms/PreviewOrSaveForm';
 
 export default function TabComponent() {
+  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+  const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   return (
     <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
@@ -43,6 +47,23 @@ export default function TabComponent() {
         <TabPanel>
           <PreviewOrSaveForm pageName='Kurumuma Ait Bilgiler' />
           <PreviewOrSaveForm pageName='Partner Kuruma Ait Bilgiler' />
+          <Flex
+            bgColor={HeaderBackground}
+            mb={'100'}
+            borderRadius={'md'}
+            height={50}
+          >
+            <Heading
+              pl={6}
+              py={4}
+              as='h3'
+              size='md'
+              fontWeight={'medium'}
+              color={HeadingColor}
+            >
+              Anlaşma Yürürlük Durumu: Yürürlükte Değil
+            </Heading>
+          </Flex>
         </TabPanel>
       </TabPanels>
     </Tabs>

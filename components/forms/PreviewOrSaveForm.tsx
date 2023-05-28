@@ -40,7 +40,6 @@ export default function PreviewOrSaveForm({
         as='h3'
         size='md'
         fontWeight={'medium'}
-        noOfLines={1}
         color={HeadingColor}
       >
         {pageName}

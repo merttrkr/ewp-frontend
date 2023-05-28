@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import StudentInformationForm from '../forms/StudentInformationForm';
 import SendingInstitutionInformationForm from '../forms/SendingInstitutionInformationForm';
-import MobilityProgramForm from '../forms/MobilityProgramForm';
+import MobilityProgramFormDoctoralAndBlended from '../forms/MobilityProgramFormDoctoralAndBlended';
 import CommitmentSignatureForm from '../forms/CommitmentSignatureForm';
 
 export default function TabComponent() {
@@ -43,9 +43,9 @@ export default function TabComponent() {
           <SendingInstitutionInformationForm pageName='Kurum /Üniversite Bilgisi' />
         </TabPanel>
         <TabPanel>
-          <MobilityProgramForm
+          <MobilityProgramFormDoctoralAndBlended
             pageName={'Hareketlilik Programı'}
-          ></MobilityProgramForm>
+          ></MobilityProgramFormDoctoralAndBlended>
         </TabPanel>
         <TabPanel>
           <CommitmentSignatureForm pageName='Taahhüt Metni'></CommitmentSignatureForm>
