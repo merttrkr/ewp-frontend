@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 
 import TextInput from '@/components/form-components/TextInput';
+import SignatureInput from '../form-components/SignatureInput';
 
 type CommitmentSignatureFormProps = {
   pageName: String;
@@ -49,32 +50,20 @@ export default function CommitmentSignatureForm({
         bg={FormBackground}
         borderRadius={'xl'}
       >
-        <HStack pl={5}>
-          <Box w={'50%'}>
-            <Heading
-              as='text'
-              size='sm'
-              fontWeight={'normal'}
-              color={HeadingColor}
-            >
-              Gönderen Kurumdaki Sorumlu Kişinin İmza Bilgileri
-            </Heading>
-          </Box>
-
-          <Box w={'50%'}>
-            <Heading
-              as='text'
-              size='sm'
-              fontWeight={'normal'}
-              color={HeadingColor}
-            >
-              Gönderen Kurumdaki Sorumlu Kişinin İmza Bilgileri
-            </Heading>
-          </Box>
-        </HStack>
-
         <Flex>
-          <Stack w='50%' spacing={4} p='5'>
+          <Stack w='50%' spacing={4} p='5' borderRight={'1px solid lightgray'}>
+            <Heading
+              as='text'
+              size='sm'
+              fontWeight={'normal'}
+              color={HeadingColor}
+            >
+              Gönderen Kurumdaki Sorumlu Kişinin İmza Bilgileri
+            </Heading>
+            <SignatureInput
+              label='Sorumlu Kişi İmzası'
+              name='signature'
+            ></SignatureInput>
             <TextInput
               placeHolder='Test Test'
               label='Sorumlu Kişinin Adı Soyadı'
@@ -93,6 +82,18 @@ export default function CommitmentSignatureForm({
           </Stack>
 
           <Stack w='50%' spacing={4} p='5'>
+            <Heading
+              as='text'
+              size='sm'
+              fontWeight={'normal'}
+              color={HeadingColor}
+            >
+              Alıcı Kurumdaki Sorumlu Kişinin İmza Bilgileri
+            </Heading>
+            <SignatureInput
+              label='Sorumlu Kişi İmzası'
+              name='signature'
+            ></SignatureInput>
             <TextInput
               placeHolder='Test Test'
               label='Sorumlu Kişinin Adı Soyadı'
