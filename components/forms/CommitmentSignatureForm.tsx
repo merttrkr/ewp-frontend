@@ -109,11 +109,21 @@ export default function CommitmentSignatureForm({
               label='E-postası'
               name='personalEposta'
             />
+            <TextInput
+              label='Alıcı Kurumun Anlaşmayı Neden Onaylamadığını Açıklayan Yorum'
+              name='comment'
+              placeHolder='placeholder..'
+            ></TextInput>
           </Stack>
         </Flex>
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
           <Button variant='submit'>Kaydet</Button>
           <Button variant='clear'>Sıfırla</Button>
+        </Flex>
+        <Flex pt={4} justifyContent={'right'}>
+          <Button variant='autoWidthFull'>
+            Anlaşma Oluşturma Sürecini Tamamla ve Alıcı Kuruma Bildirim Gönder
+          </Button>
         </Flex>
       </Box>
     </Stack>
