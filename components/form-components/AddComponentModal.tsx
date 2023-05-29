@@ -92,8 +92,7 @@ export default function InitialFocus({
                   />
                   <SelectAutoComplete
                     selectLabel='Dersin Kredi Değeri'
-                    placeHolder='test'
-                  />
+                    placeHolder='test' register={undefined}                  />
                   <TextInput
                     name='firstname'
                     placeHolder='Mert Türker'
@@ -106,7 +105,7 @@ export default function InitialFocus({
                       label='Dersi Tanımlayan Kısa Açıklama'
                     />
                   )}
-                  <SelectAutoComplete selectLabel='Durumu' placeHolder='test' />
+                  <SelectAutoComplete selectLabel='Durumu' placeHolder='test' register={undefined} />
                 </Stack>
                 <Stack gap={2}>
                   <TextInput

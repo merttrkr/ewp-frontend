@@ -10,6 +10,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import * as React from 'react';
+import { useState,useEffect } from 'react';
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -17,27 +18,73 @@ import {
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
+import { useForm, useFormContext } from 'react-hook-form';
 
 type SelectAutoCompleteProps = {
   selectLabel: String;
   placeHolder: string;
   isDisabled?: boolean;
+  id?         : string;
+  register:any;
 };
 
-function App({
-  selectLabel,
-  placeHolder,
-  isDisabled = false,
-}: SelectAutoCompleteProps) {
-  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-  const countries = [
-    'nigeria',
-    'japan',
-    'india',
-    'united states',
-    'south korea',
-  ];
+type ContactData = {
+  id: number;
+  fullName: string;
+  phoneNumber: string;
+  faxNumber: string;
+  email: string;
+  roleDescription: string;
+};
+const getData = async () => {
+  let result ;
+  try {
+    const response = await fetch('https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr', {
+      method: 'POST',
+      headers: {
+        Accept: 'text/plain',
+      },
+    });
 
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+
+    result = await response.json();  
+    
+  } catch (err) {
+    console.log(err);
+    
+  } finally {
+   console.log("finally");
+   
+  }
+  return result;
+};
+
+const FormInput: React.FC<SelectAutoCompleteProps> = ({
+  isDisabled = false,
+  selectLabel,
+  id='default-select',
+  placeHolder,
+  register,
+}) => {
+  const [dataArray, setDataArray] = useState<ContactData[]>([]);
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const data = await getData(); // Call the fetchData function
+        console.log(data);
+        
+        setDataArray(data); // Update the state with the fetched data
+      } catch (error) {
+        // Handle the error if needed
+      }}
+    fetchInitialData()},[]);
+
+  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+  const arrayData = dataArray;
   return (
     <Flex justify='left' align='center' w='full'>
       <FormControl>
@@ -50,16 +97,19 @@ function App({
           noOfLines={1}
           color={HeadingColor}
         >
-          {selectLabel}
+          <label htmlFor={id}>{selectLabel}</label>
         </Heading>
         <AutoComplete openOnFocus>
           {({ isOpen }) => (
             <>
               <InputGroup>
                 <AutoCompleteInput
+                  id={id}
+                  {...register}
                   disabled={isDisabled}
                   variant='filled'
                   placeholder={placeHolder}
+
                 />
                 <InputRightElement>
                   {' '}
@@ -67,13 +117,13 @@ function App({
                 </InputRightElement>
               </InputGroup>
               <AutoCompleteList>
-                {countries.map((country, cid) => (
+                {dataArray.map((element, cid) => (
                   <AutoCompleteItem
-                    key={`option-${cid}`}
-                    value={country}
-                    textTransform='capitalize'
+                  key={`option-${cid}`}
+                  value={element.fullName} // Render the fullName property
+                  textTransform='capitalize'
                   >
-                    {country}
+                    {element.fullName}
                   </AutoCompleteItem>
                 ))}
               </AutoCompleteList>
@@ -85,4 +135,4 @@ function App({
   );
 }
 
-export default App;
+export default FormInput;

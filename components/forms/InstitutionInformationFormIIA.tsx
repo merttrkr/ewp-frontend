@@ -11,10 +11,18 @@ import {
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '../form-components/TextInput';
 import DatePickerInput from '../form-components/DatePickerInput';
+import { useForm } from 'react-hook-form';
+import React from 'react';
 
 type InstitutionInformationFormProps = {
-  pageName: String;
-  subText: String;
+  pageName: string;
+  subText: string;
+};
+
+type FormData = {
+  instution_name: string;
+  contact_persons:string;
+  departmant_name:string;
 };
 
 export default function InstitutionInformationForm({
@@ -25,6 +33,24 @@ export default function InstitutionInformationForm({
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>();
+
+  function onSubmit(values: FormData) {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null));
+        resolve();
+      });
+    });
+  }
+
   return (
     <Stack
       marginBottom='20'
@@ -44,7 +70,8 @@ export default function InstitutionInformationForm({
         <Text>{subText}</Text>
       </Box>
       <Box
-        as={'form'}
+        onSubmit={handleSubmit(onSubmit)}
+        as='form'
         mt={10}
         boxShadow={'lg'}
         padding={5}
@@ -54,6 +81,14 @@ export default function InstitutionInformationForm({
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
             <SelectAutoComplete
+              id='instution_name'
+              register={register('instution_name', {
+                required: 'This is required',
+                minLength: {
+                  value: 4,
+                  message: 'Minimum length should be 4',
+                },
+              })}
               placeHolder='placeholder..'
               selectLabel='Kurum / Üniversite Adı'
             />
@@ -67,14 +102,29 @@ export default function InstitutionInformationForm({
               name='Mert Türker'
               label='Anlaşmayı İmzalayacak Yetkili'
             />
-
             <SelectAutoComplete
+              id='contact_persons'
+              register={register('contact_persons', {
+                required: 'This is required',
+                minLength: {
+                  value: 4,
+                  message: 'Minimum length should be 4',
+                },
+              })}
               placeHolder='placeholder..'
               selectLabel='İletişim Kurulabilecek Yetkililer'
             />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
-            <SelectAutoComplete
+          <SelectAutoComplete
+            id='departmant_name'
+            register={register('departmant_name', {
+              required: 'This is required',
+              minLength: {
+                value: 4,
+                message: 'Minimum length should be 4',
+              },
+            })}
               placeHolder='placeholder..'
               selectLabel='Departman / Bölüm Adı'
             />
@@ -87,7 +137,7 @@ export default function InstitutionInformationForm({
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
         </Flex>
-        <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
+        <Flex gap={3} justifyContent='flex-end' pr={4} mt={8}>
           <Button variant='submit' type='submit'>
             Kaydet
           </Button>
