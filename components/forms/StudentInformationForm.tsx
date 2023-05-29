@@ -26,6 +26,36 @@ export default function StudentInformationForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
+  
+  const handleClick = async () => {
+  
+    try {
+      const response = await fetch('https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr', {
+        method: 'POST',
+        headers: {
+          Accept: 'text/plain',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+  
+      console.log('result is: ', JSON.stringify(result, null, 4));
+      const {subjectArea,subjectAreaId}=result[0];
+      console.log(subjectArea);
+      
+      
+    } catch (err) {
+      console.log(err);
+      
+    } finally {
+     console.log("finally");
+     
+    }
+  };
 
   return (
     <Stack
@@ -121,7 +151,7 @@ export default function StudentInformationForm({
         </Flex>
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
           <Button variant='submit'>Kaydet</Button>
-          <Button variant='clear'>Sıfırla</Button>
+          <Button  onClick={handleClick} variant='clear'>Sıfırla</Button>
         </Flex>
       </Box>
     </Stack>
