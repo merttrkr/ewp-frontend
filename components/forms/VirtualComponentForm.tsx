@@ -20,6 +20,7 @@ import ModalInput from '../form-components/ModalInput';
 import { BiTrash } from 'react-icons/bi';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '../form-components/TextInput';
+import { useState } from 'react';
 
 type MobilityProgramFormProps = {
   pageName: String;
@@ -67,9 +68,7 @@ export default function MobilityProgramForm({
               Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler) -
               Tablo C
             </Text>
-            <Button width={150} variant='autoWidthFull'>
-              Ders Ekle +
-            </Button>
+            <ModalInput placeHolder='Ders Ekle +'></ModalInput>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
             </Text>
