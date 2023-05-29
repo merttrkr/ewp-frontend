@@ -25,11 +25,8 @@ export default function InstitutionConditionsForm({
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-  const ButtonColor = useColorModeValue('#20558B', '#0E3051');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
-  const apos = "'";
 
-  const ButtonHoverColor = useColorModeValue('#9C1F23', 'gray.600');
   return (
     <Stack
       marginBottom='20'
