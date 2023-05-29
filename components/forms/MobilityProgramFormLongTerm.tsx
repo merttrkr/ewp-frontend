@@ -19,6 +19,7 @@ import SelectAutoComplete from '@/components/form-components/SelectAutoComplete'
 import TextInput from '../form-components/TextInput';
 import DatePickerInput from '../form-components/DatePickerInput';
 import { BiTrash } from 'react-icons/bi';
+import AddComponentModal from '../form-components/AddComponentModal';
 
 type MobilityProgramFormLongTermProps = {
   pageName: String;
@@ -73,9 +74,10 @@ export default function MobilityProgramFormLongTerm({
               Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler) -
               Tablo A
             </Text>
-            <Button width={150} variant='autoWidthFull'>
-              Ders Ekle +
-            </Button>
+            <AddComponentModal
+              placeHolder='Ders Ekle +'
+              tableType='A'
+            ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
             </Text>
@@ -207,9 +209,10 @@ export default function MobilityProgramFormLongTerm({
               Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler) -
               Tablo B
             </Text>
-            <Button width={150} variant='autoWidthFull'>
-              Ders Ekle +
-            </Button>
+            <AddComponentModal
+              placeHolder='Ders Ekle +'
+              tableType='B'
+            ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
             </Text>

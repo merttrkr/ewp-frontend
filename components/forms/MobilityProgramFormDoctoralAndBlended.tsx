@@ -19,6 +19,7 @@ import SelectAutoComplete from '@/components/form-components/SelectAutoComplete'
 import TextInput from '../form-components/TextInput';
 import DatePickerInput from '../form-components/DatePickerInput';
 import { BiTrash } from 'react-icons/bi';
+import AddComponentModal from '../form-components/AddComponentModal';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
@@ -72,9 +73,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
             <Text fontSize={'lg'} fontWeight={'bold'} color={HeadingColor}>
               Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler)
             </Text>
-            <Button width={150} variant='autoWidthFull'>
-              Ders Ekle +
-            </Button>
+            <AddComponentModal placeHolder='Ders Ekle +'></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
             </Text>

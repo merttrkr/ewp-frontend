@@ -18,15 +18,19 @@ import TextInput from './TextInput';
 
 type ModalInputProps = {
   placeHolder: string;
+  tableType?: string;
 };
 
-export default function InitialFocus({ placeHolder }: ModalInputProps) {
+export default function InitialFocus({
+  placeHolder,
+  tableType,
+}: ModalInputProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const HeadingColor = useColorModeValue('gray.800', 'gray.300');
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-
+  console.log('tt', !tableType);
   return (
     <>
       <Button variant='autoWidthFull' width={150} onClick={onOpen}>
@@ -53,21 +57,30 @@ export default function InitialFocus({ placeHolder }: ModalInputProps) {
                   label='Dersin Adı'
                 />
                 <SelectAutoComplete
-                  selectLabel='Dersin Ait olduğu Kredi Tipi'
+                  selectLabel='Dersin Kredi Değeri'
                   placeHolder='test'
                 />
                 <TextInput
                   name='firstname'
                   placeHolder='Mert Türker'
-                  label='Dersin Tanımlı Kredi Değeri'
+                  label='Toplam Eğitim Dönemi Sayısı'
                 />
+                {(tableType === 'C' || !tableType) && (
+                  <TextInput
+                    name='firstname'
+                    placeHolder='Mert Türker'
+                    label='Dersi Tanımlayan Kısa Açıklama'
+                  />
+                )}
+                <SelectAutoComplete selectLabel='Durumu' placeHolder='test' />
               </Stack>
               <Stack gap={2}>
                 <TextInput
                   name='firstname'
                   placeHolder='Mert Türker'
-                  label='Toplam Eğitim Dönemi Sayısı'
+                  label='Dersin Kredi Tipi'
                 />
+
                 <TextInput
                   name='firstname'
                   placeHolder='Mert Türker'
@@ -78,6 +91,14 @@ export default function InitialFocus({ placeHolder }: ModalInputProps) {
                   placeHolder='Mert Türker'
                   label='Dersin Kodu'
                 />
+
+                {tableType !== 'A' && (
+                  <TextInput
+                    name='firstname'
+                    placeHolder='Mert Türker'
+                    label='Dersin Tanınma Koşulları'
+                  />
+                )}
               </Stack>
             </Flex>
           </ModalBody>

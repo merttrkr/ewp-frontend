@@ -16,11 +16,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import ModalInput from '../form-components/ModalInput';
+import AddComponentModal from '../form-components/AddComponentModal';
 import { BiTrash } from 'react-icons/bi';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '../form-components/TextInput';
-import { useState } from 'react';
 
 type MobilityProgramFormProps = {
   pageName: String;
@@ -68,7 +66,10 @@ export default function MobilityProgramForm({
               Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler) -
               Tablo C
             </Text>
-            <ModalInput placeHolder='Ders Ekle +'></ModalInput>
+            <AddComponentModal
+              placeHolder='Ders Ekle +'
+              tableType='C'
+            ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
             </Text>
