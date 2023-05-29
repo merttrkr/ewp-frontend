@@ -9,7 +9,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
-import InstitutionInformationForm from '../forms/InstitutionInformationForm';
+import InstitutionInformationFormIIA from '../forms/InstitutionInformationFormIIA';
 import InstitutionConditionsForm from '../forms/InstitutionConditionsForm';
 import PreviewOrSaveForm from '../forms/PreviewOrSaveForm';
 
@@ -25,11 +25,11 @@ export default function TabComponent() {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <InstitutionInformationForm
+          <InstitutionInformationFormIIA
             pageName='Kurum Bilgilerim'
             subText={'Lütfen kurumunuzun bilgilerini doldurunuz.'}
           />
-          <InstitutionInformationForm
+          <InstitutionInformationFormIIA
             pageName='Partner Kurum Bilgileri'
             subText={'Lütfen partner kurumun bilgilerini doldurunuz.'}
           />

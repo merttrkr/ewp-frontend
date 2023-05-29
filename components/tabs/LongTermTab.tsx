@@ -10,7 +10,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import StudentInformationForm from '../forms/StudentInformationForm';
-import SendingInstitutionInformationForm from '../forms/SendingInstitutionInformationForm';
+import InstitutionInformationFormOLA from '../forms/InstitutionInformationFormOLA';
 import MobilityProgramFormLongTerm from '../forms/MobilityProgramFormLongTerm';
 import CommitmentSignatureForm from '../forms/CommitmentSignatureForm';
 import VirtualComponentForm from '../forms/VirtualComponentForm';
@@ -42,7 +42,7 @@ export default function TabComponent() {
           <StudentInformationForm pageName='Öğrenciye Ait Bilgiler' />
         </TabPanel>
         <TabPanel>
-          <SendingInstitutionInformationForm pageName='Kurum /Üniversite Bilgisi' />
+          <InstitutionInformationFormOLA pageName='Kurum /Üniversite Bilgisi' />
         </TabPanel>
         <TabPanel>
           <MobilityProgramFormLongTerm

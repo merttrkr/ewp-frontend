@@ -12,9 +12,7 @@ import {
 
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '@/components/form-components/TextInput';
-import CheckBoxInput from '@/components/form-components/CheckBoxInput';
-import DisplayText from '../form-components/DisplayText';
-import DatePickerInput from '../form-components/DatePickerInput';
+
 type SendingInstitutionInformationFormProps = {
   pageName: String;
 };
@@ -25,11 +23,8 @@ export default function SendingInstitutionInformationForm({
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-  const ButtonColor = useColorModeValue('#20558B', '#0E3051');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
-  const apos = "'";
 
-  const ButtonHoverColor = useColorModeValue('#9C1F23', 'gray.600');
   return (
     <Flex direction={'column'}>
       <Stack
