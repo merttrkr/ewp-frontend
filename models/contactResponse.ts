@@ -1,8 +1,11 @@
-export interface ContactResponse {
+export interface Contact {
     id: number;
     fullName: string;
     phoneNumber: string;
     faxNumber: string;
     email: string;
     roleDescription: string;
+};
+export interface ContactResponse {
+    Contact?: Contact[];
 };
