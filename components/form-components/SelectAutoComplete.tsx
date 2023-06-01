@@ -10,7 +10,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -24,8 +24,8 @@ type SelectAutoCompleteProps = {
   selectLabel: String;
   placeHolder: string;
   isDisabled?: boolean;
-  id?         : string;
-  register:any;
+  id?: string;
+  register: any;
 };
 
 type ContactData = {
@@ -37,27 +37,27 @@ type ContactData = {
   roleDescription: string;
 };
 const getData = async () => {
-  let result ;
+  let result;
   try {
-    const response = await fetch('https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr', {
-      method: 'POST',
-      headers: {
-        Accept: 'text/plain',
-      },
-    });
+    const response = await fetch(
+      'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'text/plain',
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Error! status: ${response.status}`);
     }
 
-    result = await response.json();  
-    
+    result = await response.json();
   } catch (err) {
     console.log(err);
-    
   } finally {
-   console.log("finally");
-   
+    console.log('finally');
   }
   return result;
 };
@@ -65,7 +65,7 @@ const getData = async () => {
 const FormInput: React.FC<SelectAutoCompleteProps> = ({
   isDisabled = false,
   selectLabel,
-  id='default-select',
+  id = 'default-select',
   placeHolder,
   register,
 }) => {
@@ -76,12 +76,14 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
       try {
         const data = await getData(); // Call the fetchData function
         console.log(data);
-        
+
         setDataArray(data); // Update the state with the fetched data
       } catch (error) {
         // Handle the error if needed
-      }}
-    fetchInitialData()},[]);
+      }
+    };
+    fetchInitialData();
+  }, []);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const arrayData = dataArray;
@@ -109,7 +111,6 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
                   disabled={isDisabled}
                   variant='filled'
                   placeholder={placeHolder}
-
                 />
                 <InputRightElement>
                   {' '}
@@ -119,9 +120,9 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
               <AutoCompleteList>
                 {dataArray.map((element, cid) => (
                   <AutoCompleteItem
-                  key={`option-${cid}`}
-                  value={element.fullName} // Render the fullName property
-                  textTransform='capitalize'
+                    key={`option-${cid}`}
+                    value={element.fullName} // Render the fullName property
+                    textTransform='capitalize'
                   >
                     {element.fullName}
                   </AutoCompleteItem>
@@ -133,6 +134,6 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
       </FormControl>
     </Flex>
   );
-}
+};
 
 export default FormInput;
