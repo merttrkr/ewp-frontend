@@ -19,6 +19,10 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { useForm, useFormContext } from 'react-hook-form';
+import useAgreement from '@/hooks/useAgreements';
+import { Contact, ContactResponse } from '@/models/contactResponse';
+
+const { GetContactInfoByHeiID } = useAgreement();
 
 type SelectAutoCompleteProps = {
   selectLabel: String;
@@ -36,31 +40,7 @@ type ContactData = {
   email: string;
   roleDescription: string;
 };
-const getData = async () => {
-  let result;
-  try {
-    const response = await fetch(
-      'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'text/plain',
-        },
-      }
-    );
 
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-
-    result = await response.json();
-  } catch (err) {
-    console.log(err);
-  } finally {
-    console.log('finally');
-  }
-  return result;
-};
 
 const FormInput: React.FC<SelectAutoCompleteProps> = ({
   isDisabled = false,
@@ -69,20 +49,19 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
   placeHolder,
   register,
 }) => {
-  const [dataArray, setDataArray] = useState<ContactData[]>([]);
+  const [dataArray, setDataArray] = useState([] as Contact[]);
 
   useEffect(() => {
+    setDataArray([] as Contact[]);
     const fetchInitialData = async () => {
-      try {
-        const data = await getData(); // Call the fetchData function
-        console.log(data);
 
+      const data = await (await GetContactInfoByHeiID('https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr')).Contact; // Call the fetchData function
+      console.log(data);
+      if (data) {
         setDataArray(data); // Update the state with the fetched data
-      } catch (error) {
-        // Handle the error if needed
       }
-    };
-    fetchInitialData();
+    }
+    fetchInitialData()
   }, []);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
@@ -111,6 +90,7 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
                   disabled={isDisabled}
                   variant='filled'
                   placeholder={placeHolder}
+
                 />
                 <InputRightElement>
                   {' '}
@@ -134,6 +114,6 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
       </FormControl>
     </Flex>
   );
-};
+}
 
 export default FormInput;
