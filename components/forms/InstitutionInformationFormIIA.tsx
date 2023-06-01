@@ -78,6 +78,8 @@ export default function InstitutionInformationForm({
   function onSubmit(values: FormData) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
+        values.IIA_ID = IIAID;
+      values.IIA_Code = IIACode;
         alert(JSON.stringify(values, null));
         resolve();
       });
