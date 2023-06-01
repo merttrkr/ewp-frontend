@@ -1,5 +1,6 @@
 import { Commitment } from '@/models/commitment';
 import { ContactResponse, Contact } from '@/models/contactResponse';
+import { DepartmentResponse, Department } from '@/models/departmentResponse';
 import {
   InstitutionInfo,
   InstitutionInfoResponse,
@@ -49,10 +50,9 @@ const useAgreement = () => {
     return InstitutionInfoList;
   };
 
-  //localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=iyte.edu.tr
-  https: const GetDepartmentsByHeiID = async (
-    request: string
-  ): Promise<ReceivingInstitutionInfoResponse> => {
+  //https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=iyte.edu.tr
+  const GetDepartmentsByHeiID = async (request: string
+  ): Promise<DepartmentResponse> => {
     let response = await fetch(request, {
       method: 'POST',
       headers: {
@@ -63,19 +63,17 @@ const useAgreement = () => {
     if (!response.ok) {
       throw new Error(`Error! status: ${response.status}`);
     }
-    const fetchedInstitutionInfos: ReceivingInstitutionInfo[] =
-      await response.json();
-    const receivingInstitutionInfoList: ReceivingInstitutionInfoResponse = {
-      receivingInstitutionInfos: fetchedInstitutionInfos,
-    };
+    const fetchedDepartments: Department[] = await response.json();
+    const departmentList: DepartmentResponse = { departments: fetchedDepartments };
 
-    console.log('result: ', receivingInstitutionInfoList);
-    return receivingInstitutionInfoList;
+    console.log('result: ', departmentList);
+    return departmentList;
   };
 
   return {
     GetContactInfoByHeiID,
     GetAllUniversitiesInfo,
+    GetDepartmentsByHeiID,
   };
 };
 
