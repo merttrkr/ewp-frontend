@@ -1,6 +1,6 @@
 export interface InstitutionInfo {
     uniqueId: number;
-    uniName: string;
+    UniName: string;
     heiId: string;
 }
 

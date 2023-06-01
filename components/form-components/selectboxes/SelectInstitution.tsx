@@ -16,9 +16,9 @@ import {
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
-import { Contact } from '@/models/contactResponse';
+import { InstitutionInfo } from '@/models/institutionInfoResponse';
 import useAgreement from '@/hooks/useAgreements';
-const { GetContactInfoByHeiID } = useAgreement();
+const { GetAllUniversitiesInfo } = useAgreement();
 
 type SelectContactProps = {
   selectLabel: String;
@@ -35,23 +35,26 @@ const Select: React.FC<SelectContactProps> = ({
   placeHolder,
   register,
 }) => {
-  const [contactArray, setContactArray] = useState([] as Contact[]);
+  const [institutionInfoArray, setInstitutionInfoArray] = useState(
+    [] as InstitutionInfo[]
+  );
+
+  //colors
+  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
 
   useEffect(() => {
     const fetchInitialData = async () => {
       const data = await (
-        await GetContactInfoByHeiID(
-          'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr'
+        await GetAllUniversitiesInfo(
+          'https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
         )
-      ).contacts; // Call the fetchData function
+      ).institutionInfos; // Call the fetchData function
       if (data) {
-        setContactArray(data); // Update the state with the fetched data
+        setInstitutionInfoArray(data); // Update the state with the fetched data
       }
     };
     fetchInitialData();
   }, []);
-
-  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
 
   return (
     <Flex justify='left' align='center' w='full'>
@@ -84,13 +87,13 @@ const Select: React.FC<SelectContactProps> = ({
                 </InputRightElement>
               </InputGroup>
               <AutoCompleteList>
-                {contactArray.map((element, cid) => (
+                {institutionInfoArray.map((element, cid) => (
                   <AutoCompleteItem
                     key={`option-${cid}`}
-                    value={element.fullName} // Render the fullName property
+                    value={element.UniName ? element.UniName : element.heiId}
                     textTransform='capitalize'
                   >
-                    {element.fullName}
+                    {element.UniName}
                   </AutoCompleteItem>
                 ))}
               </AutoCompleteList>

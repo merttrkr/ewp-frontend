@@ -14,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import React from 'react';
 //selectboxes
 import SelectContact from '../form-components/selectboxes/SelectContact';
+import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -21,7 +22,7 @@ type InstitutionInformationFormProps = {
 };
 
 type FormData = {
-  instution_name: string;
+  hei_id: string;
   contact_persons: string;
   departmant_name: string;
 };
@@ -80,9 +81,9 @@ export default function InstitutionInformationForm({
       >
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
-            <SelectAutoComplete
+            <SelectInstitution
               id='instution_name'
-              register={register('instution_name', {
+              register={register('hei_id', {
                 required: 'This is required',
                 minLength: {
                   value: 4,
