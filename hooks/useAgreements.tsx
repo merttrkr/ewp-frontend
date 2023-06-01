@@ -1,10 +1,12 @@
 import { Commitment } from '@/models/commitment';
 import { ContactResponse, Contact } from '@/models/contactResponse';
 import { DepartmentResponse, Department } from '@/models/departmentResponse';
+import { ReceivingInstitutionInfoForm, SendingInstitutionInfoForm } from '@/models/institutionInfoFormResponse';
 import {
   InstitutionInfo,
   InstitutionInfoResponse,
 } from '@/models/institutionInfoResponse';
+import { organizationRequestToIIA } from '@/models/organizationRequestToIIA';
 
 const useAgreement = () => {
   const GetContactInfoByHeiID = async (
@@ -23,7 +25,6 @@ const useAgreement = () => {
     const fetchedContacts: Contact[] = await response.json();
     const contactList: ContactResponse = { contacts: fetchedContacts };
 
-    console.log('result: ', contactList);
     return contactList;
   };
 
@@ -46,7 +47,6 @@ const useAgreement = () => {
       institutionInfos: fetchedInstitutionInfos,
     };
 
-    console.log('result: ', InstitutionInfoList);
     return InstitutionInfoList;
   };
 
@@ -66,7 +66,6 @@ const useAgreement = () => {
     const fetchedDepartments: Department[] = await response.json();
     const departmentList: DepartmentResponse = { departments: fetchedDepartments };
 
-    console.log('result: ', departmentList);
     return departmentList;
   };
   //https://localhost:5001/spGenerateBilateralAgreementId
@@ -149,6 +148,94 @@ const useAgreement = () => {
             console.log('result IIACode: ', IIACode);
             return IIACode;
           };
+          //https://localhost:5001/spAddOrganizationInfoToBilateralAgreement?organizationInfo_id=1&bilateralAgreement_id=2&isPartner=0'
+          const AddOrganizationInfoToBilateralAgreement = async (request: organizationRequestToIIA): Promise<number> => {
+            const { organizationInfoId, isPartner, bilateralAgreementId } = request;
+          
+            const url = `https://localhost:5001/spAddOrganizationInfoToBilateralAgreement?organizationInfo_id=${organizationInfoId}&bilateralAgreement_id=${bilateralAgreementId}&isPartner=${isPartner}`;
+          
+            let response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+              },
+            });
+          
+            if (!response.ok) {
+              throw new Error(`Error! status: ${response.status}`);
+            }
+          
+            const result: number = await response.json();
+          
+            console.log('result bilateralAgreementID:', result);
+            return result;
+          };
+          const AddReceivingInstitutionInfo = async (request: ReceivingInstitutionInfoForm): Promise<number> => {
+            const {
+              receivingInstitutionInfo_id,
+              university_id,
+              universityDepartment_id,
+              academicYear_id,
+              academicPersonnelName,
+              academicPersonnelSurname,
+              academicPersonnelEmail,
+              phoneNumberE164,
+              phoneNumberExt,
+            } = request;
+          
+            const url = `https://localhost:5001/spAddReceivingInstitutionInfo?receivingInstitutionInfo_id=${receivingInstitutionInfo_id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&academicYear_id=${academicYear_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+          
+            let response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+              },
+            });
+          
+            if (!response.ok) {
+              throw new Error(`Error! status: ${response.status}`);
+            }
+          
+            const result: number = await response.json();
+          
+            console.log('result receivingInstitutionInfo_id:', result);
+            return result;
+          };
+          const AddSendingInstitutionInfo = async (request: SendingInstitutionInfoForm): Promise<number> => {
+            const {
+              sendingInstitutionInfo_id,
+              hei_id,
+              universityDepartment_id,
+              academicPersonnelName,
+              academicPersonnelSurname,
+              academicPersonnelEmail,
+              administrativePersonnelName,
+              administrativePersonnelSurname,
+              administrativePersonnelEmail,
+              phoneNumberE164,
+              phoneNumberExt,
+            } = request;
+          
+            const url = `https://localhost:5001/spAddSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&administrativePersonnelName=${administrativePersonnelName}&administrativePersonnelSurname=${administrativePersonnelSurname}&administrativePersonnelEmail=${administrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+          
+            let response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+              },
+            });
+          
+            if (!response.ok) {
+              throw new Error(`Error! status: ${response.status}`);
+            }
+          
+            const result: number = await response.json();
+          
+            console.log('result sendingInstitutionInfo_id:', result);
+            return result;
+          };
+          
+          
   return {
     GetContactInfoByHeiID,
     GetAllUniversitiesInfo,
@@ -156,7 +243,10 @@ const useAgreement = () => {
     GenerateBilateralAgreementID,
     GenerateIIAID,
     GenerateIIACode,
-
+    AddOrganizationInfoToBilateralAgreement,
+    UpdateDateOfBilateralAgremeent,
+    AddSendingInstitutionInfo,
+    AddReceivingInstitutionInfo,
   };
 };
 
