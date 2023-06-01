@@ -69,11 +69,94 @@ const useAgreement = () => {
     console.log('result: ', departmentList);
     return departmentList;
   };
+  //https://localhost:5001/spGenerateBilateralAgreementId
+  const GenerateBilateralAgreementID = async (request: string
+    ): Promise<Number> => {
+      let response = await fetch(request, {
+        method: 'POST',
+        headers: {
+          Accept: 'text/plain',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const bilateralAgreementID: number = await response.json();
+      
+  
+      console.log('result bilateralAgreementID: ', bilateralAgreementID);
+      return bilateralAgreementID;
+    };
 
+    //https://localhost:5001/spGenerateIIAId
+    const GenerateIIAID = async (request: string
+      ): Promise<Number> => {
+        let response = await fetch(request, {
+          method: 'POST',
+          headers: {
+            Accept: 'text/plain',
+          },
+        });
+    
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+        const IIAID: number = await response.json();
+        
+    
+        console.log('result IIA-ID: ', IIAID);
+        return IIAID;
+      };
+
+      //https://localhost:5001/spGenerateIIACode
+      const GenerateIIACode = async (request: string
+        ): Promise<Number> => {
+          let response = await fetch(request, {
+            method: 'POST',
+            headers: {
+              Accept: 'text/plain',
+            },
+          });
+      
+          if (!response.ok) {
+            throw new Error(`Error! status: ${response.status}`);
+          }
+          const IIACode: number = await response.json();
+          
+      
+          console.log('result IIACode: ', IIACode);
+          return IIACode;
+        };
+
+        //https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=1
+
+        const UpdateDateOfBilateralAgremeent = async (request: string
+          ): Promise<String> => {
+            let response = await fetch(request, {
+              method: 'POST',
+              headers: {
+                Accept: 'text/plain',
+              },
+            });
+        
+            if (!response.ok) {
+              throw new Error(`Error! status: ${response.status}`);
+            }
+            const IIACode: String = await response.json();
+            
+        
+            console.log('result IIACode: ', IIACode);
+            return IIACode;
+          };
   return {
     GetContactInfoByHeiID,
     GetAllUniversitiesInfo,
     GetDepartmentsByHeiID,
+    GenerateBilateralAgreementID,
+    GenerateIIAID,
+    GenerateIIACode,
+
   };
 };
 
