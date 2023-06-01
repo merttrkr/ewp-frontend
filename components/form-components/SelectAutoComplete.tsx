@@ -47,7 +47,7 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
         await GetContactInfoByHeiID(
           'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr'
         )
-      ).Contacts; // Call the fetchData function
+      ).contacts; // Call the fetchData function
       if (data) {
         setContactArray(data); // Update the state with the fetched data
       }
