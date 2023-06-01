@@ -132,7 +132,7 @@ export default function InstitutionInformationForm({
               label='İkili Anlaşma Kodu'
               error={errors.authorized_signotary?.message}
               register={register('IIA_Code')}
-              value={IIACode}
+             
             />
             <TextInput2
               placeholder=''
@@ -179,7 +179,7 @@ export default function InstitutionInformationForm({
               label='İkili Anlaşma IDsi (IIA-ID)'
               error={errors.IIA_ID?.message}
               register={register('IIA_ID')}
-              value={IIAID}
+           
             />
             <DatePickerInput datePickerInputLabel='İmzalanma Tarihi' />
             <Flex w={'full'} bg={'gray.100'}></Flex>
@@ -192,6 +192,7 @@ export default function InstitutionInformationForm({
           <Button variant='clear' type='reset'>
             Temizle
           </Button>
+          
         </Flex>
       </Box>
     </Stack>
