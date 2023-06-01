@@ -1,6 +1,9 @@
 import { Commitment } from '@/models/commitment';
 import { ContactResponse, Contact } from '@/models/contactResponse';
-import { ReceivingInstitutionInfo, ReceivingInstitutionInfoResponse } from '@/models/institutionInfoResponse';
+import {
+  InstitutionInfo,
+  InstitutionInfoResponse,
+} from '@/models/institutionInfoResponse';
 
 const useAgreement = () => {
   const GetContactInfoByHeiID = async (
@@ -26,6 +29,29 @@ const useAgreement = () => {
   //https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all
   const GetAllUniversitiesInfo = async (
     request: string
+  ): Promise<InstitutionInfoResponse> => {
+    let response = await fetch(request, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/plain',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+    const fetchedInstitutionInfos: InstitutionInfo[] = await response.json();
+    const InstitutionInfoList: InstitutionInfoResponse = {
+      institutionInfos: fetchedInstitutionInfos,
+    };
+
+    console.log('result: ', InstitutionInfoList);
+    return InstitutionInfoList;
+  };
+
+  //localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=iyte.edu.tr
+  https: const GetDepartmentsByHeiID = async (
+    request: string
   ): Promise<ReceivingInstitutionInfoResponse> => {
     let response = await fetch(request, {
       method: 'POST',
@@ -37,35 +63,19 @@ const useAgreement = () => {
     if (!response.ok) {
       throw new Error(`Error! status: ${response.status}`);
     }
-    const fetchedInstitutionInfos: ReceivingInstitutionInfo[] = await response.json();
-    const receivingInstitutionInfoList: ReceivingInstitutionInfoResponse = { receivingInstitutionInfos: fetchedInstitutionInfos };
+    const fetchedInstitutionInfos: ReceivingInstitutionInfo[] =
+      await response.json();
+    const receivingInstitutionInfoList: ReceivingInstitutionInfoResponse = {
+      receivingInstitutionInfos: fetchedInstitutionInfos,
+    };
 
     console.log('result: ', receivingInstitutionInfoList);
     return receivingInstitutionInfoList;
   };
 
-  https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=iyte.edu.tr
-  const GetDepartmentsByHeiID = async (request: string
-    ): Promise<ReceivingInstitutionInfoResponse> => {
-      let response = await fetch(request, {
-        method: 'POST',
-        headers: {
-          Accept: 'text/plain',
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
-      }
-      const fetchedInstitutionInfos: ReceivingInstitutionInfo[] = await response.json();
-      const receivingInstitutionInfoList: ReceivingInstitutionInfoResponse = { receivingInstitutionInfos: fetchedInstitutionInfos };
-  
-      console.log('result: ', receivingInstitutionInfoList);
-      return receivingInstitutionInfoList;
-    };
-
   return {
-    GetContactInfoByHeiID,GetAllUniversitiesInfo
+    GetContactInfoByHeiID,
+    GetAllUniversitiesInfo,
   };
 };
 
