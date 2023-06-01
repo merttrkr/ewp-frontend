@@ -44,7 +44,13 @@ export default function InstitutionInformationForm({
   const [IIACode, setIIACode] = useState('');
   const [IIAID, setIIAID] = useState('');
 
-  useEffect(() => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>();
+
+  function handleIIACode() {
     const fetchInitialData = async () => {
       const data = await await GenerateIIACode(
         'https://localhost:5001/spGenerateIIACode'
@@ -55,9 +61,8 @@ export default function InstitutionInformationForm({
       }
     };
     fetchInitialData();
-  }, []);
-
-  useEffect(() => {
+  }
+  function handleIIAID() {
     const fetchInitialData = async () => {
       const data = await await GenerateIIAID(
         'https://localhost:5001/spGenerateIIAId'
@@ -68,13 +73,7 @@ export default function InstitutionInformationForm({
       }
     };
     fetchInitialData();
-  }, []);
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>();
+  }
 
   function onSubmit(values: FormData) {
     return new Promise<void>((resolve) => {
@@ -132,7 +131,6 @@ export default function InstitutionInformationForm({
               label='İkili Anlaşma Kodu'
               error={errors.authorized_signotary?.message}
               register={register('IIA_Code')}
-             
             />
             <TextInput2
               placeholder=''
@@ -179,11 +177,27 @@ export default function InstitutionInformationForm({
               label='İkili Anlaşma IDsi (IIA-ID)'
               error={errors.IIA_ID?.message}
               register={register('IIA_ID')}
-           
             />
             <DatePickerInput datePickerInputLabel='İmzalanma Tarihi' />
+            {/* Hidden input field for IIACode */}
+            <input
+              type='hidden'
+              defaultValue={IIACode}
+              {...register('IIA_Code')}
+            />
+
+            {/* Hidden input field for IIAID */}
+            <input type='hidden' defaultValue={IIAID} {...register('IIA_ID')} />
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
+        </Flex>
+        <Flex gap={3} justifyContent='flex-end' pr={4} mt={8}>
+          <Button variant='autoWidthFull' width={130} onClick={handleIIACode}>
+            IIA Code Oluştur
+          </Button>
+          <Button variant='autoWidthFull' width={130} onClick={handleIIAID}>
+            IIA ID Oluştur
+          </Button>
         </Flex>
         <Flex gap={3} justifyContent='flex-end' pr={4} mt={8}>
           <Button variant='submit' type='submit'>
@@ -192,7 +206,6 @@ export default function InstitutionInformationForm({
           <Button variant='clear' type='reset'>
             Temizle
           </Button>
-          
         </Flex>
       </Box>
     </Stack>

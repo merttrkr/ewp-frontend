@@ -16,7 +16,6 @@ type FormInputProps = {
   register: any;
   type?: string;
   isDisabled?: boolean;
-
 };
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -27,7 +26,6 @@ const FormInput: React.FC<FormInputProps> = ({
   error,
   register,
   placeholder,
-  
 }) => {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
@@ -44,7 +42,6 @@ const FormInput: React.FC<FormInputProps> = ({
       </Heading>
       <Input
         id={id}
-       
         placeholder={placeholder}
         {...register}
         isDisabled={isDisabled}
