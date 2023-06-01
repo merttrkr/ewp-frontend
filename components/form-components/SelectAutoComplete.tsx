@@ -32,16 +32,6 @@ type SelectAutoCompleteProps = {
   register: any;
 };
 
-type ContactData = {
-  id: number;
-  fullName: string;
-  phoneNumber: string;
-  faxNumber: string;
-  email: string;
-  roleDescription: string;
-};
-
-
 const FormInput: React.FC<SelectAutoCompleteProps> = ({
   isDisabled = false,
   selectLabel,
@@ -49,23 +39,24 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
   placeHolder,
   register,
 }) => {
-  const [dataArray, setDataArray] = useState([] as Contact[]);
+  const [contactArray, setContactArray] = useState([] as Contact[]);
 
   useEffect(() => {
-    setDataArray([] as Contact[]);
     const fetchInitialData = async () => {
-
-      const data = await (await GetContactInfoByHeiID('https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr')).Contact; // Call the fetchData function
-      console.log(data);
+      const data = await (
+        await GetContactInfoByHeiID(
+          'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr'
+        )
+      ).Contacts; // Call the fetchData function
       if (data) {
-        setDataArray(data); // Update the state with the fetched data
+        setContactArray(data); // Update the state with the fetched data
       }
-    }
-    fetchInitialData()
+    };
+    fetchInitialData();
   }, []);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-  const arrayData = dataArray;
+
   return (
     <Flex justify='left' align='center' w='full'>
       <FormControl>
@@ -90,7 +81,6 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
                   disabled={isDisabled}
                   variant='filled'
                   placeholder={placeHolder}
-
                 />
                 <InputRightElement>
                   {' '}
@@ -98,7 +88,7 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
                 </InputRightElement>
               </InputGroup>
               <AutoCompleteList>
-                {dataArray.map((element, cid) => (
+                {contactArray.map((element, cid) => (
                   <AutoCompleteItem
                     key={`option-${cid}`}
                     value={element.fullName} // Render the fullName property
@@ -114,6 +104,6 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
       </FormControl>
     </Flex>
   );
-}
+};
 
 export default FormInput;

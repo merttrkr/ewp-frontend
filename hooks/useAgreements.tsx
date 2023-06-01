@@ -1,30 +1,32 @@
-import { Commitment } from "@/models/commitment";
-import { ContactResponse } from "@/models/contactResponse";
+import { Commitment } from '@/models/commitment';
+import { ContactResponse, Contact } from '@/models/contactResponse';
 
 const useAgreement = () => {
-    const GetContactInfoByHeiID = async (request: string): Promise<ContactResponse> => {
+  const GetContactInfoByHeiID = async (
+    request: string
+  ): Promise<ContactResponse> => {
+    let response = await fetch(request, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/plain',
+      },
+    });
 
-        let response = await fetch(request, {
-            method: 'POST',
-            headers: {
-                Accept: 'text/plain',
-            },
-        });
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+    const fetchedContacts: Contact[] = await response.json();
+    const contactList: ContactResponse = { Contacts: fetchedContacts };
 
-        if (!response.ok) {
-            throw new Error(`Error! status: ${response.status}`);
-        }
+    console.log('result: ', contactList);
+    return contactList;
+  };
 
-        let result: ContactResponse = await response.json();
+  // Add any additional functions or state variables related to the hook here
 
-        return result;
-    };
-
-    // Add any additional functions or state variables related to the hook here
-
-    return {
-        GetContactInfoByHeiID,
-    };
+  return {
+    GetContactInfoByHeiID,
+  };
 };
 
 export default useAgreement;

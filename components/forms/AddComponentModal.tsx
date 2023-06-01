@@ -13,9 +13,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
-import SelectAutoComplete from './SelectAutoComplete';
-import TextInput from './TextInput';
-import TextInput2 from './TextInput2';
+import SelectAutoComplete from '../form-components/SelectAutoComplete';
+import TextInput from '../form-components/TextInput';
+import TextInput2 from '../form-components/TextInput2';
 import { useForm } from 'react-hook-form';
 
 type ModalInputProps = {

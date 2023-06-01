@@ -19,7 +19,7 @@ import SelectAutoComplete from '@/components/form-components/SelectAutoComplete'
 import TextInput from '../form-components/TextInput';
 import DatePickerInput from '../form-components/DatePickerInput';
 import { BiTrash } from 'react-icons/bi';
-import AddComponentModal from '../form-components/AddComponentModal';
+import AddComponentModal from './AddComponentModal';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;

@@ -7,5 +7,5 @@ export interface Contact {
     roleDescription: string;
 };
 export interface ContactResponse {
-    Contact?: Contact[];
+    Contacts?: Contact[];
 };

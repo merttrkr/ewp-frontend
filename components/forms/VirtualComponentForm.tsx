@@ -16,7 +16,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import AddComponentModal from '../form-components/AddComponentModal';
+import AddComponentModal from './AddComponentModal';
 import { BiTrash } from 'react-icons/bi';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 
