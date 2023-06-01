@@ -79,7 +79,7 @@ export default function InstitutionInformationForm({
     return new Promise<void>((resolve) => {
       setTimeout(() => {
         values.IIA_ID = IIAID;
-      values.IIA_Code = IIACode;
+        values.IIA_Code = IIACode;
         alert(JSON.stringify(values, null));
         resolve();
       });
@@ -181,15 +181,7 @@ export default function InstitutionInformationForm({
               register={register('IIA_ID')}
             />
             <DatePickerInput datePickerInputLabel='İmzalanma Tarihi' />
-            {/* Hidden input field for IIACode */}
-            <input
-              type='hidden'
-              defaultValue={IIACode}
-              {...register('IIA_Code')}
-            />
-
-            {/* Hidden input field for IIAID */}
-            <input type='hidden' defaultValue={IIAID} {...register('IIA_ID')} />
+          
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
         </Flex>
