@@ -23,5 +23,11 @@ export interface SendingInstitutionInfo {
     phoneNumberE164: string;
     phoneNumberExt: string;
 }
+export interface SendingInstitutionInfoResponse {
+    sendingInstitutionInfos?: SendingInstitutionInfo[];
+}
+export interface ReceivingInstitutionInfoResponse {
+    receivingInstitutionInfos?: ReceivingInstitutionInfo[];
+}
 
 
