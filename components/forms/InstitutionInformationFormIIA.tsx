@@ -7,13 +7,13 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '../form-components/TextInput';
+import TextInput2 from '../form-components/TextInput2';
 import DatePickerInput from '../form-components/DatePickerInput';
 import { useForm } from 'react-hook-form';
 import React from 'react';
 //selectboxes
 import SelectContact from '../form-components/selectboxes/SelectContact';
+import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 
 type InstitutionInformationFormProps = {
@@ -25,6 +25,9 @@ type FormData = {
   hei_id: string;
   contact_persons: string;
   departmant_name: string;
+  IIA_Code: string;
+  IIA_ID: string;
+  authorized_signotary: string;
 };
 
 export default function InstitutionInformationForm({
@@ -93,15 +96,31 @@ export default function InstitutionInformationForm({
               placeHolder='placeholder..'
               selectLabel='Kurum / Üniversite Adı'
             />
-            <TextInput
-              placeHolder='placeholder..'
-              name='IIA-15'
-              label='İkili Anlaşma Kodu (IIA-Kodu)'
+            <TextInput2
+              placeholder=''
+              id='IIA_Code'
+              label='İkili Anlaşma Kodu'
+              error={errors.authorized_signotary?.message}
+              register={register('IIA_Code', {
+                required: 'This is required',
+                minLength: {
+                  value: 4,
+                  message: 'Minimum length should be 4',
+                },
+              })}
             />
-            <TextInput
-              placeHolder='placeholder..'
-              name='Mert Türker'
+            <TextInput2
+              placeholder=''
+              id='authorized_signotary'
               label='Anlaşmayı İmzalayacak Yetkili'
+              error={errors.authorized_signotary?.message}
+              register={register('authorized_signotary', {
+                required: 'This is required',
+                minLength: {
+                  value: 4,
+                  message: 'Minimum length should be 4',
+                },
+              })}
             />
             <SelectContact
               id='contact_persons'
@@ -117,7 +136,7 @@ export default function InstitutionInformationForm({
             />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
-            <SelectAutoComplete
+            <SelectDepartment
               id='departmant_name'
               register={register('departmant_name', {
                 required: 'This is required',
@@ -129,10 +148,18 @@ export default function InstitutionInformationForm({
               placeHolder='placeholder..'
               selectLabel='Departman / Bölüm Adı'
             />
-            <TextInput
-              placeHolder='placeholder..'
-              name='IIA-15'
+            <TextInput2
+              placeholder='IIA ID'
+              id='IIA_ID'
               label='İkili Anlaşma IDsi (IIA-ID)'
+              error={errors.IIA_ID?.message}
+              register={register('IIA_ID', {
+                required: 'This is required',
+                minLength: {
+                  value: 4,
+                  message: 'Minimum length should be 4',
+                },
+              })}
             />
             <DatePickerInput datePickerInputLabel='İmzalanma Tarihi' />
             <Flex w={'full'} bg={'gray.100'}></Flex>

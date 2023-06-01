@@ -1,6 +1,6 @@
 export interface Department {
-    departmentName: string;
-    uniDepartmentId: number;
+    id: number;
+    organizationalUnitName: string;
 }
 export interface DepartmentResponse {
     departments?: Department[];
