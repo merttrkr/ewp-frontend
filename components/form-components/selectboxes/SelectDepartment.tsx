@@ -1,30 +1,20 @@
-import {
-  Flex,
-  FormControl,
-  Icon,
-  InputGroup,
-  InputRightElement,
-  Heading,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { FormControl, useColorModeValue, Heading } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {
-  AutoComplete,
-  AutoCompleteInput,
-  AutoCompleteItem,
-  AutoCompleteList,
-} from '@choc-ui/chakra-autocomplete';
-import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { Department } from '@/models/departmentResponse';
 import useRead from '@/hooks/read/useRead';
 
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+
 type SelectDepartmentProps = {
-  selectLabel: String;
+  selectLabel: string;
   placeHolder: string;
   isDisabled?: boolean;
   id?: string;
   register: any;
+  onChange: (value: string) => void; // New prop for handling value change
 };
 
 const Select: React.FC<SelectDepartmentProps> = ({
@@ -33,12 +23,13 @@ const Select: React.FC<SelectDepartmentProps> = ({
   id = 'default-select',
   placeHolder,
   register,
+  onChange, // Add the new onChange prop
 }) => {
   const { GetDepartmentsByHeiID } = useRead();
   const [departmentArray, setDepartmentArray] = useState([] as Department[]);
-
-  //colors
-  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+  const theme = createTheme({
+    // your theme configuration
+  });
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -55,52 +46,41 @@ const Select: React.FC<SelectDepartmentProps> = ({
     fetchInitialData();
   }, [GetDepartmentsByHeiID]);
 
+  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
-    <Flex justify='left' align='center' w='full'>
-      <FormControl>
-        <Heading
-          pl='1'
-          pb='2'
-          as='h3'
-          size='sm'
-          fontWeight={'bold'}
-          noOfLines={1}
-          color={HeadingColor}
-        >
-          <label htmlFor={id}>{selectLabel}</label>
-        </Heading>
-        <AutoComplete openOnFocus>
-          {({ isOpen }) => (
-            <>
-              <InputGroup>
-                <AutoCompleteInput
-                  id={id}
-                  {...register}
-                  disabled={isDisabled}
-                  variant='filled'
-                  placeholder={placeHolder}
-                />
-                <InputRightElement>
-                  {' '}
-                  <Icon as={isOpen ? FiChevronRight : FiChevronDown} />
-                </InputRightElement>
-              </InputGroup>
-              <AutoCompleteList>
-                {departmentArray.map((element, cid) => (
-                  <AutoCompleteItem
-                    key={`option-${cid}`}
-                    value={element.organizationalUnitName}
-                    textTransform='capitalize'
-                  >
-                    {element.organizationalUnitName}
-                  </AutoCompleteItem>
-                ))}
-              </AutoCompleteList>
-            </>
-          )}
-        </AutoComplete>
-      </FormControl>
-    </Flex>
+    <ThemeProvider theme={theme}>
+      {
+        <FormControl>
+          <Heading
+            pl='1'
+            pb='2'
+            size='sm'
+            fontWeight={'bold'}
+            color={HeadingColor}
+          >
+            <label htmlFor={id}>{selectLabel}</label>
+          </Heading>
+          <Autocomplete
+            onChange={(event, value) =>
+              onChange(value?.organizationalUnitName || '')
+            }
+            disablePortal
+            id={id}
+            options={departmentArray}
+            getOptionLabel={(option) => option.organizationalUnitName}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder={placeHolder}
+                disabled={isDisabled}
+                inputRef={register}
+              />
+            )}
+          />
+        </FormControl>
+      }
+    </ThemeProvider>
   );
 };
 

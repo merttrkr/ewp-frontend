@@ -16,8 +16,6 @@ import SelectContact from '../form-components/selectboxes/SelectContact';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 import useCreate from '@/hooks/create/useCreate';
-import SelectMUI from '../form-components/selectboxes/SelectMUI';
-import { Contact } from '@/models/contactResponse';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -31,7 +29,6 @@ type FormData = {
   IIA_Code: string;
   IIA_ID: string;
   authorized_signotary: string;
-  contact_persons_mui: string;
 };
 
 export default function InstitutionInformationForm({
@@ -89,10 +86,15 @@ export default function InstitutionInformationForm({
       });
     });
   }
-  const handleSelectChange = (value: string) => {
-    setValue('contact_persons_mui', value);
+  const handleSelectChangeContact = (value: string) => {
+    setValue('contact_persons', value);
   };
-
+  const handleSelectChangeDepartment = (value: string) => {
+    setValue('departmant_name', value);
+  };
+  const handleSelectChangeInstitution = (value: string) => {
+    setValue('hei_id', value);
+  };
   return (
     <Stack
       marginBottom='20'
@@ -126,13 +128,10 @@ export default function InstitutionInformationForm({
               id='instution_name'
               register={register('hei_id', {
                 required: 'This is required',
-                minLength: {
-                  value: 4,
-                  message: 'Minimum length should be 4',
-                },
               })}
               placeHolder='placeholder..'
               selectLabel='Kurum / Üniversite Adı'
+              onChange={handleSelectChangeInstitution}
             />
             <TextInput2
               placeholder={IIACode}
@@ -158,22 +157,10 @@ export default function InstitutionInformationForm({
               id='contact_persons'
               register={register('contact_persons', {
                 required: 'This is required',
-                minLength: {
-                  value: 4,
-                  message: 'Minimum length should be 4',
-                },
-              })}
-              placeHolder='placeholder..'
-              selectLabel='İletişim Kurulabilecek Yetkililer'
-            />
-            <SelectMUI
-              id='contact_persons_mui'
-              register={register('contact_persons_mui', {
-                required: 'This is required',
               })}
               placeHolder='...'
               selectLabel='İletişim Kurulabilecek Yetkililer'
-              onChange={handleSelectChange}
+              onChange={handleSelectChangeContact}
             />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
@@ -181,13 +168,10 @@ export default function InstitutionInformationForm({
               id='departmant_name'
               register={register('departmant_name', {
                 required: 'This is required',
-                minLength: {
-                  value: 4,
-                  message: 'Minimum length should be 4',
-                },
               })}
-              placeHolder='placeholder..'
+              placeHolder='...'
               selectLabel='Departman / Bölüm Adı'
+              onChange={handleSelectChangeDepartment}
             />
             <TextInput2
               placeholder={IIAID}

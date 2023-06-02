@@ -1,30 +1,19 @@
-import {
-  Flex,
-  FormControl,
-  Icon,
-  InputGroup,
-  InputRightElement,
-  Heading,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { FormControl, useColorModeValue, Heading } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {
-  AutoComplete,
-  AutoCompleteInput,
-  AutoCompleteItem,
-  AutoCompleteList,
-} from '@choc-ui/chakra-autocomplete';
-import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import useRead from '@/hooks/read/useRead';
 import { Contact } from '@/models/contactResponse';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 type SelectContactProps = {
-  selectLabel: String;
+  selectLabel: string;
   placeHolder: string;
   isDisabled?: boolean;
   id?: string;
   register: any;
+  onChange: (value: string) => void; // New prop for handling value change
 };
 
 const Select: React.FC<SelectContactProps> = ({
@@ -33,9 +22,13 @@ const Select: React.FC<SelectContactProps> = ({
   id = 'default-select',
   placeHolder,
   register,
+  onChange, // Add the new onChange prop
 }) => {
   const { GetContactInfoByHeiID } = useRead();
-  const [contactArray, setContactArray] = useState([] as Contact[]);
+  const [contactArray, setContactArray] = useState<Contact[]>([]);
+  const theme = createTheme({
+    // your theme configuration
+  });
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -43,62 +36,47 @@ const Select: React.FC<SelectContactProps> = ({
         await GetContactInfoByHeiID(
           'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr'
         )
-      ).contacts; // Call the fetchData function
+      ).contacts;
       if (data) {
-        setContactArray(data); // Update the state with the fetched data
+        setContactArray(data);
       }
     };
     fetchInitialData();
-  }, [GetContactInfoByHeiID]);
+  }, [GetContactInfoByHeiID]); // Include GetContactInfoByHeiID in the dependency array
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-
   return (
-    <Flex justify='left' align='center' w='full'>
-      <FormControl>
-        <Heading
-          pl='1'
-          pb='2'
-          as='h3'
-          size='sm'
-          fontWeight={'bold'}
-          noOfLines={1}
-          color={HeadingColor}
-        >
-          <label htmlFor={id}>{selectLabel}</label>
-        </Heading>
-        <AutoComplete openOnFocus>
-          {({ isOpen }) => (
-            <>
-              <InputGroup>
-                <AutoCompleteInput
-                  id={id}
-                  {...register}
-                  disabled={isDisabled}
-                  variant='filled'
-                  placeholder={placeHolder}
-                />
-                <InputRightElement>
-                  {' '}
-                  <Icon as={isOpen ? FiChevronRight : FiChevronDown} />
-                </InputRightElement>
-              </InputGroup>
-              <AutoCompleteList>
-                {contactArray.map((element, cid) => (
-                  <AutoCompleteItem
-                    key={`option-${cid}`}
-                    value={element.fullName} // Render the fullName property
-                    textTransform='capitalize'
-                  >
-                    {element.fullName}
-                  </AutoCompleteItem>
-                ))}
-              </AutoCompleteList>
-            </>
-          )}
-        </AutoComplete>
-      </FormControl>
-    </Flex>
+    <ThemeProvider theme={theme}>
+      {
+        <FormControl>
+          <Heading
+            pl='1'
+            pb='2'
+            size='sm'
+            fontWeight={'bold'}
+            color={HeadingColor}
+          >
+            <label htmlFor={id}>{selectLabel}</label>
+          </Heading>
+          <Autocomplete
+            onChange={(event, value) => onChange(value?.fullName || '')}
+            disablePortal
+            id={id}
+            options={contactArray}
+            getOptionLabel={(option) => option.fullName}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder={placeHolder}
+                disabled={isDisabled}
+                inputRef={register}
+              />
+            )}
+          />
+        </FormControl>
+      }
+    </ThemeProvider>
   );
 };
 
