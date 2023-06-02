@@ -18,7 +18,6 @@ import {
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { Department } from '@/models/departmentResponse';
 import useRead from '@/hooks/read/useRead';
-const { GetDepartmentsByHeiID } = useRead();
 
 type SelectDepartmentProps = {
   selectLabel: String;
@@ -35,6 +34,7 @@ const Select: React.FC<SelectDepartmentProps> = ({
   placeHolder,
   register,
 }) => {
+  const { GetDepartmentsByHeiID } = useRead();
   const [departmentArray, setDepartmentArray] = useState([] as Department[]);
 
   //colors
@@ -53,7 +53,7 @@ const Select: React.FC<SelectDepartmentProps> = ({
       }
     };
     fetchInitialData();
-  }, []);
+  }, [GetDepartmentsByHeiID]);
 
   return (
     <Flex justify='left' align='center' w='full'>

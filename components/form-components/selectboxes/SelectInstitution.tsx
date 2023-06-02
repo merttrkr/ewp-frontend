@@ -18,7 +18,6 @@ import {
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { InstitutionInfo } from '@/models/institutionInfoResponse';
 import useRead from '@/hooks/read/useRead';
-const { GetAllUniversitiesInfo } = useRead();
 
 type SelectContactProps = {
   selectLabel: String;
@@ -35,6 +34,7 @@ const Select: React.FC<SelectContactProps> = ({
   placeHolder,
   register,
 }) => {
+  const { GetAllUniversitiesInfo } = useRead();
   const [institutionInfoArray, setInstitutionInfoArray] = useState(
     [] as InstitutionInfo[]
   );
@@ -54,7 +54,7 @@ const Select: React.FC<SelectContactProps> = ({
       }
     };
     fetchInitialData();
-  }, []);
+  }, [GetAllUniversitiesInfo]);
 
   return (
     <Flex justify='left' align='center' w='full'>

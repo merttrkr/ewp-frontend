@@ -22,14 +22,11 @@ import { useForm, useFormContext } from 'react-hook-form';
 import useRead from '@/hooks/read/useRead';
 import { Contact, ContactResponse } from '@/models/contactResponse';
 
-const { GetContactInfoByHeiID } = useRead();
-
 type SelectAutoCompleteProps = {
   selectLabel: String;
   placeHolder: string;
   isDisabled?: boolean;
   id?: string;
-  register: any;
 };
 
 const FormInput: React.FC<SelectAutoCompleteProps> = ({
@@ -37,10 +34,9 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
   selectLabel,
   id = 'default-select',
   placeHolder,
-  register,
 }) => {
   const [contactArray, setContactArray] = useState([] as Contact[]);
-
+  const { GetContactInfoByHeiID } = useRead();
   useEffect(() => {
     const fetchInitialData = async () => {
       const data = await (
@@ -53,7 +49,7 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
       }
     };
     fetchInitialData();
-  }, []);
+  }, [GetContactInfoByHeiID]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
 
@@ -77,7 +73,6 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
               <InputGroup>
                 <AutoCompleteInput
                   id={id}
-                  {...register}
                   disabled={isDisabled}
                   variant='filled'
                   placeholder={placeHolder}

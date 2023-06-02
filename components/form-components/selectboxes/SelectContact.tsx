@@ -19,8 +19,6 @@ import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import useRead from '@/hooks/read/useRead';
 import { Contact } from '@/models/contactResponse';
 
-const { GetContactInfoByHeiID } = useRead();
-
 type SelectContactProps = {
   selectLabel: String;
   placeHolder: string;
@@ -36,6 +34,7 @@ const Select: React.FC<SelectContactProps> = ({
   placeHolder,
   register,
 }) => {
+  const { GetContactInfoByHeiID } = useRead();
   const [contactArray, setContactArray] = useState([] as Contact[]);
 
   useEffect(() => {
@@ -50,7 +49,7 @@ const Select: React.FC<SelectContactProps> = ({
       }
     };
     fetchInitialData();
-  }, []);
+  }, [GetContactInfoByHeiID]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
 

@@ -16,7 +16,8 @@ import SelectContact from '../form-components/selectboxes/SelectContact';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 import useCreate from '@/hooks/create/useCreate';
-const { GenerateIIACode, GenerateIIAID } = useCreate();
+import SelectMUI from '../form-components/selectboxes/SelectMUI';
+import { Contact } from '@/models/contactResponse';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -30,12 +31,14 @@ type FormData = {
   IIA_Code: string;
   IIA_ID: string;
   authorized_signotary: string;
+  contact_persons_mui: string;
 };
 
 export default function InstitutionInformationForm({
   pageName,
   subText,
 }: InstitutionInformationFormProps) {
+  const { GenerateIIACode, GenerateIIAID } = useCreate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -48,6 +51,7 @@ export default function InstitutionInformationForm({
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
+    setValue,
   } = useForm<FormData>();
 
   function handleIIACode() {
@@ -85,6 +89,9 @@ export default function InstitutionInformationForm({
       });
     });
   }
+  const handleSelectChange = (value: string) => {
+    setValue('contact_persons_mui', value);
+  };
 
   return (
     <Stack
@@ -131,7 +138,7 @@ export default function InstitutionInformationForm({
               placeholder={IIACode}
               id='IIA_Code'
               label='İkili Anlaşma Kodu'
-              error={errors.authorized_signotary?.message}
+              error={errors.IIA_Code?.message}
               register={register('IIA_Code')}
             />
             <TextInput2
@@ -159,6 +166,15 @@ export default function InstitutionInformationForm({
               placeHolder='placeholder..'
               selectLabel='İletişim Kurulabilecek Yetkililer'
             />
+            <SelectMUI
+              id='contact_persons_mui'
+              register={register('contact_persons_mui', {
+                required: 'This is required',
+              })}
+              placeHolder='...'
+              selectLabel='İletişim Kurulabilecek Yetkililer'
+              onChange={handleSelectChange}
+            />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
             <SelectDepartment
@@ -181,7 +197,7 @@ export default function InstitutionInformationForm({
               register={register('IIA_ID')}
             />
             <DatePickerInput datePickerInputLabel='İmzalanma Tarihi' />
-          
+
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
         </Flex>
