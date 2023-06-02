@@ -16,10 +16,10 @@ import {
   AutoCompleteList,
 } from '@choc-ui/chakra-autocomplete';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
-import useAgreement from '@/hooks/useAgreements';
+import useRead from '@/hooks/read/useRead';
 import { Contact } from '@/models/contactResponse';
 
-const { GetContactInfoByHeiID } = useAgreement();
+const { GetContactInfoByHeiID } = useRead();
 
 type SelectContactProps = {
   selectLabel: String;
