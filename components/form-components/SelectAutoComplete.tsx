@@ -11,12 +11,6 @@ import {
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {
-  AutoComplete,
-  AutoCompleteInput,
-  AutoCompleteItem,
-  AutoCompleteList,
-} from '@choc-ui/chakra-autocomplete';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { useForm, useFormContext } from 'react-hook-form';
 import useRead from '@/hooks/read/useRead';
@@ -67,35 +61,6 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
         >
           <label htmlFor={id}>{selectLabel}</label>
         </Heading>
-        <AutoComplete openOnFocus>
-          {({ isOpen }) => (
-            <>
-              <InputGroup>
-                <AutoCompleteInput
-                  id={id}
-                  disabled={isDisabled}
-                  variant='filled'
-                  placeholder={placeHolder}
-                />
-                <InputRightElement>
-                  {' '}
-                  <Icon as={isOpen ? FiChevronRight : FiChevronDown} />
-                </InputRightElement>
-              </InputGroup>
-              <AutoCompleteList>
-                {contactArray.map((element, cid) => (
-                  <AutoCompleteItem
-                    key={`option-${cid}`}
-                    value={element.fullName} // Render the fullName property
-                    textTransform='capitalize'
-                  >
-                    {element.fullName}
-                  </AutoCompleteItem>
-                ))}
-              </AutoCompleteList>
-            </>
-          )}
-        </AutoComplete>
       </FormControl>
     </Flex>
   );
