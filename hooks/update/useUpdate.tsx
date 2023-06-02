@@ -1,110 +1,202 @@
-import { Commitment } from '@/models/commitment';
-import { ContactResponse, Contact } from '@/models/contactResponse';
-import { DepartmentResponse, Department } from '@/models/departmentResponse';
 import {
-  ReceivingInstitutionInfoForm,
-  SendingInstitutionInfoForm,
+    ReceivingInstitutionInfoForm,
+    SendingInstitutionInfoForm,
 } from '@/models/institutionInfoFormResponse';
-import {
-  InstitutionInfo,
-  InstitutionInfoResponse,
-} from '@/models/institutionInfoResponse';
+
 import { organizationRequestToIIA } from '@/models/organizationRequestToIIA';
 
-const useAgreement = () => {
-  const makeRequest = async <T,>(request: string): Promise<T> => {
-    let response = await fetch(request, {
-      method: 'POST',
-      headers: {
-        Accept: 'text/plain',
-      },
-    });
+const useUpdate = () => {
+    const makeRequest = async <T,>(request: string): Promise<T> => {
+        let response = await fetch(request, {
+            method: 'POST',
+            headers: {
+                Accept: 'text/plain',
+            },
+        });
 
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
+        if (!response.ok) {
+            throw new Error(`Error! status: ${response.status}`);
+        }
 
-    return response.json() as Promise<T>;
-  };
+        return response.json() as Promise<T>;
+    };
+    //https://localhost:5001/spInsertEmptyRowToBilateralAgreement?bilateralAgreement_id=1
+    const InsertEmptyRowToBilateralAgreement = async (request: string
+    ): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertEmptyRowToCollaborationCondition?collaborationCondition_id=1
+    const InsertEmptyRowToCollaborationCondition = async (request: string
+    ): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertEmptyRowToCommitment?commitment_id=1
+    const InsertEmptyRowToCommitment = async (request: string): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertEmptyRowToLearningAgreement?learningAgreement_id=1
+    const InsertEmptyRowToLearningAgreement = async (request: string): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=1
+    const InsertEmptyRowToOrganizationInfo = async (request: string): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertEmptyRowToProposedMobilityProgramme?pmp_id=1
+    const InsertEmptyRowToProposedMobilityProgramme = async (request: string): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertEmptyRowToReceivingInstitutionInfo?receivingInstitutionInfo_id=1
+    const InsertEmptyRowToReceivingInstitutionInfo = async (request: string): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertEmptyRowToSendingInstitutionInfo?sendingInstitutioInfo_id=1
+    const InsertEmptyRowToSendingInstitutionInfo = async (request: string): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertEmptyRowToStudentInfo?studentInfo_id=1&mobilityType_id=1
+    const InsertEmptyRowToStudentInfo = async (request: string): Promise<string> => {
+
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+    //https://localhost:5001/spInsertEmptyRowToVirtualComponent?virtualComponent_id=1
+    const InsertEmptyRowToVirtualComponent = async (request: string): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+        return result;
+    };
+
+    //https://localhost:5001/spInsertLASelectedCourse
+    const InsertLASelectedCourse = async (request: SendingInstitutionInfoForm
+    ): Promise<number> => {
+        const {
+            sendingInstitutionInfo_id,
+            hei_id,
+            universityDepartment_id,
+            academicPersonnelName,
+            academicPersonnelSurname,
+            academicPersonnelEmail,
+            administrativePersonnelName,
+            administrativePersonnelSurname,
+            administrativePersonnelEmail,
+            phoneNumberE164,
+            phoneNumberExt,
+        } = request;
+
+        const url = `https://localhost:5001/spAddSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&administrativePersonnelName=${administrativePersonnelName}&administrativePersonnelSurname=${administrativePersonnelSurname}&administrativePersonnelEmail=${administrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+
+        const result: number = await makeRequest<number>(url);
+
+        console.log('result sendingInstitutionInfo_id:', result);
+        return result;
+    };
 
     //https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=1
+    const UpdateDateOfBilateralAgreement = async (
+        request: string
+    ): Promise<string> => {
 
-  const UpdateDateOfBilateralAgreement = async (
-    request: string
-  ): Promise<string> => {
-    const IIACode: string = await makeRequest<string>(request);
+        const result: string = await makeRequest<string>(request);
 
-    console.log('result IIACode: ', IIACode);
-    return IIACode;
-  };
+        console.log('result IIACode: ', result);
+        return result;
+    };
 
-  //https://localhost:5001/spAddOrganizationInfoToBilateralAgreement?organizationInfo_id=1&bilateralAgreement_id=2&isPartner=0'
-  const AddOrganizationInfoToBilateralAgreement = async (
-    request: organizationRequestToIIA
-  ): Promise<number> => {
-    const { organizationInfoId, isPartner, bilateralAgreementId } = request;
+    //https://localhost:5001/spAddOrganizationInfoToBilateralAgreement?organizationInfo_id=1&bilateralAgreement_id=2&isPartner=0'
+    const AddOrganizationInfoToBilateralAgreement = async (
+        request: organizationRequestToIIA
+    ): Promise<number> => {
+        const { organizationInfoId, isPartner, bilateralAgreementId } = request;
 
-    const url = `https://localhost:5001/spAddOrganizationInfoToBilateralAgreement?organizationInfo_id=${organizationInfoId}&bilateralAgreement_id=${bilateralAgreementId}&isPartner=${isPartner}`;
+        const url = `https://localhost:5001/spAddOrganizationInfoToBilateralAgreement?organizationInfo_id=${organizationInfoId}&bilateralAgreement_id=${bilateralAgreementId}&isPartner=${isPartner}`;
 
-    const result: number = await makeRequest<number>(url);
+        const result: number = await makeRequest<number>(url);
 
-    console.log('result bilateralAgreementID:', result);
-    return result;
-  };
+        console.log('result bilateralAgreementID:', result);
+        return result;
+    };
 
-  const AddReceivingInstitutionInfo = async (
-    request: ReceivingInstitutionInfoForm
-  ): Promise<number> => {
-    const {
-      receivingInstitutionInfo_id,
-      university_id,
-      universityDepartment_id,
-      academicYear_id,
-      academicPersonnelName,
-      academicPersonnelSurname,
-      academicPersonnelEmail,
-      phoneNumberE164,
-      phoneNumberExt,
-    } = request;
+    const AddReceivingInstitutionInfo = async (
+        request: ReceivingInstitutionInfoForm
+    ): Promise<number> => {
+        const {
+            receivingInstitutionInfo_id,
+            university_id,
+            universityDepartment_id,
+            academicYear_id,
+            academicPersonnelName,
+            academicPersonnelSurname,
+            academicPersonnelEmail,
+            phoneNumberE164,
+            phoneNumberExt,
+        } = request;
 
-    const url = `https://localhost:5001/spAddReceivingInstitutionInfo?receivingInstitutionInfo_id=${receivingInstitutionInfo_id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&academicYear_id=${academicYear_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+        const url = `https://localhost:5001/spAddReceivingInstitutionInfo?receivingInstitutionInfo_id=${receivingInstitutionInfo_id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&academicYear_id=${academicYear_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
 
-    const result: number = await makeRequest<number>(url);
+        const result: number = await makeRequest<number>(url);
 
-    console.log('result receivingInstitutionInfo_id:', result);
-    return result;
-  };
+        console.log('result receivingInstitutionInfo_id:', result);
+        return result;
+    };
 
-  const AddSendingInstitutionInfo = async (
-    request: SendingInstitutionInfoForm
-  ): Promise<number> => {
-    const {
-      sendingInstitutionInfo_id,
-      hei_id,
-      universityDepartment_id,
-      academicPersonnelName,
-      academicPersonnelSurname,
-      academicPersonnelEmail,
-      administrativePersonnelName,
-      administrativePersonnelSurname,
-      administrativePersonnelEmail,
-      phoneNumberE164,
-      phoneNumberExt,
-    } = request;
+    const AddSendingInstitutionInfo = async (
+        request: SendingInstitutionInfoForm
+    ): Promise<number> => {
+        const {
+            sendingInstitutionInfo_id,
+            hei_id,
+            universityDepartment_id,
+            academicPersonnelName,
+            academicPersonnelSurname,
+            academicPersonnelEmail,
+            administrativePersonnelName,
+            administrativePersonnelSurname,
+            administrativePersonnelEmail,
+            phoneNumberE164,
+            phoneNumberExt,
+        } = request;
 
-    const url = `https://localhost:5001/spAddSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&administrativePersonnelName=${administrativePersonnelName}&administrativePersonnelSurname=${administrativePersonnelSurname}&administrativePersonnelEmail=${administrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
-    const result: number = await makeRequest<number>(url);
+        const url = `https://localhost:5001/spAddSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&administrativePersonnelName=${administrativePersonnelName}&administrativePersonnelSurname=${administrativePersonnelSurname}&administrativePersonnelEmail=${administrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+        const result: number = await makeRequest<number>(url);
 
-    console.log('result sendingInstitutionInfo_id:', result);
-    return result;
-  };
+        console.log('result sendingInstitutionInfo_id:', result);
+        return result;
+    };
 
-  return {
-    AddOrganizationInfoToBilateralAgreement,
-    UpdateDateOfBilateralAgreement,
-    AddSendingInstitutionInfo,
-    AddReceivingInstitutionInfo,
-  };
+    return {
+        AddOrganizationInfoToBilateralAgreement,
+        UpdateDateOfBilateralAgreement,
+        AddSendingInstitutionInfo,
+        AddReceivingInstitutionInfo,
+        InsertLASelectedCourse,
+        InsertEmptyRowToVirtualComponent,
+        InsertEmptyRowToStudentInfo,
+        InsertEmptyRowToSendingInstitutionInfo,
+        InsertEmptyRowToReceivingInstitutionInfo,
+        InsertEmptyRowToOrganizationInfo,
+        InsertEmptyRowToBilateralAgreement,
+        InsertEmptyRowToProposedMobilityProgramme,
+        InsertEmptyRowToCollaborationCondition,
+        InsertEmptyRowToCommitment,
+        InsertEmptyRowToLearningAgreement,
+
+    };
 };
 
-export default useAgreement;
+export default useUpdate;
