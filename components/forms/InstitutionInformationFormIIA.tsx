@@ -15,8 +15,8 @@ import React, { useEffect, useState } from 'react';
 import SelectContact from '../form-components/selectboxes/SelectContact';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
-import useAgreement from '@/hooks/useAgreements';
-const { GenerateIIACode, GenerateIIAID } = useAgreement();
+import useCreate from '@/hooks/create/useCreate';
+const { GenerateIIACode, GenerateIIAID } = useCreate();
 
 type InstitutionInformationFormProps = {
   pageName: string;
