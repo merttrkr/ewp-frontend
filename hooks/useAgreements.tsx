@@ -12,20 +12,25 @@ import {
 import { organizationRequestToIIA } from '@/models/organizationRequestToIIA';
 
 const useAgreement = () => {
-  const GetContactInfoByHeiID = async (
-    request: string
-  ): Promise<ContactResponse> => {
+  const makeRequest = async <T,>(request: string): Promise<T> => {
     let response = await fetch(request, {
       method: 'POST',
       headers: {
-        Accept: 'text/plain',
+        Accept: 'application/json',
       },
     });
 
     if (!response.ok) {
       throw new Error(`Error! status: ${response.status}`);
     }
-    const fetchedContacts: Contact[] = await response.json();
+
+    return response.json() as Promise<T>;
+  };
+
+  const GetContactInfoByHeiID = async (
+    request: string
+  ): Promise<ContactResponse> => {
+    const fetchedContacts: Contact[] = await makeRequest<Contact[]>(request);
     const contactList: ContactResponse = { contacts: fetchedContacts };
 
     return contactList;
@@ -35,17 +40,9 @@ const useAgreement = () => {
   const GetAllUniversitiesInfo = async (
     request: string
   ): Promise<InstitutionInfoResponse> => {
-    let response = await fetch(request, {
-      method: 'POST',
-      headers: {
-        Accept: 'text/plain',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-    const fetchedInstitutionInfos: InstitutionInfo[] = await response.json();
+    const fetchedInstitutionInfos: InstitutionInfo[] = await makeRequest<
+      InstitutionInfo[]
+    >(request);
     const InstitutionInfoList: InstitutionInfoResponse = {
       institutionInfos: fetchedInstitutionInfos,
     };
@@ -57,17 +54,9 @@ const useAgreement = () => {
   const GetDepartmentsByHeiID = async (
     request: string
   ): Promise<DepartmentResponse> => {
-    let response = await fetch(request, {
-      method: 'POST',
-      headers: {
-        Accept: 'text/plain',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-    const fetchedDepartments: Department[] = await response.json();
+    const fetchedDepartments: Department[] = await makeRequest<Department[]>(
+      request
+    );
     const departmentList: DepartmentResponse = {
       departments: fetchedDepartments,
     };
@@ -77,36 +66,13 @@ const useAgreement = () => {
   //https://localhost:5001/spGenerateBilateralAgreementId
   const GenerateBilateralAgreementID = async (
     request: string
-  ): Promise<Number> => {
-    let response = await fetch(request, {
-      method: 'POST',
-      headers: {
-        Accept: 'text/plain',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-    const bilateralAgreementID: number = await response.json();
-
-    console.log('result bilateralAgreementID: ', bilateralAgreementID);
-    return bilateralAgreementID;
+  ): Promise<number> => {
+    return makeRequest<number>(request);
   };
 
   //https://localhost:5001/spGenerateIIAId
   const GenerateIIAID = async (request: string): Promise<string> => {
-    let response = await fetch(request, {
-      method: 'POST',
-      headers: {
-        Accept: 'text/plain',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-    const IIAID: string = await response.text();
+    const IIAID: string = await makeRequest<string>(request);
 
     console.log('result IIA-ID: ', IIAID);
     return IIAID;
@@ -114,17 +80,7 @@ const useAgreement = () => {
 
   //https://localhost:5001/spGenerateIIACode
   const GenerateIIACode = async (request: string): Promise<string> => {
-    let response = await fetch(request, {
-      method: 'POST',
-      headers: {
-        Accept: 'text/plain',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-    const IIACode: string = await response.text();
+    const IIACode: string = await makeRequest<string>(request);
 
     console.log('result IIACode: ', IIACode);
     return IIACode;
@@ -132,24 +88,15 @@ const useAgreement = () => {
 
   //https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=1
 
-  const UpdateDateOfBilateralAgremeent = async (
+  const UpdateDateOfBilateralAgreement = async (
     request: string
-  ): Promise<String> => {
-    let response = await fetch(request, {
-      method: 'POST',
-      headers: {
-        Accept: 'text/plain',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-    const IIACode: String = await response.json();
+  ): Promise<string> => {
+    const IIACode: string = await makeRequest<string>(request);
 
     console.log('result IIACode: ', IIACode);
     return IIACode;
   };
+
   //https://localhost:5001/spAddOrganizationInfoToBilateralAgreement?organizationInfo_id=1&bilateralAgreement_id=2&isPartner=0'
   const AddOrganizationInfoToBilateralAgreement = async (
     request: organizationRequestToIIA
@@ -158,22 +105,12 @@ const useAgreement = () => {
 
     const url = `https://localhost:5001/spAddOrganizationInfoToBilateralAgreement?organizationInfo_id=${organizationInfoId}&bilateralAgreement_id=${bilateralAgreementId}&isPartner=${isPartner}`;
 
-    let response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-
-    const result: number = await response.json();
+    const result: number = await makeRequest<number>(url);
 
     console.log('result bilateralAgreementID:', result);
     return result;
   };
+
   const AddReceivingInstitutionInfo = async (
     request: ReceivingInstitutionInfoForm
   ): Promise<number> => {
@@ -191,22 +128,12 @@ const useAgreement = () => {
 
     const url = `https://localhost:5001/spAddReceivingInstitutionInfo?receivingInstitutionInfo_id=${receivingInstitutionInfo_id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&academicYear_id=${academicYear_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
 
-    let response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-
-    const result: number = await response.json();
+    const result: number = await makeRequest<number>(url);
 
     console.log('result receivingInstitutionInfo_id:', result);
     return result;
   };
+
   const AddSendingInstitutionInfo = async (
     request: SendingInstitutionInfoForm
   ): Promise<number> => {
@@ -225,19 +152,7 @@ const useAgreement = () => {
     } = request;
 
     const url = `https://localhost:5001/spAddSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&administrativePersonnelName=${administrativePersonnelName}&administrativePersonnelSurname=${administrativePersonnelSurname}&administrativePersonnelEmail=${administrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
-
-    let response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-
-    const result: number = await response.json();
+    const result: number = await makeRequest<number>(url);
 
     console.log('result sendingInstitutionInfo_id:', result);
     return result;
@@ -251,7 +166,7 @@ const useAgreement = () => {
     GenerateIIAID,
     GenerateIIACode,
     AddOrganizationInfoToBilateralAgreement,
-    UpdateDateOfBilateralAgremeent,
+    UpdateDateOfBilateralAgreement,
     AddSendingInstitutionInfo,
     AddReceivingInstitutionInfo,
   };
