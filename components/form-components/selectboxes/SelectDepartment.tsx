@@ -17,8 +17,8 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { Department } from '@/models/departmentResponse';
-import useAgreement from '@/hooks/useAgreements';
-const { GetDepartmentsByHeiID } = useAgreement();
+import useRead from '@/hooks/read/useRead';
+const { GetDepartmentsByHeiID } = useRead();
 
 type SelectDepartmentProps = {
   selectLabel: String;
