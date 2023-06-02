@@ -17,8 +17,8 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { InstitutionInfo } from '@/models/institutionInfoResponse';
-import useAgreement from '@/hooks/useAgreements';
-const { GetAllUniversitiesInfo } = useAgreement();
+import useRead from '@/hooks/read/useRead';
+const { GetAllUniversitiesInfo } = useRead();
 
 type SelectContactProps = {
   selectLabel: String;
