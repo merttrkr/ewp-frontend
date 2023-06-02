@@ -14,7 +14,7 @@ const useCreate = () => {
             throw new Error(`Error! status: ${response.status}`);
         }
 
-        return response.json() as Promise<T>;
+        return response.text() as Promise<T>;
     };
 
     //https://localhost:5001/spGenerateBilateralAgreementId
