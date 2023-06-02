@@ -19,10 +19,10 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { useForm, useFormContext } from 'react-hook-form';
-import useAgreement from '@/hooks/useAgreements';
+import useRead from '@/hooks/read/useRead';
 import { Contact, ContactResponse } from '@/models/contactResponse';
 
-const { GetContactInfoByHeiID } = useAgreement();
+const { GetContactInfoByHeiID } = useRead();
 
 type SelectAutoCompleteProps = {
   selectLabel: String;
