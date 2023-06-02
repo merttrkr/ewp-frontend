@@ -2,6 +2,7 @@ import {
     ReceivingInstitutionInfoForm,
     SendingInstitutionInfoForm,
 } from '@/models/institutionInfoFormResponse';
+import { OrganizationInfoFormRequest } from '@/models/organizationInfoFormRequest';
 
 import { organizationRequestToIIA } from '@/models/organizationRequestToIIA';
 
@@ -179,12 +180,36 @@ const useUpdate = () => {
         return result;
     };
 
+    //https://localhost:5001/spSaveOrganizationInfo?id=${id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&signingDate=${signingDate}&isPartner=${isPartner}&IIACode=${IIACode}&IIAId=${IIAId}&bilateralAgreement_id=${bilateralAgreement_id}
+    const saveOrganizationInfo = async (request: OrganizationInfoFormRequest): Promise<number> => {
+        const {
+            id,
+            university_id,
+            universityDepartment_id,
+            signingDate,
+            isPartner,
+            IIACode,
+            IIAId,
+            bilateralAgreement_id,
+        } = request;
+
+        const url = `https://localhost:5001/spSaveOrganizationInfo?id=${id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&signingDate=${signingDate}&isPartner=${isPartner}&IIACode=${IIACode}&IIAId=${IIAId}&bilateralAgreement_id=${bilateralAgreement_id}`;
+
+        const result: number = await makeRequest<number>(url);
+
+        console.log('result organizationInfoId:', result);
+        return result;
+    };
+    
     return {
-        AddOrganizationInfoToBilateralAgreement,
         UpdateDateOfBilateralAgreement,
+        saveOrganizationInfo,
         AddSendingInstitutionInfo,
         AddReceivingInstitutionInfo,
+        AddOrganizationInfoToBilateralAgreement,
+
         InsertLASelectedCourse,
+
         InsertEmptyRowToVirtualComponent,
         InsertEmptyRowToStudentInfo,
         InsertEmptyRowToSendingInstitutionInfo,

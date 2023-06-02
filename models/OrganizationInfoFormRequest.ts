@@ -1,4 +1,4 @@
-export interface OrganizationInfo {
+export interface OrganizationInfoFormRequest {
     id: number;
     university_id: number;
     universityDepartment_id: number;
