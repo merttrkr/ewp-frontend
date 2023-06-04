@@ -32,17 +32,18 @@ const Select: React.FC<SelectContactProps> = ({
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      const data = await (
-        await GetContactInfoByHeiID(
+      console.log('fetchInitialData');
+      
+      const data =
+        (await GetContactInfoByHeiID(
           'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr'
-        )
-      ).contacts;
+        )).contacts;
       if (data) {
         setContactArray(data);
       }
     };
-    fetchInitialData();
-  }, [GetContactInfoByHeiID]); // Include GetContactInfoByHeiID in the dependency array
+      fetchInitialData();
+  }, []); // Include GetContactInfoByHeiID in the dependency array
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (

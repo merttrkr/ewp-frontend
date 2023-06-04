@@ -49,7 +49,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
       }
     };
     fetchInitialData();
-  }, [GetAllUniversitiesInfo]);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

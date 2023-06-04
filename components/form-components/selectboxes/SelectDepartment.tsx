@@ -44,7 +44,7 @@ const Select: React.FC<SelectDepartmentProps> = ({
       }
     };
     fetchInitialData();
-  }, [GetDepartmentsByHeiID]);
+  }, []);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
