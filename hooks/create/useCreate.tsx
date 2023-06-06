@@ -1,52 +1,75 @@
-
+import { IdForBothResponse } from '@/models/idForBothResponse';
 
 const useCreate = () => {
+  const makeRequestString = async <T,>(request: string): Promise<T> => {
+    let response = await fetch(request, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/plain',
+      },
+    });
 
-    const makeRequest = async <T,>(request: string): Promise<T> => {
-        let response = await fetch(request, {
-            method: 'POST',
-            headers: {
-                Accept: 'text/plain',
-            },
-        });
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
 
-        if (!response.ok) {
-            throw new Error(`Error! status: ${response.status}`);
-        }
+    return response.text() as Promise<T>;
+  };
 
-        return response.text() as Promise<T>;
-    };
+  const makeRequestJSON = async <T,>(request: string): Promise<T> => {
+    let response = await fetch(request, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/plain',
+      },
+    });
 
-    //https://localhost:5001/spGenerateBilateralAgreementId
-    const GenerateBilateralAgreementID = async (
-        request: string
-    ): Promise<number> => {
-        return makeRequest<number>(request);
-    };
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
 
-    //https://localhost:5001/spGenerateIIAId
-    const GenerateIIAID = async (request: string): Promise<string> => {
-        const IIAID: string = await makeRequest<string>(request);
+    return response.json() as Promise<T>;
+  };
 
-        console.log('result IIA-ID: ', IIAID);
-        return IIAID;
-    };
+  //https://localhost:5001/spGenerateBilateralAgreementId
+  const GenerateBilateralAgreementID = async (
+    request: string
+  ): Promise<number> => {
+    return makeRequestString<number>(request);
+  };
 
-    //https://localhost:5001/spGenerateIIACode
-    const GenerateIIACode = async (request: string): Promise<string> => {
-        const IIACode: string = await makeRequest<string>(request);
+  //https://localhost:5001/spGenerateIIAId
+  const GenerateIIAID = async (request: string): Promise<string> => {
+    const IIAID: string = await makeRequestString<string>(request);
 
-        console.log('result IIACode: ', IIACode);
-        return IIACode;
-    };
+    console.log('result IIA-ID: ', IIAID);
+    return IIAID;
+  };
 
+  //https://localhost:5001/spGenerateIIACode
+  const GenerateIIACode = async (request: string): Promise<string> => {
+    const IIACode: string = await makeRequestString<string>(request);
 
-    return {
-        GenerateBilateralAgreementID,
-        GenerateIIAID,
-        GenerateIIACode,
+    console.log('result IIACode: ', IIACode);
+    return IIACode;
+  };
 
-    };
+  //https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization
+  const GenerateIdsForBothOrganizationAndPartnerOrganization = async (
+    request: string
+  ): Promise<IdForBothResponse> => {
+    const idForBoth: IdForBothResponse =
+      await makeRequestJSON<IdForBothResponse>(request);
+    console.log('IdForBothResponse ', idForBoth);
+    return idForBoth;
+  };
+
+  return {
+    GenerateBilateralAgreementID,
+    GenerateIIAID,
+    GenerateIIACode,
+    GenerateIdsForBothOrganizationAndPartnerOrganization,
+  };
 };
 
 export default useCreate;

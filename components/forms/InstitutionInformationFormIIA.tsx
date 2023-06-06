@@ -35,7 +35,11 @@ export default function InstitutionInformationForm({
   pageName,
   subText,
 }: InstitutionInformationFormProps) {
-  const { GenerateIIACode, GenerateIIAID } = useCreate();
+  const {
+    GenerateIIACode,
+    GenerateIIAID,
+    GenerateIdsForBothOrganizationAndPartnerOrganization,
+  } = useCreate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -72,6 +76,22 @@ export default function InstitutionInformationForm({
       if (data) {
         setIIAID(data); // Update the state with the fetched data
       }
+    };
+    fetchInitialData();
+    //deneme
+    handleIDForBoth();
+  }
+
+  function handleIDForBoth() {
+    const fetchInitialData = async () => {
+      const data =
+        await await GenerateIdsForBothOrganizationAndPartnerOrganization(
+          'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization'
+        ); // Call the fetchData function
+      console.log(
+        'GenerateIdsForBothOrganizationAndPartnerOrganization:',
+        data
+      );
     };
     fetchInitialData();
   }
