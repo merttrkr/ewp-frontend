@@ -16,6 +16,7 @@ import SelectContact from '../form-components/selectboxes/SelectContact';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 import useCreate from '@/hooks/create/useCreate';
+import useUpdate from '@/hooks/update/useUpdate';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -42,6 +43,8 @@ export default function InstitutionInformationForm({
     GenerateIdsForBothOrganizationAndPartnerOrganization,
     GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
   } = useCreate();
+
+  const { InsertEmptyRowToBilateralAgreement } = useUpdate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -119,8 +122,19 @@ export default function InstitutionInformationForm({
         'https://localhost:5001/spGenerateBilateralAgreementId'
       );
       console.log('GenerateBilateralAgreementID:', data);
+      //handleInsertEmptyRowToBilateralAgreement(data);
     };
     fetchBilateralAgreementID();
+  }
+
+  function handleInsertEmptyRowToBilateralAgreement(id: number) {
+    const insertEmptyRowToBilateralAgreement = async () => {
+      await InsertEmptyRowToBilateralAgreement(
+        'https://localhost:5001/spInsertEmptyRowToBilateralAgreement?bilateralAgreement_id=' +
+          id
+      );
+    };
+    insertEmptyRowToBilateralAgreement();
   }
 
   function onSubmit(values: FormData) {

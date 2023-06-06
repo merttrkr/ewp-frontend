@@ -1,4 +1,4 @@
-export interface organizationRequestToIIA {
+export interface OrganizationRequestToIIA {
     organizationInfoId: number;
     isPartner: string;
     bilateralAgreementId: number;
