@@ -15,6 +15,7 @@ type SelectDepartmentProps = {
   id?: string;
   register: any;
   onChange: (value: string) => void; // New prop for handling value change
+  param: string;
 };
 
 const Select: React.FC<SelectDepartmentProps> = ({
@@ -24,18 +25,21 @@ const Select: React.FC<SelectDepartmentProps> = ({
   placeHolder,
   register,
   onChange, // Add the new onChange prop
+  param,
 }) => {
   const { GetDepartmentsByHeiID } = useRead();
   const [departmentArray, setDepartmentArray] = useState([] as Department[]);
   const theme = createTheme({
     // your theme configuration
   });
+  console.log('param: ', param);
 
   useEffect(() => {
     const fetchInitialData = async () => {
       const data = await (
         await GetDepartmentsByHeiID(
-          'https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=iyte.edu.tr'
+          'https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=' +
+            param
         )
       ).departments; // Call the fetchData function
       console.log('departments hok içi:', data);
@@ -43,8 +47,11 @@ const Select: React.FC<SelectDepartmentProps> = ({
         setDepartmentArray(data); // Update the state with the fetched data
       }
     };
-    fetchInitialData();
-  }, []);
+    if (param) {
+      onChange('');
+      fetchInitialData();
+    }
+  }, [param]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (

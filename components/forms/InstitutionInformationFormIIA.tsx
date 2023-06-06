@@ -266,6 +266,7 @@ export default function InstitutionInformationForm({
               placeHolder='placeholder...'
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
+              param={institution}
             />
             <TextInput2
               isDisabled
