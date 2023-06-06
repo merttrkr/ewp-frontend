@@ -17,6 +17,7 @@ import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 import useCreate from '@/hooks/create/useCreate';
 import useUpdate from '@/hooks/update/useUpdate';
+import { IdForBothResponse } from '@/models/idForBothResponse';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -44,7 +45,10 @@ export default function InstitutionInformationForm({
     GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
   } = useCreate();
 
-  const { InsertEmptyRowToBilateralAgreement } = useUpdate();
+  const {
+    InsertEmptyRowToOrganizationInfo,
+    InsertEmptyRowToBilateralAgreement,
+  } = useUpdate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -98,6 +102,10 @@ export default function InstitutionInformationForm({
         'GenerateIdsForBothOrganizationAndPartnerOrganization:',
         data
       );
+      handleInsertEmptyRowToBilateralAgreement(data.newOrganizationInfoId);
+      handleInsertEmptyRowToBilateralAgreement(
+        data.newPartnerOrganizationInfoId
+      );
     };
     fetchInitialData();
   }
@@ -137,6 +145,16 @@ export default function InstitutionInformationForm({
     insertEmptyRowToBilateralAgreement();
   }
 
+  function handleInsertEmptyRowToOrganizationInfo(id: number) {
+    const insertEmptyRowToOrganizationInfo = async () => {
+      await InsertEmptyRowToOrganizationInfo(
+        '  //https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=' +
+          id
+      );
+    };
+    insertEmptyRowToOrganizationInfo();
+  }
+
   function onSubmit(values: FormData) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
@@ -149,6 +167,9 @@ export default function InstitutionInformationForm({
   }
   const handleSelectChangeContact = (value: string) => {
     setValue('contact_persons', value);
+  };
+  const handleAuthorizedSignerSelectChangeContact = (value: string) => {
+    setValue('authorized_signotary', value);
   };
   const handleSelectChangeDepartment = (value: string) => {
     setValue('departmant_name', value);
@@ -202,25 +223,21 @@ export default function InstitutionInformationForm({
               error={errors.IIA_Code?.message}
               register={register('IIA_Code')}
             />
-            <TextInput2
-              placeholder=''
+            <SelectContact
+              placeHolder='placeholder...'
               id='authorized_signotary'
-              label='Anlaşmayı İmzalayacak Yetkili'
-              error={errors.authorized_signotary?.message}
+              selectLabel='Anlaşmayı İmzalayacak Yetkili'
               register={register('authorized_signotary', {
                 required: 'This is required',
-                minLength: {
-                  value: 4,
-                  message: 'Minimum length should be 4',
-                },
               })}
+              onChange={handleAuthorizedSignerSelectChangeContact}
             />
             <SelectContact
               id='contact_persons'
               register={register('contact_persons', {
                 required: 'This is required',
               })}
-              placeHolder='...'
+              placeHolder='placeholder...'
               selectLabel='İletişim Kurulabilecek Yetkililer'
               onChange={handleSelectChangeContact}
             />
