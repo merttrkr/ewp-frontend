@@ -165,12 +165,9 @@ export default function InstitutionInformationForm({
   }
 
   function onSubmit(values: FormData) {
+    console.log('submitted');
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        setValue('hei_id', institution);
-        setValue('contact_persons', contactPerson);
-        setValue('authorized_signotary', authorizedSignotary);
-        setValue('departmant_name', department);
         values.IIA_ID = IIAID;
         values.IIA_Code = IIACode;
         alert(JSON.stringify(values, null));
@@ -179,15 +176,19 @@ export default function InstitutionInformationForm({
     });
   }
   const handleSelectChangeContact = (value: string) => {
+    setValue('contact_persons', value);
     setContactPerson(value);
   };
   const handleAuthorizedSignerSelectChangeContact = (value: string) => {
+    setValue('authorized_signotary', value);
     setAuthorizedSignotary(value);
   };
   const handleSelectChangeDepartment = (value: string) => {
+    setValue('departmant_name', value);
     setDepartment(value);
   };
   const handleSelectChangeInstitution = (value: string) => {
+    setValue('hei_id', value);
     setInstitution(value);
   };
   return (
@@ -227,6 +228,7 @@ export default function InstitutionInformationForm({
               placeHolder='placeholder..'
               selectLabel='Kurum / Üniversite Adı'
               onChange={handleSelectChangeInstitution}
+              error={errors.hei_id?.message}
             />
             <TextInput2
               isDisabled
@@ -240,6 +242,7 @@ export default function InstitutionInformationForm({
               placeholder='placeholder...'
               id='authorized_signotary'
               selectLabel='Anlaşmayı İmzalayacak Yetkili'
+              error={errors.authorized_signotary?.message}
               register={register('authorized_signotary', {
                 required: 'This is required',
               })}
@@ -248,6 +251,7 @@ export default function InstitutionInformationForm({
             />
             <SelectContact
               id='contact_persons'
+              error={errors.contact_persons?.message}
               register={register('contact_persons', {
                 required: 'This is required',
               })}
@@ -267,6 +271,7 @@ export default function InstitutionInformationForm({
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
               param={institution}
+              error={errors.departmant_name?.message}
             />
             <TextInput2
               isDisabled

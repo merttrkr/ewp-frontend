@@ -15,6 +15,7 @@ type SelectInstitutionProps = {
   id?: string;
   register: any;
   onChange: (value: string) => void; // New prop for handling value change
+  error: string | undefined;
 };
 
 const Select: React.FC<SelectInstitutionProps> = ({
@@ -24,6 +25,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
   placeHolder,
   register,
   onChange, // Add the new onChange prop
+  error,
 }) => {
   const theme = createTheme({
     // your theme configuration
@@ -82,6 +84,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
               />
             )}
           />
+          {error && <span style={{ color: 'red' }}>{error}</span>}
         </FormControl>
       }
     </ThemeProvider>

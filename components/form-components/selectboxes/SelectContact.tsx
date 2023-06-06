@@ -6,6 +6,7 @@ import useRead from '@/hooks/read/useRead';
 import { Contact } from '@/models/contactResponse';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { convertToObject } from 'typescript';
 
 type SelectContactProps = {
   selectLabel: string;
@@ -15,6 +16,7 @@ type SelectContactProps = {
   register: any;
   onChange: (value: string) => void; // New prop for handling value change
   param: string;
+  error: string | undefined;
 };
 
 const Select: React.FC<SelectContactProps> = ({
@@ -23,6 +25,7 @@ const Select: React.FC<SelectContactProps> = ({
   id = 'default-select',
   placeholder,
   register,
+  error,
   onChange, // Add the new onChange prop
   param,
 }) => {
@@ -31,18 +34,19 @@ const Select: React.FC<SelectContactProps> = ({
   const theme = createTheme({
     // your theme configuration
   });
-
+  console.log('param contact: ', param);
   useEffect(() => {
     const fetchInitialData = async () => {
-      console.log('fetchInitialData');
-
-      const data = (
-        await GetContactInfoByHeiID(
-          'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=' + param
-        )
-      ).contacts;
+      const result = await GetContactInfoByHeiID(
+        'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=' + param
+      );
+      if (!result) {
+        console.log('no data');
+      }
+      const data = await (result ? result.contacts : []); // Call the fetchData function
       if (data) {
-        setContactArray(data);
+        console.log('contact data: ', data);
+        setContactArray(data); // Update the state with the fetched data
       }
     };
     if (param != '') {
@@ -80,6 +84,7 @@ const Select: React.FC<SelectContactProps> = ({
               />
             )}
           />
+          {error && <span style={{ color: 'red' }}>{error}</span>}
         </FormControl>
       }
     </ThemeProvider>
