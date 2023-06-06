@@ -36,3 +36,26 @@
 
             return results;
         }
+
+
+
+        [Swashbuckle.Swagger.Annotations.SwaggerOperation(operationId: "spInsertEmptyRowToBilateralAgreement")]
+        [AllowAnonymous, HttpPost, Route("spInsertEmptyRowToBilateralAgreement")]
+        public async void spInsertEmptyRowToBilateralAgreement(int bilateralAgreement_id)
+        {
+            await ErrorHandlingWrapper.ExecuteAsync(async () =>
+            {
+                using (SqlConnection sqlCon = new SqlConnection(CONNECTION_STRING))
+                {
+                    await sqlCon.OpenAsync();
+
+                    using (SqlCommand sqlCmd = new SqlCommand("spInsertEmptyRowToBilateralAgreement", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.Parameters.AddWithValue("@bilateralAgreement_id", bilateralAgreement_id);
+                        sqlCmd.ExecuteNonQuery();
+                    }
+                }
+            });
+
+        }
