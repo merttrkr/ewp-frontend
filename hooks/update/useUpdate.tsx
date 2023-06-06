@@ -259,8 +259,18 @@ const useUpdate = () => {
         console.log('result IIACode: ', result);
         return result;
       };
-
+    //https://localhost:5001/spSetCreatorOfBilateralAgreement?bilateralAgreement_id=21
+    const SetCreatorOfBilateralAgreement = async (
+      request: string ): Promise<string> => {
+        const result: string = await makeRequest<string>(request);
+    
+        console.log('result IIACode: ', result);
+        return result;
+      };
   return {
+    SetCreatorOfBilateralAgreement,
+    AddOrganizationContactInfo,
+    SetSigningPerson,
     UpdateDateOfBilateralAgreement,
     saveOrganizationInfo,
     AddSendingInstitutionInfo,
