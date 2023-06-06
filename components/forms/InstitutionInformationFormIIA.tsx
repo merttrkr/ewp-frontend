@@ -54,6 +54,10 @@ export default function InstitutionInformationForm({
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+  const [institution, setInstitution] = useState('');
+  const [department, setDepartment] = useState('');
+  const [authorizedSignotary, setAuthorizedSignotary] = useState('');
+  const [contactPerson, setContactPerson] = useState('');
   const [IIACode, setIIACode] = useState('');
   const [IIAID, setIIAID] = useState('');
 
@@ -95,17 +99,17 @@ export default function InstitutionInformationForm({
 
   function handleIDForBoth() {
     const fetchInitialData = async () => {
-      const data = await GenerateIdsForBothOrganizationAndPartnerOrganization(
-        'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization'
-      ); // Call the fetchData function
+      const data: IdForBothResponse = (
+        await GenerateIdsForBothOrganizationAndPartnerOrganization(
+          'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization'
+        )
+      )[0]; // Call the fetchData function
       console.log(
-        'GenerateIdsForBothOrganizationAndPartnerOrganization:',
+        'GenerateIdsForBothOrganizationAndPartnerOrganization hereee:',
         data
       );
-      handleInsertEmptyRowToBilateralAgreement(data.newOrganizationInfoId);
-      handleInsertEmptyRowToBilateralAgreement(
-        data.newPartnerOrganizationInfoId
-      );
+      handleInsertEmptyRowToOrganizationInfo(data.newOrganizationInfoId);
+      handleInsertEmptyRowToOrganizationInfo(data.newPartnerOrganizationInfoId);
     };
     fetchInitialData();
   }
@@ -147,8 +151,13 @@ export default function InstitutionInformationForm({
 
   function handleInsertEmptyRowToOrganizationInfo(id: number) {
     const insertEmptyRowToOrganizationInfo = async () => {
+      console.log(
+        'url' +
+          'https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=' +
+          id
+      );
       await InsertEmptyRowToOrganizationInfo(
-        '  //https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=' +
+        'https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=' +
           id
       );
     };
@@ -158,6 +167,10 @@ export default function InstitutionInformationForm({
   function onSubmit(values: FormData) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
+        setValue('hei_id', institution);
+        setValue('contact_persons', contactPerson);
+        setValue('authorized_signotary', authorizedSignotary);
+        setValue('departmant_name', department);
         values.IIA_ID = IIAID;
         values.IIA_Code = IIACode;
         alert(JSON.stringify(values, null));
@@ -166,16 +179,16 @@ export default function InstitutionInformationForm({
     });
   }
   const handleSelectChangeContact = (value: string) => {
-    setValue('contact_persons', value);
+    setContactPerson(value);
   };
   const handleAuthorizedSignerSelectChangeContact = (value: string) => {
-    setValue('authorized_signotary', value);
+    setAuthorizedSignotary(value);
   };
   const handleSelectChangeDepartment = (value: string) => {
-    setValue('departmant_name', value);
+    setDepartment(value);
   };
   const handleSelectChangeInstitution = (value: string) => {
-    setValue('hei_id', value);
+    setInstitution(value);
   };
   return (
     <Stack
@@ -224,22 +237,24 @@ export default function InstitutionInformationForm({
               register={register('IIA_Code')}
             />
             <SelectContact
-              placeHolder='placeholder...'
+              placeholder='placeholder...'
               id='authorized_signotary'
               selectLabel='Anlaşmayı İmzalayacak Yetkili'
               register={register('authorized_signotary', {
                 required: 'This is required',
               })}
               onChange={handleAuthorizedSignerSelectChangeContact}
+              param={institution}
             />
             <SelectContact
               id='contact_persons'
               register={register('contact_persons', {
                 required: 'This is required',
               })}
-              placeHolder='placeholder...'
+              placeholder='placeholder...'
               selectLabel='İletişim Kurulabilecek Yetkililer'
               onChange={handleSelectChangeContact}
+              param={institution}
             />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>

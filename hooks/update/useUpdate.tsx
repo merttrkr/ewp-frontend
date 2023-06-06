@@ -20,11 +20,27 @@ const useUpdate = () => {
 
     return response.json() as Promise<T>;
   };
+
+  const makeRequestString = async <T,>(request: string): Promise<T> => {
+    let response = await fetch(request, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/plain',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+
+    return response.text() as Promise<T>;
+  };
   //https://localhost:5001/spInsertEmptyRowToBilateralAgreement?bilateralAgreement_id=1
   const InsertEmptyRowToBilateralAgreement = async (
     request: string
   ): Promise<string> => {
     const result: string = await makeRequest<string>(request);
+
     return result;
   };
 
@@ -56,7 +72,7 @@ const useUpdate = () => {
   const InsertEmptyRowToOrganizationInfo = async (
     request: string
   ): Promise<string> => {
-    const result: string = await makeRequest<string>(request);
+    const result: string = await makeRequestString<string>(request);
     return result;
   };
 

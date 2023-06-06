@@ -9,20 +9,22 @@ import TextField from '@mui/material/TextField';
 
 type SelectContactProps = {
   selectLabel: string;
-  placeHolder: string;
+  placeholder: string;
   isDisabled?: boolean;
   id?: string;
   register: any;
   onChange: (value: string) => void; // New prop for handling value change
+  param: string;
 };
 
 const Select: React.FC<SelectContactProps> = ({
   isDisabled = false,
   selectLabel,
   id = 'default-select',
-  placeHolder,
+  placeholder,
   register,
   onChange, // Add the new onChange prop
+  param,
 }) => {
   const { GetContactInfoByHeiID } = useRead();
   const [contactArray, setContactArray] = useState<Contact[]>([]);
@@ -33,16 +35,19 @@ const Select: React.FC<SelectContactProps> = ({
   useEffect(() => {
     const fetchInitialData = async () => {
       console.log('fetchInitialData');
-      
-      const data =
-        (await GetContactInfoByHeiID(
-          'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr'
-        )).contacts;
+
+      const data = (
+        await GetContactInfoByHeiID(
+          'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=' + param
+        )
+      ).contacts;
       if (data) {
         setContactArray(data);
       }
     };
+    if (param != '') {
       fetchInitialData();
+    }
   }, []); // Include GetContactInfoByHeiID in the dependency array
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
@@ -69,7 +74,7 @@ const Select: React.FC<SelectContactProps> = ({
             renderInput={(params) => (
               <TextField
                 {...params}
-                placeholder={placeHolder}
+                placeholder={placeholder}
                 disabled={isDisabled}
                 inputRef={register}
               />

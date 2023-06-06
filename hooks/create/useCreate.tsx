@@ -58,10 +58,11 @@ const useCreate = () => {
   //https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization
   const GenerateIdsForBothOrganizationAndPartnerOrganization = async (
     request: string
-  ): Promise<IdForBothResponse> => {
-    const idForBoth: IdForBothResponse =
-      await makeRequestJSON<IdForBothResponse>(request);
-    console.log('IdForBothResponse ', idForBoth);
+  ): Promise<IdForBothResponse[]> => {
+    const idForBoth: IdForBothResponse[] = await makeRequestJSON<
+      IdForBothResponse[]
+    >(request);
+    console.log('IdForBothResponse: ', idForBoth);
     return idForBoth;
   };
 
