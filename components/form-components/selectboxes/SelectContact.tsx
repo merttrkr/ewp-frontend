@@ -48,7 +48,7 @@ const Select: React.FC<SelectContactProps> = ({
     if (param != '') {
       fetchInitialData();
     }
-  }, []); // Include GetContactInfoByHeiID in the dependency array
+  }, [param]); // Include GetContactInfoByHeiID in the dependency array
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (

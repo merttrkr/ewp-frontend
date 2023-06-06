@@ -65,11 +65,11 @@ const Select: React.FC<SelectInstitutionProps> = ({
             <label htmlFor={id}>{selectLabel}</label>
           </Heading>
           <Autocomplete
-            onChange={(event, value) => onChange(value?.UniName || '')}
+            onChange={(event, value) => onChange(value?.heiId || '')}
             disablePortal
             id={id}
             options={institutionInfoArray}
-            getOptionLabel={(option) => option.UniName}
+            getOptionLabel={(option) => option?.UniName || option.heiId}
             isOptionEqualToValue={(option, value) =>
               option.uniqueId === value.uniqueId
             }

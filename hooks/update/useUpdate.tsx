@@ -2,7 +2,7 @@ import {
   ReceivingInstitutionInfoForm,
   SendingInstitutionInfoForm,
 } from '@/models/institutionInfoFormResponse';
-import { OrganizationInfoFormRequest } from '@/models/organizationInfoFormRequest';
+import { OrganizationInfoFormRequest } from '@/models/OrganizationInfoFormRequest';
 import { OrganizationRequestToIIA } from '@/models/organizationRequestToIIA';
 
 const useUpdate = () => {
@@ -236,29 +236,30 @@ const useUpdate = () => {
   };
   //https://localhost:5001/spSetUniversityIdOfOrganizationInfo?hei_id=iyte.edu.tr&organizationInfo_id=21
   const SetUniversityIdOfOrganizationInfo = async (
-    request: string ): Promise<string> => {
-      const result: string = await makeRequest<string>(request);
-  
-      console.log('result IIACode: ', result);
-      return result;
-    };
-    
-    //https://localhost:5001/spSetSigningPerson?organizationInfo_id=21&signingPerson_id=1
-    const SetSigningPerson = async (
-    request: string ): Promise<string> => {
-      const result: string = await makeRequest<string>(request);
-  
-      console.log('result IIACode: ', result);
-      return result;
-    };
-    //https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=21&contact_id=1
-    const AddOrganizationContactInfo = async (
-      request: string ): Promise<string> => {
-        const result: string = await makeRequest<string>(request);
-    
-        console.log('result IIACode: ', result);
-        return result;
-      };
+    request: string
+  ): Promise<string> => {
+    const result: string = await makeRequest<string>(request);
+
+    console.log('result IIACode: ', result);
+    return result;
+  };
+
+  //https://localhost:5001/spSetSigningPerson?organizationInfo_id=21&signingPerson_id=1
+  const SetSigningPerson = async (request: string): Promise<string> => {
+    const result: string = await makeRequest<string>(request);
+
+    console.log('result IIACode: ', result);
+    return result;
+  };
+  //https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=21&contact_id=1
+  const AddOrganizationContactInfo = async (
+    request: string
+  ): Promise<string> => {
+    const result: string = await makeRequest<string>(request);
+
+    console.log('result IIACode: ', result);
+    return result;
+  };
 
   return {
     UpdateDateOfBilateralAgreement,

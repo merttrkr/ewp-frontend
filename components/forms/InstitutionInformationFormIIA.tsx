@@ -263,7 +263,7 @@ export default function InstitutionInformationForm({
               register={register('departmant_name', {
                 required: 'This is required',
               })}
-              placeHolder='...'
+              placeHolder='placeholder...'
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
             />
