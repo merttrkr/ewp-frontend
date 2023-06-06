@@ -134,6 +134,7 @@ export default function InstitutionInformationForm({
               onChange={handleSelectChangeInstitution}
             />
             <TextInput2
+              isDisabled
               placeholder={IIACode}
               id='IIA_Code'
               label='İkili Anlaşma Kodu'
@@ -174,6 +175,7 @@ export default function InstitutionInformationForm({
               onChange={handleSelectChangeDepartment}
             />
             <TextInput2
+              isDisabled
               placeholder={IIAID}
               id='IIA_ID'
               label='İkili Anlaşma IDsi (IIA-ID)'
