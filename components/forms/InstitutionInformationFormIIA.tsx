@@ -39,6 +39,7 @@ export default function InstitutionInformationForm({
     GenerateIIACode,
     GenerateIIAID,
     GenerateIdsForBothOrganizationAndPartnerOrganization,
+    GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
   } = useCreate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -80,20 +81,34 @@ export default function InstitutionInformationForm({
     fetchInitialData();
     //deneme
     handleIDForBoth();
+    handleIDForBothCollaborationCondition();
   }
 
   function handleIDForBoth() {
     const fetchInitialData = async () => {
-      const data =
-        await await GenerateIdsForBothOrganizationAndPartnerOrganization(
-          'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization'
-        ); // Call the fetchData function
+      const data = await GenerateIdsForBothOrganizationAndPartnerOrganization(
+        'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization'
+      ); // Call the fetchData function
       console.log(
         'GenerateIdsForBothOrganizationAndPartnerOrganization:',
         data
       );
     };
     fetchInitialData();
+  }
+
+  function handleIDForBothCollaborationCondition() {
+    const fetchCollaborationConditionData = async () => {
+      const data =
+        await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
+          'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition'
+        );
+      console.log(
+        'GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition:',
+        data
+      );
+    };
+    fetchCollaborationConditionData();
   }
 
   function onSubmit(values: FormData) {

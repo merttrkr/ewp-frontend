@@ -1,3 +1,4 @@
+import { IdForBothCollaborationConditionResponse } from '@/models/idForBothCollaborationConditionResponse';
 import { IdForBothResponse } from '@/models/idForBothResponse';
 
 const useCreate = () => {
@@ -64,11 +65,26 @@ const useCreate = () => {
     return idForBoth;
   };
 
+  //https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition
+  const GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition =
+    async (
+      request: string
+    ): Promise<IdForBothCollaborationConditionResponse> => {
+      const idForBothCollaborationConditionResponse: IdForBothCollaborationConditionResponse =
+        await makeRequestJSON<IdForBothCollaborationConditionResponse>(request);
+      console.log(
+        'IdForBothCollaborationConditionResponse ',
+        idForBothCollaborationConditionResponse
+      );
+      return idForBothCollaborationConditionResponse;
+    };
+
   return {
     GenerateBilateralAgreementID,
     GenerateIIAID,
     GenerateIIACode,
     GenerateIdsForBothOrganizationAndPartnerOrganization,
+    GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
   };
 };
 
