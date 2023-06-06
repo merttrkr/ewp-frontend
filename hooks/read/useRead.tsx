@@ -1,15 +1,10 @@
-import { Commitment } from '@/models/commitment';
+
 import { ContactResponse, Contact } from '@/models/contactResponse';
 import { DepartmentResponse, Department } from '@/models/departmentResponse';
-import {
-  ReceivingInstitutionInfoForm,
-  SendingInstitutionInfoForm,
-} from '@/models/institutionInfoFormResponse';
 import {
   InstitutionInfo,
   InstitutionInfoResponse,
 } from '@/models/institutionInfoResponse';
-import { organizationRequestToIIA } from '@/models/organizationRequestToIIA';
 
 const useAgreement = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
