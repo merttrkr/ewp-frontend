@@ -38,6 +38,7 @@ export default function InstitutionInformationForm({
   const {
     GenerateIIACode,
     GenerateIIAID,
+    GenerateBilateralAgreementID,
     GenerateIdsForBothOrganizationAndPartnerOrganization,
     GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
   } = useCreate();
@@ -82,6 +83,7 @@ export default function InstitutionInformationForm({
     //deneme
     handleIDForBoth();
     handleIDForBothCollaborationCondition();
+    handleGenerateBilateralAgreementID();
   }
 
   function handleIDForBoth() {
@@ -109,6 +111,16 @@ export default function InstitutionInformationForm({
       );
     };
     fetchCollaborationConditionData();
+  }
+
+  function handleGenerateBilateralAgreementID() {
+    const fetchBilateralAgreementID = async () => {
+      const data = await GenerateBilateralAgreementID(
+        'https://localhost:5001/spGenerateBilateralAgreementId'
+      );
+      console.log('GenerateBilateralAgreementID:', data);
+    };
+    fetchBilateralAgreementID();
   }
 
   function onSubmit(values: FormData) {
