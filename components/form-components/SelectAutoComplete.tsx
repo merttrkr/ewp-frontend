@@ -31,6 +31,7 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
 }) => {
   const [contactArray, setContactArray] = useState([] as Contact[]);
   const { GetContactInfoByHeiID } = useRead();
+  /*
   useEffect(() => {
     const fetchInitialData = async () => {
       const data = await (
@@ -43,7 +44,7 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
       }
     };
     fetchInitialData();
-  }, [GetContactInfoByHeiID]);
+  }, [GetContactInfoByHeiID]);*/
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
 

@@ -26,7 +26,7 @@ export default function StudentInformationForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
-  
+  /*
   const handleClick = async () => {
   
     try {
@@ -55,7 +55,7 @@ export default function StudentInformationForm({
      console.log("finally");
      
     }
-  };
+  };*/
 
   return (
     <Stack
@@ -151,7 +151,7 @@ export default function StudentInformationForm({
         </Flex>
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
           <Button variant='submit'>Kaydet</Button>
-          <Button  onClick={handleClick} variant='clear'>Sıfırla</Button>
+          <Button  variant='clear'>Sıfırla</Button>
         </Flex>
       </Box>
     </Stack>

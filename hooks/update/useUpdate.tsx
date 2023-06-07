@@ -2,7 +2,7 @@ import {
   ReceivingInstitutionInfoForm,
   SendingInstitutionInfoForm,
 } from '@/models/institutionInfoFormResponse';
-import { OrganizationInfoFormRequest } from '@/models/OrganizationInfoFormRequest';
+import { OrganizationInfoFormRequest } from '@/models/organizationInfoFormRequest';
 import { OrganizationRequestToIIA } from '@/models/organizationRequestToIIA';
 
 const useUpdate = () => {
