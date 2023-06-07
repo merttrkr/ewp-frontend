@@ -1,5 +1,5 @@
-import { IdForBothCollaborationConditionResponse } from '@/models/idForBothCollaborationConditionResponse';
-import { IdForBothResponse } from '@/models/idForBothResponse';
+import { IdForBothCollaborationConditionResponse } from '@/models/response/idForBothCollaborationConditionResponse';
+import { IdForBothResponse } from '@/models/response/idForBothResponse';
 
 const useCreate = () => {
   const makeRequestString = async <T,>(request: string): Promise<T> => {
