@@ -9,8 +9,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import TextInput from '@/components/form-components/TextInput';
-import SignatureInput from '../form-components/SignatureInput';
+import TextInput from '@/components/form-components/inputs/TextInput';
+import SignatureInput from '../form-components/inputs/SignatureInput';
 
 type CommitmentSignatureFormProps = {
   pageName: String;

@@ -11,8 +11,8 @@ import {
 } from '@chakra-ui/react';
 
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '@/components/form-components/TextInput';
-import CheckBoxInput from '@/components/form-components/CheckBoxInput';
+import TextInput from '@/components/form-components/inputs/TextInput';
+import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;

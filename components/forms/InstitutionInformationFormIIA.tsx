@@ -7,8 +7,8 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import TextInput2 from '../form-components/TextInput2';
-import DatePickerInput from '../form-components/DatePickerInput';
+import TextInput2 from '../form-components/inputs/TextInput2';
+import DatePickerInput from '../form-components/inputs/DatePickerInput';
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 //selectboxes

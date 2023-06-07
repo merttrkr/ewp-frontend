@@ -14,8 +14,8 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import SelectAutoComplete from '../form-components/SelectAutoComplete';
-import TextInput from '../form-components/TextInput';
-import TextInput2 from '../form-components/TextInput2';
+import TextInput from '../form-components/inputs/TextInput';
+import TextInput2 from '../form-components/inputs/TextInput2';
 import { useForm } from 'react-hook-form';
 
 type ModalInputProps = {

@@ -11,10 +11,10 @@ import {
 } from '@chakra-ui/react';
 
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '@/components/form-components/TextInput';
-import CheckBoxInput from '@/components/form-components/CheckBoxInput';
+import TextInput from '@/components/form-components/inputs/TextInput';
+import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
 import DisplayText from '../form-components/DisplayText';
-import DatePickerInput from '../form-components/DatePickerInput';
+import DatePickerInput from '../form-components/inputs/DatePickerInput';
 type StudentInformationFormProps = {
   pageName: String;
 };
@@ -151,7 +151,7 @@ export default function StudentInformationForm({
         </Flex>
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
           <Button variant='submit'>Kaydet</Button>
-          <Button  variant='clear'>Sıfırla</Button>
+          <Button variant='clear'>Sıfırla</Button>
         </Flex>
       </Box>
     </Stack>
