@@ -18,10 +18,11 @@ import SelectInstitution from '../form-components/selectboxes/SelectInstitution'
 import useCreate from '@/hooks/create/useCreate';
 import useUpdate from '@/hooks/update/useUpdate';
 import { IdForBothResponse } from '@/models/response/idForBothResponse';
-import { Contact } from '@/models/contactResponse';
+import { Contact } from '@/models/response/contactResponse';
 import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFormRequest';
 import { Department } from '@/models/response/departmentResponse';
 import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
+import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -58,6 +59,8 @@ export default function InstitutionInformationForm({
     SetUniversityIdOfOrganizationInfo,
     UpdateDateOfBilateralAgreement,
     SaveOrganizationInfo,
+    AddOrganizationInfoToBilateralAgreement,
+    SetCreatorOfBilateralAgreement,
   } = useUpdate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -81,6 +84,7 @@ export default function InstitutionInformationForm({
   const [newOrganizationInfoId, setNewOrganizationInfoId] = useState(0);
   const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
     useState(0);
+  const [isPartnerValue, setIsPartnerValue] = useState(0);
   const [bilateralAgreementID, setBilateralAgreementID] = useState(0);
   //date picker input state
   const [startDate, setStartDate] = useState('');
@@ -241,7 +245,7 @@ export default function InstitutionInformationForm({
         university_id: institutionID,
         universityDepartment_id: departmentID,
         signingDate: startDate,
-        isPartner: 0,
+        isPartner: isPartnerValue,
         IIACode: IIACode,
         IIAId: IIAID,
         bilateralAgreement_id: bilateralAgreementID,
@@ -250,6 +254,28 @@ export default function InstitutionInformationForm({
       await SaveOrganizationInfo(request);
     };
     saveOrganizationInfoData();
+  }
+
+  function handleAddOrganizationInfoToBilateralAgreement() {
+    const addOrganizationInfoToBilateralAgreementData = async () => {
+      const request: OrganizationRequestToIIA = {
+        organizationInfoId: newOrganizationInfoId,
+        isPartner: isPartnerValue == 0 ? 'false' : 'true',
+        bilateralAgreementId: bilateralAgreementID,
+      };
+
+      await AddOrganizationInfoToBilateralAgreement(request);
+    };
+    addOrganizationInfoToBilateralAgreementData();
+  }
+  function handleSetCreatorOfBilateralAgreement() {
+    const setCreatorOfBilateralAgreement = async () => {
+      await SetCreatorOfBilateralAgreement(
+        'https://localhost:5001/spSetCreatorOfBilateralAgreement?bilateralAgreement_id=' +
+          bilateralAgreementID
+      );
+    };
+    setCreatorOfBilateralAgreement();
   }
 
   //submit function
@@ -270,6 +296,8 @@ export default function InstitutionInformationForm({
       handleSetUniversityIdOfOrganizationInfo();
       handleUpdateDateOfBilateralAgreement();
       handleSaveOrganizationInfo();
+      handleAddOrganizationInfoToBilateralAgreement();
+      handleSetCreatorOfBilateralAgreement();
       setTimeout(() => {
         values.signing_date = startDate;
         values.IIA_ID = IIAID;

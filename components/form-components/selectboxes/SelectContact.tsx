@@ -3,7 +3,7 @@ import { FormControl, useColorModeValue, Heading } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import useRead from '@/hooks/read/useRead';
-import { Contact } from '@/models/contactResponse';
+import { Contact } from '@/models/response/contactResponse';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 

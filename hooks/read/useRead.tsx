@@ -1,6 +1,8 @@
-
-import { ContactResponse, Contact } from '@/models/contactResponse';
-import { DepartmentResponse, Department } from '@/models/response/departmentResponse';
+import { ContactResponse, Contact } from '@/models/response/contactResponse';
+import {
+  DepartmentResponse,
+  Department,
+} from '@/models/response/departmentResponse';
 import {
   InstitutionInfo,
   InstitutionInfoResponse,
