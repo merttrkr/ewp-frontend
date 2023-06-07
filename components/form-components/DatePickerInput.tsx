@@ -12,8 +12,8 @@ import { format } from 'date-fns';
 
 type DatePickerInputProps = {
   datePickerInputLabel: string;
-  startDate: Date;
-  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
+  startDate: string;
+  setStartDate: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export default function DatePickerInput({
@@ -22,6 +22,13 @@ export default function DatePickerInput({
   setStartDate,
 }: DatePickerInputProps) {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+
+  const handleDateChange = (date: Date | null) => {
+    if (date) {
+      const formattedDate = format(date, 'yyyy-MM-dd');
+      setStartDate(formattedDate);
+    }
+  };
 
   return (
     <Stack>
@@ -45,11 +52,11 @@ export default function DatePickerInput({
       >
         <Image width='4' height='4' src='/dateIcon.png' alt='Date icon' />
         <DatePicker
-          selected={startDate}
-          onChange={(date) => setStartDate(date as Date)}
+          selected={startDate ? new Date(startDate) : null}
+          onChange={handleDateChange}
           name={datePickerInputLabel}
           dateFormat='yyyy-MM-dd'
-          value={format(startDate, 'yyyy-MM-dd')}
+          value={startDate}
         />
       </Flex>
     </Stack>
