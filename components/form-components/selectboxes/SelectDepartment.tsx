@@ -14,7 +14,7 @@ type SelectDepartmentProps = {
   isDisabled?: boolean;
   id?: string;
   register: any;
-  onChange: (value: string) => void; // New prop for handling value change
+  onChange: (value: Department | null) => void; // New prop for handling value change
   param: string;
   error: string | undefined;
 };
@@ -52,7 +52,6 @@ const Select: React.FC<SelectDepartmentProps> = ({
       }
     };
     if (param) {
-      onChange('');
       fetchInitialData();
     }
   }, [param]);
@@ -72,9 +71,7 @@ const Select: React.FC<SelectDepartmentProps> = ({
             <label htmlFor={id}>{selectLabel}</label>
           </Heading>
           <Autocomplete
-            onChange={(event, value) =>
-              onChange(value?.organizationalUnitName || '')
-            }
+            onChange={(event, value) => onChange(value || null)}
             disablePortal
             id={id}
             options={departmentArray}

@@ -13,7 +13,7 @@ type SelectInstitutionProps = {
   isDisabled?: boolean;
   id?: string;
   register: any; // Replace with the appropriate type for `register`
-  onChange: (value: string) => void;
+  onChange: (value: InstitutionInfo | null) => void;
   error: string | undefined;
   apiURL: string; // Add the prop for the API URL
 };
@@ -33,13 +33,15 @@ const Select: React.FC<SelectInstitutionProps> = ({
   });
 
   const { GetAllUniversitiesInfo } = useRead();
-  const [institutionInfoArray, setInstitutionInfoArray] = useState<InstitutionInfo[]>([]);
+  const [institutionInfoArray, setInstitutionInfoArray] = useState<
+    InstitutionInfo[]
+  >([]);
 
   const HeadingColor = 'gray.600'; // Use a specific color instead of `useColorModeValue`
 
   useEffect(() => {
     console.log('apiURL: ', apiURL);
-    
+
     const fetchInitialData = async () => {
       try {
         const data = await GetAllUniversitiesInfo(apiURL);
@@ -61,12 +63,14 @@ const Select: React.FC<SelectInstitutionProps> = ({
           <label htmlFor={id}>{selectLabel}</label>
         </Heading>
         <Autocomplete
-          onChange={(event, value) => onChange(value?.heiId || '')}
+          onChange={(event, value) => onChange(value || null)}
           disablePortal
           id={id}
           options={institutionInfoArray}
           getOptionLabel={(option) => option?.UniName || option.heiId}
-          isOptionEqualToValue={(option, value) => option.uniqueId === value.uniqueId}
+          isOptionEqualToValue={(option, value) =>
+            option.uniqueId === value.uniqueId
+          }
           renderInput={(params) => (
             <TextField
               {...params}
