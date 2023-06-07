@@ -34,21 +34,21 @@ const Select: React.FC<SelectDepartmentProps> = ({
   const theme = createTheme({
     // your theme configuration
   });
-  console.log('department param: ', param);
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      const result = await GetDepartmentsByHeiID(
-        'https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=' +
-          param
-      );
-      if (!result) {
-        console.log('no data');
-      }
-      const data = await (result ? result.departments : []); // Call the fetchData function
+      if(param){
+        console.log('param test: ', param);
+        
+        const result = await GetDepartmentsByHeiID(
+          'https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=' +
+            param
+        );
+        const data = await (result ? result.departments : []); // Call the fetchData function
       if (data) {
         console.log('department data: ', data);
         setDepartmentArray(data); // Update the state with the fetched data
+      }
       }
     };
     if (param) {

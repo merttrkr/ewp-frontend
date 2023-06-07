@@ -34,20 +34,24 @@ const Select: React.FC<SelectContactProps> = ({
   const theme = createTheme({
     // your theme configuration
   });
-  console.log('param contact: ', param);
+
   useEffect(() => {
+    
     const fetchInitialData = async () => {
-      const result = await GetContactInfoByHeiID(
-        'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=' + param
-      );
-      if (!result) {
-        console.log('no data');
+      if (param) {
+        const result = await GetContactInfoByHeiID(
+          'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=' + param
+        );
+        if (!result) {
+          console.log('no data');
+        }
+        const data = await (result ? result.contacts : []); // Call the fetchData function
+        if (data) {
+          
+          setContactArray(data); // Update the state with the fetched data
+        }
       }
-      const data = await (result ? result.contacts : []); // Call the fetchData function
-      if (data) {
-        console.log('contact data: ', data);
-        setContactArray(data); // Update the state with the fetched data
-      }
+      
     };
     if (param != '') {
       fetchInitialData();
