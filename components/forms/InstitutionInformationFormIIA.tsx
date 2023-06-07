@@ -228,6 +228,7 @@ export default function InstitutionInformationForm({
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
             <SelectInstitution
+             apiURL= 'https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
               register={register('hei_id', {
                 required: 'This is required',
