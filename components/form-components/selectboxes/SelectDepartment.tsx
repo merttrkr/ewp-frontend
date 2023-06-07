@@ -2,7 +2,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { FormControl, useColorModeValue, Heading } from '@chakra-ui/react';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Department } from '@/models/departmentResponse';
+import { Department } from '@/models/response/departmentResponse';
 import useRead from '@/hooks/read/useRead';
 
 import Autocomplete from '@mui/material/Autocomplete';

@@ -17,11 +17,11 @@ import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 import useCreate from '@/hooks/create/useCreate';
 import useUpdate from '@/hooks/update/useUpdate';
-import { IdForBothResponse } from '@/models/idForBothResponse';
+import { IdForBothResponse } from '@/models/response/idForBothResponse';
 import { Contact } from '@/models/contactResponse';
-import { OrganizationInfoFormRequest } from '@/models/organizationInfoFormRequest';
-import { Department } from '@/models/departmentResponse';
-import { InstitutionInfo } from '@/models/institutionInfoResponse';
+import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFormRequest';
+import { Department } from '@/models/response/departmentResponse';
+import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 
 type InstitutionInformationFormProps = {
   pageName: string;

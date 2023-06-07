@@ -4,7 +4,7 @@ import { FormControl, Heading } from '@chakra-ui/react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-import { InstitutionInfo } from '@/models/institutionInfoResponse';
+import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import useRead from '@/hooks/read/useRead';
 
 type SelectInstitutionProps = {

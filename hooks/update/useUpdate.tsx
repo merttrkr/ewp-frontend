@@ -1,9 +1,9 @@
 import {
   ReceivingInstitutionInfoForm,
   SendingInstitutionInfoForm,
-} from '@/models/institutionInfoFormResponse';
-import { OrganizationInfoFormRequest } from '@/models/organizationInfoFormRequest';
-import { OrganizationRequestToIIA } from '@/models/organizationRequestToIIA';
+} from '@/models/response/institutionInfoFormResponse';
+import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFormRequest';
+import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {

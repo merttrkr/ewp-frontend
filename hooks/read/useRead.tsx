@@ -1,10 +1,10 @@
 
 import { ContactResponse, Contact } from '@/models/contactResponse';
-import { DepartmentResponse, Department } from '@/models/departmentResponse';
+import { DepartmentResponse, Department } from '@/models/response/departmentResponse';
 import {
   InstitutionInfo,
   InstitutionInfoResponse,
-} from '@/models/institutionInfoResponse';
+} from '@/models/response/institutionInfoResponse';
 
 const useAgreement = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
