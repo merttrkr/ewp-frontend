@@ -199,7 +199,7 @@ const useUpdate = () => {
   };
 
   //https://localhost:5001/spSaveOrganizationInfo?id=${id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&signingDate=${signingDate}&isPartner=${isPartner}&IIACode=${IIACode}&IIAId=${IIAId}&bilateralAgreement_id=${bilateralAgreement_id}
-  const saveOrganizationInfo = async (
+  const SaveOrganizationInfo = async (
     request: OrganizationInfoFormRequest
   ): Promise<number> => {
     const {
@@ -258,7 +258,7 @@ const useUpdate = () => {
     SetUniversityIdOfOrganizationInfo,
     SetSigningPerson,
     UpdateDateOfBilateralAgreement,
-    saveOrganizationInfo,
+    SaveOrganizationInfo,
     AddSendingInstitutionInfo,
     AddReceivingInstitutionInfo,
     AddOrganizationInfoToBilateralAgreement,
