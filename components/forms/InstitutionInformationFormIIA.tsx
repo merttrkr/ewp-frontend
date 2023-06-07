@@ -18,6 +18,8 @@ import SelectInstitution from '../form-components/selectboxes/SelectInstitution'
 import useCreate from '@/hooks/create/useCreate';
 import useUpdate from '@/hooks/update/useUpdate';
 import { IdForBothResponse } from '@/models/idForBothResponse';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -31,6 +33,7 @@ type FormData = {
   IIA_Code: string;
   IIA_ID: string;
   authorized_signotary: string;
+  signing_date: any;
 };
 
 export default function InstitutionInformationForm({
@@ -60,12 +63,13 @@ export default function InstitutionInformationForm({
   const [contactPerson, setContactPerson] = useState('');
   const [IIACode, setIIACode] = useState('');
   const [IIAID, setIIAID] = useState('');
-
+  const [startDate, setStartDate] = useState(new Date());
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
     setValue,
+    control,
   } = useForm<FormData>();
 
   function handleIIACode() {
@@ -166,8 +170,11 @@ export default function InstitutionInformationForm({
 
   function onSubmit(values: FormData) {
     console.log('submitted');
+
     return new Promise<void>((resolve) => {
       setTimeout(() => {
+        console.log('datee: ', startDate);
+        values.signing_date = startDate;
         values.IIA_ID = IIAID;
         values.IIA_Code = IIACode;
         alert(JSON.stringify(values, null));
@@ -281,7 +288,11 @@ export default function InstitutionInformationForm({
               error={errors.IIA_ID?.message}
               register={register('IIA_ID')}
             />
-            <DatePickerInput datePickerInputLabel='İmzalanma Tarihi' />
+            <DatePickerInput
+              datePickerInputLabel='İmzalanma Tarihi'
+              startDate={startDate}
+              setStartDate={setStartDate}
+            />
 
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>

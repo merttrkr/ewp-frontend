@@ -2,31 +2,34 @@ import {
   Stack,
   Heading,
   useColorModeValue,
-  Input,
-  Checkbox,
-  Text,
   Image,
-  HStack,
   Flex,
 } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import React, { useState } from 'react';
+import React from 'react';
+import { format } from 'date-fns';
 
 type DatePickerInputProps = {
-  datePickerInputLabel: String;
+  datePickerInputLabel: string;
+  startDate: Date;
+  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
 };
 
-export default function App({ datePickerInputLabel }: DatePickerInputProps) {
+export default function DatePickerInput({
+  datePickerInputLabel,
+  startDate,
+  setStartDate,
+}: DatePickerInputProps) {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-  const [startDate, setStartDate] = useState(new Date());
+
   return (
     <Stack>
       <Heading
         pl='1'
         as='h3'
         size='sm'
-        fontWeight={'bold'}
+        fontWeight='bold'
         noOfLines={1}
         color={HeadingColor}
       >
@@ -36,20 +39,17 @@ export default function App({ datePickerInputLabel }: DatePickerInputProps) {
         gap={3}
         pl={3}
         height={10}
-        bg={'gray.100'}
-        borderRadius={'md'}
-        align={'center'}
+        bg='gray.100'
+        borderRadius='md'
+        align='center'
       >
-        <Image
-          width='4'
-          height='4'
-          src='/dateIcon.png'
-          alt={'Date icon'}
-        ></Image>
+        <Image width='4' height='4' src='/dateIcon.png' alt='Date icon' />
         <DatePicker
-          wrapperClassName='datePicker'
           selected={startDate}
-          onChange={(date: any) => setStartDate(date)}
+          onChange={(date) => setStartDate(date as Date)}
+          name={datePickerInputLabel}
+          dateFormat='yyyy-MM-dd'
+          value={format(startDate, 'yyyy-MM-dd')}
         />
       </Flex>
     </Stack>
