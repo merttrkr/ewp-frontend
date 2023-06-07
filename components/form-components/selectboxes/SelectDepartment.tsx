@@ -38,15 +38,13 @@ const Select: React.FC<SelectDepartmentProps> = ({
   useEffect(() => {
     const fetchInitialData = async () => {
       if (param) {
-
-
         const result = await GetDepartmentsByHeiID(
           'https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=' +
-          param
+            param
         );
         const data = await (result ? result.departments : []); // Call the fetchData function
         if (data) {
-
+          console.log('department: ', data);
           setDepartmentArray(data); // Update the state with the fetched data
         }
       }

@@ -44,6 +44,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
       try {
         const data = await GetAllUniversitiesInfo(apiURL);
         if (data && data.institutionInfos) {
+          console.log('institution: ', data.institutionInfos);
           setInstitutionInfoArray(data.institutionInfos);
         }
       } catch (error) {

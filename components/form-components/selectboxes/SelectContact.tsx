@@ -43,6 +43,7 @@ const Select: React.FC<SelectContactProps> = ({
 
         const data = await (result ? result.contacts : []); // Call the fetchData function
         if (data) {
+          console.log('contact: ', data);
           setContactArray(data); // Update the state with the fetched data
         }
       }

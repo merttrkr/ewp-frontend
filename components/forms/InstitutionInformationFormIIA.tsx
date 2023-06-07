@@ -29,6 +29,9 @@ import getFormattedDate from '@/helper/currentDate';
 type InstitutionInformationFormProps = {
   pageName: string;
   subText: string;
+  bilateralAgreementID: number;
+  organizationInfoId: number;
+  isPartnerValue: number;
 };
 
 type FormData = {
@@ -44,14 +47,11 @@ type FormData = {
 export default function InstitutionInformationForm({
   pageName,
   subText,
+  organizationInfoId,
+  bilateralAgreementID,
+  isPartnerValue,
 }: InstitutionInformationFormProps) {
-  const {
-    GenerateIIACode,
-    GenerateIIAID,
-    GenerateBilateralAgreementID,
-    GenerateIdsForBothOrganizationAndPartnerOrganization,
-    GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
-  } = useCreate();
+  const { GenerateIIACode, GenerateIIAID } = useCreate();
 
   const {
     InsertEmptyRowToOrganizationInfo,
@@ -83,13 +83,13 @@ export default function InstitutionInformationForm({
   const [contactPersonID, setContactPersonID] = useState(0);
   const [departmentID, setDepartmentID] = useState(0);
   const [institutionID, setInstitutionId] = useState(0);
-  const [newOrganizationInfoId, setNewOrganizationInfoId] = useState(0);
-  const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
-    useState(0);
-  const [isPartnerValue, setIsPartnerValue] = useState(0);
-  const [bilateralAgreementID, setBilateralAgreementID] = useState(0);
+
   //date picker input state
   const [startDate, setStartDate] = useState(getFormattedDate());
+  console.log('bilateralAgreementID:', bilateralAgreementID);
+  console.log('organizationInfoId:', organizationInfoId);
+  console.log('  isPartnerValue:', isPartnerValue);
+  console.log('------------------');
 
   //useForm hook
   const {
@@ -125,43 +125,6 @@ export default function InstitutionInformationForm({
     fetchInitialData();
   }
 
-  async function handleIDForBoth() {
-    const fetchInitialData = async () => {
-      const data: IdForBothResponse = (
-        await GenerateIdsForBothOrganizationAndPartnerOrganization(
-          'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization'
-        )
-      )[0]; // Call the fetchData function
-      if (data) {
-        setNewOrganizationInfoId(data.newOrganizationInfoId);
-        setNewPartnerOrganizationInfoId(data.newPartnerOrganizationInfoId);
-      }
-    };
-    fetchInitialData();
-  }
-
-  async function handleIDForBothCollaborationCondition() {
-    const fetchCollaborationConditionData = async () => {
-      const data =
-        await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
-          'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition'
-        );
-    };
-    fetchCollaborationConditionData();
-  }
-
-  async function handleGenerateBilateralAgreementID() {
-    const fetchBilateralAgreementID = async () => {
-      const data = await GenerateBilateralAgreementID(
-        'https://localhost:5001/spGenerateBilateralAgreementId'
-      );
-      if (data) {
-        setBilateralAgreementID(data);
-      }
-    };
-    fetchBilateralAgreementID();
-  }
-
   async function handleInsertEmptyRowToBilateralAgreement(id: number) {
     const insertEmptyRowToBilateralAgreement = async () => {
       await InsertEmptyRowToBilateralAgreement(
@@ -186,7 +149,7 @@ export default function InstitutionInformationForm({
     const setSigningPerson = async () => {
       await SetSigningPerson(
         'https://localhost:5001/spSetSigningPerson?organizationInfo_id=' +
-          newOrganizationInfoId +
+          organizationInfoId +
           '&signingPerson_id=' +
           authorizedSignotaryPersonID
       );
@@ -198,7 +161,7 @@ export default function InstitutionInformationForm({
     const setAddOrganizationContactInfo = async () => {
       await AddOrganizationContactInfo(
         'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
-          newOrganizationInfoId +
+          organizationInfoId +
           '&contact_id=' +
           contactPersonID
       );
@@ -212,7 +175,7 @@ export default function InstitutionInformationForm({
         'https://localhost:5001/spSetUniversityIdOfOrganizationInfo?hei_id=' +
           institution +
           '&organizationInfo_id=' +
-          newOrganizationInfoId
+          organizationInfoId
       );
     };
     setUniversityIdOfOrganizationInfo();
@@ -231,7 +194,7 @@ export default function InstitutionInformationForm({
   async function handleSaveOrganizationInfo() {
     const saveOrganizationInfoData = async () => {
       const request: OrganizationInfoFormRequest = {
-        id: newOrganizationInfoId,
+        id: organizationInfoId,
         university_id: institutionID,
         universityDepartment_id: departmentID,
         signingDate: startDate,
@@ -249,7 +212,7 @@ export default function InstitutionInformationForm({
   async function handleAddOrganizationInfoToBilateralAgreement() {
     const addOrganizationInfoToBilateralAgreementData = async () => {
       const request: OrganizationRequestToIIA = {
-        organizationInfoId: newOrganizationInfoId,
+        organizationInfoId: organizationInfoId,
         isPartner: isPartnerValue == 0 ? '0' : '1',
         bilateralAgreementId: bilateralAgreementID,
       };
@@ -267,19 +230,6 @@ export default function InstitutionInformationForm({
     };
     setCreatorOfBilateralAgreement();
   }
-
-  useEffect(() => {
-    const handleEffects = async () => {
-      if (IIACode !== '') {
-        await handleIDForBoth();
-        await handleIDForBothCollaborationCondition();
-        await handleGenerateBilateralAgreementID();
-      }
-    };
-
-    handleEffects();
-  }, [IIACode]);
-
   //submit function
   function onSubmit(values: FormData) {
     values.signing_date = startDate;
@@ -288,20 +238,12 @@ export default function InstitutionInformationForm({
 
     return new Promise<void>(async (resolve, reject) => {
       try {
-        console.log('new org id: ', newOrganizationInfoId);
-        console.log('new partner org id: ', newPartnerOrganizationInfoId);
+        console.log('new org id: ', organizationInfoId);
         console.log('bilateral agreement id: ', bilateralAgreementID);
         await handleInsertEmptyRowToBilateralAgreement(bilateralAgreementID);
         console.log('inserted empty row to bilateral agreement');
-        await handleInsertEmptyRowToOrganizationInfo(newOrganizationInfoId);
+        await handleInsertEmptyRowToOrganizationInfo(organizationInfoId);
         console.log('inserted empty row to organization info');
-        await handleInsertEmptyRowToOrganizationInfo(
-          newPartnerOrganizationInfoId
-        );
-        console.log(
-          'inserted empty row to partner organization info',
-          newPartnerOrganizationInfoId
-        );
         await handleSetUniversityIdOfOrganizationInfo();
         console.log('set university id of organization info', institutionID);
         await handleSetSigningPerson();
@@ -311,17 +253,14 @@ export default function InstitutionInformationForm({
         await handleUpdateDateOfBilateralAgreement();
         console.log('update date of bilateral agreement');
         await handleSaveOrganizationInfo();
-        console.log('save organization info', newOrganizationInfoId);
+        console.log('save organization info', organizationInfoId);
         await handleAddOrganizationInfoToBilateralAgreement();
         console.log(
           'add organization info to bilateral agreement',
-          newOrganizationInfoId
+          organizationInfoId
         );
         await handleSetCreatorOfBilateralAgreement();
-        console.log(
-          'set creator of bilateral agreement',
-          newOrganizationInfoId
-        );
+        console.log('set creator of bilateral agreement', organizationInfoId);
 
         resolve();
       } catch (error) {
