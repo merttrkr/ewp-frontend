@@ -19,6 +19,9 @@ import useCreate from '@/hooks/create/useCreate';
 import useUpdate from '@/hooks/update/useUpdate';
 import { IdForBothResponse } from '@/models/idForBothResponse';
 import { Contact } from '@/models/contactResponse';
+import { OrganizationInfoFormRequest } from '@/models/organizationInfoFormRequest';
+import { Department } from '@/models/departmentResponse';
+import { InstitutionInfo } from '@/models/institutionInfoResponse';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -32,7 +35,7 @@ type FormData = {
   IIA_Code: string;
   IIA_ID: string;
   authorized_signotary: string;
-  signing_date: any;
+  signing_date: string;
 };
 
 export default function InstitutionInformationForm({
@@ -54,6 +57,7 @@ export default function InstitutionInformationForm({
     AddOrganizationContactInfo,
     SetUniversityIdOfOrganizationInfo,
     UpdateDateOfBilateralAgreement,
+    SaveOrganizationInfo,
   } = useUpdate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -72,12 +76,14 @@ export default function InstitutionInformationForm({
   const [authorizedSignotaryPersonID, setauthorizedSignotaryPersonID] =
     useState(0);
   const [contactPersonID, setContactPersonID] = useState(0);
+  const [departmentID, setDepartmentID] = useState(0);
+  const [institutionID, setInstitutionId] = useState(0);
   const [newOrganizationInfoId, setNewOrganizationInfoId] = useState(0);
   const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
     useState(0);
   const [bilateralAgreementID, setBilateralAgreementID] = useState(0);
   //date picker input state
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState('');
 
   //useForm hook
   const {
@@ -228,12 +234,31 @@ export default function InstitutionInformationForm({
     updateDateOfBilateralAgreement();
   }
 
+  function handleSaveOrganizationInfo() {
+    const saveOrganizationInfoData = async () => {
+      const request: OrganizationInfoFormRequest = {
+        id: newOrganizationInfoId,
+        university_id: institutionID,
+        universityDepartment_id: departmentID,
+        signingDate: startDate,
+        isPartner: 0,
+        IIACode: IIACode,
+        IIAId: IIAID,
+        bilateralAgreement_id: bilateralAgreementID,
+      };
+
+      await SaveOrganizationInfo(request);
+    };
+    saveOrganizationInfoData();
+  }
+
   //submit function
   function onSubmit(values: FormData) {
     console.log('submitted');
     return new Promise<void>((resolve) => {
       console.log('cont pers id: ', contactPersonID);
       console.log('sign pers id: ', authorizedSignotaryPersonID);
+      console.log('date : ', startDate);
       handleIDForBoth();
       handleInsertEmptyRowToOrganizationInfo(newOrganizationInfoId);
       handleInsertEmptyRowToOrganizationInfo(newPartnerOrganizationInfoId);
@@ -244,6 +269,7 @@ export default function InstitutionInformationForm({
       handleAddOrganizationContactInfo();
       handleSetUniversityIdOfOrganizationInfo();
       handleUpdateDateOfBilateralAgreement();
+      handleSaveOrganizationInfo();
       setTimeout(() => {
         values.signing_date = startDate;
         values.IIA_ID = IIAID;
@@ -255,6 +281,17 @@ export default function InstitutionInformationForm({
   }
 
   //onChange functions
+  const handleSelectChangeInstitution = (value: InstitutionInfo | null) => {
+    if (value) {
+      setValue('hei_id', value.heiId);
+      setInstitution(value.heiId);
+      setInstitutionId(value.uniqueId);
+    } else {
+      setValue('hei_id', '');
+      setInstitution('');
+    }
+  };
+
   const handleSelectChangeContact = (value: Contact | null) => {
     if (value) {
       setValue('contact_persons', value.fullName);
@@ -275,14 +312,15 @@ export default function InstitutionInformationForm({
       setAuthorizedSignotary(''); // or any default value you want
     }
   };
-
-  const handleSelectChangeDepartment = (value: string) => {
-    setValue('departmant_name', value);
-    setDepartment(value);
-  };
-  const handleSelectChangeInstitution = (value: string) => {
-    setValue('hei_id', value);
-    setInstitution(value);
+  const handleSelectChangeDepartment = (value: Department | null) => {
+    if (value) {
+      setValue('departmant_name', value.organizationalUnitName);
+      setDepartment(value.organizationalUnitName);
+      setDepartmentID(value.id);
+    } else {
+      setValue('departmant_name', ''); // or any default value you want
+      setDepartment(''); // or any default value you want
+    }
   };
 
   return (

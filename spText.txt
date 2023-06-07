@@ -6,12 +6,12 @@ save butonu InstitutionInformationFormIIA
 -spInsertEmptyRowToOrganizationInfo-> spGenerateIdsForBothOrganizationAndPartnerOrganization.organizationInfoId +
 -spInsertEmptyRowToOrganizationInfo-> spGenerateIdsForBothOrganizationAndPartnerOrganization.partnerOrganizationInfoId +
 
--spSetUniversityIdOfOrganizationInfo -> heiId,OrganizationInfoId
+-spSetUniversityIdOfOrganizationInfo -> heiId,OrganizationInfoId +
 -spSetSigningPerson ->selectedSigningPerson +
 -spAddOrganizationContactInfo+
 
--spUpdateLastUpdateDateOfBilateralAgremeent
--spSaveOrganizationInfo
+-spUpdateLastUpdateDateOfBilateralAgremeent +
+-spSaveOrganizationInfo+
 -spAddOrganizationInfoToBilateralAgreement
 -spSetCreatorOfBilateralAgreement
 
