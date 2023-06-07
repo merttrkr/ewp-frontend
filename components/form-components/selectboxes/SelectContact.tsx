@@ -7,14 +7,13 @@ import { Contact } from '@/models/contactResponse';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-
 type SelectContactProps = {
   selectLabel: string;
   placeholder: string;
   isDisabled?: boolean;
   id?: string;
   register: any;
-  onChange: (value: string) => void; // New prop for handling value change
+  onChange: (value: Contact | null) => void; // New prop for handling value change
   param: string;
   error: string | undefined;
 };
@@ -36,7 +35,6 @@ const Select: React.FC<SelectContactProps> = ({
   });
 
   useEffect(() => {
-    
     const fetchInitialData = async () => {
       if (param) {
         const result = await GetContactInfoByHeiID(
@@ -44,14 +42,14 @@ const Select: React.FC<SelectContactProps> = ({
         );
         if (!result) {
           console.log('no data');
+        } else {
+          console.log('result contact', result);
         }
         const data = await (result ? result.contacts : []); // Call the fetchData function
         if (data) {
-          
           setContactArray(data); // Update the state with the fetched data
         }
       }
-      
     };
     if (param != '') {
       fetchInitialData();
@@ -73,7 +71,7 @@ const Select: React.FC<SelectContactProps> = ({
             <label htmlFor={id}>{selectLabel}</label>
           </Heading>
           <Autocomplete
-            onChange={(event, value) => onChange(value?.fullName || '')}
+            onChange={(event, value) => onChange(value || null)}
             disablePortal
             id={id}
             options={contactArray}

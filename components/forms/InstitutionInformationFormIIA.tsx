@@ -18,8 +18,7 @@ import SelectInstitution from '../form-components/selectboxes/SelectInstitution'
 import useCreate from '@/hooks/create/useCreate';
 import useUpdate from '@/hooks/update/useUpdate';
 import { IdForBothResponse } from '@/models/idForBothResponse';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { Contact } from '@/models/contactResponse';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -60,7 +59,9 @@ export default function InstitutionInformationForm({
   const [institution, setInstitution] = useState('');
   const [department, setDepartment] = useState('');
   const [authorizedSignotary, setAuthorizedSignotary] = useState('');
+  const [authorizedSignotaryID, setAuthorizedSignotaryID] = useState(0);
   const [contactPerson, setContactPerson] = useState('');
+  const [contactPersonID, setContactPersonID] = useState(0);
   const [IIACode, setIIACode] = useState('');
   const [IIAID, setIIAID] = useState('');
   const [startDate, setStartDate] = useState(new Date());
@@ -95,10 +96,6 @@ export default function InstitutionInformationForm({
       }
     };
     fetchInitialData();
-    //deneme
-    handleIDForBoth();
-    handleIDForBothCollaborationCondition();
-    handleGenerateBilateralAgreementID();
   }
 
   function handleIDForBoth() {
@@ -138,7 +135,7 @@ export default function InstitutionInformationForm({
         'https://localhost:5001/spGenerateBilateralAgreementId'
       );
       console.log('GenerateBilateralAgreementID:', data);
-      //handleInsertEmptyRowToBilateralAgreement(data);
+      handleInsertEmptyRowToBilateralAgreement(data);
     };
     fetchBilateralAgreementID();
   }
@@ -172,8 +169,12 @@ export default function InstitutionInformationForm({
     console.log('submitted');
 
     return new Promise<void>((resolve) => {
+      console.log('cont pers id: ', contactPersonID);
+      console.log('sign pers id: ', authorizedSignotaryID);
+      handleIDForBoth();
+      handleIDForBothCollaborationCondition();
+      handleGenerateBilateralAgreementID();
       setTimeout(() => {
-        console.log('datee: ', startDate);
         values.signing_date = startDate;
         values.IIA_ID = IIAID;
         values.IIA_Code = IIACode;
@@ -182,14 +183,27 @@ export default function InstitutionInformationForm({
       });
     });
   }
-  const handleSelectChangeContact = (value: string) => {
-    setValue('contact_persons', value);
-    setContactPerson(value);
+  const handleSelectChangeContact = (value: Contact | null) => {
+    if (value) {
+      setValue('contact_persons', value.fullName);
+      setContactPerson(value.fullName);
+      setContactPersonID(value.id);
+    } else {
+      setValue('contact_persons', ''); // or any default value you want
+      setContactPerson(''); // or any default value you want
+    }
   };
-  const handleAuthorizedSignerSelectChangeContact = (value: string) => {
-    setValue('authorized_signotary', value);
-    setAuthorizedSignotary(value);
+  const handleAuthorizedSignerSelectChangeContact = (value: Contact | null) => {
+    if (value) {
+      setValue('authorized_signotary', value.fullName);
+      setAuthorizedSignotary(value.fullName);
+      setAuthorizedSignotaryID(value.id);
+    } else {
+      setValue('authorized_signotary', ''); // or any default value you want
+      setAuthorizedSignotary(''); // or any default value you want
+    }
   };
+
   const handleSelectChangeDepartment = (value: string) => {
     setValue('departmant_name', value);
     setDepartment(value);
@@ -228,7 +242,7 @@ export default function InstitutionInformationForm({
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
             <SelectInstitution
-             apiURL= 'https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
+              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
               register={register('hei_id', {
                 required: 'This is required',
@@ -247,17 +261,6 @@ export default function InstitutionInformationForm({
               register={register('IIA_Code')}
             />
             <SelectContact
-              placeholder='placeholder...'
-              id='authorized_signotary'
-              selectLabel='Anlaşmayı İmzalayacak Yetkili'
-              error={errors.authorized_signotary?.message}
-              register={register('authorized_signotary', {
-                required: 'This is required',
-              })}
-              onChange={handleAuthorizedSignerSelectChangeContact}
-              param={institution}
-            />
-            <SelectContact
               id='contact_persons'
               error={errors.contact_persons?.message}
               register={register('contact_persons', {
@@ -266,6 +269,17 @@ export default function InstitutionInformationForm({
               placeholder='placeholder...'
               selectLabel='İletişim Kurulabilecek Yetkililer'
               onChange={handleSelectChangeContact}
+              param={institution}
+            />
+            <SelectContact
+              placeholder='placeholder...'
+              id='authorized_signotary'
+              selectLabel='Anlaşmayı İmzalayacak Yetkili'
+              error={errors.authorized_signotary?.message}
+              register={register('authorized_signotary', {
+                required: 'This is required',
+              })}
+              onChange={handleAuthorizedSignerSelectChangeContact}
               param={institution}
             />
           </Stack>
