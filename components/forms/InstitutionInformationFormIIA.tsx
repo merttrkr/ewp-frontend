@@ -50,21 +50,33 @@ export default function InstitutionInformationForm({
   const {
     InsertEmptyRowToOrganizationInfo,
     InsertEmptyRowToBilateralAgreement,
+    SetSigningPerson,
+    AddOrganizationContactInfo,
   } = useUpdate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+  //use states
+  //values of the form
   const [institution, setInstitution] = useState('');
   const [department, setDepartment] = useState('');
   const [authorizedSignotary, setAuthorizedSignotary] = useState('');
-  const [authorizedSignotaryID, setAuthorizedSignotaryID] = useState(0);
   const [contactPerson, setContactPerson] = useState('');
-  const [contactPersonID, setContactPersonID] = useState(0);
   const [IIACode, setIIACode] = useState('');
   const [IIAID, setIIAID] = useState('');
+  //values from generate functions
+  const [authorizedSignotaryPersonID, setauthorizedSignotaryPersonID] =
+    useState(0);
+  const [contactPersonID, setContactPersonID] = useState(0);
+  const [newOrganizationInfoId, setNewOrganizationInfoId] = useState(0);
+  const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
+    useState(0);
+  //date picker input state
   const [startDate, setStartDate] = useState(new Date());
+
+  //useForm hook
   const {
     handleSubmit,
     register,
@@ -72,6 +84,8 @@ export default function InstitutionInformationForm({
     setValue,
     control,
   } = useForm<FormData>();
+
+  // fetch functions
 
   function handleIIACode() {
     const fetchInitialData = async () => {
@@ -109,8 +123,8 @@ export default function InstitutionInformationForm({
         'GenerateIdsForBothOrganizationAndPartnerOrganization hereee:',
         data
       );
-      handleInsertEmptyRowToOrganizationInfo(data.newOrganizationInfoId);
-      handleInsertEmptyRowToOrganizationInfo(data.newPartnerOrganizationInfoId);
+      setNewOrganizationInfoId(data.newOrganizationInfoId);
+      setNewPartnerOrganizationInfoId(data.newPartnerOrganizationInfoId);
     };
     fetchInitialData();
   }
@@ -165,15 +179,43 @@ export default function InstitutionInformationForm({
     insertEmptyRowToOrganizationInfo();
   }
 
+  function handleSetSigningPerson() {
+    const setSigningPerson = async () => {
+      await SetSigningPerson(
+        'https://localhost:5001/spSetSigningPerson?organizationInfo_id=' +
+          newOrganizationInfoId +
+          '&signingPerson_id=' +
+          authorizedSignotaryPersonID
+      );
+    };
+    setSigningPerson();
+  }
+
+  function handleAddOrganizationContactInfo() {
+    const setAddOrganizationContactInfo = async () => {
+      await AddOrganizationContactInfo(
+        'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id' +
+          newOrganizationInfoId +
+          '&contact_id=' +
+          contactPersonID
+      );
+    };
+    setAddOrganizationContactInfo();
+  }
+
+  //submit function
   function onSubmit(values: FormData) {
     console.log('submitted');
-
     return new Promise<void>((resolve) => {
       console.log('cont pers id: ', contactPersonID);
-      console.log('sign pers id: ', authorizedSignotaryID);
+      console.log('sign pers id: ', authorizedSignotaryPersonID);
       handleIDForBoth();
+      handleInsertEmptyRowToOrganizationInfo(newOrganizationInfoId);
+      handleInsertEmptyRowToOrganizationInfo(newPartnerOrganizationInfoId);
       handleIDForBothCollaborationCondition();
       handleGenerateBilateralAgreementID();
+      handleSetSigningPerson();
+      handleAddOrganizationContactInfo();
       setTimeout(() => {
         values.signing_date = startDate;
         values.IIA_ID = IIAID;
@@ -183,6 +225,8 @@ export default function InstitutionInformationForm({
       });
     });
   }
+
+  //onChange functions
   const handleSelectChangeContact = (value: Contact | null) => {
     if (value) {
       setValue('contact_persons', value.fullName);
@@ -197,7 +241,7 @@ export default function InstitutionInformationForm({
     if (value) {
       setValue('authorized_signotary', value.fullName);
       setAuthorizedSignotary(value.fullName);
-      setAuthorizedSignotaryID(value.id);
+      setauthorizedSignotaryPersonID(value.id);
     } else {
       setValue('authorized_signotary', ''); // or any default value you want
       setAuthorizedSignotary(''); // or any default value you want
@@ -212,6 +256,7 @@ export default function InstitutionInformationForm({
     setValue('hei_id', value);
     setInstitution(value);
   };
+
   return (
     <Stack
       marginBottom='20'

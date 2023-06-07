@@ -234,7 +234,6 @@ const useUpdate = () => {
   const SetSigningPerson = async (request: string): Promise<string> => {
     const result: string = await makeRequest<string>(request);
 
-    console.log('result: ', result);
     return result;
   };
   //https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=21&contact_id=1
@@ -242,8 +241,6 @@ const useUpdate = () => {
     request: string
   ): Promise<string> => {
     const result: string = await makeRequest<string>(request);
-
-    console.log('result: ', result);
     return result;
   };
   //https://localhost:5001/spSetCreatorOfBilateralAgreement?bilateralAgreement_id=21

@@ -3,12 +3,12 @@ save butonu InstitutionInformationFormIIA
 -spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition +
 -spGenerateBilateralAgreementId +
 -spInsertEmptyRowToBilateralAgreement insert-> spGenerateBilateralAgreementId +
--spInsertEmptyRowToOrganizationInfo-> spGenerateIdsForBothOrganizationAndPartnerOrganization.organizationInfoId
--spInsertEmptyRowToOrganizationInfo-> spGenerateIdsForBothOrganizationAndPartnerOrganization.partnerOrganizationInfoId
+-spInsertEmptyRowToOrganizationInfo-> spGenerateIdsForBothOrganizationAndPartnerOrganization.organizationInfoId +
+-spInsertEmptyRowToOrganizationInfo-> spGenerateIdsForBothOrganizationAndPartnerOrganization.partnerOrganizationInfoId +
 
 -spSetUniversityIdOfOrganizationInfo -> heiId,OrganizationInfoId
--spSetSigningPerson ->selectedSigningPerson
--spAddOrganizationContactInfo
+-spSetSigningPerson ->selectedSigningPerson +
+-spAddOrganizationContactInfo+
 
 -spUpdateLastUpdateDateOfBilateralAgremeent
 -spSaveOrganizationInfo
