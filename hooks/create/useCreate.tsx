@@ -43,7 +43,7 @@ const useCreate = () => {
   const GenerateIIAID = async (request: string): Promise<string> => {
     const IIAID: string = await makeRequestString<string>(request);
 
-    console.log('result IIA-ID: ', IIAID);
+   
     return IIAID;
   };
 
@@ -51,7 +51,7 @@ const useCreate = () => {
   const GenerateIIACode = async (request: string): Promise<string> => {
     const IIACode: string = await makeRequestString<string>(request);
 
-    console.log('result IIACode: ', IIACode);
+
     return IIACode;
   };
 
@@ -62,7 +62,7 @@ const useCreate = () => {
     const idForBoth: IdForBothResponse[] = await makeRequestJSON<
       IdForBothResponse[]
     >(request);
-    console.log('IdForBothResponse: ', idForBoth);
+   
     return idForBoth;
   };
 
@@ -73,10 +73,7 @@ const useCreate = () => {
     ): Promise<IdForBothCollaborationConditionResponse> => {
       const idForBothCollaborationConditionResponse: IdForBothCollaborationConditionResponse =
         await makeRequestJSON<IdForBothCollaborationConditionResponse>(request);
-      console.log(
-        'IdForBothCollaborationConditionResponse ',
-        idForBothCollaborationConditionResponse
-      );
+
       return idForBothCollaborationConditionResponse;
     };
 

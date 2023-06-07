@@ -40,8 +40,6 @@ const Select: React.FC<SelectInstitutionProps> = ({
   const HeadingColor = 'gray.600'; // Use a specific color instead of `useColorModeValue`
 
   useEffect(() => {
-    console.log('apiURL: ', apiURL);
-
     const fetchInitialData = async () => {
       try {
         const data = await GetAllUniversitiesInfo(apiURL);

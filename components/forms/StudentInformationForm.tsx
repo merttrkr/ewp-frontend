@@ -109,7 +109,7 @@ export default function StudentInformationForm({
               placeHolder='Kadın'
               selectLabel='Öğrencinin Cinsiyet'
             />
-            <DatePickerInput datePickerInputLabel='Öğrencinin Doğum Tarihi' />
+            <DatePickerInput startDate='' setStartDate={Date} datePickerInputLabel='Öğrencinin Doğum Tarihi' />
             <TextInput
               placeHolder='test@gmail.com'
               label='Öğrencinin E-postası'

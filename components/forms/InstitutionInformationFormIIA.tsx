@@ -102,10 +102,9 @@ export default function InstitutionInformationForm({
 
   async function handleIIACode() {
     const fetchInitialData = async () => {
-      const data = await await GenerateIIACode(
+      const data = await GenerateIIACode(
         'https://localhost:5001/spGenerateIIACode'
       ); // Call the fetchData function
-      console.log('IIA CODE hook:', data);
       if (data) {
         setIIACode(data); // Update the state with the fetched data
       }
@@ -114,10 +113,9 @@ export default function InstitutionInformationForm({
   }
   async function handleIIAID() {
     const fetchInitialData = async () => {
-      const data = await await GenerateIIAID(
+      const data = await GenerateIIAID(
         'https://localhost:5001/spGenerateIIAId'
       ); // Call the fetchData function
-      console.log('IIA Id hook:', data);
       if (data) {
         setIIAID(data); // Update the state with the fetched data
       }
@@ -132,10 +130,7 @@ export default function InstitutionInformationForm({
           'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganization'
         )
       )[0]; // Call the fetchData function
-      console.log(
-        'GenerateIdsForBothOrganizationAndPartnerOrganization hereee:',
-        data
-      );
+
       setNewOrganizationInfoId(data.newOrganizationInfoId);
       setNewPartnerOrganizationInfoId(data.newPartnerOrganizationInfoId);
     };
@@ -148,10 +143,7 @@ export default function InstitutionInformationForm({
         await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
           'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition'
         );
-      console.log(
-        'GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition:',
-        data
-      );
+
     };
     fetchCollaborationConditionData();
   }
@@ -162,7 +154,7 @@ export default function InstitutionInformationForm({
         'https://localhost:5001/spGenerateBilateralAgreementId'
       );
       setBilateralAgreementID(data);
-      console.log('GenerateBilateralAgreementID:', data);
+     
     };
     fetchBilateralAgreementID();
   }
@@ -179,11 +171,7 @@ export default function InstitutionInformationForm({
 
   async function handleInsertEmptyRowToOrganizationInfo(id: number) {
     const insertEmptyRowToOrganizationInfo = async () => {
-      console.log(
-        'url' +
-          'https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=' +
-          id
-      );
+      
       await InsertEmptyRowToOrganizationInfo(
         'https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=' +
           id
@@ -207,7 +195,7 @@ export default function InstitutionInformationForm({
   async function handleAddOrganizationContactInfo() {
     const setAddOrganizationContactInfo = async () => {
       await AddOrganizationContactInfo(
-        'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id' +
+        'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
           newOrganizationInfoId +
           '&contact_id=' +
           contactPersonID
@@ -280,40 +268,43 @@ export default function InstitutionInformationForm({
 
   //submit function
   function onSubmit(values: FormData) {
-    console.log('submitted');
-    return new Promise<void>(async (resolve) => {
-      console.log('cont pers id: ', contactPersonID);
-      console.log('sign pers id: ', authorizedSignotaryPersonID);
-      console.log('date : ', startDate);
-
-      await handleIDForBoth();
-      await handleIDForBothCollaborationCondition();
-      await handleGenerateBilateralAgreementID();
-
-      await handleInsertEmptyRowToBilateralAgreement(bilateralAgreementID);
-      await handleInsertEmptyRowToOrganizationInfo(newOrganizationInfoId);
-      await handleInsertEmptyRowToOrganizationInfo(
-        newPartnerOrganizationInfoId
-      );
-
-      await handleSetUniversityIdOfOrganizationInfo();
-      await handleSetSigningPerson();
-
-      await handleAddOrganizationContactInfo();
-      await handleUpdateDateOfBilateralAgreement();
-      await handleSaveOrganizationInfo();
-      await handleAddOrganizationInfoToBilateralAgreement();
-      await handleSetCreatorOfBilateralAgreement();
-
-      setTimeout(() => {
-        values.signing_date = startDate;
-        values.IIA_ID = IIAID;
-        values.IIA_Code = IIACode;
-        alert(JSON.stringify(values, null));
+    values.signing_date = startDate;
+    values.IIA_ID = IIAID;
+    values.IIA_Code = IIACode;
+    
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+  
+        await handleIDForBoth();
+        console.log('new org id: ', newOrganizationInfoId);
+        
+        await handleIDForBothCollaborationCondition();
+        console.log('new partner org id: ', newPartnerOrganizationInfoId);
+        
+        await handleGenerateBilateralAgreementID();
+  
+        await handleInsertEmptyRowToBilateralAgreement(bilateralAgreementID);
+        await handleInsertEmptyRowToOrganizationInfo(newOrganizationInfoId);
+        await handleInsertEmptyRowToOrganizationInfo(newPartnerOrganizationInfoId);
+  
+        await handleSetUniversityIdOfOrganizationInfo();
+        await handleSetSigningPerson();
+  
+        await handleAddOrganizationContactInfo();
+        await handleUpdateDateOfBilateralAgreement();
+        await handleSaveOrganizationInfo();
+        await handleAddOrganizationInfoToBilateralAgreement();
+        await handleSetCreatorOfBilateralAgreement();
+  
         resolve();
-      });
+      } catch (error) {
+        alert('Error');
+        console.log(error);
+        reject(error);
+      }
     });
   }
+  
 
   //onChange functions
   const handleSelectChangeInstitution = (value: InstitutionInfo | null) => {

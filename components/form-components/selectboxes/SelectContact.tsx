@@ -40,11 +40,7 @@ const Select: React.FC<SelectContactProps> = ({
         const result = await GetContactInfoByHeiID(
           'https://localhost:5001/spGetUniversityContactsByHeiId?heiId=' + param
         );
-        if (!result) {
-          console.log('no data');
-        } else {
-          console.log('result contact', result);
-        }
+
         const data = await (result ? result.contacts : []); // Call the fetchData function
         if (data) {
           setContactArray(data); // Update the state with the fetched data
