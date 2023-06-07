@@ -52,6 +52,8 @@ export default function InstitutionInformationForm({
     InsertEmptyRowToBilateralAgreement,
     SetSigningPerson,
     AddOrganizationContactInfo,
+    SetUniversityIdOfOrganizationInfo,
+    UpdateDateOfBilateralAgreement,
   } = useUpdate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -73,6 +75,7 @@ export default function InstitutionInformationForm({
   const [newOrganizationInfoId, setNewOrganizationInfoId] = useState(0);
   const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
     useState(0);
+  const [bilateralAgreementID, setBilateralAgreementID] = useState(0);
   //date picker input state
   const [startDate, setStartDate] = useState(new Date());
 
@@ -148,8 +151,8 @@ export default function InstitutionInformationForm({
       const data = await GenerateBilateralAgreementID(
         'https://localhost:5001/spGenerateBilateralAgreementId'
       );
+      setBilateralAgreementID(data);
       console.log('GenerateBilateralAgreementID:', data);
-      handleInsertEmptyRowToBilateralAgreement(data);
     };
     fetchBilateralAgreementID();
   }
@@ -203,6 +206,28 @@ export default function InstitutionInformationForm({
     setAddOrganizationContactInfo();
   }
 
+  function handleSetUniversityIdOfOrganizationInfo() {
+    const setUniversityIdOfOrganizationInfo = async () => {
+      await SetUniversityIdOfOrganizationInfo(
+        'https://localhost:5001/spSetUniversityIdOfOrganizationInfo?hei_id=' +
+          institution +
+          '&organizationInfo_id=' +
+          newOrganizationInfoId
+      );
+    };
+    setUniversityIdOfOrganizationInfo();
+  }
+
+  function handleUpdateDateOfBilateralAgreement() {
+    const updateDateOfBilateralAgreement = async () => {
+      await UpdateDateOfBilateralAgreement(
+        'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=' +
+          bilateralAgreementID
+      );
+    };
+    updateDateOfBilateralAgreement();
+  }
+
   //submit function
   function onSubmit(values: FormData) {
     console.log('submitted');
@@ -214,8 +239,11 @@ export default function InstitutionInformationForm({
       handleInsertEmptyRowToOrganizationInfo(newPartnerOrganizationInfoId);
       handleIDForBothCollaborationCondition();
       handleGenerateBilateralAgreementID();
+      handleInsertEmptyRowToBilateralAgreement(bilateralAgreementID);
       handleSetSigningPerson();
       handleAddOrganizationContactInfo();
+      handleSetUniversityIdOfOrganizationInfo();
+      handleUpdateDateOfBilateralAgreement();
       setTimeout(() => {
         values.signing_date = startDate;
         values.IIA_ID = IIAID;
