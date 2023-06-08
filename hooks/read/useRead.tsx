@@ -1,9 +1,11 @@
+import { AcademicYearInfo } from '@/models/response/academicYearResponse';
 import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
 import { ContactResponse, Contact } from '@/models/response/contactResponse';
 import {
   DepartmentResponse,
   Department,
 } from '@/models/response/departmentResponse';
+import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
 import {
   InstitutionInfo,
   InstitutionInfoResponse,
@@ -92,12 +94,38 @@ const useAgreement = () => {
     );
     return languageLevels;
   };
-
+  //https://localhost:5001/spGetSubjectAreas
   const GetSubjectAreas = async (request: string): Promise<SubjectArea[]> => {
     const subjectAreas: SubjectArea[] = await makeRequest<SubjectArea[]>(
       request
     );
     return subjectAreas;
+  };
+  //https://localhost:5001/spGetEducationTypesAndLevels
+  const GetEducationTypesAndLevels = async (
+    request: string
+  ): Promise<EducationTypeAndLevel[]> => {
+    const educationTypesAndLevels: EducationTypeAndLevel[] = await makeRequest<
+      EducationTypeAndLevel[]
+    >(request);
+    return educationTypesAndLevels;
+  };
+  //https://localhost:5001/spGetAcademicYearInfo
+  const GetAcademicYearInfo = async (
+    request: string
+  ): Promise<AcademicYearInfo[]> => {
+    const academicYearInfo: AcademicYearInfo[] = await makeRequest<
+      AcademicYearInfo[]
+    >(request);
+    return academicYearInfo;
+  };
+
+  //https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=21
+  const GetSelectedContactInfoOfOrganizationInfo = async (
+    request: string
+  ): Promise<string[]> => {
+    const contactInfo: string[] = await makeRequest<string[]>(request);
+    return contactInfo;
   };
 
   return {
@@ -108,6 +136,9 @@ const useAgreement = () => {
     GetLanguages,
     GetLanguageLevels,
     GetSubjectAreas,
+    GetEducationTypesAndLevels,
+    GetAcademicYearInfo,
+    GetSelectedContactInfoOfOrganizationInfo,
   };
 };
 

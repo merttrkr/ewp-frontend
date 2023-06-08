@@ -28,6 +28,9 @@ export default function InstitutionConditionsForm({
     GetLanguages,
     GetLanguageLevels,
     GetSubjectAreas,
+    GetEducationTypesAndLevels,
+    GetAcademicYearInfo,
+    GetSelectedContactInfoOfOrganizationInfo,
   } = useRead();
 
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -79,8 +82,44 @@ export default function InstitutionConditionsForm({
     };
     fetchInitialData();
   }
-  handleGetSubjectAreas();
+  async function handleGetEducationTypesAndLevels() {
+    const fetchInitialData = async () => {
+      const data = await GetEducationTypesAndLevels(
+        'https://localhost:5001/spGetEducationTypesAndLevels'
+      ); // Call the GetEducationTypesAndLevels function
+      if (data) {
+        console.log('data: ', data); // Process the fetched data
+      }
+    };
+    fetchInitialData();
+  }
 
+  async function handleGetAcademicYearInfo() {
+    const fetchInitialData = async () => {
+      const data = await GetAcademicYearInfo(
+        'https://localhost:5001/spGetAcademicYearInfo'
+      ); // Call the GetAcademicYearInfo function
+      if (data) {
+        console.log('data: ', data); // Process the fetched data
+      }
+    };
+    fetchInitialData();
+  }
+
+  async function handleGetSelectedContactInfoOfOrganizationInfo() {
+    const organizationInfo = 21;
+    const fetchInitialData = async () => {
+      const data = await GetSelectedContactInfoOfOrganizationInfo(
+        'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
+          organizationInfo
+      ); // Call the GetSelectedContactInfoOfOrganizationInfo function
+      if (data) {
+        console.log('data: ', data); // Process the fetched data
+      }
+    };
+    fetchInitialData();
+  }
+  handleGetSelectedContactInfoOfOrganizationInfo();
   return (
     <Stack
       marginBottom='20'
