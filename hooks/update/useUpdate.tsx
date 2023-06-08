@@ -4,6 +4,7 @@ import {
 } from '@/models/response/institutionInfoFormResponse';
 import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFormRequest';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
+import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -248,10 +249,55 @@ const useUpdate = () => {
     request: string
   ): Promise<string> => {
     const result: string = await makeRequest<string>(request);
-
-
     return result;
   };
+
+  //https://localhost:5001/spAddLanguageSkillForCollaborationCondition?collaborationCondition_id=1&lang_id=1&langLevel_id=1
+  const AddLanguageSkillForCollaborationCondition = async (
+    request: string
+  ): Promise<string> => {
+    const result: string = await makeRequest<string>(request);
+    return result;
+  };
+  /*https://localhost:5001/spSaveCollaborationCondition?id=1&bilateralAgreement_id=1&isPartner=1&
+academicYearStart_id=1&academicYearEnd_id=1&annualQuota=1&subjectArea_id=1&subjectAreaDescript
+ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLevel_id=1*/
+  const SaveCollaborationCondition = async (
+    request: CollaborationConditionRequest
+  ): Promise<number> => {
+    const {
+      id,
+      bilateralAgreement_id,
+      isPartner,
+      academicYearStart_id,
+      academicYearEnd_id,
+      annualQuota,
+      subjectArea_id,
+      subjectAreaDescription,
+      otherInfo,
+      annualTotalMonths,
+      isCoEducational,
+      educationTypeAndLevel_id,
+    } = request;
+
+    const url = `https://localhost:5001/spSaveCollaborationCondition?id=${id}&bilateralAgreement_id=${bilateralAgreement_id}&isPartner=${isPartner}&
+    academicYearStart_id=${academicYearStart_id}&academicYearEnd_id=${academicYearEnd_id}&annualQuota=${annualQuota}&subjectArea_id=${subjectArea_id}&subjectAreaDescript
+    ion=${subjectAreaDescription}&otherInfo=${otherInfo}&annualTotalMonths=${annualTotalMonths}&isCoEducational=${isCoEducational}&educationTypeAndLevel_id=${educationTypeAndLevel_id}`;
+
+    const result: number = await makeRequest<number>(url);
+
+   
+    return result;
+  };
+
+  //https://localhost:5001/spAddCollaborationConditionToBilateralAgreement?collaborationCondition_id=1&bilateralAgreement_id=1&isPartner=0
+  const AddCollaborationConditionToBilateralAgreement = async (
+    request: string
+  ): Promise<string> => {
+    const result: string = await makeRequest<string>(request);
+    return result;
+  };
+
   return {
     SetCreatorOfBilateralAgreement,
     AddOrganizationContactInfo,

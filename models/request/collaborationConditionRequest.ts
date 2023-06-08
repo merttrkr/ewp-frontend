@@ -1,4 +1,4 @@
-export interface CollaborationCondition {
+export interface CollaborationConditionRequest {
     id: number;
     bilateralAgreement_id: number;
     isPartner: number;
