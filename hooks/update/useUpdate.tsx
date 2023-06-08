@@ -298,7 +298,9 @@ ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLe
     return result;
   };
 
-  return {
+  return {AddCollaborationConditionToBilateralAgreement,
+    SaveCollaborationCondition,
+    AddLanguageSkillForCollaborationCondition,
     SetCreatorOfBilateralAgreement,
     AddOrganizationContactInfo,
     SetUniversityIdOfOrganizationInfo,
