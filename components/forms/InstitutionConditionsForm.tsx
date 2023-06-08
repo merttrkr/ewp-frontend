@@ -476,8 +476,11 @@ export default function InstitutionConditionsForm({
               register={register('annual_total_month_amount')}
             />
             <CheckBoxInput
-              placeHolder='Karma'
+              id='is_coeducational'
+              placeholder='Karma'
               checkBoxInputLabel='Karma Eğitim Olacaksa Aşağıdaki Kutucuğu İşaretleyiniz'
+              error={errors.is_coeducational?.message}
+              register={register('is_coeducational')}
             />
             <HStack spacing={4}>
               <SelectLanguage
