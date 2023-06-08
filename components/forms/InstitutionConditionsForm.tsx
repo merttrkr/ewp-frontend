@@ -22,11 +22,18 @@ export default function InstitutionConditionsForm({
   pageName,
   subText,
 }: InstitutionConditionsFormProps) {
+  //get hooks
+  const {
+    GetCollaborationConditionTypes,
+    GetLanguages,
+    GetLanguageLevels,
+    GetSubjectAreas,
+  } = useRead();
+
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
-  const { GetCollaborationConditionTypes, GetLanguages } = useRead();
 
   async function handleGetCollaborationConditionTypes() {
     const fetchInitialData = async () => {
@@ -48,7 +55,31 @@ export default function InstitutionConditionsForm({
     };
     fetchInitialData();
   }
-  handleGetLanguages();
+
+  async function handleGetLanguageLevels() {
+    const fetchInitialData = async () => {
+      const data = await GetLanguageLevels(
+        'https://localhost:5001/spGetLanguageLevels'
+      ); // Call the GetLanguageLevels function
+      if (data) {
+        console.log('data: ', data); // Process the fetched data
+      }
+    };
+    fetchInitialData();
+  }
+
+  async function handleGetSubjectAreas() {
+    const fetchInitialData = async () => {
+      const data = await GetSubjectAreas(
+        'https://localhost:5001/spGetSubjectAreas'
+      ); // Call the GetSubjectAreas function
+      if (data) {
+        console.log('data: ', data); // Process the fetched data
+      }
+    };
+    fetchInitialData();
+  }
+  handleGetSubjectAreas();
 
   return (
     <Stack

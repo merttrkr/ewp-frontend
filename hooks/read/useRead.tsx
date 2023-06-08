@@ -8,7 +8,9 @@ import {
   InstitutionInfo,
   InstitutionInfoResponse,
 } from '@/models/response/institutionInfoResponse';
+import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
+import { SubjectArea } from '@/models/response/subjectAreaResponse';
 
 const useAgreement = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -64,6 +66,8 @@ const useAgreement = () => {
     return departmentList;
   };
 
+  //institiutionConditionsForm
+
   //https:localhost:5001/spGetCollaborationConditionTypes
   const GetCollaborationConditionTypes = async (
     request: string
@@ -79,7 +83,22 @@ const useAgreement = () => {
     return languages;
   };
 
-  //institiutionConditionsForm
+  //https://localhost:5001/spGetLanguageLevels
+  const GetLanguageLevels = async (
+    request: string
+  ): Promise<LanguageLevel[]> => {
+    const languageLevels: LanguageLevel[] = await makeRequest<LanguageLevel[]>(
+      request
+    );
+    return languageLevels;
+  };
+
+  const GetSubjectAreas = async (request: string): Promise<SubjectArea[]> => {
+    const subjectAreas: SubjectArea[] = await makeRequest<SubjectArea[]>(
+      request
+    );
+    return subjectAreas;
+  };
 
   return {
     GetContactInfoByHeiID,
@@ -87,6 +106,8 @@ const useAgreement = () => {
     GetDepartmentsByHeiID,
     GetCollaborationConditionTypes,
     GetLanguages,
+    GetLanguageLevels,
+    GetSubjectAreas,
   };
 };
 
