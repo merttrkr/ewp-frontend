@@ -29,6 +29,9 @@ import SelectCollaborationCondition from '../form-components/selectboxes/SelectC
 import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
 import SelectEducationTypeAndLevel from '../form-components/selectboxes/SelectEducationTypeAndLevel';
 import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
+import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
+import { Language } from '@/models/response/languageResponse';
+import { LanguageLevel } from '@/models/response/languageLevelResponse';
 
 type InstitutionConditionsFormProps = {
   pageName: String;
@@ -97,7 +100,9 @@ export default function InstitutionConditionsForm({
   const [educationTypeAndLevel, setEducationTypeAndLevel] = useState('');
   const [educationTypeAndLevelID, setEducationTypeAndLevelID] = useState(0);
   const [language, setLanguage] = useState('');
+  const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
+  const [languageLevelID, setLanguageLevelID] = useState(0);
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
 
@@ -305,6 +310,26 @@ export default function InstitutionConditionsForm({
       setEducationTypeAndLevel(''); // or any default value you want
     }
   };
+  const handleLanguageChange = (value: Language | null) => {
+    if (value) {
+      setValue('language', value.definition);
+      setLanguage(value.definition);
+      setLanguageLevelID(value.lang_id);
+    } else {
+      setValue('language', '');
+      setLanguageLevelID(''); // or any default value you want
+    }
+  };
+  const handleLanguageLevelChange = (value: LanguageLevel | null) => {
+    if (value) {
+      setValue('language_level', value.code);
+      setLanguageLevel(value.code);
+      setLanguageLevelID(value.langLevel_id);
+    } else {
+      setValue('language_level', '');
+      setLanguageLevelID(''); // or any default value you want
+    }
+  };
 
   return (
     <Stack
@@ -476,10 +501,17 @@ export default function InstitutionConditionsForm({
               checkBoxInputLabel='Karma Eğitim Olacaksa Aşağıdaki Kutucuğu İşaretleyiniz'
             />
             <HStack spacing={4}>
-              <SelectAutoComplete
-                placeHolder='placeholder..'
-                selectLabel='İstenilen Yabancı Dil'
-              />
+              <SelectLanguage
+                id='language'
+                error={errors.language?.message}
+                register={register('language', {
+                  required: 'This is required',
+                })}
+                placeholder='placeholder...'
+                selectLabel='Yabancı Dil'
+                onChange={handleLanguageChange}
+              ></SelectLanguage>
+
               <Box w={'50%'}>
                 <SelectAutoComplete
                   placeHolder='placeholder..'
