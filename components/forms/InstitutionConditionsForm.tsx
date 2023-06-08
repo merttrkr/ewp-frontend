@@ -383,10 +383,14 @@ export default function InstitutionConditionsForm({
               selectLabel='Hangi Akademik Yıllar Arasında Başlıyor ?'
               onChange={handleAcademicYearStartChange}
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Yıl Bazında Hareketlilik (mobilite) Sayısı'
+            <TextInput
+              placeholder='0'
+              id='annual_mobility_amount'
+              label='Yıl Bazında Mobilite Sayısı'
+              error={errors.annual_mobility_amount?.message}
+              register={register('annual_mobility_amount')}
             />
+
             <SelectAutoComplete
               placeHolder='placeholder..'
               selectLabel='ISCED Kodu ve Konu Alanları'
@@ -395,6 +399,13 @@ export default function InstitutionConditionsForm({
               placeHolder='placeholder..'
               name='0'
               label='Yıl Bazında Toplam Ay sayısı'
+            />
+            <TextInput
+              placeholder='Açıklama'
+              id='other_info'
+              label='Diğer belirtmek istediğiniz bilgiler..'
+              error={errors.other_info?.message}
+              register={register('other_info')}
             />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
@@ -443,9 +454,12 @@ export default function InstitutionConditionsForm({
               selectLabel='Hangi Akademik Yıllar Arasında Bitiyor ?'
               onChange={handleAcademicYearEndChange}
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Gönderen Kurumun İlgili Bölümü / Departmanı'
+            <TextInput
+              placeholder='0'
+              id='annual_total_month_amount'
+              label='Yıl Bazında Toplam Ay Sayısı'
+              error={errors.annual_total_month_amount?.message}
+              register={register('annual_total_month_amount')}
             />
             <CheckBoxInput
               placeHolder='Karma'

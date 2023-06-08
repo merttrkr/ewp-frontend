@@ -10,51 +10,51 @@ import {
 
 type FormInputProps = {
   label: string;
-  name: string;
-  placeHolder: string;
+  id: string;
+  placeholder: string;
+  error: string | undefined;
+  register: any;
   type?: string;
   isDisabled?: boolean;
 };
 
 const FormInput: React.FC<FormInputProps> = ({
+  type = 'text',
   isDisabled = false,
   label,
-  name,
-  type = 'text',
-  placeHolder,
+  id,
+  error,
+  register,
+  placeholder,
 }) => {
-  const {
-    register,
-    formState: { errors },
-  } = useForm();
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
-    <Stack>
-      <FormControl>
-        <Heading
-          pl='1'
-          as='h3'
-          size='sm'
-          fontWeight={'bold'}
-          color={HeadingColor}
-          pb='2'
-        >
-          <label htmlFor={name}>{label}</label>
-        </Heading>
-        <Input
-          isDisabled={isDisabled}
-          type={type}
-          {...register(name)}
-          placeholder={placeHolder}
-          bg={'gray.100'}
-          border={0}
-          color={'gray.500'}
-          _placeholder={{
-            color: 'gray.500',
-          }}
-        />
-      </FormControl>
-    </Stack>
+    <FormControl isInvalid={!!error}>
+      <Heading
+        pl='1'
+        as='h3'
+        size='sm'
+        fontWeight={'bold'}
+        color={HeadingColor}
+        pb='2'
+      >
+        <label htmlFor={id}>{label}</label>
+      </Heading>
+      <Input
+        id={id}
+        placeholder={placeholder}
+        {...register}
+        isDisabled={isDisabled}
+        type={type}
+        bg={'gray.100'}
+        border={0}
+        color={'gray.500'}
+        _placeholder={{
+          color: 'gray.500',
+        }}
+      />
+      {error && <span style={{ color: 'red' }}>{error}</span>}
+    </FormControl>
   );
 };
 

@@ -7,7 +7,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import TextInput2 from '../form-components/inputs/TextInput2';
+import TextInput from '../form-components/inputs/TextInput';
 import DatePickerInput from '../form-components/inputs/DatePickerInput';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
@@ -352,7 +352,7 @@ export default function InstitutionInformationForm({
               onChange={handleSelectChangeInstitution}
               error={errors.hei_id?.message}
             />
-            <TextInput2
+            <TextInput
               isDisabled
               placeholder={IIACode}
               id='IIA_Code'
@@ -395,7 +395,7 @@ export default function InstitutionInformationForm({
               param={institution}
               error={errors.departmant_name?.message}
             />
-            <TextInput2
+            <TextInput
               isDisabled
               placeholder={IIAID}
               id='IIA_ID'

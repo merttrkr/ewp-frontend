@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '@/components/form-components/inputs/TextInput';
+import TextInput from '@/components/form-components/inputs/TextInput1';
 
 type SendingInstitutionInformationFormProps = {
   pageName: String;

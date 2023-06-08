@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '@/components/form-components/inputs/TextInput';
+import TextInput from '@/components/form-components/inputs/TextInput1';
 import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
 import DisplayText from '../form-components/DisplayText';
 import DatePickerInput from '../form-components/inputs/DatePickerInput';
@@ -109,7 +109,11 @@ export default function StudentInformationForm({
               placeHolder='Kadın'
               selectLabel='Öğrencinin Cinsiyet'
             />
-            <DatePickerInput startDate='' setStartDate={Date} datePickerInputLabel='Öğrencinin Doğum Tarihi' />
+            <DatePickerInput
+              startDate=''
+              setStartDate={Date}
+              datePickerInputLabel='Öğrencinin Doğum Tarihi'
+            />
             <TextInput
               placeHolder='test@gmail.com'
               label='Öğrencinin E-postası'
