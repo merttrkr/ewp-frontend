@@ -78,7 +78,7 @@ export default function InstitutionConditionsForm({
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
-  const FormBackground = useColorModeValue('gray.50', 'gray.700');
+  const FormBackground = useColorModeValue('gray.50', 'gray.600');
   //states
   const [senderInstitutionID, setSenderInstitutionID] = useState(0);
   const [senderInstitution, setSenderInstitution] = useState('');
@@ -413,14 +413,16 @@ export default function InstitutionConditionsForm({
               selectLabel='ISCED Kodu ve Konu Alanları'
               onChange={handleISCEDchange}
             ></SelectISCED>
-
-            <TextInput
-              placeholder='Açıklama'
-              id='other_info'
-              label='Diğer belirtmek istediğiniz bilgiler..'
-              error={errors.other_info?.message}
-              register={register('other_info')}
-            />
+            <SelectEducationTypeAndLevel
+              id='education_type_and_level'
+              register={register('education_type_and_level', {
+                required: 'This is required',
+              })}
+              placeholder='placeholder...'
+              selectLabel='Öğrenim Seviyesi'
+              onChange={handleEducationTypeAndLevelChange}
+              error={errors.education_type_and_level?.message}
+            ></SelectEducationTypeAndLevel>
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
             <SelectInstitution
@@ -507,18 +509,18 @@ export default function InstitutionConditionsForm({
                 ></SelectLanguageLevel>
               </Box>
             </HStack>
-            <SelectEducationTypeAndLevel
-              id='education_type_and_level'
-              register={register('education_type_and_level', {
-                required: 'This is required',
-              })}
-              placeholder='placeholder...'
-              selectLabel='Öğrenim Seviyesi'
-              onChange={handleEducationTypeAndLevelChange}
-              error={errors.education_type_and_level?.message}
-            ></SelectEducationTypeAndLevel>
           </Stack>
         </Flex>
+        <Box pl={5}>
+          <TextInput
+            placeholder='Açıklama'
+            id='other_info'
+            label='Diğer belirtmek istediğiniz bilgiler..'
+            error={errors.other_info?.message}
+            register={register('other_info')}
+          />
+        </Box>
+
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
           <Button variant='submit' type='submit'>
             Kaydet

@@ -64,7 +64,7 @@ export default function InstitutionInformationForm({
   } = useUpdate();
   //colors
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
-  const FormBackground = useColorModeValue('gray.50', 'gray.700');
+  const FormBackground = useColorModeValue('gray.50', 'gray.600');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   //use states
