@@ -33,7 +33,7 @@ https://localhost:5001/spGetLanguageLevels
   },
 ]
 
-https://localhost:5001/spGetSubjectAreas +
+https://localhost:5001/spGetSubjectAreas 
 
 [
   {

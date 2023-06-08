@@ -57,7 +57,6 @@ const FormInput: React.FC<SelectAutoCompleteProps> = ({
           as='h3'
           size='sm'
           fontWeight={'bold'}
-          noOfLines={1}
           color={HeadingColor}
         >
           <label htmlFor={id}>{selectLabel}</label>

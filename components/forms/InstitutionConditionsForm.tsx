@@ -13,9 +13,34 @@ import SelectAutoComplete from '@/components/form-components/SelectAutoComplete'
 import TextInput from '@/components/form-components/inputs/TextInput';
 import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
 import useRead from '@/hooks/read/useRead';
+import { useForm } from 'react-hook-form';
+import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
+import { Contact } from '@/models/response/contactResponse';
+import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFormRequest';
+import { Department } from '@/models/response/departmentResponse';
+import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
+import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
+import { useState } from 'react';
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
+};
+
+type FormData = {
+  sender_hei_id: string;
+  receiver_hei_id: string;
+  sender_department: string;
+  receiver_department: string;
+  sender_contact_person: string;
+  receiver_contact_person: string;
+  starting_academic_year: string;
+  ending_academic_year: string;
+  annual_quota: number;
+  annual_mobility_amount: number;
+  isCoEducational: number;
+  educationTypeAndLevel: string;
+  language: string;
+  language_level: string;
 };
 
 export default function InstitutionConditionsForm({
@@ -38,6 +63,18 @@ export default function InstitutionConditionsForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
+
+  const [senderInstitutionID, setSenderInstitutionID] = useState(0);
+  const [senderInstitution, setSenderInstitution] = useState('');
+
+  //useForm hook
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    setValue,
+    control,
+  } = useForm<FormData>();
 
   async function handleGetCollaborationConditionTypes() {
     const fetchInitialData = async () => {
@@ -134,7 +171,18 @@ export default function InstitutionConditionsForm({
     };
     fetchInitialData();
   }
-  handleGetOrganizationInfo();
+
+  //onChange functions
+  const handleSenderInstitutionChange = (value: InstitutionInfo | null) => {
+    if (value) {
+      setValue('sender_hei_id', value.heiId);
+      setSenderInstitution(value.heiId);
+      setSenderInstitutionID(value.uniqueId);
+    } else {
+      setValue('sender_hei_id', '');
+      setSenderInstitution('');
+    }
+  };
 
   return (
     <Stack
@@ -172,9 +220,16 @@ export default function InstitutionConditionsForm({
 
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
-            <SelectAutoComplete
+            <SelectInstitution
+              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
+              id='sender_instution_name'
+              register={register('sender_hei_id', {
+                required: 'This is required',
+              })}
               placeHolder='placeholder..'
-              selectLabel='Gönderen Kurum / Üniversite'
+              selectLabel='Gönderen Kurum / Üniversite Adı'
+              onChange={handleSenderInstitutionChange}
+              error={errors.sender_hei_id?.message}
             />
             <SelectAutoComplete
               placeHolder='placeholder..'
