@@ -35,12 +35,15 @@ type FormData = {
   receiver_contact_person: string;
   starting_academic_year: string;
   ending_academic_year: string;
-  annual_quota: number;
+  //annual_quota: number;
   annual_mobility_amount: number;
+  annual_total_month_amount: number;
   isCoEducational: number;
   educationTypeAndLevel: string;
   language: string;
   language_level: string;
+  ISCED_code_and_fields: string;
+  other_info: string;
 };
 
 export default function InstitutionConditionsForm({
@@ -63,10 +66,27 @@ export default function InstitutionConditionsForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
-
+  //states
   const [senderInstitutionID, setSenderInstitutionID] = useState(0);
   const [senderInstitution, setSenderInstitution] = useState('');
-
+  const [receiverInstitutionID, setReceiverInstitutionID] = useState(0);
+  const [receiverInstitution, setReceiverInstitution] = useState('');
+  const [senderDepartmentID, setSenderDepartmentID] = useState(0);
+  const [senderDepartment, setSenderDepartment] = useState('');
+  const [receiverDepartmentID, setReceiverDepartmentID] = useState(0);
+  const [receiverDepartment, setReceiverDepartment] = useState('');
+  const [senderContactPerson, setSenderContactPerson] = useState('');
+  const [receiverContactPerson, setReceiverContactPerson] = useState('');
+  const [startingAcademicYear, setStartingAcademicYear] = useState('');
+  const [endingAcademicYear, setEndingAcademicYear] = useState('');
+  const [annualMobilityAmount, setAnnualMobilityAmount] = useState(0);
+  const [annualTotalMonthAmount, setAnnualTotalMonthAmount] = useState(0);
+  const [isCoEducational, setIsCoEducational] = useState(0);
+  const [educationTypeAndLevel, setEducationTypeAndLevel] = useState('');
+  const [language, setLanguage] = useState('');
+  const [languageLevel, setLanguageLevel] = useState('');
+  const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
+  const [otherInfo, setOtherInfo] = useState('');
   //useForm hook
   const {
     handleSubmit,
@@ -181,6 +201,16 @@ export default function InstitutionConditionsForm({
     } else {
       setValue('sender_hei_id', '');
       setSenderInstitution('');
+    }
+  };
+  const handleSenderDepartmentChange = (value: Department | null) => {
+    if (value) {
+      setValue('sender_department', value.organizationalUnitName);
+      setDepartment(value.organizationalUnitName);
+      setDepartmentID(value.id);
+    } else {
+      setValue('departmant_name', ''); // or any default value you want
+      setDepartment(''); // or any default value you want
     }
   };
 
