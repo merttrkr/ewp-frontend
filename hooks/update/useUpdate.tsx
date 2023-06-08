@@ -124,7 +124,6 @@ const useUpdate = () => {
 
     const result: number = await makeRequest<number>(url);
 
-  
     return result;
   };
 
@@ -134,7 +133,6 @@ const useUpdate = () => {
   ): Promise<string> => {
     const result: string = await makeRequest<string>(request);
 
-   
     return result;
   };
 
@@ -148,7 +146,6 @@ const useUpdate = () => {
 
     const result: number = await makeRequest<number>(url);
 
-   
     return result;
   };
 
@@ -171,7 +168,6 @@ const useUpdate = () => {
 
     const result: number = await makeRequest<number>(url);
 
- 
     return result;
   };
 
@@ -195,7 +191,6 @@ const useUpdate = () => {
     const url = `https://localhost:5001/spAddSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&administrativePersonnelName=${administrativePersonnelName}&administrativePersonnelSurname=${administrativePersonnelSurname}&administrativePersonnelEmail=${administrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
     const result: number = await makeRequest<number>(url);
 
-  
     return result;
   };
 
@@ -218,7 +213,6 @@ const useUpdate = () => {
 
     const result: number = await makeRequest<number>(url);
 
-   
     return result;
   };
   //https://localhost:5001/spSetUniversityIdOfOrganizationInfo?hei_id=iyte.edu.tr&organizationInfo_id=21
@@ -226,7 +220,6 @@ const useUpdate = () => {
     request: string
   ): Promise<string> => {
     const result: string = await makeRequest<string>(request);
-
 
     return result;
   };
@@ -286,7 +279,6 @@ ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLe
 
     const result: number = await makeRequest<number>(url);
 
-   
     return result;
   };
 
@@ -298,7 +290,8 @@ ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLe
     return result;
   };
 
-  return {AddCollaborationConditionToBilateralAgreement,
+  return {
+    AddCollaborationConditionToBilateralAgreement,
     SaveCollaborationCondition,
     AddLanguageSkillForCollaborationCondition,
     SetCreatorOfBilateralAgreement,

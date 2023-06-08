@@ -33,10 +33,15 @@ import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
 import { Language } from '@/models/response/languageResponse';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
+import useUpdate from '@/hooks/update/useUpdate';
+import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
 
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
+  collaborationConditionId: number;
+  bilateralAgreementID: number;
+  isPartnerValue: number;
 };
 
 type FormData = {
@@ -62,6 +67,9 @@ type FormData = {
 export default function InstitutionConditionsForm({
   pageName,
   subText,
+  collaborationConditionId,
+  bilateralAgreementID,
+  isPartnerValue,
 }: InstitutionConditionsFormProps) {
   //get hooks
   const {
@@ -74,6 +82,14 @@ export default function InstitutionConditionsForm({
     GetSelectedContactInfoOfOrganizationInfo,
     GetOrganizationInfo,
   } = useRead();
+
+  const {
+    InsertEmptyRowToCollaborationCondition,
+    AddLanguageSkillForCollaborationCondition,
+    UpdateDateOfBilateralAgreement,
+    SaveCollaborationCondition,
+    AddCollaborationConditionToBilateralAgreement,
+  } = useUpdate();
 
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -115,16 +131,107 @@ export default function InstitutionConditionsForm({
     control,
   } = useForm<FormData>();
 
-  async function handleGetLanguageLevels() {
-    const fetchInitialData = async () => {
-      const data = await GetLanguageLevels(
-        'https://localhost:5001/spGetLanguageLevels'
-      ); // Call the GetLanguageLevels function
-      if (data) {
-        console.log('data: ', data); // Process the fetched data
-      }
+  async function handleInsertEmptyRowToCollaborationCondition() {
+    const requestUrl =
+      'https://localhost:5001/spInsertEmptyRowToCollaborationCondition?collaborationCondition_id=' +
+      collaborationConditionId;
+
+    try {
+      const result = await InsertEmptyRowToCollaborationCondition(requestUrl);
+      console.log(
+        'Result handleInsertEmptyRowToCollaborationCondition:',
+        result
+      );
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  async function handleInsertEmptyRowToCollaborationConditionDeneme() {
+    const requestUrl =
+      'https://localhost:5001/spInsertEmptyRowToCollaborationCondition?collaborationCondition_id=' +
+      37;
+
+    try {
+      const result = await InsertEmptyRowToCollaborationCondition(requestUrl);
+      console.log('handleInsertEmptyRowToCollaborationConditionDeneme');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  handleInsertEmptyRowToCollaborationConditionDeneme();
+  async function handleAddLanguageSkillForCollaborationCondition() {
+    const requestUrl =
+      'https://localhost:5001/spAddLanguageSkillForCollaborationCondition?collaborationCondition_id=' +
+      collaborationConditionId +
+      '&lang_id=' +
+      languageID +
+      '&langLevel_id=' +
+      languageLevelID;
+    try {
+      const result = await AddLanguageSkillForCollaborationCondition(
+        requestUrl
+      );
+      console.log('Result:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  async function handleUpdateDateOfBilateralAgreement() {
+    const requestUrl =
+      'https://localhost:5001/spUpdateDateOfBilateralAgreement?bilateralAgreement_id=' +
+      bilateralAgreementID;
+
+    try {
+      const result = await UpdateDateOfBilateralAgreement(requestUrl);
+      console.log('Result:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  async function handleSaveCollaborationCondition(
+    annualQuota: number,
+    otherInfo: string,
+    annualTotalMonths: number
+  ) {
+    const request: CollaborationConditionRequest = {
+      id: collaborationConditionId,
+      bilateralAgreement_id: bilateralAgreementID,
+      isPartner: isPartnerValue,
+      academicYearStart_id: startingAcademicYearID,
+      academicYearEnd_id: endingAcademicYearID,
+      annualQuota: annualQuota,
+      subjectArea_id: ISCEDCodeAndFieldsID,
+      subjectAreaDescription: ISCEDCodeAndFields,
+      otherInfo: otherInfo,
+      annualTotalMonths: annualTotalMonths,
+      isCoEducational: isCoEducational,
+      educationTypeAndLevel_id: educationTypeAndLevelID,
     };
-    fetchInitialData();
+
+    try {
+      const result = await SaveCollaborationCondition(request);
+      console.log('Result:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  async function handleAddCollaborationConditionToBilateralAgreement() {
+    const requestUrl =
+      'https://localhost:5001/spAddCollaborationConditionToBilateralAgreement?collaborationCondition_id=' +
+      collaborationConditionId +
+      '&bilateralAgreement_id=' +
+      bilateralAgreementID +
+      '&isPartner=' +
+      isPartnerValue;
+    try {
+      const result = await AddCollaborationConditionToBilateralAgreement(
+        requestUrl
+      );
+      console.log('Result:', result);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   async function handleGetSelectedContactInfoOfOrganizationInfo() {
@@ -158,8 +265,19 @@ export default function InstitutionConditionsForm({
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        alert(JSON.stringify(values, null));
-        console.log('values: ', values);
+        //alert(JSON.stringify(values, null));
+        //console.log('values: ', values);
+        console.log('collaboration condition id:' + collaborationConditionId);
+        console.log('bilateral agreement id:' + bilateralAgreementID);
+        await handleInsertEmptyRowToCollaborationCondition();
+        await handleAddLanguageSkillForCollaborationCondition();
+        await handleUpdateDateOfBilateralAgreement();
+        await handleSaveCollaborationCondition(
+          values.annual_mobility_amount,
+          values.other_info,
+          values.annual_total_month_amount
+        );
+        await handleAddCollaborationConditionToBilateralAgreement();
         resolve();
       } catch (error) {
         alert('Error');
