@@ -1,0 +1,86 @@
+https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=80
+{
+  "heiId": "selcuk.edu.tr",
+  "uniName": "Selçuk University",
+  "UniDepartmentId": 1186,
+  "ounitName": "Department of Business Administration (112)",
+  "signingPersonFullName": null,
+  "signingDate": "2023-06-08",
+  "IIACode": "IIA-33",
+  "IIAID": "1F8668B0-36A1-4F5E-A4D0-DA7F3A68A3ED"
+}
+
+https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=79
+{
+  "heiId": "iyte.edu.tr",
+  "uniName": "Izmir Institute of Technology",
+  "UniDepartmentId": 21644,
+  "ounitName": "Architecture",
+  "signingPersonFullName": "Ozge Topcuoglu",
+  "signingDate": "2023-06-08",
+  "IIACode": "IIA-32",
+  "IIAID": "CBC77CA9-6745-4F51-A87C-3018AF286190"
+}
+
+https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=79
+[
+  "Gizem Kofunyeli"
+]
+https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=80
+[
+  "ÖMER KAVRAR"
+]
+https://localhost:5001/spGetOrganizationCollaborationCondition?organizationCollaborationCondition_id=2
+[
+  {
+    "academicYear": "2022/2023 - 2024/2025",
+    "annualQuota": "2",
+    "otherInfo": "from-iyte",
+    "annualTotalMonths": "10",
+    "isCoEducational": "Evet",
+    "educationTypeAndLevel": "Seviye 8 (Doktora)",
+    "subjectArea": "Chemical Engineering - 0711"
+  }
+]
+https://localhost:5001/spGetOrganizationCollaborationCondition?organizationCollaborationCondition_id=3
+[
+  {
+    "academicYear": "2022/2023 - 2024/2025",
+    "annualQuota": "10",
+    "otherInfo": "from-selcuk",
+    "annualTotalMonths": "20",
+    "isCoEducational": "Hayır",
+    "educationTypeAndLevel": "Seviye 6 (Lisans)",
+    "subjectArea": "Software Engineering - 0714"
+  }
+]
+
+https://localhost:5001/spGetOrganizationCollaborationConditionLanguageSkill?organizationCollaborationCondition_id=2
+[
+  {
+    "definition": "İNGİLİZCE",
+    "code": "B1"
+  }
+]
+https://localhost:5001/spGetOrganizationCollaborationConditionLanguageSkill?organizationCollaborationCondition_id=2
+[
+  {
+    "definition": "İNGİLİZCE",
+    "code": "B1"
+  }
+]
+
+https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=2
+Hayır
+
+
+https://localhost:5001/spGetConditionsHashOfOrganization?collaborationCondition_id=2
+d953e0c0d48663692b10ffc1f2fbb2d0415aae147c8fbc93798c13c70fe750ea
+
+
+https://localhost:5001/spGetConditionsHashOfPartnerOrganization?partnerOrganizationCollaborationCondition_id=3
+a9888242d4aa2f3a7e598a08f7ea6e0e4f903ccdc692252ec099f6f876bd61d3
+
+
+https://localhost:5001/spGetIsApprovalSentInfoOfOrganization?bilateralAgreement_id=2&isPartner=0
+1
