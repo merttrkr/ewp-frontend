@@ -27,6 +27,12 @@ import SelectISCED from '../form-components/selectboxes/SelectISCED';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 import SelectCollaborationCondition from '../form-components/selectboxes/SelectCollaborationCondition';
 import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
+import SelectEducationTypeAndLevel from '../form-components/selectboxes/SelectEducationTypeAndLevel';
+import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
+import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
+import { Language } from '@/models/response/languageResponse';
+import { LanguageLevel } from '@/models/response/languageLevelResponse';
+import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 
 type InstitutionConditionsFormProps = {
   pageName: String;
@@ -43,11 +49,10 @@ type FormData = {
   receiver_contact_person: string;
   starting_academic_year: string;
   ending_academic_year: string;
-  //annual_quota: number;
   annual_mobility_amount: number;
   annual_total_month_amount: number;
-  isCoEducational: number;
-  educationTypeAndLevel: string;
+  is_coeducational: number;
+  education_type_and_level: string;
   language: string;
   language_level: string;
   isced_code_and_fields: string;
@@ -93,8 +98,11 @@ export default function InstitutionConditionsForm({
   const [endingAcademicYearID, setEndingAcademicYearID] = useState(0);
   const [isCoEducational, setIsCoEducational] = useState(0);
   const [educationTypeAndLevel, setEducationTypeAndLevel] = useState('');
+  const [educationTypeAndLevelID, setEducationTypeAndLevelID] = useState(0);
   const [language, setLanguage] = useState('');
+  const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
+  const [languageLevelID, setLanguageLevelID] = useState(0);
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
 
@@ -107,55 +115,11 @@ export default function InstitutionConditionsForm({
     control,
   } = useForm<FormData>();
 
-  async function handleGetCollaborationConditionTypes() {
-    const fetchInitialData = async () => {
-      const data = await GetCollaborationConditionTypes(
-        'https:localhost:5001/spGetCollaborationConditionTypes'
-      ); // Call the fetchData function
-      if (data) {
-        console.log('data: ', data); // Update the state with the fetched data
-      }
-    };
-    fetchInitialData();
-  }
-  async function handleGetLanguages() {
-    const fetchInitialData = async () => {
-      const data = await GetLanguages('https://localhost:5001/spGetLanguages'); // Call the GetLanguages function
-      if (data) {
-        console.log('data: ', data); // Process the fetched data
-      }
-    };
-    fetchInitialData();
-  }
-
   async function handleGetLanguageLevels() {
     const fetchInitialData = async () => {
       const data = await GetLanguageLevels(
         'https://localhost:5001/spGetLanguageLevels'
       ); // Call the GetLanguageLevels function
-      if (data) {
-        console.log('data: ', data); // Process the fetched data
-      }
-    };
-    fetchInitialData();
-  }
-
-  async function handleGetSubjectAreas() {
-    const fetchInitialData = async () => {
-      const data = await GetSubjectAreas(
-        'https://localhost:5001/spGetSubjectAreas'
-      ); // Call the GetSubjectAreas function
-      if (data) {
-        console.log('data: ', data); // Process the fetched data
-      }
-    };
-    fetchInitialData();
-  }
-  async function handleGetEducationTypesAndLevels() {
-    const fetchInitialData = async () => {
-      const data = await GetEducationTypesAndLevels(
-        'https://localhost:5001/spGetEducationTypesAndLevels'
-      ); // Call the GetEducationTypesAndLevels function
       if (data) {
         console.log('data: ', data); // Process the fetched data
       }
@@ -311,6 +275,38 @@ export default function InstitutionConditionsForm({
     } else {
       setValue('condition_type', '');
       setISCEDCodeAndFields(''); // or any default value you want
+    }
+  };
+  const handleEducationTypeAndLevelChange = (
+    value: EducationTypeAndLevel | null
+  ) => {
+    if (value) {
+      setValue('education_type_and_level', value.educationTypeAndLevel);
+      setEducationTypeAndLevel(value.educationTypeAndLevel);
+      setEducationTypeAndLevelID(value.educationTypeAndLevel_id);
+    } else {
+      setValue('education_type_and_level', '');
+      setEducationTypeAndLevel(''); // or any default value you want
+    }
+  };
+  const handleLanguageChange = (value: Language | null) => {
+    if (value) {
+      setValue('language', value.definition);
+      setLanguage(value.definition);
+      setLanguageLevelID(value.lang_id);
+    } else {
+      setValue('language', '');
+      setLanguageLevel(''); // or any default value you want
+    }
+  };
+  const handleLanguageLevelChange = (value: LanguageLevel | null) => {
+    if (value) {
+      setValue('language_level', value.code);
+      setLanguageLevel(value.code);
+      setLanguageLevelID(value.langLevel_id);
+    } else {
+      setValue('language_level', '');
+      setLanguageLevel(''); // or any default value you want
     }
   };
 
@@ -480,30 +476,49 @@ export default function InstitutionConditionsForm({
               register={register('annual_total_month_amount')}
             />
             <CheckBoxInput
-              placeHolder='Karma'
+              id='is_coeducational'
+              placeholder='Karma'
               checkBoxInputLabel='Karma Eğitim Olacaksa Aşağıdaki Kutucuğu İşaretleyiniz'
+              error={errors.is_coeducational?.message}
+              register={register('is_coeducational')}
             />
             <HStack spacing={4}>
-              <SelectAutoComplete
-                placeHolder='placeholder..'
-                selectLabel='İstenilen Yabancı Dil'
-              />
+              <SelectLanguage
+                id='language'
+                error={errors.language?.message}
+                register={register('language', {
+                  required: 'This is required',
+                })}
+                placeholder='placeholder...'
+                selectLabel='Yabancı Dil'
+                onChange={handleLanguageChange}
+              ></SelectLanguage>
+
               <Box w={'50%'}>
-                <SelectAutoComplete
-                  placeHolder='placeholder..'
+                <SelectLanguageLevel
+                  id='language_level'
+                  error={errors.language_level?.message}
+                  register={register('language_level', {
+                    required: 'This is required',
+                  })}
+                  placeholder='placeholder...'
                   selectLabel='Seviyesi'
-                />
+                  onChange={handleLanguageLevelChange}
+                ></SelectLanguageLevel>
               </Box>
             </HStack>
+            <SelectEducationTypeAndLevel
+              id='education_type_and_level'
+              register={register('education_type_and_level', {
+                required: 'This is required',
+              })}
+              placeholder='placeholder...'
+              selectLabel='Öğrenim Seviyesi'
+              onChange={handleEducationTypeAndLevelChange}
+              error={errors.education_type_and_level?.message}
+            ></SelectEducationTypeAndLevel>
           </Stack>
         </Flex>
-        <Flex p='5'>
-          <SelectAutoComplete
-            placeHolder='placeholder..'
-            selectLabel='Öğrenim Seviyesini Seçiniz'
-          />
-        </Flex>
-
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
           <Button variant='submit' type='submit'>
             Kaydet

@@ -19,6 +19,7 @@ export default function Layout({ children }: LayoutProps) {
       <Flex flexDirection='column' minHeight='100vh'>
         <Navbar />
         {children}
+        <Box height={100}></Box>
         <Footer />
       </Flex>
     </div>
