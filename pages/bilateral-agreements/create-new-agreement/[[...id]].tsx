@@ -16,6 +16,8 @@ import { useState } from 'react';
 import InstitutionConditionsForm from '@/components/forms/InstitutionConditionsForm';
 import InstitutionInformationFormIIA from '@/components/forms/InstitutionInformationFormIIA';
 import PreviewOrSaveForm from '@/components/forms/PreviewOrSaveForm';
+import useRead from '@/hooks/read/useRead';
+
 
 export default function TabComponent() {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
@@ -24,13 +26,16 @@ export default function TabComponent() {
   const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
     useState(0);
   const [bilateralAgreementID, setBilateralAgreementID] = useState(0);
-
+  const [bilateralAgreementState, setbilateralAgreementState] = useState('');
   const {
     GenerateBilateralAgreementID,
     GenerateIdsForBothOrganizationAndPartnerOrganization,
     GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
   } = useCreate();
-
+  const {
+    
+    CheckIfBilateralAgreementIsInEffect,
+  } = useRead();
   async function handleIDForBoth() {
     const fetchInitialData = async () => {
       const data: IdForBothResponse = (
@@ -67,11 +72,25 @@ export default function TabComponent() {
     };
     fetchBilateralAgreementID();
   }
+  async function handleCheckIfBilateralAgreementIsInEffect() {
+    const fetchBilateralAgreementIsInEffect = async () => {
+    
+      const data = await CheckIfBilateralAgreementIsInEffect(
+        'https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=' + bilateralAgreementID
+      );
+      if (data) {
+        setbilateralAgreementState(data);
+        console.log("--------",data);
+      }
+    };
+    fetchBilateralAgreementIsInEffect();
+  }
 
+  
   handleIDForBoth();
   handleIDForBothCollaborationCondition();
   handleGenerateBilateralAgreementID();
-
+  handleCheckIfBilateralAgreementIsInEffect();
   return (
     <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
@@ -123,7 +142,7 @@ export default function TabComponent() {
               fontWeight={'medium'}
               color={HeadingColor}
             >
-              Anlaşma Yürürlük Durumu: Yürürlükte Değil
+               Anlaşma Yürürlük Durumu: {bilateralAgreementState === 'Hayır' ? 'Yürürlükte değil' : 'Yürürlükte'}
             </Heading>
           </Flex>
         </TabPanel>
