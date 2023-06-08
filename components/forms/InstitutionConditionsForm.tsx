@@ -91,15 +91,12 @@ export default function InstitutionConditionsForm({
   const [endingAcademicYear, setEndingAcademicYear] = useState('');
   const [startingAcademicYearID, setStartingAcademicYearID] = useState(0);
   const [endingAcademicYearID, setEndingAcademicYearID] = useState(0);
-  const [annualMobilityAmount, setAnnualMobilityAmount] = useState(0);
-  const [annualTotalMonthAmount, setAnnualTotalMonthAmount] = useState(0);
   const [isCoEducational, setIsCoEducational] = useState(0);
   const [educationTypeAndLevel, setEducationTypeAndLevel] = useState('');
   const [language, setLanguage] = useState('');
   const [languageLevel, setLanguageLevel] = useState('');
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
-  const [otherInfo, setOtherInfo] = useState('');
 
   //useForm hook
   const {
