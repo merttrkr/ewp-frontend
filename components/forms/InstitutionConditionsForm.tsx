@@ -27,6 +27,8 @@ import SelectISCED from '../form-components/selectboxes/SelectISCED';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 import SelectCollaborationCondition from '../form-components/selectboxes/SelectCollaborationCondition';
 import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
+import SelectEducationTypeAndLevel from '../form-components/selectboxes/SelectEducationTypeAndLevel';
+import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
 
 type InstitutionConditionsFormProps = {
   pageName: String;
@@ -46,8 +48,8 @@ type FormData = {
   //annual_quota: number;
   annual_mobility_amount: number;
   annual_total_month_amount: number;
-  isCoEducational: number;
-  educationTypeAndLevel: string;
+  is_coeducational: number;
+  education_type_and_level: string;
   language: string;
   language_level: string;
   isced_code_and_fields: string;
@@ -93,6 +95,7 @@ export default function InstitutionConditionsForm({
   const [endingAcademicYearID, setEndingAcademicYearID] = useState(0);
   const [isCoEducational, setIsCoEducational] = useState(0);
   const [educationTypeAndLevel, setEducationTypeAndLevel] = useState('');
+  const [educationTypeAndLevelID, setEducationTypeAndLevelID] = useState(0);
   const [language, setLanguage] = useState('');
   const [languageLevel, setLanguageLevel] = useState('');
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
@@ -133,29 +136,6 @@ export default function InstitutionConditionsForm({
       const data = await GetLanguageLevels(
         'https://localhost:5001/spGetLanguageLevels'
       ); // Call the GetLanguageLevels function
-      if (data) {
-        console.log('data: ', data); // Process the fetched data
-      }
-    };
-    fetchInitialData();
-  }
-
-  async function handleGetSubjectAreas() {
-    const fetchInitialData = async () => {
-      const data = await GetSubjectAreas(
-        'https://localhost:5001/spGetSubjectAreas'
-      ); // Call the GetSubjectAreas function
-      if (data) {
-        console.log('data: ', data); // Process the fetched data
-      }
-    };
-    fetchInitialData();
-  }
-  async function handleGetEducationTypesAndLevels() {
-    const fetchInitialData = async () => {
-      const data = await GetEducationTypesAndLevels(
-        'https://localhost:5001/spGetEducationTypesAndLevels'
-      ); // Call the GetEducationTypesAndLevels function
       if (data) {
         console.log('data: ', data); // Process the fetched data
       }
@@ -311,6 +291,18 @@ export default function InstitutionConditionsForm({
     } else {
       setValue('condition_type', '');
       setISCEDCodeAndFields(''); // or any default value you want
+    }
+  };
+  const handleEducationTypeAndLevelChange = (
+    value: EducationTypeAndLevel | null
+  ) => {
+    if (value) {
+      setValue('education_type_and_level', value.educationTypeAndLevel);
+      setEducationTypeAndLevel(value.educationTypeAndLevel);
+      setEducationTypeAndLevelID(value.educationTypeAndLevel_id);
+    } else {
+      setValue('education_type_and_level', '');
+      setEducationTypeAndLevel(''); // or any default value you want
     }
   };
 
@@ -495,15 +487,18 @@ export default function InstitutionConditionsForm({
                 />
               </Box>
             </HStack>
+            <SelectEducationTypeAndLevel
+              id='education_type_and_level'
+              register={register('education_type_and_level', {
+                required: 'This is required',
+              })}
+              placeholder='placeholder...'
+              selectLabel='Öğrenim Seviyesi'
+              onChange={handleEducationTypeAndLevelChange}
+              error={errors.education_type_and_level?.message}
+            ></SelectEducationTypeAndLevel>
           </Stack>
         </Flex>
-        <Flex p='5'>
-          <SelectAutoComplete
-            placeHolder='placeholder..'
-            selectLabel='Öğrenim Seviyesini Seçiniz'
-          />
-        </Flex>
-
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
           <Button variant='submit' type='submit'>
             Kaydet
