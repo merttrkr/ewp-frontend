@@ -1,0 +1,46 @@
+https://localhost:5001/spGetBilateralAgreements
+
+[
+  {
+    "ownUniNameWithHeiId": null,
+    "partnerUniNameWithHeiId": null,
+    "ownUniName": null,
+    "partnerUniName": null,
+    "agreementStateDescription": "Anlaşma taslak halinde",
+    "agreementState": "Taslak",
+    "lastUpdateDate": "2022-12-23T15:26:00",
+    "generationDate": "2022-12-23T15:26:00",
+    "bilateralAgreement_id": 9,
+    "ownIIACode": null,
+    "partnerIIACode": null,
+    "ownErasmusIdCode": null,
+    "partnerErasmusIdCode": null,
+    "createrUniName": null
+  },
+  {
+    "ownUniNameWithHeiId": "Izmir Institute of Technology[iyte.edu.tr]",
+    "partnerUniNameWithHeiId": "Selçuk University[selcuk.edu.tr]",
+    "ownUniName": "Izmir Institute of Technology",
+    "partnerUniName": "Selçuk University",
+    "agreementStateDescription": "Anlaşma taslak halinde",
+    "agreementState": "Taslak",
+    "lastUpdateDate": "2022-12-23T15:51:00",
+    "generationDate": "2022-12-23T15:50:00",
+    "bilateralAgreement_id": 10,
+    "ownIIACode": "IIA-13",
+    "partnerIIACode": null,
+    "ownErasmusIdCode": "TR IZMIR03",
+    "partnerErasmusIdCode": "TR KONYA01",
+    "createrUniName": "Izmir Institute of Technology"
+  },
+]
+
+
+press Details button
+https://localhost:5001/spGetOrganizationIdsAndCollaborationConditionIds?bilateralAgreement_id=2
+{
+  "organizationInfo_id": 1,
+  "partnerOrganizationInfo_id": 4,
+  "collaborationCondition_id": 3,
+  "partnerCollaborationCondition_id": 4
+}
