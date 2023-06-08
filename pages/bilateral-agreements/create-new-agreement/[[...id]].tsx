@@ -31,6 +31,8 @@ export default function TabComponent() {
     useState(0);
   const [bilateralAgreementID, setBilateralAgreementID] = useState(0);
   const [bilateralAgreementState, setbilateralAgreementState] = useState('');
+  const [saveState, setSaveState] = useState(0);
+
   const {
     GenerateBilateralAgreementID,
     GenerateIdsForBothOrganizationAndPartnerOrganization,
@@ -88,7 +90,6 @@ export default function TabComponent() {
       );
       if (data) {
         setbilateralAgreementState(data);
-
       }
     };
     fetchBilateralAgreementIsInEffect();
@@ -139,18 +140,12 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <PreviewOrSaveForm
-            newOrganizationInfoId={newOrganizationInfoId}
-            newPartnerOrganizationInfoId={newPartnerOrganizationInfoId}
+            organizationInfoId={newOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
-            newCollaborationConditionId={newCollaborationConditionId}
-            newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
             pageName='Kurumuma Ait Bilgiler' />
           <PreviewOrSaveForm
-            newOrganizationInfoId={newOrganizationInfoId}
-            newPartnerOrganizationInfoId={newPartnerOrganizationInfoId}
+            organizationInfoId={newPartnerOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
-            newCollaborationConditionId={newCollaborationConditionId}
-            newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
             pageName='Partner Kuruma Ait Bilgiler' />
           <Flex
             bgColor={HeaderBackground}
