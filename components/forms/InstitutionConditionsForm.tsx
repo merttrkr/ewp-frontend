@@ -21,6 +21,8 @@ import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import { useState } from 'react';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectContact from '../form-components/selectboxes/SelectContact';
+import SelectAcademicYear from '../form-components/selectboxes/SelectAcademicYear';
+import { AcademicYearInfo } from '@/models/response/academicYearResponse';
 
 type InstitutionConditionsFormProps = {
   pageName: String;
@@ -82,6 +84,9 @@ export default function InstitutionConditionsForm({
   const [receiverContactPersonID, setReceiverContactPersonID] = useState(0);
   const [startingAcademicYear, setStartingAcademicYear] = useState('');
   const [endingAcademicYear, setEndingAcademicYear] = useState('');
+  const [startingAcademicYearID, setStartingAcademicYearID] = useState(0);
+  const [endingAcademicYearID, setEndingAcademicYearID] = useState(0);
+
   const [annualMobilityAmount, setAnnualMobilityAmount] = useState(0);
   const [annualTotalMonthAmount, setAnnualTotalMonthAmount] = useState(0);
   const [isCoEducational, setIsCoEducational] = useState(0);
@@ -276,6 +281,28 @@ export default function InstitutionConditionsForm({
     }
   };
 
+  const handleAcademicYearStartChange = (value: AcademicYearInfo | null) => {
+    if (value) {
+      setValue('starting_academic_year', value.academicYear);
+      setStartingAcademicYear(value.academicYear);
+      setStartingAcademicYearID(value.academicYear_id);
+    } else {
+      setValue('starting_academic_year', '');
+      setStartingAcademicYear(''); // or any default value you want
+    }
+  };
+
+  const handleAcademicYearEndChange = (value: AcademicYearInfo | null) => {
+    if (value) {
+      setValue('ending_academic_year', value.academicYear);
+      setEndingAcademicYear(value.academicYear);
+      setEndingAcademicYearID(value.academicYear_id);
+    } else {
+      setValue('ending_academic_year', '');
+      setEndingAcademicYear(''); // or any default value you want
+    }
+  };
+
   return (
     <Stack
       marginBottom='20'
@@ -346,9 +373,15 @@ export default function InstitutionConditionsForm({
               onChange={handleSenderContactChange}
               param={senderInstitution}
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
+            <SelectAcademicYear
+              id='contact_persons'
+              error={errors.sender_contact_person?.message}
+              register={register('sender_contact_person', {
+                required: 'This is required',
+              })}
+              placeholder='placeholder...'
               selectLabel='Hangi Akademik Yıllar Arasında Başlıyor ?'
+              onChange={handleAcademicYearStartChange}
             />
             <SelectAutoComplete
               placeHolder='placeholder..'
@@ -400,9 +433,15 @@ export default function InstitutionConditionsForm({
               param={receiverInstitution}
             />
 
-            <SelectAutoComplete
-              placeHolder='placeholder..'
+            <SelectAcademicYear
+              id='contact_persons'
+              error={errors.ending_academic_year?.message}
+              register={register('ending_academic_year', {
+                required: 'This is required',
+              })}
+              placeholder='placeholder...'
               selectLabel='Hangi Akademik Yıllar Arasında Bitiyor ?'
+              onChange={handleAcademicYearEndChange}
             />
             <SelectAutoComplete
               placeHolder='placeholder..'
