@@ -9,18 +9,62 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import DisplayText from '../form-components/DisplayText';
-
+import useRead from '@/hooks/read/useRead';
+import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
+import { useEffect, useState } from 'react';
+const {
+  GetCollaborationConditionTypes,
+  GetLanguages,
+  GetLanguageLevels,
+  GetSubjectAreas,
+  GetEducationTypesAndLevels,
+  GetAcademicYearInfo,
+  GetSelectedContactInfoOfOrganizationInfo,
+  GetOrganizationInfo,
+} = useRead();
 type PreviewOrSaveFormProps = {
   pageName: String;
+  bilateralAgreementID: number;
+  newOrganizationInfoId: number;
+  newPartnerOrganizationInfoId: number;
+  newCollaborationConditionId: number;
+  newPartnerCollaborationConditionId: number;
 };
 
 export default function PreviewOrSaveForm({
   pageName,
+  bilateralAgreementID,
+  newOrganizationInfoId,
+  newPartnerOrganizationInfoId,
+  newCollaborationConditionId,
+  newPartnerCollaborationConditionId,
 }: PreviewOrSaveFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+  const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
+
+  useEffect(() => {
+    handleGetOrganizationInfo();
+  }, [newPartnerOrganizationInfoId]);
+
+
+  async function handleGetOrganizationInfo() {
+    const fetchInitialData = async () => {
+      const data = await GetOrganizationInfo(
+        'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
+          21
+      ); // Call the GetOrganizationInfo function
+      if (data) {
+        setOrganizationInfo(data);
+      }
+    };
+    fetchInitialData();
+  }
+
+
+
   return (
     <Stack
       marginBottom='20'
@@ -67,11 +111,11 @@ export default function PreviewOrSaveForm({
           <Stack w='50%' spacing={4} p='5'>
             <DisplayText
               label={'Kurum / Üniversite Adı'}
-              content={'İyte'}
+              content={organizationInfo?.uniName ?? ''}
             ></DisplayText>
             <DisplayText
               label={'İkili Anlaşma Kodu (IIA-Kodu)'}
-              content={'IIA-15'}
+              content={organizationInfo?.IIACode ?? 'NOT FOUND'}
             ></DisplayText>
             <DisplayText
               label={'Anlaşmayı İmzalayacak Yetkili'}
