@@ -26,12 +26,13 @@ type PreviewOrSaveFormProps = {
   pageName: String;
   bilateralAgreementID: number;
   organizationInfoId: number;
-
+  saveState: number;
 };
 
 export default function PreviewOrSaveForm({
   pageName,
   organizationInfoId,
+  saveState,
 }: PreviewOrSaveFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -42,12 +43,12 @@ export default function PreviewOrSaveForm({
   useEffect(() => {
     handleGetOrganizationInfo();
     handleGetSelectedContactInfoOfOrganizationInfo();
-  }, []);
+  }, [saveState, organizationInfoId]);
 
 
   async function handleGetOrganizationInfo() {
     const fetchInitialData = async () => {
-
+      console.log('savestate handleGetOrganizationInfo : ', saveState);
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
         organizationInfoId
