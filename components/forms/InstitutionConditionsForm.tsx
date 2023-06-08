@@ -26,9 +26,9 @@ export default function InstitutionConditionsForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
-  const { GetCollaborationConditionTypes } = useRead();
+  const { GetCollaborationConditionTypes, GetLanguages } = useRead();
 
-  async function handle() {
+  async function handleGetCollaborationConditionTypes() {
     const fetchInitialData = async () => {
       const data = await GetCollaborationConditionTypes(
         'https:localhost:5001/spGetCollaborationConditionTypes'
@@ -39,7 +39,16 @@ export default function InstitutionConditionsForm({
     };
     fetchInitialData();
   }
-  handle();
+  async function handleGetLanguages() {
+    const fetchInitialData = async () => {
+      const data = await GetLanguages('https://localhost:5001/spGetLanguages'); // Call the GetLanguages function
+      if (data) {
+        console.log('data: ', data); // Process the fetched data
+      }
+    };
+    fetchInitialData();
+  }
+  handleGetLanguages();
 
   return (
     <Stack

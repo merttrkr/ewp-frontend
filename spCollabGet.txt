@@ -7,7 +7,7 @@ https://localhost:5001/spGetCollaborationConditionTypes +
   }
 ]
 
-https://localhost:5001/spGetLanguages +
+https://localhost:5001/spGetLanguages 
 
 [
   {

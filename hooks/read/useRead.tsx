@@ -8,6 +8,7 @@ import {
   InstitutionInfo,
   InstitutionInfoResponse,
 } from '@/models/response/institutionInfoResponse';
+import { Language } from '@/models/response/languageResponse';
 
 const useAgreement = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -72,6 +73,12 @@ const useAgreement = () => {
     return condition;
   };
 
+  //https://localhost:5001/spGetLanguages
+  const GetLanguages = async (request: string): Promise<Language[]> => {
+    const languages: Language[] = await makeRequest<Language[]>(request);
+    return languages;
+  };
+
   //institiutionConditionsForm
 
   return {
@@ -79,6 +86,7 @@ const useAgreement = () => {
     GetAllUniversitiesInfo,
     GetDepartmentsByHeiID,
     GetCollaborationConditionTypes,
+    GetLanguages,
   };
 };
 
