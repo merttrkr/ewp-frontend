@@ -32,6 +32,7 @@ import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelRe
 import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
 import { Language } from '@/models/response/languageResponse';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
+import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 
 type InstitutionConditionsFormProps = {
   pageName: String;
@@ -48,7 +49,6 @@ type FormData = {
   receiver_contact_person: string;
   starting_academic_year: string;
   ending_academic_year: string;
-  //annual_quota: number;
   annual_mobility_amount: number;
   annual_total_month_amount: number;
   is_coeducational: number;
@@ -114,27 +114,6 @@ export default function InstitutionConditionsForm({
     setValue,
     control,
   } = useForm<FormData>();
-
-  async function handleGetCollaborationConditionTypes() {
-    const fetchInitialData = async () => {
-      const data = await GetCollaborationConditionTypes(
-        'https:localhost:5001/spGetCollaborationConditionTypes'
-      ); // Call the fetchData function
-      if (data) {
-        console.log('data: ', data); // Update the state with the fetched data
-      }
-    };
-    fetchInitialData();
-  }
-  async function handleGetLanguages() {
-    const fetchInitialData = async () => {
-      const data = await GetLanguages('https://localhost:5001/spGetLanguages'); // Call the GetLanguages function
-      if (data) {
-        console.log('data: ', data); // Process the fetched data
-      }
-    };
-    fetchInitialData();
-  }
 
   async function handleGetLanguageLevels() {
     const fetchInitialData = async () => {
@@ -317,7 +296,7 @@ export default function InstitutionConditionsForm({
       setLanguageLevelID(value.lang_id);
     } else {
       setValue('language', '');
-      setLanguageLevelID(''); // or any default value you want
+      setLanguageLevel(''); // or any default value you want
     }
   };
   const handleLanguageLevelChange = (value: LanguageLevel | null) => {
@@ -327,7 +306,7 @@ export default function InstitutionConditionsForm({
       setLanguageLevelID(value.langLevel_id);
     } else {
       setValue('language_level', '');
-      setLanguageLevelID(''); // or any default value you want
+      setLanguageLevel(''); // or any default value you want
     }
   };
 
@@ -513,10 +492,16 @@ export default function InstitutionConditionsForm({
               ></SelectLanguage>
 
               <Box w={'50%'}>
-                <SelectAutoComplete
-                  placeHolder='placeholder..'
+                <SelectLanguageLevel
+                  id='language_level'
+                  error={errors.language_level?.message}
+                  register={register('language_level', {
+                    required: 'This is required',
+                  })}
+                  placeholder='placeholder...'
                   selectLabel='Seviyesi'
-                />
+                  onChange={handleLanguageLevelChange}
+                ></SelectLanguageLevel>
               </Box>
             </HStack>
             <SelectEducationTypeAndLevel
