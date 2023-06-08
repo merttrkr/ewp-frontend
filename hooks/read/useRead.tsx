@@ -30,6 +30,20 @@ const useAgreement = () => {
 
     return response.json() as Promise<T>;
   };
+  const makeRequestText = async <T,>(request: string): Promise<T> => {
+    let response = await fetch(request, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/plain',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+
+    return response.text() as Promise<T>;
+  };
   //institutionInformationForm
 
   const GetContactInfoByHeiID = async (
@@ -138,7 +152,18 @@ const useAgreement = () => {
     return organizationInfo;
   };
 
+  //https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=2
+  const CheckIfBilateralAgreementIsInEffect = async (
+    request: string
+    ): Promise<string> => {
+      
+      const result: string = await makeRequestText<string>(request);
+
+      
+      return result;
+    };
   return {
+    CheckIfBilateralAgreementIsInEffect,
     GetContactInfoByHeiID,
     GetAllUniversitiesInfo,
     GetDepartmentsByHeiID,
