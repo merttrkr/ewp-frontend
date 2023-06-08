@@ -21,6 +21,7 @@ import { Department } from '@/models/response/departmentResponse';
 import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import { useState } from 'react';
+import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
@@ -87,6 +88,7 @@ export default function InstitutionConditionsForm({
   const [languageLevel, setLanguageLevel] = useState('');
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
+
   //useForm hook
   const {
     handleSubmit,
@@ -203,14 +205,36 @@ export default function InstitutionConditionsForm({
       setSenderInstitution('');
     }
   };
+
+  const handleReceiverInstitutionChange = (value: InstitutionInfo | null) => {
+    if (value) {
+      setValue('receiver_hei_id', value.heiId);
+      setReceiverInstitution(value.heiId);
+      setReceiverInstitutionID(value.uniqueId);
+    } else {
+      setValue('receiver_hei_id', '');
+      setReceiverInstitution('');
+    }
+  };
+
   const handleSenderDepartmentChange = (value: Department | null) => {
     if (value) {
       setValue('sender_department', value.organizationalUnitName);
-      setDepartment(value.organizationalUnitName);
-      setDepartmentID(value.id);
+      setSenderDepartment(value.organizationalUnitName);
+      setSenderDepartmentID(value.id);
     } else {
-      setValue('departmant_name', ''); // or any default value you want
-      setDepartment(''); // or any default value you want
+      setValue('sender_department', ''); // or any default value you want
+      setSenderDepartment(''); // or any default value you want
+    }
+  };
+  const handleReceiverDepartmentChange = (value: Department | null) => {
+    if (value) {
+      setValue('receiver_department', value.organizationalUnitName);
+      setReceiverDepartment(value.organizationalUnitName);
+      setSenderDepartmentID(value.id);
+    } else {
+      setValue('receiver_department', ''); // or any default value you want
+      setReceiverDepartment(''); // or any default value you want
     }
   };
 
@@ -261,9 +285,16 @@ export default function InstitutionConditionsForm({
               onChange={handleSenderInstitutionChange}
               error={errors.sender_hei_id?.message}
             />
-            <SelectAutoComplete
+            <SelectInstitution
+              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
+              id='receiver_instution_name'
+              register={register('receiver_hei_id', {
+                required: 'This is required',
+              })}
               placeHolder='placeholder..'
-              selectLabel='Alıcı Kurum / Üniversite'
+              selectLabel='Alıcı Kurum / Üniversite Adı'
+              onChange={handleReceiverInstitutionChange}
+              error={errors.receiver_hei_id?.message}
             />
             <SelectAutoComplete
               placeHolder='placeholder..'
@@ -288,9 +319,27 @@ export default function InstitutionConditionsForm({
             />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Gönderen Kurumun İlgili Bölümü / Departmanı'
+            <SelectDepartment
+              id='sender_departmant'
+              register={register('sender_department', {
+                required: 'This is required',
+              })}
+              placeHolder='placeholder...'
+              selectLabel='Gönderen Kurum Departman / Bölüm Adı'
+              onChange={handleSenderDepartmentChange}
+              param={senderInstitution}
+              error={errors.sender_department?.message}
+            />
+            <SelectDepartment
+              id='receiver_department'
+              register={register('receiver_department', {
+                required: 'This is required',
+              })}
+              placeHolder='placeholder...'
+              selectLabel='Alıcı Kurum Departman / Bölüm Adı'
+              onChange={handleReceiverDepartmentChange}
+              param={receiverInstitution}
+              error={errors.receiver_department?.message}
             />
             <SelectAutoComplete
               placeHolder='placeholder..'
