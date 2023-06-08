@@ -23,6 +23,8 @@ import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectContact from '../form-components/selectboxes/SelectContact';
 import SelectAcademicYear from '../form-components/selectboxes/SelectAcademicYear';
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
+import SelectISCED from '../form-components/selectboxes/SelectISCED';
+import { SubjectArea } from '@/models/response/subjectAreaResponse';
 
 type InstitutionConditionsFormProps = {
   pageName: String;
@@ -45,7 +47,7 @@ type FormData = {
   educationTypeAndLevel: string;
   language: string;
   language_level: string;
-  ISCED_code_and_fields: string;
+  isced_code_and_fields: string;
   other_info: string;
 };
 
@@ -86,7 +88,6 @@ export default function InstitutionConditionsForm({
   const [endingAcademicYear, setEndingAcademicYear] = useState('');
   const [startingAcademicYearID, setStartingAcademicYearID] = useState(0);
   const [endingAcademicYearID, setEndingAcademicYearID] = useState(0);
-
   const [annualMobilityAmount, setAnnualMobilityAmount] = useState(0);
   const [annualTotalMonthAmount, setAnnualTotalMonthAmount] = useState(0);
   const [isCoEducational, setIsCoEducational] = useState(0);
@@ -94,6 +95,7 @@ export default function InstitutionConditionsForm({
   const [language, setLanguage] = useState('');
   const [languageLevel, setLanguageLevel] = useState('');
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
+  const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
   const [otherInfo, setOtherInfo] = useState('');
 
   //useForm hook
@@ -154,18 +156,6 @@ export default function InstitutionConditionsForm({
       const data = await GetEducationTypesAndLevels(
         'https://localhost:5001/spGetEducationTypesAndLevels'
       ); // Call the GetEducationTypesAndLevels function
-      if (data) {
-        console.log('data: ', data); // Process the fetched data
-      }
-    };
-    fetchInitialData();
-  }
-
-  async function handleGetAcademicYearInfo() {
-    const fetchInitialData = async () => {
-      const data = await GetAcademicYearInfo(
-        'https://localhost:5001/spGetAcademicYearInfo'
-      ); // Call the GetAcademicYearInfo function
       if (data) {
         console.log('data: ', data); // Process the fetched data
       }
@@ -252,7 +242,7 @@ export default function InstitutionConditionsForm({
     if (value) {
       setValue('receiver_department', value.organizationalUnitName);
       setReceiverDepartment(value.organizationalUnitName);
-      setSenderDepartmentID(value.id);
+      setReceiverDepartmentID(value.id);
     } else {
       setValue('receiver_department', ''); // or any default value you want
       setReceiverDepartment(''); // or any default value you want
@@ -300,6 +290,17 @@ export default function InstitutionConditionsForm({
     } else {
       setValue('ending_academic_year', '');
       setEndingAcademicYear(''); // or any default value you want
+    }
+  };
+
+  const handleISCEDchange = (value: SubjectArea | null) => {
+    if (value) {
+      setValue('isced_code_and_fields', value.subjectArea);
+      setISCEDCodeAndFields(value.subjectArea);
+      setISCEDCodeAndFieldsID(value.subjectAreaId);
+    } else {
+      setValue('isced_code_and_fields', '');
+      setISCEDCodeAndFields(''); // or any default value you want
     }
   };
 
@@ -390,15 +391,20 @@ export default function InstitutionConditionsForm({
               error={errors.annual_mobility_amount?.message}
               register={register('annual_mobility_amount')}
             />
+            <SelectISCED
+              id='isced_code_and_fields'
+              error={errors.isced_code_and_fields?.message}
+              register={register('isced_code_and_fields', {
+                required: 'This is required',
+              })}
+              placeholder='placeholder...'
+              selectLabel='ISCED Kodu ve Konu Alanları?'
+              onChange={handleISCEDchange}
+            ></SelectISCED>
 
             <SelectAutoComplete
               placeHolder='placeholder..'
               selectLabel='ISCED Kodu ve Konu Alanları'
-            />
-            <TextInput
-              placeHolder='placeholder..'
-              name='0'
-              label='Yıl Bazında Toplam Ay sayısı'
             />
             <TextInput
               placeholder='Açıklama'
