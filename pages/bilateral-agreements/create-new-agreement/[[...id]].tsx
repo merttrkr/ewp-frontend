@@ -104,6 +104,11 @@ export default function TabComponent() {
     handleCheckIfBilateralAgreementIsInEffect();
   }, [bilateralAgreementID]);
 
+  const handleSaveStateUpdate = () => {
+    setSaveState(prevState => prevState + 1);
+    console.log("--------x----------",saveState);
+  };
+  
   return (
     <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
@@ -114,6 +119,8 @@ export default function TabComponent() {
       <TabPanels>
         <TabPanel>
           <InstitutionInformationFormIIA
+            onSave={handleSaveStateUpdate}
+            saveState={saveState}
             pageName='Kurum Bilgilerim'
             subText={'Lütfen kurumunuzun bilgilerini doldurunuz.'}
             organizationInfoId={newOrganizationInfoId}
@@ -121,6 +128,8 @@ export default function TabComponent() {
             bilateralAgreementID={bilateralAgreementID}
           />
           <InstitutionInformationFormIIA
+            onSave={handleSaveStateUpdate}
+            saveState={saveState}
             pageName='Partner Kurum Bilgileri'
             subText={'Lütfen partner kurumun bilgilerini doldurunuz.'}
             organizationInfoId={newPartnerOrganizationInfoId}
@@ -130,6 +139,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <InstitutionConditionsForm
+
             pageName='Kurumuma Ait Koşullar'
             subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
           />
@@ -140,10 +150,12 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <PreviewOrSaveForm
+            saveState={saveState}
             organizationInfoId={newOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
             pageName='Kurumuma Ait Bilgiler' />
           <PreviewOrSaveForm
+            saveState={saveState}
             organizationInfoId={newPartnerOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
             pageName='Partner Kuruma Ait Bilgiler' />
