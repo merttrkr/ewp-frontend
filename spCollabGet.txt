@@ -1,4 +1,4 @@
-https://localhost:5001/spGetCollaborationConditionTypes
+https://localhost:5001/spGetCollaborationConditionTypes +
 
 [
   {
@@ -7,7 +7,7 @@ https://localhost:5001/spGetCollaborationConditionTypes
   }
 ]
 
-https://localhost:5001/spGetLanguages
+https://localhost:5001/spGetLanguages +
 
 [
   {
@@ -20,7 +20,7 @@ https://localhost:5001/spGetLanguages
   },
 ]
 
-https://localhost:5001/spGetLanguageLevels
+https://localhost:5001/spGetLanguageLevels +
 
 [
   {
@@ -33,7 +33,7 @@ https://localhost:5001/spGetLanguageLevels
   },
 ]
 
-https://localhost:5001/spGetSubjectAreas
+https://localhost:5001/spGetSubjectAreas +
 
 [
   {
@@ -46,7 +46,7 @@ https://localhost:5001/spGetSubjectAreas
   },
 ]
 
-https://localhost:5001/spGetEducationTypesAndLevels
+https://localhost:5001/spGetEducationTypesAndLevels +
 
 [
   {
@@ -59,7 +59,7 @@ https://localhost:5001/spGetEducationTypesAndLevels
   },
 ]
 
-https://localhost:5001/spGetAcademicYearInfo
+https://localhost:5001/spGetAcademicYearInfo +
 
 [
   {
@@ -72,14 +72,14 @@ https://localhost:5001/spGetAcademicYearInfo
   },
 ]
 
-https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=21
+https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=21 +
 [
   "Nur Basak Surmeli Eraltug",
   "İlyas Ferhat DEMİRBAŞ",
   "İlyas Ferhat DEMİRBAŞ"
 ]
 
-https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=21
+https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=21 +
 {
   "heiId": "iyte.edu.tr",
   "uniName": "Izmir Institute of Technology",

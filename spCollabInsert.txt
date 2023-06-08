@@ -1,10 +1,13 @@
-https://localhost:5001/spInsertEmptyRowToCollaborationCondition?collaborationCondition_id=1
+https://localhost:5001/spInsertEmptyRowToCollaborationCondition?collaborationCondition_id=1 +
 
-https://localhost:5001/spAddLanguageSkillForCollaborationCondition?collaborationCondition_id=1&lang_id=1&langLevel_id=1
+https://localhost:5001/spAddLanguageSkillForCollaborationCondition?collaborationCondition_id=1&lang_id=1&langLevel_id=1+
 
 https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=21
 
 
-https://localhost:5001/spSaveCollaborationCondition?id=1&bilateralAgreement_id=1&isPartner=1&academicYearStart_id=1&academicYearEnd_id=1&annualQuota=1&subjectArea_id=1&subjectAreaDescription=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLevel_id=1
+https://localhost:5001/spSaveCollaborationCondition?id=1&bilateralAgreement_id=1&isPartner=1&
+academicYearStart_id=1&academicYearEnd_id=1&annualQuota=1&subjectArea_id=1&subjectAreaDescript
+ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLevel_id=1
 
-https://localhost:5001/spAddCollaborationConditionToBilateralAgreement?collaborationCondition_id=1&bilateralAgreement_id=1&isPartner=0
+https://localhost:5001/spAddCollaborationConditionToBilateralAgreement?collaborationCondition_id
+=1&bilateralAgreement_id=1&isPartner=0
