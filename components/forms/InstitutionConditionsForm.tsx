@@ -25,6 +25,8 @@ import SelectAcademicYear from '../form-components/selectboxes/SelectAcademicYea
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
 import SelectISCED from '../form-components/selectboxes/SelectISCED';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
+import SelectCollaborationCondition from '../form-components/selectboxes/SelectCollaborationCondition';
+import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
 
 type InstitutionConditionsFormProps = {
   pageName: String;
@@ -32,6 +34,7 @@ type InstitutionConditionsFormProps = {
 };
 
 type FormData = {
+  condition_type: string;
   sender_hei_id: string;
   receiver_hei_id: string;
   sender_department: string;
@@ -303,6 +306,16 @@ export default function InstitutionConditionsForm({
       setISCEDCodeAndFields(''); // or any default value you want
     }
   };
+  const handleConditionChange = (value: CollaborationConditionType | null) => {
+    if (value) {
+      setValue('condition_type', value.type);
+      setISCEDCodeAndFields(value.type);
+      setISCEDCodeAndFieldsID(value.id);
+    } else {
+      setValue('condition_type', '');
+      setISCEDCodeAndFields(''); // or any default value you want
+    }
+  };
 
   return (
     <Stack
@@ -332,11 +345,17 @@ export default function InstitutionConditionsForm({
         borderRadius={'xl'}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Flex p='5'>
-          <SelectAutoComplete
-            placeHolder='placeholder..'
-            selectLabel='Koşul Seçiniz'
-          />
+        <Flex p='5' w='100%'>
+          <SelectCollaborationCondition
+            id='condition_type'
+            error={errors.condition_type?.message}
+            register={register('condition_type', {
+              required: 'This is required',
+            })}
+            placeholder='placeholder...'
+            selectLabel='Koşul seçiniz'
+            onChange={handleConditionChange}
+          ></SelectCollaborationCondition>
         </Flex>
 
         <Flex>
@@ -398,14 +417,10 @@ export default function InstitutionConditionsForm({
                 required: 'This is required',
               })}
               placeholder='placeholder...'
-              selectLabel='ISCED Kodu ve Konu Alanları?'
+              selectLabel='ISCED Kodu ve Konu Alanları'
               onChange={handleISCEDchange}
             ></SelectISCED>
 
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='ISCED Kodu ve Konu Alanları'
-            />
             <TextInput
               placeholder='Açıklama'
               id='other_info'

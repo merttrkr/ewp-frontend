@@ -74,9 +74,10 @@ const useAgreement = () => {
   //https:localhost:5001/spGetCollaborationConditionTypes
   const GetCollaborationConditionTypes = async (
     request: string
-  ): Promise<CollaborationConditionType> => {
-    const condition: CollaborationConditionType =
-      await makeRequest<CollaborationConditionType>(request);
+  ): Promise<CollaborationConditionType[]> => {
+    const condition: CollaborationConditionType[] = await makeRequest<
+      CollaborationConditionType[]
+    >(request);
     return condition;
   };
 
