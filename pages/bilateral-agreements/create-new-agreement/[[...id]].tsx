@@ -31,6 +31,8 @@ export default function TabComponent() {
     useState(0);
   const [bilateralAgreementID, setBilateralAgreementID] = useState(0);
   const [bilateralAgreementState, setbilateralAgreementState] = useState('');
+  const [saveState, setSaveState] = useState(0);
+
   const {
     GenerateBilateralAgreementID,
     GenerateIdsForBothOrganizationAndPartnerOrganization,
@@ -88,7 +90,6 @@ export default function TabComponent() {
       );
       if (data) {
         setbilateralAgreementState(data);
-
       }
     };
     fetchBilateralAgreementIsInEffect();
@@ -103,6 +104,11 @@ export default function TabComponent() {
     handleCheckIfBilateralAgreementIsInEffect();
   }, [bilateralAgreementID]);
 
+  const handleSaveStateUpdate = () => {
+    setSaveState(prevState => prevState + 1);
+    console.log("--------x----------",saveState);
+  };
+  
   return (
     <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
@@ -113,6 +119,8 @@ export default function TabComponent() {
       <TabPanels>
         <TabPanel>
           <InstitutionInformationFormIIA
+            onSave={handleSaveStateUpdate}
+            saveState={saveState}
             pageName='Kurum Bilgilerim'
             subText={'Lütfen kurumunuzun bilgilerini doldurunuz.'}
             organizationInfoId={newOrganizationInfoId}
@@ -120,6 +128,8 @@ export default function TabComponent() {
             bilateralAgreementID={bilateralAgreementID}
           />
           <InstitutionInformationFormIIA
+            onSave={handleSaveStateUpdate}
+            saveState={saveState}
             pageName='Partner Kurum Bilgileri'
             subText={'Lütfen partner kurumun bilgilerini doldurunuz.'}
             organizationInfoId={newPartnerOrganizationInfoId}
@@ -129,6 +139,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <InstitutionConditionsForm
+
             pageName='Kurumuma Ait Koşullar'
             subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
           />
@@ -139,18 +150,14 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <PreviewOrSaveForm
-            newOrganizationInfoId={newOrganizationInfoId}
-            newPartnerOrganizationInfoId={newPartnerOrganizationInfoId}
+            saveState={saveState}
+            organizationInfoId={newOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
-            newCollaborationConditionId={newCollaborationConditionId}
-            newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
             pageName='Kurumuma Ait Bilgiler' />
           <PreviewOrSaveForm
-            newOrganizationInfoId={newOrganizationInfoId}
-            newPartnerOrganizationInfoId={newPartnerOrganizationInfoId}
+            saveState={saveState}
+            organizationInfoId={newPartnerOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
-            newCollaborationConditionId={newCollaborationConditionId}
-            newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
             pageName='Partner Kuruma Ait Bilgiler' />
           <Flex
             bgColor={HeaderBackground}

@@ -92,7 +92,7 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
             Anlaşmanın IIA Kodu
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            IIA-1
+            {'IIA-'+IIA}
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}></Flex>
         </HStack>

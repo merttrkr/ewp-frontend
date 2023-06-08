@@ -30,6 +30,8 @@ type InstitutionInformationFormProps = {
   bilateralAgreementID: number;
   organizationInfoId: number;
   isPartnerValue: number;
+  saveState: number;
+  onSave: () => void;
 };
 
 type FormData = {
@@ -40,6 +42,7 @@ type FormData = {
   IIA_ID: string;
   authorized_signotary: string;
   signing_date: string;
+
 };
 
 export default function InstitutionInformationForm({
@@ -48,6 +51,8 @@ export default function InstitutionInformationForm({
   organizationInfoId,
   bilateralAgreementID,
   isPartnerValue,
+  saveState,
+  onSave,
 }: InstitutionInformationFormProps) {
   const { GenerateIIACode, GenerateIIAID } = useCreate();
 
@@ -233,7 +238,7 @@ export default function InstitutionInformationForm({
     values.signing_date = startDate;
     values.IIA_ID = IIAID;
     values.IIA_Code = IIACode;
-
+    
     return new Promise<void>(async (resolve, reject) => {
       try {
         console.log('new org id: ', organizationInfoId);
@@ -259,7 +264,7 @@ export default function InstitutionInformationForm({
         );
         await handleSetCreatorOfBilateralAgreement();
         console.log('set creator of bilateral agreement', organizationInfoId);
-
+        onSave();
         resolve();
       } catch (error) {
         alert('Error');
