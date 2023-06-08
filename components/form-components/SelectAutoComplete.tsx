@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { useForm, useFormContext } from 'react-hook-form';
 import useRead from '@/hooks/read/useRead';
-import { Contact, ContactResponse } from '@/models/contactResponse';
+import { Contact } from '@/models/response/contactResponse';
 
 type SelectAutoCompleteProps = {
   selectLabel: String;
