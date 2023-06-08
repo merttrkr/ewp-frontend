@@ -10,20 +10,18 @@ import {
 import TextInput2 from '../form-components/inputs/TextInput2';
 import DatePickerInput from '../form-components/inputs/DatePickerInput';
 import { useForm } from 'react-hook-form';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 //selectboxes
 import SelectContact from '../form-components/selectboxes/SelectContact';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 import useCreate from '@/hooks/create/useCreate';
 import useUpdate from '@/hooks/update/useUpdate';
-import { IdForBothResponse } from '@/models/response/idForBothResponse';
 import { Contact } from '@/models/response/contactResponse';
 import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFormRequest';
 import { Department } from '@/models/response/departmentResponse';
 import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
-import { log } from 'console';
 import getFormattedDate from '@/helper/currentDate';
 
 type InstitutionInformationFormProps = {

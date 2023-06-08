@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   HStack,
   Heading,
@@ -13,6 +12,7 @@ import {
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '@/components/form-components/inputs/TextInput';
 import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
+import useRead from '@/hooks/read/useRead';
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
@@ -26,6 +26,20 @@ export default function InstitutionConditionsForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
+  const { GetCollaborationConditionTypes } = useRead();
+
+  async function handle() {
+    const fetchInitialData = async () => {
+      const data = await GetCollaborationConditionTypes(
+        'https:localhost:5001/spGetCollaborationConditionTypes'
+      ); // Call the fetchData function
+      if (data) {
+        console.log('data: ', data); // Update the state with the fetched data
+      }
+    };
+    fetchInitialData();
+  }
+  handle();
 
   return (
     <Stack

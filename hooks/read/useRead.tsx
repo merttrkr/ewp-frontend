@@ -1,3 +1,4 @@
+import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
 import { ContactResponse, Contact } from '@/models/response/contactResponse';
 import {
   DepartmentResponse,
@@ -23,6 +24,7 @@ const useAgreement = () => {
 
     return response.json() as Promise<T>;
   };
+  //institutionInformationForm
 
   const GetContactInfoByHeiID = async (
     request: string
@@ -61,10 +63,22 @@ const useAgreement = () => {
     return departmentList;
   };
 
+  //https:localhost:5001/spGetCollaborationConditionTypes
+  const GetCollaborationConditionTypes = async (
+    request: string
+  ): Promise<CollaborationConditionType> => {
+    const condition: CollaborationConditionType =
+      await makeRequest<CollaborationConditionType>(request);
+    return condition;
+  };
+
+  //institiutionConditionsForm
+
   return {
     GetContactInfoByHeiID,
     GetAllUniversitiesInfo,
     GetDepartmentsByHeiID,
+    GetCollaborationConditionTypes,
   };
 };
 
