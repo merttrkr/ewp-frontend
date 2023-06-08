@@ -17,11 +17,15 @@ import InstitutionConditionsForm from '@/components/forms/InstitutionConditionsF
 import InstitutionInformationFormIIA from '@/components/forms/InstitutionInformationFormIIA';
 import PreviewOrSaveForm from '@/components/forms/PreviewOrSaveForm';
 import useRead from '@/hooks/read/useRead';
+import { IdForBothCollaborationConditionResponse } from '@/models/response/idForBothCollaborationConditionResponse';
 
 
 export default function TabComponent() {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
+  const [newCollaborationConditionId, setNewCollaborationConditionId] = useState(0);
+  const [newPartnerCollaborationConditionId, setNewPartnerCollaborationConditionId] =
+    useState(0);
   const [newOrganizationInfoId, setNewOrganizationInfoId] = useState(0);
   const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
     useState(0);
@@ -33,7 +37,6 @@ export default function TabComponent() {
     GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
   } = useCreate();
   const {
-    
     CheckIfBilateralAgreementIsInEffect,
   } = useRead();
   async function handleIDForBoth() {
@@ -53,11 +56,16 @@ export default function TabComponent() {
 
   async function handleIDForBothCollaborationCondition() {
     const fetchCollaborationConditionData = async () => {
-      const data =
-        await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
+      const data : IdForBothCollaborationConditionResponse =
+        (await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
           'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition'
-        );
+        ))[0];
+      if (data) {
+        setNewCollaborationConditionId(data.newOrganizationCollaborationConditionId);
+        setNewPartnerCollaborationConditionId(data.newPartnerOrganizationCollaborationConditionId);
+      }
     };
+
     fetchCollaborationConditionData();
   }
 
@@ -74,19 +82,19 @@ export default function TabComponent() {
   }
   async function handleCheckIfBilateralAgreementIsInEffect() {
     const fetchBilateralAgreementIsInEffect = async () => {
-    
+
       const data = await CheckIfBilateralAgreementIsInEffect(
         'https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=' + bilateralAgreementID
       );
       if (data) {
         setbilateralAgreementState(data);
-        console.log("--------",data);
+
       }
     };
     fetchBilateralAgreementIsInEffect();
   }
 
-  
+
   handleIDForBoth();
   handleIDForBothCollaborationCondition();
   handleGenerateBilateralAgreementID();
@@ -126,8 +134,20 @@ export default function TabComponent() {
           />
         </TabPanel>
         <TabPanel>
-          <PreviewOrSaveForm pageName='Kurumuma Ait Bilgiler' />
-          <PreviewOrSaveForm pageName='Partner Kuruma Ait Bilgiler' />
+          <PreviewOrSaveForm
+            newOrganizationInfoId={newOrganizationInfoId}
+            newPartnerOrganizationInfoId={newPartnerOrganizationInfoId}
+            bilateralAgreementID={bilateralAgreementID}
+            newCollaborationConditionId={newCollaborationConditionId}
+            newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
+            pageName='Kurumuma Ait Bilgiler' />
+          <PreviewOrSaveForm
+            newOrganizationInfoId={newOrganizationInfoId}
+            newPartnerOrganizationInfoId={newPartnerOrganizationInfoId}
+            bilateralAgreementID={bilateralAgreementID}
+            newCollaborationConditionId={newCollaborationConditionId}
+            newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
+            pageName='Partner Kuruma Ait Bilgiler' />
           <Flex
             bgColor={HeaderBackground}
             mb={'100'}
@@ -142,7 +162,7 @@ export default function TabComponent() {
               fontWeight={'medium'}
               color={HeadingColor}
             >
-               Anlaşma Yürürlük Durumu: {bilateralAgreementState === 'Hayır' ? 'Yürürlükte değil' : 'Yürürlükte'}
+              Anlaşma Yürürlük Durumu: {bilateralAgreementState === 'Hayır' ? 'Yürürlükte değil' : 'Yürürlükte'}
             </Heading>
           </Flex>
         </TabPanel>
