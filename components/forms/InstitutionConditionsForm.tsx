@@ -31,6 +31,7 @@ export default function InstitutionConditionsForm({
     GetEducationTypesAndLevels,
     GetAcademicYearInfo,
     GetSelectedContactInfoOfOrganizationInfo,
+    GetOrganizationInfo,
   } = useRead();
 
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -119,7 +120,22 @@ export default function InstitutionConditionsForm({
     };
     fetchInitialData();
   }
-  handleGetSelectedContactInfoOfOrganizationInfo();
+
+  async function handleGetOrganizationInfo() {
+    const organizationInfo = 21;
+    const fetchInitialData = async () => {
+      const data = await GetOrganizationInfo(
+        'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
+          organizationInfo
+      ); // Call the GetOrganizationInfo function
+      if (data) {
+        console.log('data: ', data); // Process the fetched data
+      }
+    };
+    fetchInitialData();
+  }
+  handleGetOrganizationInfo();
+
   return (
     <Stack
       marginBottom='20'

@@ -12,6 +12,7 @@ import {
 } from '@/models/response/institutionInfoResponse';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
+import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 
 const useAgreement = () => {
@@ -128,6 +129,15 @@ const useAgreement = () => {
     return contactInfo;
   };
 
+  //https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=21
+  const GetOrganizationInfo = async (
+    request: string
+  ): Promise<OrganizationInfo> => {
+    const organizationInfo: OrganizationInfo =
+      await makeRequest<OrganizationInfo>(request);
+    return organizationInfo;
+  };
+
   return {
     GetContactInfoByHeiID,
     GetAllUniversitiesInfo,
@@ -139,6 +149,7 @@ const useAgreement = () => {
     GetEducationTypesAndLevels,
     GetAcademicYearInfo,
     GetSelectedContactInfoOfOrganizationInfo,
+    GetOrganizationInfo,
   };
 };
 
