@@ -42,6 +42,7 @@ export default function DisplayAgreements() {
 
   return (
     <>
+        {/* Search input field */}
       <Flex align={'center'} justify={'flex-end'} px={6} py={4}>
         <Stack justify={'right'} px={2} direction={'row'}>
           <Search2Icon mt={3} color="gray.600" />
@@ -49,9 +50,6 @@ export default function DisplayAgreements() {
         </Stack>
         <Button variant="condition">Yeni Anlaşma Oluştur</Button>
       </Flex>
-
-      {/* Search input field */}
-
 
 
       {/* Loop through the currentItems array and render PreviewIIA component for each IIA */}
