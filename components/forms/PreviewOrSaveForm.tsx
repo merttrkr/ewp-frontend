@@ -25,44 +25,64 @@ const {
 type PreviewOrSaveFormProps = {
   pageName: String;
   bilateralAgreementID: number;
-  newOrganizationInfoId: number;
-  newPartnerOrganizationInfoId: number;
-  newCollaborationConditionId: number;
-  newPartnerCollaborationConditionId: number;
+  organizationInfoId: number;
+
 };
 
 export default function PreviewOrSaveForm({
   pageName,
-  bilateralAgreementID,
-  newOrganizationInfoId,
-  newPartnerOrganizationInfoId,
-  newCollaborationConditionId,
-  newPartnerCollaborationConditionId,
+  organizationInfoId,
 }: PreviewOrSaveFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
-
+  const [contactPerson, setContactPerson] = useState([] as string[] );
   useEffect(() => {
     handleGetOrganizationInfo();
-  }, [newPartnerOrganizationInfoId]);
+    handleGetSelectedContactInfoOfOrganizationInfo();
+  }, []);
 
 
   async function handleGetOrganizationInfo() {
     const fetchInitialData = async () => {
+
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-          21
+        organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setOrganizationInfo(data);
       }
     };
-    fetchInitialData();
+    if(organizationInfoId != 0){
+      fetchInitialData();
+    }
+    
   }
+  async function handleGetSelectedContactInfoOfOrganizationInfo() {
+    const fetchInitialData = async () => {
+      console.log('organizationInfoId handleGetSelectedContactInfoOfOrganizationInfo : ', organizationInfoId);
+      
+      const data = await GetSelectedContactInfoOfOrganizationInfo(
+        'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
+        organizationInfoId
+      ); // Call the GetSelectedContactInfoOfOrganizationInfo function
+      if (data && data.length > 0) {
+        console.log('data: ', data); // Process the fetched data
+        // Assuming the fetched data is an array of contact persons
+        const senderContactPersons = data.map((contactPerson: string) => contactPerson);
+        setContactPerson(senderContactPersons);
+      }
 
+    };
+    if(organizationInfoId != 0){
+      fetchInitialData();
+    }
+ 
+  }
+  
 
 
   return (
@@ -111,7 +131,7 @@ export default function PreviewOrSaveForm({
           <Stack w='50%' spacing={4} p='5'>
             <DisplayText
               label={'Kurum / Üniversite Adı'}
-              content={organizationInfo?.uniName ?? ''}
+              content={organizationInfo?.uniName ?? 'NOT FOUND'}
             ></DisplayText>
             <DisplayText
               label={'İkili Anlaşma Kodu (IIA-Kodu)'}
@@ -119,23 +139,26 @@ export default function PreviewOrSaveForm({
             ></DisplayText>
             <DisplayText
               label={'Anlaşmayı İmzalayacak Yetkili'}
-              content={'Mert Türker'}
+              content={organizationInfo?.signingPersonFullName ?? 'NOT FOUND'}
             ></DisplayText>
             <DisplayText
               label={'İletişim Kurulabilecek Yetkililer'}
-              content={'Mert Türker'}
+              content={contactPerson.join(', ')  ?? 'NOT FOUND'}
             ></DisplayText>
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
             <DisplayText
               label={'Departman / Bölüm Adı'}
-              content={'Bilgisayar Mühendisliği'}
+              content={organizationInfo?.ounitName ?? 'NOT FOUND'}
             ></DisplayText>
             <DisplayText
               label={'İkili Anlaşma IDsi (IIA-ID)'}
-              content={'IIA-15'}
+              content={organizationInfo?.IIAID ?? 'NOT FOUND'}
             ></DisplayText>
-            <DisplayText label='İmzalanma Tarihi' content={'12/4/2023'} />
+            <DisplayText 
+            label='İmzalanma Tarihi' 
+            content={ organizationInfo?.signingDate ?? 'NOT FOUND'} 
+            />
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
         </Flex>
