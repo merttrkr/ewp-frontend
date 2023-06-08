@@ -12,7 +12,7 @@ import {
 
 import useCreate from '@/hooks/create/useCreate';
 import { IdForBothResponse } from '@/models/response/idForBothResponse';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InstitutionConditionsForm from '@/components/forms/InstitutionConditionsForm';
 import InstitutionInformationFormIIA from '@/components/forms/InstitutionInformationFormIIA';
 import PreviewOrSaveForm from '@/components/forms/PreviewOrSaveForm';
@@ -94,11 +94,15 @@ export default function TabComponent() {
     fetchBilateralAgreementIsInEffect();
   }
 
+  useEffect(() => {
+    handleIDForBoth();
+    handleIDForBothCollaborationCondition();
+    handleGenerateBilateralAgreementID();
+  }, []);
+  useEffect(() => {
+    handleCheckIfBilateralAgreementIsInEffect();
+  }, [bilateralAgreementID]);
 
-  handleIDForBoth();
-  handleIDForBothCollaborationCondition();
-  handleGenerateBilateralAgreementID();
-  handleCheckIfBilateralAgreementIsInEffect();
   return (
     <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
