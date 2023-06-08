@@ -23,6 +23,7 @@ import { OrganizationRequestToIIA } from '@/models/request/organizationRequestTo
 import { useState } from 'react';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectContact from '../form-components/selectboxes/SelectContact';
+
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
@@ -196,6 +197,20 @@ export default function InstitutionConditionsForm({
     };
     fetchInitialData();
   }
+  //submit
+  function onSubmit(values: FormData) {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        alert(JSON.stringify(values, null));
+        console.log('values: ', values);
+        resolve();
+      } catch (error) {
+        alert('Error');
+        console.log(error);
+        reject(error);
+      }
+    });
+  }
 
   //onChange functions
   const handleSenderInstitutionChange = (value: InstitutionInfo | null) => {
@@ -289,6 +304,7 @@ export default function InstitutionConditionsForm({
         padding={5}
         bg={FormBackground}
         borderRadius={'xl'}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Flex p='5'>
           <SelectAutoComplete
@@ -420,9 +436,13 @@ export default function InstitutionConditionsForm({
         </Flex>
 
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-          <Button variant='submit'>Kaydet</Button>
+          <Button variant='submit' type='submit'>
+            Kaydet
+          </Button>
           <Button variant='condition'>Aynı Koşulları Partnerime De Ekle</Button>
-          <Button variant='clear'>Clear</Button>
+          <Button variant='clear' type='reset'>
+            Clear
+          </Button>
         </Flex>
       </Box>
     </Stack>
