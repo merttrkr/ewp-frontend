@@ -22,6 +22,7 @@ import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import { useState } from 'react';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
+import SelectContact from '../form-components/selectboxes/SelectContact';
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
@@ -78,6 +79,8 @@ export default function InstitutionConditionsForm({
   const [receiverDepartment, setReceiverDepartment] = useState('');
   const [senderContactPerson, setSenderContactPerson] = useState('');
   const [receiverContactPerson, setReceiverContactPerson] = useState('');
+  const [senderContactPersonID, setSenderContactPersonID] = useState(0);
+  const [receiverContactPersonID, setReceiverContactPersonID] = useState(0);
   const [startingAcademicYear, setStartingAcademicYear] = useState('');
   const [endingAcademicYear, setEndingAcademicYear] = useState('');
   const [annualMobilityAmount, setAnnualMobilityAmount] = useState(0);
@@ -238,6 +241,28 @@ export default function InstitutionConditionsForm({
     }
   };
 
+  const handleSenderContactChange = (value: Contact | null) => {
+    if (value) {
+      setValue('sender_contact_person', value.fullName);
+      setSenderContactPerson(value.fullName);
+      setSenderContactPersonID(value.id);
+    } else {
+      setValue('sender_contact_person', ''); // or any default value you want
+      setSenderContactPerson(''); // or any default value you want
+    }
+  };
+
+  const handleReceiverContactChange = (value: Contact | null) => {
+    if (value) {
+      setValue('receiver_contact_person', value.fullName);
+      setReceiverContactPerson(value.fullName);
+      setReceiverContactPersonID(value.id);
+    } else {
+      setValue('receiver_contact_person', ''); // or any default value you want
+      setReceiverContactPerson(''); // or any default value you want
+    }
+  };
+
   return (
     <Stack
       marginBottom='20'
@@ -285,20 +310,27 @@ export default function InstitutionConditionsForm({
               onChange={handleSenderInstitutionChange}
               error={errors.sender_hei_id?.message}
             />
-            <SelectInstitution
-              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
-              id='receiver_instution_name'
-              register={register('receiver_hei_id', {
+            <SelectDepartment
+              id='sender_departmant'
+              register={register('sender_department', {
                 required: 'This is required',
               })}
-              placeHolder='placeholder..'
-              selectLabel='Alıcı Kurum / Üniversite Adı'
-              onChange={handleReceiverInstitutionChange}
-              error={errors.receiver_hei_id?.message}
+              placeHolder='placeholder...'
+              selectLabel='Gönderen Kurum Departman / Bölüm Adı'
+              onChange={handleSenderDepartmentChange}
+              param={senderInstitution}
+              error={errors.sender_department?.message}
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
+            <SelectContact
+              id='contact_persons'
+              error={errors.sender_contact_person?.message}
+              register={register('sender_contact_person', {
+                required: 'This is required',
+              })}
+              placeholder='placeholder...'
               selectLabel='Gönderen Kurumdaki İletişim Kurulabilecek Yetkililer'
+              onChange={handleSenderContactChange}
+              param={senderInstitution}
             />
             <SelectAutoComplete
               placeHolder='placeholder..'
@@ -319,17 +351,18 @@ export default function InstitutionConditionsForm({
             />
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
-            <SelectDepartment
-              id='sender_departmant'
-              register={register('sender_department', {
+            <SelectInstitution
+              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
+              id='receiver_instution_name'
+              register={register('receiver_hei_id', {
                 required: 'This is required',
               })}
-              placeHolder='placeholder...'
-              selectLabel='Gönderen Kurum Departman / Bölüm Adı'
-              onChange={handleSenderDepartmentChange}
-              param={senderInstitution}
-              error={errors.sender_department?.message}
+              placeHolder='placeholder..'
+              selectLabel='Alıcı Kurum / Üniversite Adı'
+              onChange={handleReceiverInstitutionChange}
+              error={errors.receiver_hei_id?.message}
             />
+
             <SelectDepartment
               id='receiver_department'
               register={register('receiver_department', {
@@ -341,10 +374,18 @@ export default function InstitutionConditionsForm({
               param={receiverInstitution}
               error={errors.receiver_department?.message}
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Alıcı Kurumun İlgili Bölümü / Departmanı'
+            <SelectContact
+              id='contact_persons'
+              error={errors.receiver_contact_person?.message}
+              register={register('receiver_contact_person', {
+                required: 'This is required',
+              })}
+              placeholder='placeholder...'
+              selectLabel='Alıcı Kurumdaki İletişim Kurulabilecek Yetkililer'
+              onChange={handleReceiverContactChange}
+              param={receiverInstitution}
             />
+
             <SelectAutoComplete
               placeHolder='placeholder..'
               selectLabel='Hangi Akademik Yıllar Arasında Bitiyor ?'
