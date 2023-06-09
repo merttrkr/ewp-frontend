@@ -23,8 +23,8 @@ import { useRouter } from 'next/router'
 export default function TabComponent() {
   const router = useRouter()
   const { id } = router.query
-  console.log('id', id);
-  
+
+
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const [newCollaborationConditionId, setNewCollaborationConditionId] =
@@ -41,21 +41,14 @@ export default function TabComponent() {
   const [saveState, setSaveState] = useState(0);
 
 
- 
-
- 
-
   const { CheckIfBilateralAgreementIsInEffect } = useRead();
-
-
-
 
 
   async function handleCheckIfBilateralAgreementIsInEffect() {
     const fetchBilateralAgreementIsInEffect = async () => {
       const data = await CheckIfBilateralAgreementIsInEffect(
         'https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=' +
-          bilateralAgreementID
+        bilateralAgreementID
       );
       if (data) {
         setbilateralAgreementState(data);
@@ -63,6 +56,21 @@ export default function TabComponent() {
     };
     fetchBilateralAgreementIsInEffect();
   }
+  useEffect(() => {
+
+    let ids = id?.toString().split(',');
+    console.log('ids', ids);
+    
+    if(ids !== undefined) {
+      setNewOrganizationInfoId(Number(ids[0]));
+
+      setNewPartnerOrganizationInfoId(Number(ids[1]));
+      
+      setNewCollaborationConditionId(Number(ids[2]));
+      setNewPartnerCollaborationConditionId(Number(ids[3]));
+      setBilateralAgreementID(Number(ids[4]));
+     }
+  }, [id]);
 
 
   useEffect(() => {
