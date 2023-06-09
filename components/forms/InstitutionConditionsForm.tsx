@@ -9,7 +9,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '@/components/form-components/inputs/TextInput';
 import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
 import useRead from '@/hooks/read/useRead';
@@ -140,10 +139,6 @@ export default function InstitutionConditionsForm({
 
       try {
         const result = await InsertEmptyRowToCollaborationCondition(requestUrl);
-        console.log(
-          'Result handleInsertEmptyRowToCollaborationCondition:',
-          result
-        );
       } catch (error) {
         console.error('Error:', error);
       }
@@ -160,8 +155,7 @@ export default function InstitutionConditionsForm({
       39;
 
     try {
-      const result = await GetOrganizationCollaborationCondition(requestUrl);
-      console.log('deneme Result org collab condt :', result);
+      await GetOrganizationCollaborationCondition(requestUrl);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -191,7 +185,6 @@ export default function InstitutionConditionsForm({
       languageLevelID
     );
     if (collaborationConditionId && languageID != 0 && languageLevelID != 0) {
-      console.log('language skills added');
       addLanguageSkillForCollaborationCondition();
     }
   }
@@ -202,13 +195,11 @@ export default function InstitutionConditionsForm({
         bilateralAgreementID;
 
       try {
-        console.log('updateDateOfBilateralAgreement');
         await UpdateDateOfBilateralAgreement(requestUrl);
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    console.log('updateDateOfBilateralAgreement bai: ', bilateralAgreementID);
     if (bilateralAgreementID) {
       updateDateOfBilateralAgreement();
     }
@@ -235,7 +226,7 @@ export default function InstitutionConditionsForm({
         educationTypeAndLevel_id: educationTypeAndLevelID,
       };
       try {
-        const result = await SaveCollaborationCondition(request);
+        await SaveCollaborationCondition(request);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -252,10 +243,7 @@ export default function InstitutionConditionsForm({
       '&isPartner=' +
       isPartnerValue;
     try {
-      const result = await AddCollaborationConditionToBilateralAgreement(
-        requestUrl
-      );
-      console.log('Result:', result);
+      await AddCollaborationConditionToBilateralAgreement(requestUrl);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -437,7 +425,6 @@ export default function InstitutionConditionsForm({
   };
   const handleLanguageChange = (value: Language | null) => {
     if (value) {
-      console.log('lang id : ', value.lang_id);
       setValue('language', value.definition);
       setLanguage(value.definition);
       setLanguageID(value.lang_id);
