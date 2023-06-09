@@ -1,4 +1,6 @@
+import useRead from '@/hooks/read/useRead';
 import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
+import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import {
   Box,
   Button,
@@ -8,20 +10,54 @@ import {
   Text,
   VStack,
   HStack,
+  Link,
 } from '@chakra-ui/react';
-
+import { useEffect, useState } from 'react';
+import NextLink from 'next/link';
 type PreviewIIAProps = {
   IIA: String;
   BilateralAgreement: BilateralAgreement;
 };
 
-export default function PreviewIIA({ IIA,BilateralAgreement }: PreviewIIAProps) {
+
+export default function PreviewIIA({ IIA, BilateralAgreement }: PreviewIIAProps) {
+  const { GetOrganizationIdsAndCollaborationConditionIds } = useRead();
+  const [organizationIds, setOrganizationIds] = useState<number[]>([]);
   const HeaderBackground = useColorModeValue('#9C1F23', '#9C1F23');
   const FormBackground = useColorModeValue('gray.100', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const TitleColor = useColorModeValue('#20558B', 'gray.400');
 
-  
+  async function handleGetOrganizationIdsAndCollaborationConditionIds() {
+    try {
+      const data = await GetOrganizationIdsAndCollaborationConditionIds(
+        `https://localhost:5001/spGetOrganizationIdsAndCollaborationConditionIds?bilateralAgreement_id=${BilateralAgreement.bilateralAgreement_id}`
+      );
+
+      if (data !== undefined && data !== null ) {
+        console.log('data: ', data);
+        setOrganizationIds([
+          data?.organizationInfo_id,
+          data?.partnerOrganizationInfo_id,
+          data?.collaborationCondition_id,
+          data?.partnerCollaborationCondition_id,
+        ]);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+
+  }
+  useEffect(() => {
+    handleGetOrganizationIdsAndCollaborationConditionIds();
+  }, []);
+
+  const renderNextLink = organizationIds.length > 0 && (
+    <NextLink href={`/bilateral-agreements/create-new-agreement/${organizationIds.toString()}`}>
+      <Button variant='autoWidthFull'>Anlaşma Detaylarını Görüntüle</Button>
+    </NextLink>
+  );
+
   return (
     <Stack
       margin='6'
@@ -53,7 +89,7 @@ export default function PreviewIIA({ IIA,BilateralAgreement }: PreviewIIAProps) 
         <Flex width={'33%'} justify={'center'}>
           <VStack>
             <Text fontSize='md'>Partnerim</Text>
-            <Text fontSize='sm'> {BilateralAgreement?.partnerUniNameWithHeiId } </Text>
+            <Text fontSize='sm'> {BilateralAgreement?.partnerUniNameWithHeiId} </Text>
           </VStack>
         </Flex>
       </Flex>
@@ -118,10 +154,10 @@ export default function PreviewIIA({ IIA,BilateralAgreement }: PreviewIIAProps) 
             Erasmus Kodu
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            {BilateralAgreement?BilateralAgreement.ownErasmusIdCode:""}
+            {BilateralAgreement ? BilateralAgreement.ownErasmusIdCode : ""}
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-          {BilateralAgreement?BilateralAgreement.partnerErasmusIdCode:""}
+            {BilateralAgreement ? BilateralAgreement.partnerErasmusIdCode : ""}
           </Flex>
         </HStack>
         <HStack
@@ -148,7 +184,9 @@ export default function PreviewIIA({ IIA,BilateralAgreement }: PreviewIIAProps) 
         </HStack>
       </Flex>
       <Flex pt={1} pb={4}>
-        <Button variant='autoWidthFull'>Anlaşma Detaylarını Görüntüle</Button>
+
+       {renderNextLink}
+
       </Flex>
     </Stack>
   );
