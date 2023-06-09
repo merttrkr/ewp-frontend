@@ -14,6 +14,7 @@ import {
 } from '@/models/response/institutionInfoResponse';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
+import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 
@@ -183,8 +184,16 @@ const useAgreement = () => {
     >(request);
     return bilateralAgreements;
   };
+  const GetOrganizationIdsAndCollaborationConditionIds = async (
+    request: string
+  ): Promise<OrganizationIdsAndCollaborationConditionIdsResponse> => {
+    const response: OrganizationIdsAndCollaborationConditionIdsResponse = await makeRequest<OrganizationIdsAndCollaborationConditionIdsResponse>(request);
+    return response;
+  };
+  
 
   return {
+    GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
     CheckIfBilateralAgreementIsInEffect,
     GetContactInfoByHeiID,
