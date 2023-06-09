@@ -10,7 +10,7 @@ import {
 import TextInput from '../form-components/inputs/TextInput';
 import DatePickerInput from '../form-components/inputs/DatePickerInput';
 import { useForm } from 'react-hook-form';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //selectboxes
 import SelectContact from '../form-components/selectboxes/SelectContact';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
@@ -24,6 +24,9 @@ import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import getFormattedDate from '@/helper/currentDate';
 import { useToast } from '@chakra-ui/react'
+import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
+import useRead from '@/hooks/read/useRead';
+
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -55,6 +58,17 @@ export default function InstitutionInformationForm({
   saveState,
   onSave,
 }: InstitutionInformationFormProps) {
+  const {
+    GetCollaborationConditionTypes,
+    GetLanguages,
+    GetLanguageLevels,
+    GetSubjectAreas,
+    GetEducationTypesAndLevels,
+    GetAcademicYearInfo,
+    GetSelectedContactInfoOfOrganizationInfo,
+    GetOrganizationInfo,
+  } = useRead();
+
   const { GenerateIIACode, GenerateIIAID } = useCreate();
   const toast = useToast()
   const {
@@ -87,6 +101,9 @@ export default function InstitutionInformationForm({
   const [contactPersonID, setContactPersonID] = useState(0);
   const [departmentID, setDepartmentID] = useState(0);
   const [institutionID, setInstitutionId] = useState(0);
+
+  const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
+
 
   //date picker input state
   const [startDate, setStartDate] = useState(getFormattedDate());
@@ -295,7 +312,7 @@ export default function InstitutionInformationForm({
   }
 
   //onChange functions
-  const handleSelectChangeInstitution = (value: InstitutionInfo | null) => {
+  const handleSelectChangeInstitution = (value: InstitutionInfo | null ) => {
     if (value) {
       setValue('hei_id', value.heiId);
       setInstitution(value.heiId);
@@ -337,6 +354,59 @@ export default function InstitutionInformationForm({
     }
   };
 
+  useEffect(() => {
+    handleGetOrganizationInfo();
+    handleGetSelectedContactInfoOfOrganizationInfo();
+  }, [saveState, organizationInfoId]);
+
+
+  async function handleGetOrganizationInfo() {
+    const fetchInitialData = async () => {
+    
+      const data = await GetOrganizationInfo(
+        'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
+        organizationInfoId
+      ); // Call the GetOrganizationInfo function
+      if (data ) {
+        setOrganizationInfo(data);
+        console.log('data: ', data); // Process the fetched data
+        if(organizationInfo?.uniName != null && organizationInfo?.uniName != undefined){
+          setInstitution(organizationInfo?.heiId) ;
+          
+          console.log('organizationInfo?.uniName : ', organizationInfo?.uniName);
+        }
+        
+      }
+    };
+    if(organizationInfoId != 0){
+      fetchInitialData();
+    }
+    
+  }
+  async function handleGetSelectedContactInfoOfOrganizationInfo() {
+    const fetchInitialData = async () => {
+      console.log('organizationInfoId handleGetSelectedContactInfoOfOrganizationInfo : ', organizationInfoId);
+      
+      const data = await GetSelectedContactInfoOfOrganizationInfo(
+        'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
+        organizationInfoId
+      ); // Call the GetSelectedContactInfoOfOrganizationInfo function
+      if (data && data.length > 0) {
+        console.log('data: ', data); // Process the fetched data
+        // Assuming the fetched data is an array of contact persons
+        const senderContactPersons = data.map((contactPerson: string) => contactPerson);
+        
+      }
+
+    };
+    if(organizationInfoId != 0){
+      fetchInitialData();
+    }
+ 
+  }
+  
+
+
   return (
     <Stack
       marginBottom='20'
@@ -367,12 +437,13 @@ export default function InstitutionInformationForm({
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
             <SelectInstitution
+           
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
               register={register('hei_id', {
                 required: 'This is required',
               })}
-              placeHolder='placeholder..'
+              placeHolder={institution}
               selectLabel='Kurum / Üniversite Adı'
               onChange={handleSelectChangeInstitution}
               error={errors.hei_id?.message}
