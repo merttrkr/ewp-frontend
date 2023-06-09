@@ -23,6 +23,7 @@ import { Department } from '@/models/response/departmentResponse';
 import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import getFormattedDate from '@/helper/currentDate';
+import { useToast } from '@chakra-ui/react'
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -55,7 +56,7 @@ export default function InstitutionInformationForm({
   onSave,
 }: InstitutionInformationFormProps) {
   const { GenerateIIACode, GenerateIIAID } = useCreate();
-
+  const toast = useToast()
   const {
     InsertEmptyRowToOrganizationInfo,
     InsertEmptyRowToBilateralAgreement,
@@ -209,6 +210,7 @@ export default function InstitutionInformationForm({
 
       await SaveOrganizationInfo(request);
     };
+
     saveOrganizationInfoData();
   }
 
@@ -265,9 +267,27 @@ export default function InstitutionInformationForm({
         await handleSetCreatorOfBilateralAgreement();
         console.log('set creator of bilateral agreement', organizationInfoId);
         onSave();
+        
+
+        toast({
+          title: 'Kayıt Başarılı.',
+          description: "Kurum bilgileri başarıyla kaydedildi.",
+          status: 'success',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        })
         resolve();
       } catch (error) {
-        alert('Error');
+
+        toast({
+          title: 'Kayıt Başarısız.',
+          description: `${error}`,
+          status: 'error',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        })
         console.log(error);
         reject(error);
       }
