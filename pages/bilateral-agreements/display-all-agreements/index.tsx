@@ -1,75 +1,88 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PreviewIIA from '@/components/PreviewIIA';
 import { Flex, Button, Input, Stack, Center } from '@chakra-ui/react';
 import TextInput from '@/components/form-components/inputs/TextInput';
-import { Search2Icon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
+import useRead from '@/hooks/read/useRead';
+import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
 
 export default function DisplayAgreements() {
   const [currentPage, setCurrentPage] = useState(1); // Current page number
   const [searchQuery, setSearchQuery] = useState(''); // Search query
+  const [bilateralAgreements, setBilateralAgreements] = useState<BilateralAgreement[]>([]);
 
-  // Create an array of IIA values
-  const IIAs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
-  // Number of items to display per page
+  const { GetBilateralAgreements } = useRead();
   const itemsPerPage = 3;
 
-  // Filter items based on search query
-  const filteredItems = IIAs.filter(IIA =>
-    IIA.includes(searchQuery.toLowerCase())
+  useEffect(() => {
+    async function fetchBilateralAgreements() {
+      try {
+        const data = await GetBilateralAgreements('https://localhost:5001/spGetBilateralAgreements');
+        if (data && data.length > 0) {
+          setBilateralAgreements(data);
+        }
+      } catch (error) {
+        console.error('Error fetching bilateral agreements:', error);
+      }
+    }
+
+    fetchBilateralAgreements();
+  }, []);
+
+  const filteredAgreements = bilateralAgreements.filter(agreement => {
+    const ownIIACode = agreement.ownIIACode || '-';
+    const partnerIIACode = agreement.partnerIIACode || '-';
+    const lowerCaseQuery = searchQuery.toLowerCase();
+    return ownIIACode.toLowerCase().includes(lowerCaseQuery) || partnerIIACode.toLowerCase().includes(lowerCaseQuery);
+  });
+
+  const totalPages = Math.ceil(filteredAgreements.length / itemsPerPage);
+
+  const currentAgreements = filteredAgreements.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
-  // Total number of pages
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-
-  // Handle page change
-  const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
-  // Calculate the index range for the current page
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // Get the current items to display
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Handle search query change
-  const handleSearchChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
     setCurrentPage(1); // Reset to the first page when the search query changes
   };
 
   return (
     <>
-        {/* Search input field */}
+      {/* Search input field */}
       <Flex align={'center'} justify={'flex-end'} px={6} py={4}>
         <Stack justify={'right'} px={2} direction={'row'}>
-          <Search2Icon mt={3} color="gray.600" />
-          <Input  width='auto' value={searchQuery} onChange={handleSearchChange} />
+          <SearchIcon mt={3} color="gray.600" />
+          <Input width='auto' value={searchQuery} onChange={handleSearchChange} />
         </Stack>
         <Button variant="condition">Yeni Anlaşma Oluştur</Button>
       </Flex>
 
-
-      {/* Loop through the currentItems array and render PreviewIIA component for each IIA */}
-      {currentItems.map(IIA => (
-        <PreviewIIA key={IIA} IIA={IIA} />
+      {/* Loop through the currentAgreements array and render PreviewIIA component for each agreement */}
+      {currentAgreements.map(agreement => (
+        <PreviewIIA 
+          key={agreement.bilateralAgreement_id} 
+          IIA={agreement.ownIIACode || '-'}
+          BilateralAgreement={agreement}
+        />
       ))}
 
       {/* Pagination controls */}
       <div>
-        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-          pageNumber => (
-            <Button
-              key={pageNumber}
-              onClick={() => handlePageChange(pageNumber)}
-              variant={currentPage === pageNumber ? 'solid' : 'outline'}
-            >
-              {pageNumber}
-            </Button>
-          )
-        )}
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map(pageNumber => (
+          <Button
+            key={pageNumber}
+            onClick={() => handlePageChange(pageNumber)}
+            variant={currentPage === pageNumber ? 'solid' : 'outline'}
+          >
+            {pageNumber}
+          </Button>
+        ))}
       </div>
     </>
   );
