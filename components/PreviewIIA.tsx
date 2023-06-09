@@ -41,6 +41,7 @@ export default function PreviewIIA({ IIA, BilateralAgreement }: PreviewIIAProps)
           data?.partnerOrganizationInfo_id,
           data?.collaborationCondition_id,
           data?.partnerCollaborationCondition_id,
+          BilateralAgreement.bilateralAgreement_id,
         ]);
       }
     } catch (error) {
