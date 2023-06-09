@@ -34,7 +34,7 @@ import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 import useUpdate from '@/hooks/update/useUpdate';
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
-
+import { useToast } from '@chakra-ui/react'
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
@@ -83,6 +83,7 @@ export default function InstitutionConditionsForm({
     GetOrganizationCollaborationCondition,
   } = useRead();
 
+  const toast = useToast();
   const {
     InsertEmptyRowToCollaborationCondition,
     AddLanguageSkillForCollaborationCondition,
@@ -294,9 +295,24 @@ export default function InstitutionConditionsForm({
           values.annual_total_month_amount
         );
         await handleAddCollaborationConditionToBilateralAgreement();
+        toast({
+          title: 'Kayıt Başarılı.',
+          description: "İş birliği koşulları başarıyla kaydedildi.",
+          status: 'success',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        })
         resolve();
       } catch (error) {
-        alert('Error');
+        toast({
+          title: 'Kayıt Başarısız.',
+          description: `${error}`,
+          status: 'error',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        })
         console.log(error);
         reject(error);
       }
