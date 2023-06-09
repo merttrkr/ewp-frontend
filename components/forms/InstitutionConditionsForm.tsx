@@ -81,6 +81,7 @@ export default function InstitutionConditionsForm({
     GetAcademicYearInfo,
     GetSelectedContactInfoOfOrganizationInfo,
     GetOrganizationInfo,
+    GetOrganizationCollaborationCondition,
   } = useRead();
 
   const {
@@ -150,35 +151,66 @@ export default function InstitutionConditionsForm({
     if (collaborationConditionId != 0) {
       console.log('collaborationConditionId added: ', collaborationConditionId);
       insertEmptyRowToCollaborationCondition();
+      handleGetOrganizationCollaborationCondition();
     }
   }
-  async function handleAddLanguageSkillForCollaborationCondition() {
+  async function handleGetOrganizationCollaborationCondition() {
     const requestUrl =
-      'https://localhost:5001/spAddLanguageSkillForCollaborationCondition?collaborationCondition_id=' +
-      collaborationConditionId +
-      '&lang_id=' +
-      languageID +
-      '&langLevel_id=' +
-      languageLevelID;
+      'https://localhost:5001/spGetOrganizationCollaborationCondition?organizationCollaborationCondition_id=' +
+      39;
+
     try {
-      const result = await AddLanguageSkillForCollaborationCondition(
-        requestUrl
-      );
-      console.log('Result:', result);
+      const result = await GetOrganizationCollaborationCondition(requestUrl);
+      console.log('deneme Result org collab condt :', result);
     } catch (error) {
       console.error('Error:', error);
+    }
+  }
+
+  async function handleAddLanguageSkillForCollaborationCondition() {
+    const addLanguageSkillForCollaborationCondition = async () => {
+      const requestUrl =
+        'https://localhost:5001/spAddLanguageSkillForCollaborationCondition?collaborationCondition_id=' +
+        collaborationConditionId +
+        '&lang_id=' +
+        languageID +
+        '&langLevel_id=' +
+        languageLevelID;
+      try {
+        await AddLanguageSkillForCollaborationCondition(requestUrl);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    console.log(
+      'cc:',
+      collaborationConditionId,
+      'li:',
+      languageID,
+      'lli:',
+      languageLevelID
+    );
+    if (collaborationConditionId && languageID != 0 && languageLevelID != 0) {
+      console.log('language skills added');
+      addLanguageSkillForCollaborationCondition();
     }
   }
   async function handleUpdateDateOfBilateralAgreement() {
-    const requestUrl =
-      'https://localhost:5001/spUpdateDateOfBilateralAgreement?bilateralAgreement_id=' +
-      bilateralAgreementID;
+    const updateDateOfBilateralAgreement = async () => {
+      const requestUrl =
+        'https://localhost:5001/spUpdateDateOfBilateralAgreement?bilateralAgreement_id=' +
+        bilateralAgreementID;
 
-    try {
-      const result = await UpdateDateOfBilateralAgreement(requestUrl);
-      console.log('Result:', result);
-    } catch (error) {
-      console.error('Error:', error);
+      try {
+        console.log('updateDateOfBilateralAgreement');
+        await UpdateDateOfBilateralAgreement(requestUrl);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    console.log('updateDateOfBilateralAgreement bai: ', bilateralAgreementID);
+    if (bilateralAgreementID) {
+      updateDateOfBilateralAgreement();
     }
   }
   async function handleSaveCollaborationCondition(
@@ -280,7 +312,22 @@ export default function InstitutionConditionsForm({
       }
     });
   }
-
+  function onSave() {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        console.log('collaboration condition id:' + collaborationConditionId);
+        console.log('bilateral agreement id:' + bilateralAgreementID);
+        await handleInsertEmptyRowToCollaborationCondition();
+        await handleAddLanguageSkillForCollaborationCondition();
+        await handleUpdateDateOfBilateralAgreement();
+        resolve();
+      } catch (error) {
+        alert('Error');
+        console.log(error);
+        reject(error);
+      }
+    });
+  }
   //onChange functions
   const handleSenderInstitutionChange = (value: InstitutionInfo | null) => {
     if (value) {
@@ -403,12 +450,13 @@ export default function InstitutionConditionsForm({
   };
   const handleLanguageChange = (value: Language | null) => {
     if (value) {
+      console.log('lang id : ', value.lang_id);
       setValue('language', value.definition);
       setLanguage(value.definition);
-      setLanguageLevelID(value.lang_id);
+      setLanguageID(value.lang_id);
     } else {
       setValue('language', '');
-      setLanguageLevel(''); // or any default value you want
+      setLanguage(''); // or any default value you want
     }
   };
   const handleLanguageLevelChange = (value: LanguageLevel | null) => {
@@ -468,9 +516,7 @@ export default function InstitutionConditionsForm({
             <SelectInstitution
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='sender_instution_name'
-              register={register('sender_hei_id', {
-                required: 'This is required',
-              })}
+              register={register('sender_hei_id')}
               placeHolder='placeholder..'
               selectLabel='Gönderen Kurum / Üniversite Adı'
               onChange={handleSenderInstitutionChange}
@@ -478,9 +524,7 @@ export default function InstitutionConditionsForm({
             />
             <SelectDepartment
               id='sender_departmant'
-              register={register('sender_department', {
-                required: 'This is required',
-              })}
+              register={register('sender_department')}
               placeHolder='placeholder...'
               selectLabel='Gönderen Kurum Departman / Bölüm Adı'
               onChange={handleSenderDepartmentChange}
@@ -490,9 +534,7 @@ export default function InstitutionConditionsForm({
             <SelectContact
               id='contact_persons'
               error={errors.sender_contact_person?.message}
-              register={register('sender_contact_person', {
-                required: 'This is required',
-              })}
+              register={register('sender_contact_person')}
               placeholder='placeholder...'
               selectLabel='Gönderen Kurumdaki İletişim Kurulabilecek Yetkililer'
               onChange={handleSenderContactChange}
@@ -501,9 +543,7 @@ export default function InstitutionConditionsForm({
             <SelectAcademicYear
               id='contact_persons'
               error={errors.sender_contact_person?.message}
-              register={register('sender_contact_person', {
-                required: 'This is required',
-              })}
+              register={register('sender_contact_person')}
               placeholder='placeholder...'
               selectLabel='Hangi Akademik Yıllar Arasında Başlıyor ?'
               onChange={handleAcademicYearStartChange}
@@ -540,9 +580,7 @@ export default function InstitutionConditionsForm({
             <SelectInstitution
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='receiver_instution_name'
-              register={register('receiver_hei_id', {
-                required: 'This is required',
-              })}
+              register={register('receiver_hei_id')}
               placeHolder='placeholder..'
               selectLabel='Alıcı Kurum / Üniversite Adı'
               onChange={handleReceiverInstitutionChange}
@@ -551,9 +589,7 @@ export default function InstitutionConditionsForm({
 
             <SelectDepartment
               id='receiver_department'
-              register={register('receiver_department', {
-                required: 'This is required',
-              })}
+              register={register('receiver_department')}
               placeHolder='placeholder...'
               selectLabel='Alıcı Kurum Departman / Bölüm Adı'
               onChange={handleReceiverDepartmentChange}
@@ -563,9 +599,7 @@ export default function InstitutionConditionsForm({
             <SelectContact
               id='contact_persons'
               error={errors.receiver_contact_person?.message}
-              register={register('receiver_contact_person', {
-                required: 'This is required',
-              })}
+              register={register('receiver_contact_person')}
               placeholder='placeholder...'
               selectLabel='Alıcı Kurumdaki İletişim Kurulabilecek Yetkililer'
               onChange={handleReceiverContactChange}
@@ -575,9 +609,7 @@ export default function InstitutionConditionsForm({
             <SelectAcademicYear
               id='contact_persons'
               error={errors.ending_academic_year?.message}
-              register={register('ending_academic_year', {
-                required: 'This is required',
-              })}
+              register={register('ending_academic_year')}
               placeholder='placeholder...'
               selectLabel='Hangi Akademik Yıllar Arasında Bitiyor ?'
               onChange={handleAcademicYearEndChange}
@@ -634,7 +666,7 @@ export default function InstitutionConditionsForm({
         </Box>
 
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-          <Button variant='submit' type='submit'>
+          <Button variant='submit' type='submit' onClick={onSave}>
             Kaydet
           </Button>
           <Button variant='condition'>Aynı Koşulları Partnerime De Ekle</Button>
