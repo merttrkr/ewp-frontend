@@ -19,13 +19,15 @@ import PreviewOrSaveForm from '@/components/forms/PreviewOrSaveForm';
 import useRead from '@/hooks/read/useRead';
 import { IdForBothCollaborationConditionResponse } from '@/models/response/idForBothCollaborationConditionResponse';
 
-
 export default function TabComponent() {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
-  const [newCollaborationConditionId, setNewCollaborationConditionId] = useState(0);
-  const [newPartnerCollaborationConditionId, setNewPartnerCollaborationConditionId] =
+  const [newCollaborationConditionId, setNewCollaborationConditionId] =
     useState(0);
+  const [
+    newPartnerCollaborationConditionId,
+    setNewPartnerCollaborationConditionId,
+  ] = useState(0);
   const [newOrganizationInfoId, setNewOrganizationInfoId] = useState(0);
   const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
     useState(0);
@@ -38,9 +40,7 @@ export default function TabComponent() {
     GenerateIdsForBothOrganizationAndPartnerOrganization,
     GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
   } = useCreate();
-  const {
-    CheckIfBilateralAgreementIsInEffect,
-  } = useRead();
+  const { CheckIfBilateralAgreementIsInEffect } = useRead();
   async function handleIDForBoth() {
     const fetchInitialData = async () => {
       const data: IdForBothResponse = (
@@ -58,13 +58,18 @@ export default function TabComponent() {
 
   async function handleIDForBothCollaborationCondition() {
     const fetchCollaborationConditionData = async () => {
-      const data : IdForBothCollaborationConditionResponse =
-        (await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
+      const data: IdForBothCollaborationConditionResponse = (
+        await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
           'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition'
-        ))[0];
+        )
+      )[0];
       if (data) {
-        setNewCollaborationConditionId(data.newOrganizationCollaborationConditionId);
-        setNewPartnerCollaborationConditionId(data.newPartnerOrganizationCollaborationConditionId);
+        setNewCollaborationConditionId(
+          data.newOrganizationCollaborationConditionId
+        );
+        setNewPartnerCollaborationConditionId(
+          data.newPartnerOrganizationCollaborationConditionId
+        );
       }
     };
 
@@ -84,9 +89,9 @@ export default function TabComponent() {
   }
   async function handleCheckIfBilateralAgreementIsInEffect() {
     const fetchBilateralAgreementIsInEffect = async () => {
-
       const data = await CheckIfBilateralAgreementIsInEffect(
-        'https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=' + bilateralAgreementID
+        'https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=' +
+          bilateralAgreementID
       );
       if (data) {
         setbilateralAgreementState(data);
@@ -103,12 +108,11 @@ export default function TabComponent() {
   useEffect(() => {
     handleCheckIfBilateralAgreementIsInEffect();
   }, [bilateralAgreementID]);
-
   const handleSaveStateUpdate = () => {
-    setSaveState(prevState => prevState + 1);
-    console.log("--------x----------",saveState);
+    setSaveState((prevState) => prevState + 1);
+    console.log('--------x----------', saveState);
   };
-  
+
   return (
     <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
@@ -139,13 +143,18 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <InstitutionConditionsForm
-
             pageName='Kurumuma Ait Koşullar'
             subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
+            collaborationConditionId={newCollaborationConditionId}
+            bilateralAgreementID={bilateralAgreementID}
+            isPartnerValue={0}
           />
           <InstitutionConditionsForm
             pageName='Partner Kuruma Ait Koşullar'
             subText={'Lütfen partner kuruma ait koşulları doldurunuz.'}
+            collaborationConditionId={newPartnerCollaborationConditionId}
+            bilateralAgreementID={bilateralAgreementID}
+            isPartnerValue={1}
           />
         </TabPanel>
         <TabPanel>
@@ -153,12 +162,14 @@ export default function TabComponent() {
             saveState={saveState}
             organizationInfoId={newOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
-            pageName='Kurumuma Ait Bilgiler' />
+            pageName='Kurumuma Ait Bilgiler'
+          />
           <PreviewOrSaveForm
             saveState={saveState}
             organizationInfoId={newPartnerOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
-            pageName='Partner Kuruma Ait Bilgiler' />
+            pageName='Partner Kuruma Ait Bilgiler'
+          />
           <Flex
             bgColor={HeaderBackground}
             mb={'100'}
@@ -173,7 +184,10 @@ export default function TabComponent() {
               fontWeight={'medium'}
               color={HeadingColor}
             >
-              Anlaşma Yürürlük Durumu: {bilateralAgreementState === 'Hayır' ? 'Yürürlükte değil' : 'Yürürlükte'}
+              Anlaşma Yürürlük Durumu:{' '}
+              {bilateralAgreementState === 'Hayır'
+                ? 'Yürürlükte değil'
+                : 'Yürürlükte'}
             </Heading>
           </Flex>
         </TabPanel>

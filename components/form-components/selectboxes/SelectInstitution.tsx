@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { FormControl, Heading } from '@chakra-ui/react';
+import { FormControl, Heading, useColorModeValue } from '@chakra-ui/react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
@@ -37,8 +37,6 @@ const Select: React.FC<SelectInstitutionProps> = ({
     InstitutionInfo[]
   >([]);
 
-  const HeadingColor = 'gray.600'; // Use a specific color instead of `useColorModeValue`
-
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -54,7 +52,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
     };
     fetchInitialData();
   }, [apiURL]);
-
+  const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
     <ThemeProvider theme={theme}>
       <FormControl>
