@@ -1,3 +1,4 @@
+import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
 import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
 import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
@@ -157,20 +158,32 @@ const useAgreement = () => {
   //https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=2
   const CheckIfBilateralAgreementIsInEffect = async (
     request: string
-    ): Promise<string> => {
-      
-      const result: string = await makeRequestText<string>(request);
+  ): Promise<string> => {
+    const result: string = await makeRequestText<string>(request);
 
-      
-      return result;
-    };
-    const GetBilateralAgreements = async (
-      request: string
-    ): Promise<BilateralAgreement[]> => {
-      const bilateralAgreements: BilateralAgreement[] = await makeRequest<BilateralAgreement[]>(request);
-      return bilateralAgreements;
-    };
-    
+    return result;
+  };
+
+  //https://localhost:5001/spGetOrganizationCollaborationCondition?organizationCollaborationCondition_id=3
+  const GetOrganizationCollaborationCondition = async (
+    request: string
+  ): Promise<CollaborationConditionRequest[]> => {
+    const response: CollaborationConditionRequest[] = await makeRequest<
+      CollaborationConditionRequest[]
+    >(request);
+
+    return response;
+  };
+
+  const GetBilateralAgreements = async (
+    request: string
+  ): Promise<BilateralAgreement[]> => {
+    const bilateralAgreements: BilateralAgreement[] = await makeRequest<
+      BilateralAgreement[]
+    >(request);
+    return bilateralAgreements;
+  };
+
   return {
     GetBilateralAgreements,
     CheckIfBilateralAgreementIsInEffect,
@@ -185,6 +198,7 @@ const useAgreement = () => {
     GetAcademicYearInfo,
     GetSelectedContactInfoOfOrganizationInfo,
     GetOrganizationInfo,
+    GetOrganizationCollaborationCondition,
   };
 };
 
