@@ -198,7 +198,7 @@ export default function InstitutionConditionsForm({
   async function handleUpdateDateOfBilateralAgreement() {
     const updateDateOfBilateralAgreement = async () => {
       const requestUrl =
-        'https://localhost:5001/spUpdateDateOfBilateralAgreement?bilateralAgreement_id=' +
+        'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=' +
         bilateralAgreementID;
 
       try {
@@ -213,32 +213,34 @@ export default function InstitutionConditionsForm({
       updateDateOfBilateralAgreement();
     }
   }
+
   async function handleSaveCollaborationCondition(
     annualQuota: number,
     otherInfo: string,
     annualTotalMonths: number
   ) {
-    const request: CollaborationConditionRequest = {
-      id: collaborationConditionId,
-      bilateralAgreement_id: bilateralAgreementID,
-      isPartner: isPartnerValue,
-      academicYearStart_id: startingAcademicYearID,
-      academicYearEnd_id: endingAcademicYearID,
-      annualQuota: annualQuota,
-      subjectArea_id: ISCEDCodeAndFieldsID,
-      subjectAreaDescription: ISCEDCodeAndFields,
-      otherInfo: otherInfo,
-      annualTotalMonths: annualTotalMonths,
-      isCoEducational: isCoEducational,
-      educationTypeAndLevel_id: educationTypeAndLevelID,
+    const saveCollaborationCondition = async () => {
+      const request: CollaborationConditionRequest = {
+        id: collaborationConditionId,
+        bilateralAgreement_id: Number(bilateralAgreementID),
+        isPartner: isPartnerValue,
+        academicYearStart_id: startingAcademicYearID,
+        academicYearEnd_id: endingAcademicYearID,
+        annualQuota: Number(annualQuota),
+        subjectArea_id: ISCEDCodeAndFieldsID,
+        subjectAreaDescription: ISCEDCodeAndFields,
+        otherInfo: otherInfo,
+        annualTotalMonths: Number(annualTotalMonths),
+        isCoEducational: isCoEducational,
+        educationTypeAndLevel_id: educationTypeAndLevelID,
+      };
+      try {
+        const result = await SaveCollaborationCondition(request);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     };
-
-    try {
-      const result = await SaveCollaborationCondition(request);
-      console.log('Result:', result);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    saveCollaborationCondition();
   }
 
   async function handleAddCollaborationConditionToBilateralAgreement() {
@@ -312,22 +314,7 @@ export default function InstitutionConditionsForm({
       }
     });
   }
-  function onSave() {
-    return new Promise<void>(async (resolve, reject) => {
-      try {
-        console.log('collaboration condition id:' + collaborationConditionId);
-        console.log('bilateral agreement id:' + bilateralAgreementID);
-        await handleInsertEmptyRowToCollaborationCondition();
-        await handleAddLanguageSkillForCollaborationCondition();
-        await handleUpdateDateOfBilateralAgreement();
-        resolve();
-      } catch (error) {
-        alert('Error');
-        console.log(error);
-        reject(error);
-      }
-    });
-  }
+
   //onChange functions
   const handleSenderInstitutionChange = (value: InstitutionInfo | null) => {
     if (value) {
@@ -666,7 +653,7 @@ export default function InstitutionConditionsForm({
         </Box>
 
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-          <Button variant='submit' type='submit' onClick={onSave}>
+          <Button variant='submit' type='submit'>
             Kaydet
           </Button>
           <Button variant='condition'>Aynı Koşulları Partnerime De Ekle</Button>

@@ -131,6 +131,10 @@ const useUpdate = () => {
   const UpdateDateOfBilateralAgreement = async (
     request: string
   ): Promise<string> => {
+    console.log('request update last: ', request);
+    console.log(
+      'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=53'
+    );
     const result: string = await makeRequest<string>(request);
 
     return result;
@@ -252,9 +256,11 @@ const useUpdate = () => {
     const result: string = await makeRequest<string>(request);
     return result;
   };
+
   /*https://localhost:5001/spSaveCollaborationCondition?id=1&bilateralAgreement_id=1&isPartner=1&
-academicYearStart_id=1&academicYearEnd_id=1&annualQuota=1&subjectArea_id=1&subjectAreaDescript
-ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLevel_id=1*/
+  academicYearStart_id=1&academicYearEnd_id=1&annualQuota=1&subjectArea_id=1&subjectAreaDescript
+  ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLevel_id=1*/
+
   const SaveCollaborationCondition = async (
     request: CollaborationConditionRequest
   ): Promise<number> => {
@@ -272,10 +278,12 @@ ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLe
       isCoEducational,
       educationTypeAndLevel_id,
     } = request;
+    const encodedSubjectAreaDescription = encodeURIComponent(
+      subjectAreaDescription
+    );
+    const encodedOtherInfo = encodeURIComponent(otherInfo);
 
-    const url = `https://localhost:5001/spSaveCollaborationCondition?id=${id}&bilateralAgreement_id=${bilateralAgreement_id}&isPartner=${isPartner}&
-    academicYearStart_id=${academicYearStart_id}&academicYearEnd_id=${academicYearEnd_id}&annualQuota=${annualQuota}&subjectArea_id=${subjectArea_id}&subjectAreaDescript
-    ion=${subjectAreaDescription}&otherInfo=${otherInfo}&annualTotalMonths=${annualTotalMonths}&isCoEducational=${isCoEducational}&educationTypeAndLevel_id=${educationTypeAndLevel_id}`;
+    const url = `https://localhost:5001/spSaveCollaborationCondition?id=${id}&bilateralAgreement_id=${bilateralAgreement_id}&isPartner=${isPartner}&academicYearStart_id=${academicYearStart_id}&academicYearEnd_id=${academicYearEnd_id}&annualQuota=${annualQuota}&subjectArea_id=${subjectArea_id}&subjectAreaDescription=${encodedSubjectAreaDescription}&otherInfo=${encodedOtherInfo}&annualTotalMonths=${annualTotalMonths}&isCoEducational=${isCoEducational}&educationTypeAndLevel_id=${educationTypeAndLevel_id}`;
 
     const result: number = await makeRequest<number>(url);
 
