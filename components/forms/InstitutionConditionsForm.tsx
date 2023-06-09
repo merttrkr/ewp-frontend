@@ -9,7 +9,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '@/components/form-components/inputs/TextInput';
 import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
 import useRead from '@/hooks/read/useRead';
@@ -140,10 +139,6 @@ export default function InstitutionConditionsForm({
 
       try {
         const result = await InsertEmptyRowToCollaborationCondition(requestUrl);
-        console.log(
-          'Result handleInsertEmptyRowToCollaborationCondition:',
-          result
-        );
       } catch (error) {
         console.error('Error:', error);
       }
@@ -160,8 +155,7 @@ export default function InstitutionConditionsForm({
       39;
 
     try {
-      const result = await GetOrganizationCollaborationCondition(requestUrl);
-      console.log('deneme Result org collab condt :', result);
+      await GetOrganizationCollaborationCondition(requestUrl);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -191,54 +185,53 @@ export default function InstitutionConditionsForm({
       languageLevelID
     );
     if (collaborationConditionId && languageID != 0 && languageLevelID != 0) {
-      console.log('language skills added');
       addLanguageSkillForCollaborationCondition();
     }
   }
   async function handleUpdateDateOfBilateralAgreement() {
     const updateDateOfBilateralAgreement = async () => {
       const requestUrl =
-        'https://localhost:5001/spUpdateDateOfBilateralAgreement?bilateralAgreement_id=' +
+        'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=' +
         bilateralAgreementID;
 
       try {
-        console.log('updateDateOfBilateralAgreement');
         await UpdateDateOfBilateralAgreement(requestUrl);
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    console.log('updateDateOfBilateralAgreement bai: ', bilateralAgreementID);
     if (bilateralAgreementID) {
       updateDateOfBilateralAgreement();
     }
   }
+
   async function handleSaveCollaborationCondition(
     annualQuota: number,
     otherInfo: string,
     annualTotalMonths: number
   ) {
-    const request: CollaborationConditionRequest = {
-      id: collaborationConditionId,
-      bilateralAgreement_id: bilateralAgreementID,
-      isPartner: isPartnerValue,
-      academicYearStart_id: startingAcademicYearID,
-      academicYearEnd_id: endingAcademicYearID,
-      annualQuota: annualQuota,
-      subjectArea_id: ISCEDCodeAndFieldsID,
-      subjectAreaDescription: ISCEDCodeAndFields,
-      otherInfo: otherInfo,
-      annualTotalMonths: annualTotalMonths,
-      isCoEducational: isCoEducational,
-      educationTypeAndLevel_id: educationTypeAndLevelID,
+    const saveCollaborationCondition = async () => {
+      const request: CollaborationConditionRequest = {
+        id: collaborationConditionId,
+        bilateralAgreement_id: Number(bilateralAgreementID),
+        isPartner: isPartnerValue,
+        academicYearStart_id: startingAcademicYearID,
+        academicYearEnd_id: endingAcademicYearID,
+        annualQuota: Number(annualQuota),
+        subjectArea_id: ISCEDCodeAndFieldsID,
+        subjectAreaDescription: ISCEDCodeAndFields,
+        otherInfo: otherInfo,
+        annualTotalMonths: Number(annualTotalMonths),
+        isCoEducational: isCoEducational,
+        educationTypeAndLevel_id: educationTypeAndLevelID,
+      };
+      try {
+        await SaveCollaborationCondition(request);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     };
-
-    try {
-      const result = await SaveCollaborationCondition(request);
-      console.log('Result:', result);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    saveCollaborationCondition();
   }
 
   async function handleAddCollaborationConditionToBilateralAgreement() {
@@ -250,10 +243,7 @@ export default function InstitutionConditionsForm({
       '&isPartner=' +
       isPartnerValue;
     try {
-      const result = await AddCollaborationConditionToBilateralAgreement(
-        requestUrl
-      );
-      console.log('Result:', result);
+      await AddCollaborationConditionToBilateralAgreement(requestUrl);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -312,22 +302,7 @@ export default function InstitutionConditionsForm({
       }
     });
   }
-  function onSave() {
-    return new Promise<void>(async (resolve, reject) => {
-      try {
-        console.log('collaboration condition id:' + collaborationConditionId);
-        console.log('bilateral agreement id:' + bilateralAgreementID);
-        await handleInsertEmptyRowToCollaborationCondition();
-        await handleAddLanguageSkillForCollaborationCondition();
-        await handleUpdateDateOfBilateralAgreement();
-        resolve();
-      } catch (error) {
-        alert('Error');
-        console.log(error);
-        reject(error);
-      }
-    });
-  }
+
   //onChange functions
   const handleSenderInstitutionChange = (value: InstitutionInfo | null) => {
     if (value) {
@@ -450,7 +425,6 @@ export default function InstitutionConditionsForm({
   };
   const handleLanguageChange = (value: Language | null) => {
     if (value) {
-      console.log('lang id : ', value.lang_id);
       setValue('language', value.definition);
       setLanguage(value.definition);
       setLanguageID(value.lang_id);
@@ -666,7 +640,7 @@ export default function InstitutionConditionsForm({
         </Box>
 
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-          <Button variant='submit' type='submit' onClick={onSave}>
+          <Button variant='submit' type='submit'>
             Kaydet
           </Button>
           <Button variant='condition'>Aynı Koşulları Partnerime De Ekle</Button>
