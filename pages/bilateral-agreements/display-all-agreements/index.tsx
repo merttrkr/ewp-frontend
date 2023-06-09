@@ -5,6 +5,7 @@ import TextInput from '@/components/form-components/inputs/TextInput';
 import { SearchIcon } from '@chakra-ui/icons';
 import useRead from '@/hooks/read/useRead';
 import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
+import NextLink from 'next/link';
 
 export default function DisplayAgreements() {
   const [currentPage, setCurrentPage] = useState(1); // Current page number
@@ -60,7 +61,7 @@ export default function DisplayAgreements() {
           <SearchIcon mt={3} color="gray.600" />
           <Input width='auto' value={searchQuery} onChange={handleSearchChange} />
         </Stack>
-        <Button variant="condition">Yeni Anlaşma Oluştur</Button>
+        <Button as={NextLink} href={'/bilateral-agreements/create-new-agreement/'} variant="condition">Yeni Anlaşma Oluştur</Button>
       </Flex>
 
       {/* Loop through the currentAgreements array and render PreviewIIA component for each agreement */}
@@ -73,7 +74,7 @@ export default function DisplayAgreements() {
       ))}
 
       {/* Pagination controls */}
-      <div>
+      <Flex justify={'center'}>
         {Array.from({ length: totalPages }, (_, index) => index + 1).map(pageNumber => (
           <Button
             key={pageNumber}
@@ -83,7 +84,7 @@ export default function DisplayAgreements() {
             {pageNumber}
           </Button>
         ))}
-      </div>
+      </Flex>
     </>
   );
 }
