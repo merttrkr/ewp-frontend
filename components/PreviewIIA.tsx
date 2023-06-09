@@ -1,3 +1,4 @@
+import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
 import {
   Box,
   Button,
@@ -11,13 +12,16 @@ import {
 
 type PreviewIIAProps = {
   IIA: String;
+  BilateralAgreement: BilateralAgreement;
 };
 
-export default function PreviewIIA({ IIA }: PreviewIIAProps) {
+export default function PreviewIIA({ IIA,BilateralAgreement }: PreviewIIAProps) {
   const HeaderBackground = useColorModeValue('#9C1F23', '#9C1F23');
   const FormBackground = useColorModeValue('gray.100', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const TitleColor = useColorModeValue('#20558B', 'gray.400');
+
+  
   return (
     <Stack
       margin='6'
@@ -42,14 +46,14 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
           <VStack>
             <Text fontSize='md'>Kendi Kurumum</Text>
             <Text fontSize='sm'>
-              Izmir Institute Of Technology[iyte.edu.tr]
+              {BilateralAgreement?.ownUniNameWithHeiId}
             </Text>
           </VStack>
         </Flex>
         <Flex width={'33%'} justify={'center'}>
           <VStack>
             <Text fontSize='md'>Partnerim</Text>
-            <Text fontSize='sm'>Selcuk University[selcuk.edu.tr]</Text>
+            <Text fontSize='sm'> {BilateralAgreement?.partnerUniNameWithHeiId } </Text>
           </VStack>
         </Flex>
       </Flex>
@@ -70,10 +74,10 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
             Anlaşmanın Durumu
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            Selçuk university tarafından onaylanmayı bekliyor
+            {BilateralAgreement?.agreementState}
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            Selçuk university tarafından onaylanmayı bekliyor
+            {BilateralAgreement?.agreementStateDescription}
           </Flex>
         </HStack>
         <HStack
@@ -92,9 +96,11 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
             Anlaşmanın IIA Kodu
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            {'IIA-'+IIA}
+            {BilateralAgreement?.ownIIACode}
           </Flex>
-          <Flex fontSize='sm' width={'33%'} justify={'center'}></Flex>
+          <Flex fontSize='sm' width={'33%'} justify={'center'}>
+            {BilateralAgreement?.partnerIIACode}
+          </Flex>
         </HStack>
         <HStack
           justifyContent={'space-evenly'}
@@ -112,10 +118,10 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
             Erasmus Kodu
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            TR IZMIR03
+            {BilateralAgreement?BilateralAgreement.ownErasmusIdCode:""}
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            TR KONYA03
+          {BilateralAgreement?BilateralAgreement.partnerErasmusIdCode:""}
           </Flex>
         </HStack>
         <HStack
@@ -134,10 +140,10 @@ export default function PreviewIIA({ IIA }: PreviewIIAProps) {
             Son Güncellenme Tarihi
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            04/05/2023 23.18
+            {BilateralAgreement?.generationDate}
           </Flex>
           <Flex fontSize='sm' width={'33%'} justify={'center'}>
-            04/05/2023 23.18
+            {BilateralAgreement?.lastUpdateDate}
           </Flex>
         </HStack>
       </Flex>
