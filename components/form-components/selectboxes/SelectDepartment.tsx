@@ -44,7 +44,6 @@ const Select: React.FC<SelectDepartmentProps> = ({
         );
         const data = await (result ? result.departments : []); // Call the fetchData function
         if (data) {
-          console.log('department: ', data);
           setDepartmentArray(data); // Update the state with the fetched data
         }
       }

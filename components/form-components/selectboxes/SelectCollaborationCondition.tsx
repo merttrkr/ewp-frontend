@@ -41,7 +41,6 @@ const SelectCollaborationCondition: React.FC<
         'https://localhost:5001/spGetCollaborationConditionTypes'
       ); // Call the GetCollaborationConditionTypes function
       if (data) {
-        console.log('data: ', data); // Process the fetched data
         setCollaborationConditionArray(data); // Update the state with the fetched data
       }
     };

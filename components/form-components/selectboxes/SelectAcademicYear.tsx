@@ -40,7 +40,6 @@ const SelectAcademicYear: React.FC<SelectAcademicYearProps> = ({
         'https://localhost:5001/spGetAcademicYearInfo'
       ); // Call the GetAcademicYearInfo function
       if (data) {
-        console.log('data: ', data); // Process the fetched data
         setAcademicYearArray(data); // Update the state with the fetched data
       }
     };

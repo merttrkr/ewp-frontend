@@ -42,7 +42,6 @@ const SelectEducationTypeAndLevel: React.FC<
         'https://localhost:5001/spGetEducationTypesAndLevels'
       ); // Call the GetEducationTypesAndLevels function
       if (data) {
-        console.log('data: ', data); // Process the fetched data
         setEducationTypeAndLevelArray(data); // Update the state with the fetched data
       }
     };

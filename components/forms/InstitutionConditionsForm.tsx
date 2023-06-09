@@ -132,33 +132,26 @@ export default function InstitutionConditionsForm({
   } = useForm<FormData>();
 
   async function handleInsertEmptyRowToCollaborationCondition() {
-    const requestUrl =
-      'https://localhost:5001/spInsertEmptyRowToCollaborationCondition?collaborationCondition_id=' +
-      collaborationConditionId;
+    const insertEmptyRowToCollaborationCondition = async () => {
+      const requestUrl =
+        'https://localhost:5001/spInsertEmptyRowToCollaborationCondition?collaborationCondition_id=' +
+        collaborationConditionId;
 
-    try {
-      const result = await InsertEmptyRowToCollaborationCondition(requestUrl);
-      console.log(
-        'Result handleInsertEmptyRowToCollaborationCondition:',
-        result
-      );
-    } catch (error) {
-      console.error('Error:', error);
+      try {
+        const result = await InsertEmptyRowToCollaborationCondition(requestUrl);
+        console.log(
+          'Result handleInsertEmptyRowToCollaborationCondition:',
+          result
+        );
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (collaborationConditionId != 0) {
+      console.log('collaborationConditionId added: ', collaborationConditionId);
+      insertEmptyRowToCollaborationCondition();
     }
   }
-  async function handleInsertEmptyRowToCollaborationConditionDeneme() {
-    const requestUrl =
-      'https://localhost:5001/spInsertEmptyRowToCollaborationCondition?collaborationCondition_id=' +
-      37;
-
-    try {
-      const result = await InsertEmptyRowToCollaborationCondition(requestUrl);
-      console.log('handleInsertEmptyRowToCollaborationConditionDeneme');
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-  handleInsertEmptyRowToCollaborationConditionDeneme();
   async function handleAddLanguageSkillForCollaborationCondition() {
     const requestUrl =
       'https://localhost:5001/spAddLanguageSkillForCollaborationCondition?collaborationCondition_id=' +
@@ -259,6 +252,7 @@ export default function InstitutionConditionsForm({
         console.log('data: ', data); // Process the fetched data
       }
     };
+
     fetchInitialData();
   }
   //submit

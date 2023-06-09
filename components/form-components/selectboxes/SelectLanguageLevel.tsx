@@ -40,7 +40,6 @@ const SelectLanguageLevel: React.FC<SelectLanguageLevelProps> = ({
         'https://localhost:5001/spGetLanguageLevels'
       ); // Call the GetLanguageLevels function
       if (data) {
-        console.log('data: ', data); // Process the fetched data
         setLanguageLevelArray(data); // Update the state with the fetched data
       }
     };

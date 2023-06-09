@@ -38,7 +38,6 @@ const SelectISCED: React.FC<SelectISCEDProps> = ({
         'https://localhost:5001/spGetSubjectAreas'
       ); // Call the GetSubjectAreas function
       if (data) {
-        console.log('data: ', data); // Process the fetched data
         setSubjectAreaArray(data); // Update the state with the fetched data
       }
     };

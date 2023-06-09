@@ -36,7 +36,6 @@ const SelectLanguage: React.FC<SelectLanguageProps> = ({
     const fetchInitialData = async () => {
       const data = await GetLanguages('https://localhost:5001/spGetLanguages'); // Call the GetLanguages function
       if (data) {
-        console.log('data: ', data); // Process the fetched data
         setLanguageArray(data); // Update the state with the fetched data
       }
     };
