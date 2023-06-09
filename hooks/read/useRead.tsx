@@ -1,4 +1,5 @@
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
+import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
 import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
 import { ContactResponse, Contact } from '@/models/response/contactResponse';
 import {
@@ -163,7 +164,15 @@ const useAgreement = () => {
       
       return result;
     };
+    const GetBilateralAgreements = async (
+      request: string
+    ): Promise<BilateralAgreement[]> => {
+      const bilateralAgreements: BilateralAgreement[] = await makeRequest<BilateralAgreement[]>(request);
+      return bilateralAgreements;
+    };
+    
   return {
+    GetBilateralAgreements,
     CheckIfBilateralAgreementIsInEffect,
     GetContactInfoByHeiID,
     GetAllUniversitiesInfo,
