@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
@@ -15,47 +16,80 @@ import TextInput from '@/components/form-components/inputs/TextInput1';
 import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
 import DisplayText from '../form-components/DisplayText';
 import DatePickerInput from '../form-components/inputs/DatePickerInput';
+import SelectISCED from '../form-components/selectboxes/SelectISCED';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { SubjectArea } from '@/models/response/subjectAreaResponse';
 type StudentInformationFormProps = {
   pageName: String;
+};
+type FormData = {
+  education_type_and_level: string;
+  isced_code_and_fields: string;
 };
 
 export default function StudentInformationForm({
   pageName,
 }: StudentInformationFormProps) {
+  //useForm hook
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    setValue,
+    control,
+  } = useForm<FormData>();
+
+  //color
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
-  /*
-  const handleClick = async () => {
-  
-    try {
-      const response = await fetch('https://localhost:5001/spGetUniversityContactsByHeiId?heiId=iyte.edu.tr', {
-        method: 'POST',
-        headers: {
-          Accept: 'text/plain',
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
+  const toast = useToast();
+  //filed states
+  const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
+  const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
+  //submit
+  function onSubmit(values: FormData) {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        alert(JSON.stringify(values, null));
+        console.log('values: ', values);
+
+        toast({
+          title: 'Kayıt Başarılı.',
+          description: 'Öğrenciye Ait Bilgiler başarıyla kaydedildi.',
+          status: 'success',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        });
+        resolve();
+      } catch (error) {
+        toast({
+          title: 'Kayıt Başarısız.',
+          description: `${error}`,
+          status: 'error',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        });
+        console.log(error);
+        reject(error);
       }
-  
-      const result = await response.json();
-  
-      console.log('result is: ', JSON.stringify(result, null, 4));
-      const {subjectArea,subjectAreaId}=result[0];
-      console.log(subjectArea);
-      
-      
-    } catch (err) {
-      console.log(err);
-      
-    } finally {
-     console.log("finally");
-     
+    });
+  }
+
+  const handleISCEDchange = (value: SubjectArea | null) => {
+    if (value) {
+      setValue('isced_code_and_fields', value.subjectArea);
+      setISCEDCodeAndFields(value.subjectArea);
+      setISCEDCodeAndFieldsID(value.subjectAreaId);
+    } else {
+      setValue('isced_code_and_fields', '');
+      setISCEDCodeAndFields(''); // or any default value you want
     }
-  };*/
+  };
 
   return (
     <Stack
@@ -82,6 +116,7 @@ export default function StudentInformationForm({
         padding={5}
         bg={FormBackground}
         borderRadius={'xl'}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Flex p='5'>
           <SelectAutoComplete
@@ -119,11 +154,14 @@ export default function StudentInformationForm({
               label='Öğrencinin E-postası'
               name='eposta'
             />
-
-            <SelectAutoComplete
-              placeHolder='placeholder..'
+            <SelectISCED
+              id='isced_code_and_fields'
+              error={errors.isced_code_and_fields?.message}
+              register={register('isced_code_and_fields')}
+              placeholder={ISCEDCodeAndFields}
               selectLabel='ISCED Kodu ve Konu Alanları'
-            />
+              onChange={handleISCEDchange}
+            ></SelectISCED>
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
             <TextInput
@@ -154,8 +192,12 @@ export default function StudentInformationForm({
           </Stack>
         </Flex>
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-          <Button variant='submit'>Kaydet</Button>
-          <Button variant='clear'>Sıfırla</Button>
+          <Button variant='submit' type='submit'>
+            Kaydet
+          </Button>
+          <Button variant='clear' type='reset'>
+            Sıfırla
+          </Button>
         </Flex>
       </Box>
     </Stack>
