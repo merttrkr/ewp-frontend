@@ -23,10 +23,9 @@ import { Department } from '@/models/response/departmentResponse';
 import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import getFormattedDate from '@/helper/currentDate';
-import { useToast } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import useRead from '@/hooks/read/useRead';
-
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -46,7 +45,6 @@ type FormData = {
   IIA_ID: string;
   authorized_signotary: string;
   signing_date: string;
-
 };
 
 export default function InstitutionInformationForm({
@@ -70,7 +68,7 @@ export default function InstitutionInformationForm({
   } = useRead();
 
   const { GenerateIIACode, GenerateIIAID } = useCreate();
-  const toast = useToast()
+  const toast = useToast();
   const {
     InsertEmptyRowToOrganizationInfo,
     InsertEmptyRowToBilateralAgreement,
@@ -103,7 +101,6 @@ export default function InstitutionInformationForm({
   const [institutionID, setInstitutionId] = useState(0);
 
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
-
 
   //date picker input state
   const [startDate, setStartDate] = useState(getFormattedDate());
@@ -257,7 +254,7 @@ export default function InstitutionInformationForm({
     values.signing_date = startDate;
     values.IIA_ID = IIAID;
     values.IIA_Code = IIACode;
-    
+
     return new Promise<void>(async (resolve, reject) => {
       try {
         console.log('new org id: ', organizationInfoId);
@@ -284,19 +281,17 @@ export default function InstitutionInformationForm({
         await handleSetCreatorOfBilateralAgreement();
         console.log('set creator of bilateral agreement', organizationInfoId);
         onSave();
-        
 
         toast({
           title: 'Kayıt Başarılı.',
-          description: "Kurum bilgileri başarıyla kaydedildi.",
+          description: 'Kurum bilgileri başarıyla kaydedildi.',
           status: 'success',
           position: 'top-right',
           duration: 5000,
           isClosable: true,
-        })
+        });
         resolve();
       } catch (error) {
-
         toast({
           title: 'Kayıt Başarısız.',
           description: `${error}`,
@@ -304,7 +299,7 @@ export default function InstitutionInformationForm({
           position: 'top-right',
           duration: 5000,
           isClosable: true,
-        })
+        });
         console.log(error);
         reject(error);
       }
@@ -312,7 +307,7 @@ export default function InstitutionInformationForm({
   }
 
   //onChange functions
-  const handleSelectChangeInstitution = (value: InstitutionInfo | null ) => {
+  const handleSelectChangeInstitution = (value: InstitutionInfo | null) => {
     if (value) {
       setValue('hei_id', value.heiId);
       setInstitution(value.heiId);
@@ -359,10 +354,9 @@ export default function InstitutionInformationForm({
   }, [organizationInfoId]);
 
   useEffect(() => {
-    
-    if(organizationInfo){
-      setInstitution(organizationInfo?.heiId) ; 
-      setDepartment(organizationInfo?.ounitName); 
+    if (organizationInfo) {
+      setInstitution(organizationInfo?.heiId);
+      setDepartment(organizationInfo?.ounitName);
       setIIACode(organizationInfo?.IIACode);
       setIIAID(organizationInfo?.IIAID);
       setStartDate(organizationInfo?.signingDate);
@@ -371,30 +365,23 @@ export default function InstitutionInformationForm({
 
       console.log('organizationInfo?.uniName : ', organizationInfo?.uniName);
     }
-  
   }, [organizationInfo]);
 
   async function handleGetOrganizationInfo() {
     const fetchInitialData = async () => {
-    
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-        organizationInfoId
+          organizationInfoId
       ); // Call the GetOrganizationInfo function
-      if (data ) {
+      if (data) {
         setOrganizationInfo(data);
         console.log('data: ', data); // Process the fetched data
-        
       }
     };
-    if(organizationInfoId != 0){
+    if (organizationInfoId != 0) {
       fetchInitialData();
     }
-    
   }
-
-  
-
 
   return (
     <Stack
@@ -426,7 +413,6 @@ export default function InstitutionInformationForm({
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
             <SelectInstitution
-           
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
               register={register('hei_id', {
