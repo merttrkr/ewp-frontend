@@ -14,20 +14,67 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '../form-components/inputs/TextInput1';
 import DatePickerInput from '../form-components/inputs/DatePickerInput';
 import { BiTrash } from 'react-icons/bi';
 import AddComponentModal from './AddComponentModal';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import getFormattedDate from '@/helper/currentDate';
 
 type MobilityProgramFormLongTermProps = {
   pageName: String;
 };
-
+type FormData = {
+  link: string;
+};
 export default function MobilityProgramFormLongTerm({
   pageName,
 }: MobilityProgramFormLongTermProps) {
+  const [startDate, setStartDate] = useState(getFormattedDate());
+  const toast = useToast();
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    setValue,
+    control,
+  } = useForm<FormData>();
+
+  const onSubmit = (values: FormData) => {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        alert(JSON.stringify(values, null));
+        console.log('values: ', values);
+
+        toast({
+          title: 'Kayıt Başarılı.',
+          description: 'Öğrenciye Ait Bilgiler başarıyla kaydedildi.',
+          status: 'success',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        });
+        resolve();
+      } catch (error) {
+        toast({
+          title: 'Kayıt Başarısız.',
+          description: `${error}`,
+          status: 'error',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        });
+        console.log(error);
+        reject(error);
+      }
+    });
+  };
+
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -59,13 +106,22 @@ export default function MobilityProgramFormLongTerm({
         display='flex'
         flexDirection='column'
         gap={10}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Flex gap={5} p='5'>
           <Stack w='50%'>
-            <DatePickerInput datePickerInputLabel='Hareketliliğin Başlangıç Tarihi' />
+            <DatePickerInput
+              startDate=''
+              setStartDate={Date}
+              datePickerInputLabel='Hareketliliğin Başlangıç Tarihi'
+            />
           </Stack>
           <Stack w='50%'>
-            <DatePickerInput datePickerInputLabel='Hareketliliğin Bitiş Tarihi' />
+            <DatePickerInput
+              startDate=''
+              setStartDate={Date}
+              datePickerInputLabel='Hareketliliğin Bitiş Tarihi'
+            />
           </Stack>
         </Flex>
         <Flex direction={'column'}>
@@ -349,8 +405,12 @@ export default function MobilityProgramFormLongTerm({
         </Flex>
 
         <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-          <Button variant='submit'>Kaydet</Button>
-          <Button variant='clear'>Sıfırla</Button>
+          <Button variant='submit' type='submit'>
+            Kaydet
+          </Button>
+          <Button variant='clear' type='reset'>
+            Sıfırla
+          </Button>
         </Flex>
       </Box>
     </Stack>
