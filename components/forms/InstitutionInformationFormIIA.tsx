@@ -356,9 +356,23 @@ export default function InstitutionInformationForm({
 
   useEffect(() => {
     handleGetOrganizationInfo();
-    handleGetSelectedContactInfoOfOrganizationInfo();
-  }, [saveState, organizationInfoId]);
+  }, [organizationInfoId]);
 
+  useEffect(() => {
+    
+    if(organizationInfo){
+      setInstitution(organizationInfo?.heiId) ; 
+      setDepartment(organizationInfo?.ounitName); 
+      setIIACode(organizationInfo?.IIACode);
+      setIIAID(organizationInfo?.IIAID);
+      setStartDate(organizationInfo?.signingDate);
+      setAuthorizedSignotary(organizationInfo?.signingPersonFullName);
+      setContactPerson(organizationInfo?.signingPersonFullName);
+
+      console.log('organizationInfo?.uniName : ', organizationInfo?.uniName);
+    }
+  
+  }, [organizationInfo]);
 
   async function handleGetOrganizationInfo() {
     const fetchInitialData = async () => {
@@ -370,11 +384,6 @@ export default function InstitutionInformationForm({
       if (data ) {
         setOrganizationInfo(data);
         console.log('data: ', data); // Process the fetched data
-        if(organizationInfo?.uniName != null && organizationInfo?.uniName != undefined){
-          setInstitution(organizationInfo?.heiId) ;
-          
-          console.log('organizationInfo?.uniName : ', organizationInfo?.uniName);
-        }
         
       }
     };
@@ -383,27 +392,7 @@ export default function InstitutionInformationForm({
     }
     
   }
-  async function handleGetSelectedContactInfoOfOrganizationInfo() {
-    const fetchInitialData = async () => {
-      console.log('organizationInfoId handleGetSelectedContactInfoOfOrganizationInfo : ', organizationInfoId);
-      
-      const data = await GetSelectedContactInfoOfOrganizationInfo(
-        'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-        organizationInfoId
-      ); // Call the GetSelectedContactInfoOfOrganizationInfo function
-      if (data && data.length > 0) {
-        console.log('data: ', data); // Process the fetched data
-        // Assuming the fetched data is an array of contact persons
-        const senderContactPersons = data.map((contactPerson: string) => contactPerson);
-        
-      }
 
-    };
-    if(organizationInfoId != 0){
-      fetchInitialData();
-    }
- 
-  }
   
 
 
@@ -462,13 +451,13 @@ export default function InstitutionInformationForm({
               register={register('contact_persons', {
                 required: 'This is required',
               })}
-              placeholder='placeholder...'
+              placeholder={authorizedSignotary}
               selectLabel='İletişim Kurulabilecek Yetkililer'
               onChange={handleSelectChangeContact}
               param={institution}
             />
             <SelectContact
-              placeholder='placeholder...'
+              placeholder={authorizedSignotary}
               id='authorized_signotary'
               selectLabel='Anlaşmayı İmzalayacak Yetkili'
               error={errors.authorized_signotary?.message}
@@ -485,7 +474,7 @@ export default function InstitutionInformationForm({
               register={register('departmant_name', {
                 required: 'This is required',
               })}
-              placeHolder='placeholder...'
+              placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
               param={institution}
