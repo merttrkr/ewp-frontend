@@ -200,8 +200,8 @@ export default function InstitutionConditionsForm({
    
     useEffect(() => {
       if (collaborationCondition && organizationInfo && partnerOrganizationInfo) {
-        setSenderInstitution(organizationInfo.uniName);
-        setReceiverInstitution(partnerOrganizationInfo.uniName);
+        setSenderInstitution(organizationInfo.heiId);
+        setReceiverInstitution(partnerOrganizationInfo.heiId);
         setSenderDepartment(organizationInfo.ounitName);
         setReceiverDepartment(partnerOrganizationInfo.ounitName);
         setStartingAcademicYear(collaborationCondition[0].academicYear.split(' - ')[0]);
