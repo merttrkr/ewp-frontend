@@ -15,6 +15,7 @@ import {
 } from '@/models/response/institutionInfoResponse';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
+import { MobilityType } from '@/models/response/mobilityTypeResponse';
 import { Nationality } from '@/models/response/nationalityResponse';
 import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
@@ -204,6 +205,14 @@ const useAgreement = () => {
     return response;
   };
 
+  //https://localhost:5001/spGetMobilityTypes
+  const GetMobilityTypes = async (request: string): Promise<MobilityType[]> => {
+    const mobilityTypes: MobilityType[] = await makeRequest<MobilityType[]>(
+      request
+    );
+    return mobilityTypes;
+  };
+
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
@@ -221,6 +230,7 @@ const useAgreement = () => {
     GetOrganizationInfo,
     GetOrganizationCollaborationCondition,
     GetNationalities,
+    GetMobilityTypes,
   };
 };
 
