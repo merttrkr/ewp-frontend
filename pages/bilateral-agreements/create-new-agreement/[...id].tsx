@@ -112,10 +112,14 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <InstitutionConditionsForm
+
             pageName='Kurumuma Ait Koşullar'
             subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
             collaborationConditionId={newCollaborationConditionId}
             bilateralAgreementID={bilateralAgreementID}
+            organizationInfoId={newOrganizationInfoId}
+            partnerOrganizationInfoId={newPartnerOrganizationInfoId}
+
             isPartnerValue={0}
           />
           <InstitutionConditionsForm
@@ -123,6 +127,8 @@ export default function TabComponent() {
             subText={'Lütfen partner kuruma ait koşulları doldurunuz.'}
             collaborationConditionId={newPartnerCollaborationConditionId}
             bilateralAgreementID={bilateralAgreementID}
+            organizationInfoId={newPartnerOrganizationInfoId}
+            partnerOrganizationInfoId={newOrganizationInfoId}
             isPartnerValue={1}
           />
         </TabPanel>
