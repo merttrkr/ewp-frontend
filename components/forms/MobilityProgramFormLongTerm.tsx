@@ -111,15 +111,15 @@ export default function MobilityProgramFormLongTerm({
         <Flex gap={5} p='5'>
           <Stack w='50%'>
             <DatePickerInput
-              startDate=''
-              setStartDate={Date}
+              startDate={startDate}
+              setStartDate={setStartDate}
               datePickerInputLabel='Hareketliliğin Başlangıç Tarihi'
             />
           </Stack>
           <Stack w='50%'>
             <DatePickerInput
-              startDate=''
-              setStartDate={Date}
+              startDate={startDate}
+              setStartDate={setStartDate}
               datePickerInputLabel='Hareketliliğin Bitiş Tarihi'
             />
           </Stack>

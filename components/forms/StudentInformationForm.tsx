@@ -22,6 +22,7 @@ import { useState } from 'react';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 import SelectEducationTypeAndLevel from '../form-components/selectboxes/SelectEducationTypeAndLevel';
 import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
+import getFormattedDate from '@/helper/currentDate';
 type StudentInformationFormProps = {
   pageName: String;
 };
@@ -53,6 +54,7 @@ export default function StudentInformationForm({
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
   const [educationTypeAndLevel, setEducationTypeAndLevel] = useState('');
   const [educationTypeAndLevelID, setEducationTypeAndLevelID] = useState(0);
+  const [startDate, setStartDate] = useState(getFormattedDate());
   //submit
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
@@ -161,8 +163,8 @@ export default function StudentInformationForm({
               selectLabel='Öğrencinin Cinsiyet'
             />
             <DatePickerInput
-              startDate=''
-              setStartDate={Date}
+              startDate={startDate}
+              setStartDate={setStartDate}
               datePickerInputLabel='Öğrencinin Doğum Tarihi'
             />
             <TextInput
