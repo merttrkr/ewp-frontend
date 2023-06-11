@@ -20,6 +20,8 @@ import SelectISCED from '../form-components/selectboxes/SelectISCED';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
+import SelectEducationTypeAndLevel from '../form-components/selectboxes/SelectEducationTypeAndLevel';
+import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
 type StudentInformationFormProps = {
   pageName: String;
 };
@@ -49,6 +51,8 @@ export default function StudentInformationForm({
   //filed states
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
+  const [educationTypeAndLevel, setEducationTypeAndLevel] = useState('');
+  const [educationTypeAndLevelID, setEducationTypeAndLevelID] = useState(0);
   //submit
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
@@ -88,6 +92,18 @@ export default function StudentInformationForm({
     } else {
       setValue('isced_code_and_fields', '');
       setISCEDCodeAndFields(''); // or any default value you want
+    }
+  };
+  const handleEducationTypeAndLevelChange = (
+    value: EducationTypeAndLevel | null
+  ) => {
+    if (value) {
+      setValue('education_type_and_level', value.educationTypeAndLevel);
+      setEducationTypeAndLevel(value.educationTypeAndLevel);
+      setEducationTypeAndLevelID(value.educationTypeAndLevel_id);
+    } else {
+      setValue('education_type_and_level', '');
+      setEducationTypeAndLevel(''); // or any default value you want
     }
   };
 
@@ -173,11 +189,16 @@ export default function StudentInformationForm({
               placeHolder='placeholder..'
               selectLabel='Öğencinin Ulusu'
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Öğrencinin Öğrenim Seviyesi'
-            />
-
+            <SelectEducationTypeAndLevel
+              id='education_type_and_level'
+              register={register('education_type_and_level', {
+                required: 'This is required',
+              })}
+              placeholder={educationTypeAndLevel}
+              selectLabel='Öğrenim Seviyesi'
+              onChange={handleEducationTypeAndLevelChange}
+              error={errors.education_type_and_level?.message}
+            ></SelectEducationTypeAndLevel>
             <TextInput
               placeHolder='placeholder..'
               name='0'
