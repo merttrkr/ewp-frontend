@@ -15,6 +15,7 @@ import {
 } from '@/models/response/institutionInfoResponse';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
+import { Nationality } from '@/models/response/nationalityResponse';
 import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
@@ -171,7 +172,7 @@ const useAgreement = () => {
     request: string
   ): Promise<CollaborationConditionResponse[]> => {
     const response: CollaborationConditionResponse[] = await makeRequest<
-    CollaborationConditionResponse[]
+      CollaborationConditionResponse[]
     >(request);
 
     return response;
@@ -188,10 +189,20 @@ const useAgreement = () => {
   const GetOrganizationIdsAndCollaborationConditionIds = async (
     request: string
   ): Promise<OrganizationIdsAndCollaborationConditionIdsResponse> => {
-    const response: OrganizationIdsAndCollaborationConditionIdsResponse = await makeRequest<OrganizationIdsAndCollaborationConditionIdsResponse>(request);
+    const response: OrganizationIdsAndCollaborationConditionIdsResponse =
+      await makeRequest<OrganizationIdsAndCollaborationConditionIdsResponse>(
+        request
+      );
     return response;
   };
-  
+
+  const GetNationalities = async (): Promise<Nationality[]> => {
+    const url = 'https://localhost:5001/spGetNationalities';
+
+    const response: Nationality[] = await makeRequest<Nationality[]>(url);
+
+    return response;
+  };
 
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
@@ -209,6 +220,7 @@ const useAgreement = () => {
     GetSelectedContactInfoOfOrganizationInfo,
     GetOrganizationInfo,
     GetOrganizationCollaborationCondition,
+    GetNationalities,
   };
 };
 
