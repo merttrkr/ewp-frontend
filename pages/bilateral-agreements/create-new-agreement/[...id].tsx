@@ -119,6 +119,7 @@ export default function TabComponent() {
             bilateralAgreementID={bilateralAgreementID}
             organizationInfoId={newOrganizationInfoId}
             partnerOrganizationInfoId={newPartnerOrganizationInfoId}
+            partnerCollaborationConditionId={newPartnerCollaborationConditionId}
 
             isPartnerValue={0}
           />
@@ -129,6 +130,7 @@ export default function TabComponent() {
             bilateralAgreementID={bilateralAgreementID}
             organizationInfoId={newPartnerOrganizationInfoId}
             partnerOrganizationInfoId={newOrganizationInfoId}
+            partnerCollaborationConditionId={newCollaborationConditionId}
             isPartnerValue={1}
           />
         </TabPanel>
