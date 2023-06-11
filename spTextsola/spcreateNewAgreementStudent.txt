@@ -1,0 +1,75 @@
+Uzun Dönem
+setmobiltytype 1
+https://localhost:5001/spGetMobilityTypes
+[
+  {
+    "id": 1,
+    "mobilityType": "Long-term Mobility"
+  },
+  {
+    "id": 2,
+    "mobilityType": "Blended Mobility"
+  },
+
+]
+
+https://localhost:5001/spGetGenderNames
+[
+  {
+    "id": 1,
+    "genderName": "Bilinmiyor",
+    "genderValue": 0
+  },
+  {
+    "id": 2,
+    "genderName": "Erkek",
+    "genderValue": 1
+  },
+
+]
+https://localhost:5001/spGetNationalities
+[
+  {
+    "id": 1,
+    "nationality": "Turkey",
+    "shortDefinition": "TR"
+  },
+  {
+    "id": 2,
+    "nationality": "Germany",
+    "shortDefinition": "DE"
+  },
+
+]
+
+https://localhost:5001/spGetEducationTypesAndLevels
+[
+  {
+    "educationTypeAndLevel": "Seviye 6 (Lisans)",
+    "educationTypeAndLevel_id": 1
+  },
+  {
+    "educationTypeAndLevel": "Seviye 7 (Yüksek Lisans)",
+    "educationTypeAndLevel_id": 2
+  },
+
+]
+
+https://localhost:5001/spGetSubjectAreas
+[
+  {
+    "subjectArea": "0110: Education, not further defined",
+    "subjectAreaId": 3
+  },
+  {
+    "subjectArea": "0111: Education science",
+    "subjectAreaId": 4
+  },
+
+]
+
+https://localhost:5001/spGenerateOmobilityId
+set it
+
+
+
