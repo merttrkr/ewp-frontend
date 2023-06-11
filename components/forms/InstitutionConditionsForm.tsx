@@ -200,17 +200,19 @@ export default function InstitutionConditionsForm({
    
     useEffect(() => {
       if (collaborationCondition && organizationInfo && partnerOrganizationInfo) {
-        setSenderInstitution(organizationInfo.heiId);
-        setReceiverInstitution(partnerOrganizationInfo.heiId);
-        setSenderDepartment(organizationInfo.ounitName);
-        setReceiverDepartment(partnerOrganizationInfo.ounitName);
-        setStartingAcademicYear(collaborationCondition[0].academicYear.split(' - ')[0]);
-        setEndingAcademicYear(collaborationCondition[0].academicYear.split(' - ')[1]);
-        setAnnualTotalMonthAmount(collaborationCondition[0].annualTotalMonths);
-        setAnnualMobilityAmount(collaborationCondition[0].annualQuota);
-        setOtherInfo(collaborationCondition[0].otherInfo);
-        setEducationTypeAndLevel(collaborationCondition[0].educationTypeAndLevel);
-        setISCEDCodeAndFields(collaborationCondition[0].subjectArea);
+        console.log('organizationInfo?.heiId: ', organizationInfo?.heiId + organizationInfoId);
+        setSenderInstitution(organizationInfo?.heiId);
+
+        setReceiverInstitution(partnerOrganizationInfo?.heiId);
+        setSenderDepartment(organizationInfo?.ounitName);
+        setReceiverDepartment(partnerOrganizationInfo?.ounitName);
+        setStartingAcademicYear(collaborationCondition[0]?.academicYear.split(' - ')[0]);
+        setEndingAcademicYear(collaborationCondition[0]?.academicYear.split(' - ')[1]);
+        setAnnualTotalMonthAmount(collaborationCondition[0]?.annualTotalMonths);
+        setAnnualMobilityAmount(collaborationCondition[0]?.annualQuota);
+        setOtherInfo(collaborationCondition[0]?.otherInfo);
+        setEducationTypeAndLevel(collaborationCondition[0]?.educationTypeAndLevel);
+        setISCEDCodeAndFields(collaborationCondition[0]?.subjectArea);
         handleGetSelectedContactInfoOfOrganizationInfo();
         handleGetSelectedPartnerContactInfoOfOrganizationInfo();
       }
@@ -226,7 +228,7 @@ export default function InstitutionConditionsForm({
         ); // Call the GetOrganizationInfo function
         if (data ) {
           setPartnerOrganizationInfo(data);
-          console.log('data: ', data); // Process the fetched data
+
         }
       };
       if(organizationInfoId != 0){
@@ -361,12 +363,15 @@ export default function InstitutionConditionsForm({
           organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
+       
         console.log('data: ', data); // Process the fetched data
         setOrganizationInfo(data);
       }
     };
-
-    fetchInitialData();
+    if(organizationInfoId != undefined  ){
+      fetchInitialData();
+    }
+    
   }
   //submit
   function onSubmit(values: FormData) {
