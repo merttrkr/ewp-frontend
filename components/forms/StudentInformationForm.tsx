@@ -25,6 +25,8 @@ import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelRe
 import getFormattedDate from '@/helper/currentDate';
 import SelectNationality from '../form-components/selectboxes/SelectNationality';
 import { Nationality } from '@/models/response/nationalityResponse';
+import { MobilityType } from '@/models/response/mobilityTypeResponse';
+import SelectMobilityTypes from '../form-components/selectboxes/SelectMobilityTypes';
 type StudentInformationFormProps = {
   pageName: String;
 };
@@ -32,6 +34,7 @@ type FormData = {
   education_type_and_level: string;
   isced_code_and_fields: string;
   nationality: string;
+  mobility_type: string;
 };
 
 export default function StudentInformationForm({
@@ -59,6 +62,8 @@ export default function StudentInformationForm({
   const [educationTypeAndLevelID, setEducationTypeAndLevelID] = useState(0);
   const [selectedNationality, setSelectedNationality] = useState('');
   const [selectedNationalityID, setSelectedNationalityID] = useState(0);
+  const [selectedMobilityType, setSelectedMobilityType] = useState('');
+  const [selectedMobilityTypeID, setSelectedMobilityTypeID] = useState(0);
   const [startDate, setStartDate] = useState(getFormattedDate());
   //submit
   function onSubmit(values: FormData) {
@@ -90,6 +95,17 @@ export default function StudentInformationForm({
       }
     });
   }
+
+  const handleSelectChangeMobilityType = (value: MobilityType | null) => {
+    if (value) {
+      setValue('mobility_type', value.mobilityType);
+      setSelectedMobilityType(value.mobilityType);
+      setSelectedMobilityTypeID(value.id);
+    } else {
+      setValue('mobility_type', ''); // or any default value you want
+      setSelectedMobilityType('');
+    }
+  };
 
   const handleSelectChangeNationality = (value: Nationality | null) => {
     if (value) {
@@ -152,10 +168,12 @@ export default function StudentInformationForm({
         onSubmit={handleSubmit(onSubmit)}
       >
         <Flex p='5'>
-          <SelectAutoComplete
-            placeHolder='placeholder..'
+          <SelectMobilityTypes
             selectLabel='Seçilmiş Hareketlilik (Mobilite) Tipi'
-            isDisabled
+            placeholder=''
+            register={register('mobility_type')} // Replace with your form registration method
+            onChange={handleSelectChangeMobilityType}
+            error={errors.mobility_type?.message} // Replace with your form error handling
           />
         </Flex>
 
