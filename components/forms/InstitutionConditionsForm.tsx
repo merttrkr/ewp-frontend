@@ -12,12 +12,12 @@ import {
 import TextInput from '@/components/form-components/inputs/TextInput';
 import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
 import useRead from '@/hooks/read/useRead';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 import { Contact } from '@/models/response/contactResponse';
 import { Department } from '@/models/response/departmentResponse';
 import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import SelectContact from '../form-components/selectboxes/SelectContact';
 import SelectAcademicYear from '../form-components/selectboxes/SelectAcademicYear';
@@ -35,12 +35,17 @@ import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLe
 import useUpdate from '@/hooks/update/useUpdate';
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
 import { useToast } from '@chakra-ui/react'
+import { IdForBothCollaborationConditionResponse } from '@/models/response/idForBothCollaborationConditionResponse';
+import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
   collaborationConditionId: number;
   bilateralAgreementID: number;
   isPartnerValue: number;
+  organizationInfoId: number;
+  partnerOrganizationInfoId: number;
+  partnerCollaborationConditionId: number;
 };
 
 type FormData = {
@@ -69,6 +74,9 @@ export default function InstitutionConditionsForm({
   collaborationConditionId,
   bilateralAgreementID,
   isPartnerValue,
+  organizationInfoId,
+  partnerOrganizationInfoId,
+  partnerCollaborationConditionId,
 }: InstitutionConditionsFormProps) {
   //get hooks
   const {
@@ -122,7 +130,10 @@ export default function InstitutionConditionsForm({
   const [languageLevelID, setLanguageLevelID] = useState(0);
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
-
+  const [collaborationCondition, setCollaborationCondition] = useState<CollaborationConditionRequest[]>();
+  const [partnerCollaborationCondition, setPartnerCollaborationCondition] = useState<CollaborationConditionRequest[]>();
+  const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
+  const [partnerOrganizationInfo, setPartnerOrganizationInfo] = useState<OrganizationInfo>();
   //useForm hook
   const {
     handleSubmit,
@@ -147,20 +158,70 @@ export default function InstitutionConditionsForm({
     if (collaborationConditionId != 0) {
       console.log('collaborationConditionId added: ', collaborationConditionId);
       insertEmptyRowToCollaborationCondition();
-      handleGetOrganizationCollaborationCondition();
+      
     }
   }
   async function handleGetOrganizationCollaborationCondition() {
     const requestUrl =
       'https://localhost:5001/spGetOrganizationCollaborationCondition?organizationCollaborationCondition_id=' +
-      39;
+      collaborationConditionId;
 
     try {
-      await GetOrganizationCollaborationCondition(requestUrl);
+      setCollaborationCondition(await GetOrganizationCollaborationCondition(requestUrl)) ;
     } catch (error) {
       console.error('Error:', error);
     }
   }
+  async function handleGetPartnerOrganizationCollaborationCondition() {
+    const requestUrl =
+      'https://localhost:5001/spGetOrganizationCollaborationCondition?organizationCollaborationCondition_id=' +
+      partnerCollaborationConditionId;
+
+    try {
+      setPartnerCollaborationCondition(await GetOrganizationCollaborationCondition(requestUrl)) ;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  useEffect(() => {
+    if (collaborationConditionId ||organizationInfoId || partnerOrganizationInfoId || partnerCollaborationConditionId){
+      handleGetOrganizationCollaborationCondition();
+      handleGetOrganizationInfo();
+      handleGetPartnerOrganizationInfo();
+      handleGetPartnerOrganizationCollaborationCondition();
+    }
+  }, [collaborationConditionId,organizationInfoId, partnerOrganizationInfoId,partnerCollaborationConditionId]);
+  
+ 
+   
+    useEffect(() => {
+      if (collaborationCondition && organizationInfo && partnerOrganizationInfo) {
+        setSenderInstitution(organizationInfo.uniName);
+        setReceiverInstitution(partnerOrganizationInfo.uniName);
+        setSenderDepartment(organizationInfo.ounitName);
+        setReceiverDepartment(partnerOrganizationInfo.ounitName);
+        
+        handleGetSelectedContactInfoOfOrganizationInfo();
+      }
+
+    }, [organizationInfo, partnerOrganizationInfo, collaborationCondition,partnerCollaborationCondition]);
+  
+  
+    async function handleGetPartnerOrganizationInfo() {
+      const fetchInitialData = async () => {
+        const data = await GetOrganizationInfo(
+          'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
+          partnerOrganizationInfoId
+        ); // Call the GetOrganizationInfo function
+        if (data ) {
+          setPartnerOrganizationInfo(data);
+          console.log('data: ', data); // Process the fetched data
+        }
+      };
+      if(organizationInfoId != 0){
+        fetchInitialData();
+      }
+    }
 
   async function handleAddLanguageSkillForCollaborationCondition() {
     const addLanguageSkillForCollaborationCondition = async () => {
@@ -251,13 +312,14 @@ export default function InstitutionConditionsForm({
   }
 
   async function handleGetSelectedContactInfoOfOrganizationInfo() {
-    const organizationInfo = 21;
+    
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-          organizationInfo
+          organizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
+        setSenderContactPerson(data[0]);
         console.log('data: ', data); // Process the fetched data
       }
     };
@@ -265,14 +327,15 @@ export default function InstitutionConditionsForm({
   }
 
   async function handleGetOrganizationInfo() {
-    const organizationInfo = 21;
+  
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-          organizationInfo
+          organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         console.log('data: ', data); // Process the fetched data
+        setOrganizationInfo(data);
       }
     };
 
@@ -495,7 +558,7 @@ export default function InstitutionConditionsForm({
             register={register('condition_type', {
               required: 'This is required',
             })}
-            placeholder='placeholder...'
+            placeholder='Öğrenim'
             selectLabel='Koşul seçiniz'
             onChange={handleConditionChange}
           ></SelectCollaborationCondition>
@@ -507,7 +570,7 @@ export default function InstitutionConditionsForm({
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='sender_instution_name'
               register={register('sender_hei_id')}
-              placeHolder='placeholder..'
+              placeHolder={senderInstitution}
               selectLabel='Gönderen Kurum / Üniversite Adı'
               onChange={handleSenderInstitutionChange}
               error={errors.sender_hei_id?.message}
@@ -515,7 +578,7 @@ export default function InstitutionConditionsForm({
             <SelectDepartment
               id='sender_departmant'
               register={register('sender_department')}
-              placeHolder='placeholder...'
+              placeHolder={senderDepartment}
               selectLabel='Gönderen Kurum Departman / Bölüm Adı'
               onChange={handleSenderDepartmentChange}
               param={senderInstitution}
