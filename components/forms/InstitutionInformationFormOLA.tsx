@@ -66,7 +66,7 @@ export default function InstitutionInformationForm({
 
         toast({
           title: 'Kayıt Başarılı.',
-          description: 'Öğrenciye Ait Bilgiler başarıyla kaydedildi.',
+          description: 'Kurum bilgileri başarıyla kaydedildi.',
           status: 'success',
           position: 'top-right',
           duration: 5000,
