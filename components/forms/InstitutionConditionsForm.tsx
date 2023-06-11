@@ -37,6 +37,7 @@ import { CollaborationConditionRequest } from '@/models/request/collaborationCon
 import { useToast } from '@chakra-ui/react'
 import { IdForBothCollaborationConditionResponse } from '@/models/response/idForBothCollaborationConditionResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
+import { CollaborationConditionResponse } from '@/models/response/collaborationConditionResponse';
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
@@ -130,10 +131,13 @@ export default function InstitutionConditionsForm({
   const [languageLevelID, setLanguageLevelID] = useState(0);
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
-  const [collaborationCondition, setCollaborationCondition] = useState<CollaborationConditionRequest[]>();
-  const [partnerCollaborationCondition, setPartnerCollaborationCondition] = useState<CollaborationConditionRequest[]>();
+  const [collaborationCondition, setCollaborationCondition] = useState<CollaborationConditionResponse[]>();
+  const [partnerCollaborationCondition, setPartnerCollaborationCondition] = useState<CollaborationConditionResponse[]>();
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
   const [partnerOrganizationInfo, setPartnerOrganizationInfo] = useState<OrganizationInfo>();
+  const [annualTotalMonthAmount, setAnnualTotalMonthAmount] = useState('');
+  const [annualMobilityAmount, setAnnualMobilityAmount] = useState('');
+  const[otherInfo, setOtherInfo] = useState('');
   //useForm hook
   const {
     handleSubmit,
@@ -200,8 +204,15 @@ export default function InstitutionConditionsForm({
         setReceiverInstitution(partnerOrganizationInfo.uniName);
         setSenderDepartment(organizationInfo.ounitName);
         setReceiverDepartment(partnerOrganizationInfo.ounitName);
-        
+        setStartingAcademicYear(collaborationCondition[0].academicYear.split(' - ')[0]);
+        setEndingAcademicYear(collaborationCondition[0].academicYear.split(' - ')[1]);
+        setAnnualTotalMonthAmount(collaborationCondition[0].annualTotalMonths);
+        setAnnualMobilityAmount(collaborationCondition[0].annualQuota);
+        setOtherInfo(collaborationCondition[0].otherInfo);
+        setEducationTypeAndLevel(collaborationCondition[0].educationTypeAndLevel);
+        setISCEDCodeAndFields(collaborationCondition[0].subjectArea);
         handleGetSelectedContactInfoOfOrganizationInfo();
+        handleGetSelectedPartnerContactInfoOfOrganizationInfo();
       }
 
     }, [organizationInfo, partnerOrganizationInfo, collaborationCondition,partnerCollaborationCondition]);
@@ -320,6 +331,22 @@ export default function InstitutionConditionsForm({
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         setSenderContactPerson(data[0]);
+        
+        console.log('data: ', data); // Process the fetched data
+      }
+    };
+    fetchInitialData();
+  }
+  async function handleGetSelectedPartnerContactInfoOfOrganizationInfo() {
+    
+    const fetchInitialData = async () => {
+      const data = await GetSelectedContactInfoOfOrganizationInfo(
+        'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
+          partnerOrganizationInfoId
+      ); // Call the GetSelectedContactInfoOfOrganizationInfo function
+      if (data) {
+        setReceiverContactPerson(data[0]);
+        
         console.log('data: ', data); // Process the fetched data
       }
     };
@@ -588,21 +615,21 @@ export default function InstitutionConditionsForm({
               id='contact_persons'
               error={errors.sender_contact_person?.message}
               register={register('sender_contact_person')}
-              placeholder='placeholder...'
+              placeholder={senderContactPerson}
               selectLabel='Gönderen Kurumdaki İletişim Kurulabilecek Yetkililer'
               onChange={handleSenderContactChange}
               param={senderInstitution}
             />
             <SelectAcademicYear
-              id='contact_persons'
+              id='academicYearStart_id'
               error={errors.sender_contact_person?.message}
-              register={register('sender_contact_person')}
-              placeholder='placeholder...'
+              register={register('starting_academic_year')}
+              placeholder={startingAcademicYear}
               selectLabel='Hangi Akademik Yıllar Arasında Başlıyor ?'
               onChange={handleAcademicYearStartChange}
             />
             <TextInput
-              placeholder='0'
+              placeholder={annualMobilityAmount}
               id='annual_mobility_amount'
               label='Yıl Bazında Mobilite Sayısı'
               error={errors.annual_mobility_amount?.message}
@@ -614,7 +641,7 @@ export default function InstitutionConditionsForm({
               register={register('isced_code_and_fields', {
                 required: 'This is required',
               })}
-              placeholder='placeholder...'
+              placeholder={ISCEDCodeAndFields}
               selectLabel='ISCED Kodu ve Konu Alanları'
               onChange={handleISCEDchange}
             ></SelectISCED>
@@ -623,7 +650,7 @@ export default function InstitutionConditionsForm({
               register={register('education_type_and_level', {
                 required: 'This is required',
               })}
-              placeholder='placeholder...'
+              placeholder={educationTypeAndLevel}
               selectLabel='Öğrenim Seviyesi'
               onChange={handleEducationTypeAndLevelChange}
               error={errors.education_type_and_level?.message}
@@ -634,7 +661,7 @@ export default function InstitutionConditionsForm({
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='receiver_instution_name'
               register={register('receiver_hei_id')}
-              placeHolder='placeholder..'
+              placeHolder={receiverInstitution}
               selectLabel='Alıcı Kurum / Üniversite Adı'
               onChange={handleReceiverInstitutionChange}
               error={errors.receiver_hei_id?.message}
@@ -643,7 +670,7 @@ export default function InstitutionConditionsForm({
             <SelectDepartment
               id='receiver_department'
               register={register('receiver_department')}
-              placeHolder='placeholder...'
+              placeHolder={receiverDepartment}
               selectLabel='Alıcı Kurum Departman / Bölüm Adı'
               onChange={handleReceiverDepartmentChange}
               param={receiverInstitution}
@@ -653,7 +680,7 @@ export default function InstitutionConditionsForm({
               id='contact_persons'
               error={errors.receiver_contact_person?.message}
               register={register('receiver_contact_person')}
-              placeholder='placeholder...'
+              placeholder={receiverContactPerson}
               selectLabel='Alıcı Kurumdaki İletişim Kurulabilecek Yetkililer'
               onChange={handleReceiverContactChange}
               param={receiverInstitution}
@@ -663,12 +690,12 @@ export default function InstitutionConditionsForm({
               id='contact_persons'
               error={errors.ending_academic_year?.message}
               register={register('ending_academic_year')}
-              placeholder='placeholder...'
+              placeholder={endingAcademicYear}
               selectLabel='Hangi Akademik Yıllar Arasında Bitiyor ?'
               onChange={handleAcademicYearEndChange}
             />
             <TextInput
-              placeholder='0'
+              placeholder={annualTotalMonthAmount}
               id='annual_total_month_amount'
               label='Yıl Bazında Toplam Ay Sayısı'
               error={errors.annual_total_month_amount?.message}
@@ -688,7 +715,7 @@ export default function InstitutionConditionsForm({
                 register={register('language', {
                   required: 'This is required',
                 })}
-                placeholder='placeholder...'
+                placeholder='İNGİLİZCE'
                 selectLabel='Yabancı Dil'
                 onChange={handleLanguageChange}
               ></SelectLanguage>
@@ -700,7 +727,7 @@ export default function InstitutionConditionsForm({
                   register={register('language_level', {
                     required: 'This is required',
                   })}
-                  placeholder='placeholder...'
+                  placeholder='B1'
                   selectLabel='Seviyesi'
                   onChange={handleLanguageLevelChange}
                 ></SelectLanguageLevel>
@@ -710,7 +737,7 @@ export default function InstitutionConditionsForm({
         </Flex>
         <Box pl={5}>
           <TextInput
-            placeholder='Açıklama'
+            placeholder={otherInfo}
             id='other_info'
             label='Diğer belirtmek istediğiniz bilgiler..'
             error={errors.other_info?.message}
