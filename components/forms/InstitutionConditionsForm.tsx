@@ -370,8 +370,7 @@ export default function InstitutionConditionsForm({
     };
     if(organizationInfoId != undefined  ){
       fetchInitialData();
-    }
-    
+    }    
   }
   //submit
   function onSubmit(values: FormData) {
