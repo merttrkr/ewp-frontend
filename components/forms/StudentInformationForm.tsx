@@ -23,12 +23,15 @@ import { SubjectArea } from '@/models/response/subjectAreaResponse';
 import SelectEducationTypeAndLevel from '../form-components/selectboxes/SelectEducationTypeAndLevel';
 import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
 import getFormattedDate from '@/helper/currentDate';
+import SelectNationality from '../form-components/selectboxes/SelectNationality';
+import { Nationality } from '@/models/response/nationalityResponse';
 type StudentInformationFormProps = {
   pageName: String;
 };
 type FormData = {
   education_type_and_level: string;
   isced_code_and_fields: string;
+  nationality: string;
 };
 
 export default function StudentInformationForm({
@@ -54,6 +57,8 @@ export default function StudentInformationForm({
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
   const [educationTypeAndLevel, setEducationTypeAndLevel] = useState('');
   const [educationTypeAndLevelID, setEducationTypeAndLevelID] = useState(0);
+  const [selectedNationality, setSelectedNationality] = useState('');
+  const [selectedNationalityID, setSelectedNationalityID] = useState(0);
   const [startDate, setStartDate] = useState(getFormattedDate());
   //submit
   function onSubmit(values: FormData) {
@@ -86,6 +91,16 @@ export default function StudentInformationForm({
     });
   }
 
+  const handleSelectChangeNationality = (value: Nationality | null) => {
+    if (value) {
+      setValue('nationality', value.nationality);
+      setSelectedNationality(value.nationality);
+      setSelectedNationalityID(value.id);
+    } else {
+      setValue('nationality', ''); // or any default value you want
+      setSelectedNationality('');
+    }
+  };
   const handleISCEDchange = (value: SubjectArea | null) => {
     if (value) {
       setValue('isced_code_and_fields', value.subjectArea);
@@ -187,9 +202,15 @@ export default function StudentInformationForm({
               label='Öğrencinin Soy İsmi'
               name='name'
             />
-            <SelectAutoComplete
-              placeHolder='placeholder..'
-              selectLabel='Öğencinin Ulusu'
+            <SelectNationality
+              id='nationality'
+              error={errors.nationality?.message}
+              register={register('nationality', {
+                required: 'This is required',
+              })}
+              selectLabel='Öğrencinin Ulusu'
+              placeholder=''
+              onChange={handleSelectChangeNationality}
             />
             <SelectEducationTypeAndLevel
               id='education_type_and_level'
