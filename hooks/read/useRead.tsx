@@ -1,6 +1,7 @@
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
 import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
+import { CollaborationConditionResponse } from '@/models/response/collaborationConditionResponse';
 import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
 import { ContactResponse, Contact } from '@/models/response/contactResponse';
 import {
@@ -168,9 +169,9 @@ const useAgreement = () => {
   //https://localhost:5001/spGetOrganizationCollaborationCondition?organizationCollaborationCondition_id=3
   const GetOrganizationCollaborationCondition = async (
     request: string
-  ): Promise<CollaborationConditionRequest[]> => {
-    const response: CollaborationConditionRequest[] = await makeRequest<
-      CollaborationConditionRequest[]
+  ): Promise<CollaborationConditionResponse[]> => {
+    const response: CollaborationConditionResponse[] = await makeRequest<
+    CollaborationConditionResponse[]
     >(request);
 
     return response;
