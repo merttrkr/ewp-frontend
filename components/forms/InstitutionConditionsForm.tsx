@@ -34,7 +34,7 @@ import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 import useUpdate from '@/hooks/update/useUpdate';
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
-import { useToast } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react';
 import { IdForBothCollaborationConditionResponse } from '@/models/response/idForBothCollaborationConditionResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { CollaborationConditionResponse } from '@/models/response/collaborationConditionResponse';
@@ -81,12 +81,6 @@ export default function InstitutionConditionsForm({
 }: InstitutionConditionsFormProps) {
   //get hooks
   const {
-    GetCollaborationConditionTypes,
-    GetLanguages,
-    GetLanguageLevels,
-    GetSubjectAreas,
-    GetEducationTypesAndLevels,
-    GetAcademicYearInfo,
     GetSelectedContactInfoOfOrganizationInfo,
     GetOrganizationInfo,
     GetOrganizationCollaborationCondition,
@@ -106,6 +100,7 @@ export default function InstitutionConditionsForm({
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.600');
   //states
+  const [conditionType, setConditionType] = useState('');
   const [senderInstitutionID, setSenderInstitutionID] = useState(0);
   const [senderInstitution, setSenderInstitution] = useState('');
   const [receiverInstitutionID, setReceiverInstitutionID] = useState(0);
@@ -131,13 +126,16 @@ export default function InstitutionConditionsForm({
   const [languageLevelID, setLanguageLevelID] = useState(0);
   const [ISCEDCodeAndFields, setISCEDCodeAndFields] = useState('');
   const [ISCEDCodeAndFieldsID, setISCEDCodeAndFieldsID] = useState(0);
-  const [collaborationCondition, setCollaborationCondition] = useState<CollaborationConditionResponse[]>();
-  const [partnerCollaborationCondition, setPartnerCollaborationCondition] = useState<CollaborationConditionResponse[]>();
+  const [collaborationCondition, setCollaborationCondition] =
+    useState<CollaborationConditionResponse[]>();
+  const [partnerCollaborationCondition, setPartnerCollaborationCondition] =
+    useState<CollaborationConditionResponse[]>();
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
-  const [partnerOrganizationInfo, setPartnerOrganizationInfo] = useState<OrganizationInfo>();
+  const [partnerOrganizationInfo, setPartnerOrganizationInfo] =
+    useState<OrganizationInfo>();
   const [annualTotalMonthAmount, setAnnualTotalMonthAmount] = useState('');
   const [annualMobilityAmount, setAnnualMobilityAmount] = useState('');
-  const[otherInfo, setOtherInfo] = useState('');
+  const [otherInfo, setOtherInfo] = useState('');
   //useForm hook
   const {
     handleSubmit,
@@ -162,7 +160,6 @@ export default function InstitutionConditionsForm({
     if (collaborationConditionId != 0) {
       console.log('collaborationConditionId added: ', collaborationConditionId);
       insertEmptyRowToCollaborationCondition();
-      
     }
   }
   async function handleGetOrganizationCollaborationCondition() {
@@ -171,7 +168,9 @@ export default function InstitutionConditionsForm({
       collaborationConditionId;
 
     try {
-      setCollaborationCondition(await GetOrganizationCollaborationCondition(requestUrl)) ;
+      setCollaborationCondition(
+        await GetOrganizationCollaborationCondition(requestUrl)
+      );
     } catch (error) {
       console.error('Error:', error);
     }
@@ -182,59 +181,80 @@ export default function InstitutionConditionsForm({
       partnerCollaborationConditionId;
 
     try {
-      setPartnerCollaborationCondition(await GetOrganizationCollaborationCondition(requestUrl)) ;
+      setPartnerCollaborationCondition(
+        await GetOrganizationCollaborationCondition(requestUrl)
+      );
     } catch (error) {
       console.error('Error:', error);
     }
   }
   useEffect(() => {
-    if (collaborationConditionId ||organizationInfoId || partnerOrganizationInfoId || partnerCollaborationConditionId){
+    if (
+      collaborationConditionId ||
+      organizationInfoId ||
+      partnerOrganizationInfoId ||
+      partnerCollaborationConditionId
+    ) {
       handleGetOrganizationCollaborationCondition();
       handleGetOrganizationInfo();
       handleGetPartnerOrganizationInfo();
       handleGetPartnerOrganizationCollaborationCondition();
     }
-  }, [collaborationConditionId,organizationInfoId, partnerOrganizationInfoId,partnerCollaborationConditionId]);
-  
- 
-   
-    useEffect(() => {
-      if (collaborationCondition && organizationInfo && partnerOrganizationInfo) {
-        console.log('organizationInfo?.heiId: ', organizationInfo?.heiId + organizationInfoId);
-        setSenderInstitution(organizationInfo?.heiId);
+  }, [
+    collaborationConditionId,
+    organizationInfoId,
+    partnerOrganizationInfoId,
+    partnerCollaborationConditionId,
+  ]);
 
-        setReceiverInstitution(partnerOrganizationInfo?.heiId);
-        setSenderDepartment(organizationInfo?.ounitName);
-        setReceiverDepartment(partnerOrganizationInfo?.ounitName);
-        setStartingAcademicYear(collaborationCondition[0]?.academicYear.split(' - ')[0]);
-        setEndingAcademicYear(collaborationCondition[0]?.academicYear.split(' - ')[1]);
-        setAnnualTotalMonthAmount(collaborationCondition[0]?.annualTotalMonths);
-        setAnnualMobilityAmount(collaborationCondition[0]?.annualQuota);
-        setOtherInfo(collaborationCondition[0]?.otherInfo);
-        setEducationTypeAndLevel(collaborationCondition[0]?.educationTypeAndLevel);
-        setISCEDCodeAndFields(collaborationCondition[0]?.subjectArea);
-        handleGetSelectedContactInfoOfOrganizationInfo();
-        handleGetSelectedPartnerContactInfoOfOrganizationInfo();
-      }
+  useEffect(() => {
+    if (collaborationCondition && organizationInfo && partnerOrganizationInfo) {
+      console.log(
+        'organizationInfo?.heiId: ',
+        organizationInfo?.heiId + organizationInfoId
+      );
+      setSenderInstitution(organizationInfo?.heiId);
 
-    }, [organizationInfo, partnerOrganizationInfo, collaborationCondition,partnerCollaborationCondition]);
-  
-  
-    async function handleGetPartnerOrganizationInfo() {
-      const fetchInitialData = async () => {
-        const data = await GetOrganizationInfo(
-          'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-          partnerOrganizationInfoId
-        ); // Call the GetOrganizationInfo function
-        if (data ) {
-          setPartnerOrganizationInfo(data);
-
-        }
-      };
-      if(organizationInfoId != 0){
-        fetchInitialData();
-      }
+      setReceiverInstitution(partnerOrganizationInfo?.heiId);
+      setSenderDepartment(organizationInfo?.ounitName);
+      setReceiverDepartment(partnerOrganizationInfo?.ounitName);
+      setStartingAcademicYear(
+        collaborationCondition[0]?.academicYear.split(' - ')[0]
+      );
+      setEndingAcademicYear(
+        collaborationCondition[0]?.academicYear.split(' - ')[1]
+      );
+      setAnnualTotalMonthAmount(collaborationCondition[0]?.annualTotalMonths);
+      setAnnualMobilityAmount(collaborationCondition[0]?.annualQuota);
+      setOtherInfo(collaborationCondition[0]?.otherInfo);
+      setEducationTypeAndLevel(
+        collaborationCondition[0]?.educationTypeAndLevel
+      );
+      setISCEDCodeAndFields(collaborationCondition[0]?.subjectArea);
+      handleGetSelectedContactInfoOfOrganizationInfo();
+      handleGetSelectedPartnerContactInfoOfOrganizationInfo();
     }
+  }, [
+    organizationInfo,
+    partnerOrganizationInfo,
+    collaborationCondition,
+    partnerCollaborationCondition,
+  ]);
+
+  async function handleGetPartnerOrganizationInfo() {
+    const fetchInitialData = async () => {
+      const data = await GetOrganizationInfo(
+        'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
+          partnerOrganizationInfoId
+      ); // Call the GetOrganizationInfo function
+      if (data) {
+        setPartnerOrganizationInfo(data);
+      }
+    };
+    if (organizationInfoId != 0) {
+      fetchInitialData();
+    }
+  }
 
   async function handleAddLanguageSkillForCollaborationCondition() {
     const addLanguageSkillForCollaborationCondition = async () => {
@@ -325,7 +345,6 @@ export default function InstitutionConditionsForm({
   }
 
   async function handleGetSelectedContactInfoOfOrganizationInfo() {
-    
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
@@ -333,14 +352,13 @@ export default function InstitutionConditionsForm({
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         setSenderContactPerson(data[0]);
-        
+
         console.log('data: ', data); // Process the fetched data
       }
     };
     fetchInitialData();
   }
   async function handleGetSelectedPartnerContactInfoOfOrganizationInfo() {
-    
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
@@ -348,7 +366,7 @@ export default function InstitutionConditionsForm({
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         setReceiverContactPerson(data[0]);
-        
+
         console.log('data: ', data); // Process the fetched data
       }
     };
@@ -356,22 +374,19 @@ export default function InstitutionConditionsForm({
   }
 
   async function handleGetOrganizationInfo() {
-  
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
           organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
-       
         console.log('data: ', data); // Process the fetched data
         setOrganizationInfo(data);
       }
     };
-    if(organizationInfoId != undefined  ){
+    if (organizationInfoId != undefined) {
       fetchInitialData();
     }
-    
   }
   //submit
   function onSubmit(values: FormData) {
@@ -392,12 +407,12 @@ export default function InstitutionConditionsForm({
         await handleAddCollaborationConditionToBilateralAgreement();
         toast({
           title: 'Kayıt Başarılı.',
-          description: "İş birliği koşulları başarıyla kaydedildi.",
+          description: 'İş birliği koşulları başarıyla kaydedildi.',
           status: 'success',
           position: 'top-right',
           duration: 5000,
           isClosable: true,
-        })
+        });
         resolve();
       } catch (error) {
         toast({
@@ -407,7 +422,7 @@ export default function InstitutionConditionsForm({
           position: 'top-right',
           duration: 5000,
           isClosable: true,
-        })
+        });
         console.log(error);
         reject(error);
       }
@@ -515,11 +530,10 @@ export default function InstitutionConditionsForm({
   const handleConditionChange = (value: CollaborationConditionType | null) => {
     if (value) {
       setValue('condition_type', value.type);
-      setISCEDCodeAndFields(value.type);
-      setISCEDCodeAndFieldsID(value.id);
+      setConditionType(value.type);
     } else {
       setValue('condition_type', '');
-      setISCEDCodeAndFields(''); // or any default value you want
+      setConditionType(''); // or any default value you want
     }
   };
   const handleEducationTypeAndLevelChange = (
