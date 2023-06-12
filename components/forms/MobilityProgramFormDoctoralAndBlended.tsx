@@ -23,12 +23,14 @@ import TextInput from '../form-components/inputs/TextInput';
 import { BiTrash } from 'react-icons/bi';
 import AddComponentModal from './AddComponentModal';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DateInput from '../form-components/inputs/DateInput';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
 import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
+import useRead from '@/hooks/read/useRead';
+import { Course } from '@/models/response/courseResponse';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
@@ -45,6 +47,10 @@ type FormData = {
 export default function MobilityProgramFormDoctoralAndBlended({
   pageName,
 }: MobilityProgramFormDoctoralAndBlendedProps) {
+  const {
+    getApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+    getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+  } = useRead();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -56,6 +62,13 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
+  const [blendedOrDoctorateApprovedArray, setBlendedOrDoctorateApprovedArray] =
+    useState<Course[]>([]);
+  const [
+    blendedOrDoctorateNotApprovedArray,
+    setBlendedOrDoctorateNotApprovedArray,
+  ] = useState<Course[]>([]);
+  const [pmpID, setPmpID] = useState(26);
   const toast = useToast();
 
   const {
@@ -65,6 +78,35 @@ export default function MobilityProgramFormDoctoralAndBlended({
     setValue,
     control,
   } = useForm<FormData>();
+
+  const handleGetApprovedCoursesOfBlendedOrDoctorate = async () => {
+    try {
+      const courses =
+        await getApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
+          'https://localhost:5001/spGetTableAApprovedCoursesForChangeProposals?pmp_id=' +
+            pmpID
+        );
+      setBlendedOrDoctorateApprovedArray(courses);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  };
+  const handleGetNotApprovedCoursesOfBlendedOrDoctorate = async () => {
+    try {
+      const courses =
+        await getApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
+          'https://localhost:5001/spGetTableANotApprovedCoursesForChangeProposals?pmp_id=' +
+            pmpID
+        );
+      setBlendedOrDoctorateNotApprovedArray(courses);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  };
+  useEffect(() => {
+    handleGetNotApprovedCoursesOfBlendedOrDoctorate();
+    handleGetApprovedCoursesOfBlendedOrDoctorate();
+  }, []);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
