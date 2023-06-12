@@ -223,28 +223,19 @@ export default function MobilityProgramForm({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
+                  {tableCApprovedArray.map((row) => (
+                    <Tr key={row.id}>
+                      <Td>{row.courseTitle}</Td>
+                      <Td>{row.courseCreditType}</Td>
+                      <Td>{row.courseCreditValue}</Td>
+                      <Td>{row.numberOfTerms}</Td>
+                      <Td>{row.totalNumberOfTerms}</Td>
+                      <Td>{row.courseCode}</Td>
+                      <Td>{row.recognitionConditions}</Td>
+                      <Td>{row.courseShortDescription}</Td>
+                      <Td>{row.status}</Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
@@ -272,56 +263,38 @@ export default function MobilityProgramForm({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>
-                      <IconButton
-                        colorScheme='blue'
-                        aria-label='delete button'
-                        icon={<BiTrash />}
-                        height={8}
-                        borderRadius='md'
-                      />
-                    </Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <IconButton
-                        colorScheme='blue'
-                        aria-label='delete button'
-                        icon={<BiTrash />}
-                        height={8}
-                        borderRadius='md'
-                      />
-                    </Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
+                  {tableCNotApprovedArray.map((row) => (
+                    <Tr key={row.id}>
+                      <Td>
+                        <IconButton
+                          colorScheme='blue'
+                          aria-label='delete button'
+                          icon={<BiTrash />}
+                          height={8}
+                          borderRadius='md'
+                        />
+                      </Td>
+                      <Td>{row.courseTitle}</Td>
+                      <Td>{row.courseCreditType}</Td>
+                      <Td>{row.courseCreditValue}</Td>
+                      <Td>{row.numberOfTerms}</Td>
+                      <Td>{row.totalNumberOfTerms}</Td>
+                      <Td>{row.courseCode}</Td>
+                      <Td>{row.recognitionConditions}</Td>
+                      <Td>{row.courseShortDescription}</Td>
+                      <Td>{row.status}</Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
           </Flex>
 
-          <Flex pl={5}>
+          <Flex pl={5} gap={4}>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Derslerin Toplam Kredi Değeri:
             </Text>
-            <Text>0</Text>
+            <Text>{totalCCourseCredits}</Text>
           </Flex>
 
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
