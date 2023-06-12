@@ -13,28 +13,30 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
-import SelectAutoComplete from '../form-components/SelectAutoComplete';
 import TextInput from '../form-components/inputs/TextInput';
 import { useForm } from 'react-hook-form';
+import { Course } from '@/models/response/courseResponse';
 
 type ModalInputProps = {
   placeholder: string;
   tableType?: string;
+  sendModal: (value: Course) => void;
 };
 type FormData = {
   course_name: string;
-  total_term_count: string;
+  total_term_count: number;
   course_description?: string;
   credit_type: string;
-  term_count: string;
+  term_count: number;
   course_code: string;
   recognition_conditions?: string;
-  credit_value: string;
+  credit_value: number;
 };
 
 export default function InitialFocus({
   placeholder,
   tableType,
+  sendModal,
 }: ModalInputProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const HeadingColor = useColorModeValue('gray.800', 'gray.300');
@@ -42,13 +44,27 @@ export default function InitialFocus({
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<FormData>();
 
   function onSubmit(values: FormData) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        alert(JSON.stringify(values, null));
+        const result: Course = {
+          id: 70,
+          courseCreditType: values.credit_type,
+          courseTitle: values.course_name,
+          courseCreditValue: values.credit_value,
+          numberOfTerms: values.term_count,
+          totalNumberOfTerms: values.total_term_count,
+          courseCode: values.course_code,
+          status: 'inserted',
+          recognitionConditions: values.recognition_conditions,
+          courseShortDescription: values.course_description,
+        };
+        sendModal(result);
         resolve();
+        reset();
       });
     });
   }
