@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Button, Input, Stack, Center } from '@chakra-ui/react';
+import {
+  Flex,
+  Button,
+  Input,
+  useColorModeValue,
+  Stack,
+  Heading,
+  Select,
+} from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import useRead from '@/hooks/read/useRead';
 import PreviewOLA from '@/components/PreviewOLA';
 
 export default function DisplayAgreements() {
+  const HeadingColor = useColorModeValue('gray.700', 'gray.300');
   const [currentPage, setCurrentPage] = useState(1); // Current page number
   const [searchQuery, setSearchQuery] = useState(''); // Search query
+  const [selectedMobilityType, setSelectedMobilityType] = useState(''); // Selected mobility type for filtering
   const { GetAllLearningAgreements } = useRead();
   const [learningAgreements, setLearningAgreements] = useState<
     LearningAgreement[]
   >([]);
   const itemsPerPage = 3;
+
   async function handleGetLearningAgreements() {
     try {
       const data = await GetAllLearningAgreements(
@@ -30,12 +41,11 @@ export default function DisplayAgreements() {
   }, []);
 
   const filteredAgreements = learningAgreements.filter((agreement) => {
-    const selectedMobilityType = agreement.mobilityType || '-';
-    const stıdentName = agreement.studentFullName || '-';
+    const studentName = agreement.studentFullName || '-';
     const lowerCaseQuery = searchQuery.toLowerCase();
     return (
-      selectedMobilityType.toLowerCase().includes(lowerCaseQuery) ||
-      stıdentName.toLowerCase().includes(lowerCaseQuery)
+      studentName.toLowerCase().includes(lowerCaseQuery) &&
+      agreement.proposedMobilityProgramme_id !== null
     );
   });
 
@@ -55,11 +65,39 @@ export default function DisplayAgreements() {
     setCurrentPage(1); // Reset to the first page when the search query changes
   };
 
+  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedMobilityType(event.target.value);
+    setCurrentPage(1); // Reset to the first page when the filter changes
+  };
+
   return (
     <>
       {/* Search input field */}
-      <Flex align={'center'} justify={'flex-end'} px={6} py={4}>
-        <Stack justify={'right'} px={2} direction={'row'}>
+      <Flex align={'center'} justify={'space-between'} px={6} py={4}>
+        <Stack direction='row'>
+          <Heading
+            pl='1'
+            as='h3'
+            fontSize='md'
+            fontWeight={'medium'}
+            color={HeadingColor}
+          >
+            Filter By Mobility Type:
+          </Heading>
+          <Select
+            id='filterSelect'
+            value={selectedMobilityType}
+            onChange={handleFilterChange}
+          >
+            <option value=''>All</option>
+            <option value='Long-term Mobility'>Long-term Mobility</option>
+            <option value='Blended Mobility'>Blended Mobility</option>
+            <option value='Short-term Doctoral Mobility'>
+              Short-term Doctoral Mobility
+            </option>
+          </Select>
+        </Stack>
+        <Stack direction='row'>
           <SearchIcon mt={3} color='gray.600' />
           <Input
             width='auto'
@@ -69,7 +107,7 @@ export default function DisplayAgreements() {
         </Stack>
       </Flex>
 
-      {/* Loop through the currentAgreements array and render PreviewIIA component for each agreement */}
+      {/* Loop through the currentAgreements array and render PreviewOLA component for each agreement */}
       {currentAgreements.map((agreement) => (
         <PreviewOLA
           key={agreement.proposedMobilityProgramme_id}
