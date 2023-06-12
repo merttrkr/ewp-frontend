@@ -13,9 +13,29 @@ import StudentInformationForm from '../forms/StudentInformationForm';
 import InstitutionInformationFormOLA from '../forms/InstitutionInformationFormOLA';
 import MobilityProgramFormDoctoralAndBlended from '../forms/MobilityProgramFormDoctoralAndBlended';
 import CommitmentSignatureForm from '../forms/CommitmentSignatureForm';
+import useCreate from '@/hooks/create/useCreate';
+import { useState, useEffect } from 'react';
 
 export default function TabComponent() {
+  const { GenerateOmobilityId } = useCreate();
+  const [omobilityID, setOmobilityID] = useState('');
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
+
+  async function handleGenerateOmobilityId() {
+    const fetchOmobilityID = async () => {
+      const data = await GenerateOmobilityId(
+        'https://localhost:5001/spGenerateOmobilityId'
+      );
+      if (data) {
+        setOmobilityID(data);
+      }
+    };
+    fetchOmobilityID();
+  }
+  useEffect(() => {
+    handleGenerateOmobilityId();
+  }, []);
+
   return (
     <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
@@ -37,7 +57,11 @@ export default function TabComponent() {
       </Box>
       <TabPanels>
         <TabPanel>
-          <StudentInformationForm pageName='Öğrenciye Ait Bilgiler' />
+          <StudentInformationForm
+            pageName='Öğrenciye Ait Bilgiler'
+            omobilityId={omobilityID}
+            mobilityType='Blended Mobility'
+          />
         </TabPanel>
         <TabPanel>
           <InstitutionInformationFormOLA
