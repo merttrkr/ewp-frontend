@@ -282,6 +282,34 @@ const useAgreement = () => {
     const courses: Course[] = await makeRequest<Course[]>(request);
     return courses;
   };
+  //https://localhost:5001/spGetTotalCourseCreditsForTableA?pmp_id=28
+  const getTotalCourseCreditsForTableA = async (
+    request: string
+  ): Promise<number> => {
+    const total: number = await makeRequest<number>(request);
+    return total;
+  };
+  //https://localhost:5001/spGetTotalCourseCreditsForTableB?pmp_id=32
+  const getTotalCourseCreditsForTableB = async (
+    request: string
+  ): Promise<number> => {
+    const total: number = await makeRequest<number>(request);
+    return total;
+  };
+  //https://localhost:5001/spGetTotalCourseCreditsForTableC?virtualComponent_id=12
+  const getTotalCourseCreditsForTableC = async (
+    request: string
+  ): Promise<number> => {
+    const total: number = await makeRequest<number>(request);
+    return total;
+  };
+  //https://localhost:5001/spGetTotalCourseCreditsForBlendedOrDoctorate?pmp_id=7
+  const getTotalCourseCreditsForBlendedOrDoctorate = async (
+    request: string
+  ): Promise<number> => {
+    const total: number = await makeRequest<number>(request);
+    return total;
+  };
 
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
@@ -310,6 +338,10 @@ const useAgreement = () => {
     getTableCApprovedCoursesForChangeProposals,
     getApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
     getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+    getTotalCourseCreditsForTableA,
+    getTotalCourseCreditsForTableB,
+    getTotalCourseCreditsForTableC,
+    getTotalCourseCreditsForBlendedOrDoctorate,
   };
 };
 
