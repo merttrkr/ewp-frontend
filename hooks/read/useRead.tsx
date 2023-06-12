@@ -222,7 +222,7 @@ const useAgreement = () => {
   };
 
   //https://localhost:5001/spGetTableANotApprovedCoursesForChangeProposals?pmp_id=28
-  const getTableANotApprovedCoursesForChangeProposals = async (
+  const GetTableANotApprovedCoursesForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
     const courses: Course[] = await makeRequest<Course[]>(request);
@@ -230,7 +230,7 @@ const useAgreement = () => {
   };
 
   //https://localhost:5001/spGetTableAApprovedCoursesForChangeProposals?pmp_id=26'
-  const getTableAApprovedCoursesForChangeProposals = async (
+  const GetTableAApprovedCoursesForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
     const courses: Course[] = await makeRequest<Course[]>(request);
@@ -238,7 +238,7 @@ const useAgreement = () => {
   };
 
   //https://localhost:5001/spGetTableBNotApprovedCoursesForChangeProposals?pmp_id=28
-  const getTableBNotApprovedCoursesForChangeProposals = async (
+  const GetTableBNotApprovedCoursesForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
     const courses: Course[] = await makeRequest<Course[]>(request);
@@ -246,14 +246,14 @@ const useAgreement = () => {
   };
 
   //https://localhost:5001/spGetTableBApprovedCoursesForChangeProposals?pmp_id=26'
-  const getTableBApprovedCoursesForChangeProposals = async (
+  const GetTableBApprovedCoursesForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
     const courses: Course[] = await makeRequest<Course[]>(request);
     return courses;
   };
   //https://localhost:5001/spGetTableCNotApprovedCoursesForChangeProposals?pmp_id=28
-  const getTableCNotApprovedCoursesForChangeProposals = async (
+  const GetTableCNotApprovedCoursesForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
     const courses: Course[] = await makeRequest<Course[]>(request);
@@ -261,14 +261,14 @@ const useAgreement = () => {
   };
 
   //https://localhost:5001/spGetTableCApprovedCoursesForChangeProposals?pmp_id=26'
-  const getTableCApprovedCoursesForChangeProposals = async (
+  const GetTableCApprovedCoursesForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
     const courses: Course[] = await makeRequest<Course[]>(request);
     return courses;
   };
   //https://localhost:5001/spGetApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=30
-  const getApprovedCoursesOfBlendedOrDoctorateForChangeProposals = async (
+  const GetApprovedCoursesOfBlendedOrDoctorateForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
     const courses: Course[] = await makeRequest<Course[]>(request);
@@ -276,41 +276,49 @@ const useAgreement = () => {
   };
 
   //https://localhost:5001/spGetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=23
-  const getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals = async (
+  const GetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
     const courses: Course[] = await makeRequest<Course[]>(request);
     return courses;
   };
   //https://localhost:5001/spGetTotalCourseCreditsForTableA?pmp_id=28
-  const getTotalCourseCreditsForTableA = async (
+  const GetTotalCourseCreditsForTableA = async (
     request: string
   ): Promise<number> => {
     const total: number = await makeRequest<number>(request);
     return total;
   };
   //https://localhost:5001/spGetTotalCourseCreditsForTableB?pmp_id=32
-  const getTotalCourseCreditsForTableB = async (
+  const GetTotalCourseCreditsForTableB = async (
     request: string
   ): Promise<number> => {
     const total: number = await makeRequest<number>(request);
     return total;
   };
   //https://localhost:5001/spGetTotalCourseCreditsForTableC?virtualComponent_id=12
-  const getTotalCourseCreditsForTableC = async (
+  const GetTotalCourseCreditsForTableC = async (
     request: string
   ): Promise<number> => {
     const total: number = await makeRequest<number>(request);
     return total;
   };
   //https://localhost:5001/spGetTotalCourseCreditsForBlendedOrDoctorate?pmp_id=7
-  const getTotalCourseCreditsForBlendedOrDoctorate = async (
+  const GetTotalCourseCreditsForBlendedOrDoctorate = async (
     request: string
   ): Promise<number> => {
     const total: number = await makeRequest<number>(request);
     return total;
   };
-
+  //https://localhost:5001/spGetAllLearningAgreements
+  const GetAllLearningAgreements = async (
+    request: string
+  ): Promise<LearningAgreement[]> => {
+    const agreements: LearningAgreement[] = await makeRequest<
+      LearningAgreement[]
+    >(request);
+    return agreements;
+  };
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
@@ -330,18 +338,19 @@ const useAgreement = () => {
     GetNationalities,
     GetMobilityTypes,
     GetGenderNames,
-    getTableANotApprovedCoursesForChangeProposals,
-    getTableAApprovedCoursesForChangeProposals,
-    getTableBNotApprovedCoursesForChangeProposals,
-    getTableBApprovedCoursesForChangeProposals,
-    getTableCNotApprovedCoursesForChangeProposals,
-    getTableCApprovedCoursesForChangeProposals,
-    getApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
-    getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
-    getTotalCourseCreditsForTableA,
-    getTotalCourseCreditsForTableB,
-    getTotalCourseCreditsForTableC,
-    getTotalCourseCreditsForBlendedOrDoctorate,
+    GetTableANotApprovedCoursesForChangeProposals,
+    GetTableAApprovedCoursesForChangeProposals,
+    GetTableBNotApprovedCoursesForChangeProposals,
+    GetTableBApprovedCoursesForChangeProposals,
+    GetTableCNotApprovedCoursesForChangeProposals,
+    GetTableCApprovedCoursesForChangeProposals,
+    GetApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+    GetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+    GetTotalCourseCreditsForTableA,
+    GetTotalCourseCreditsForTableB,
+    GetTotalCourseCreditsForTableC,
+    GetTotalCourseCreditsForBlendedOrDoctorate,
+    GetAllLearningAgreements,
   };
 };
 
