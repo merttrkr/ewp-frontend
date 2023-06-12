@@ -350,7 +350,7 @@ export default function InstitutionInformationForm({
       setSigningDateInp(organizationInfo?.signingDate);
       setAuthorizedSignotary(organizationInfo?.signingPersonFullName);
       setContactPerson(organizationInfo?.signingPersonFullName);
-
+      setSigningDateInp(organizationInfo?.signingDate);
       console.log('organizationInfo?.uniName : ', organizationInfo?.uniName);
     }
   }, [organizationInfo]);
@@ -475,7 +475,7 @@ export default function InstitutionInformationForm({
             <DateInput
               id='signing_date'
               register={register('signing_date')}
-              placeholder=''
+              placeholder={signingDateInp}
               label='İmzalanma Tarihi'
               onChange={handleSigningDateChange}
               error={errors.signing_date?.message}
