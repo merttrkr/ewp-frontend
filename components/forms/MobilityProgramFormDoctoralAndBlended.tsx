@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  HStack,
   Heading,
   IconButton,
   Input,
@@ -24,6 +25,10 @@ import AddComponentModal from './AddComponentModal';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import DateInput from '../form-components/inputs/DateInput';
+import { LanguageLevel } from '@/models/response/languageLevelResponse';
+import { Language } from '@/models/response/languageResponse';
+import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
+import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
@@ -33,6 +38,8 @@ type FormData = {
   link: string;
   mobility_start_date: string;
   mobility_end_date: string;
+  language: string;
+  language_level: string;
 };
 
 export default function MobilityProgramFormDoctoralAndBlended({
@@ -45,6 +52,10 @@ export default function MobilityProgramFormDoctoralAndBlended({
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
+  const [language, setLanguage] = useState('');
+  const [languageID, setLanguageID] = useState(0);
+  const [languageLevel, setLanguageLevel] = useState('');
+  const [languageLevelID, setLanguageLevelID] = useState(0);
   const toast = useToast();
 
   const {
@@ -101,6 +112,26 @@ export default function MobilityProgramFormDoctoralAndBlended({
     } else {
       setValue('mobility_end_date', '');
       setMobilityEndDate('');
+    }
+  };
+  const handleLanguageChange = (value: Language | null) => {
+    if (value) {
+      setValue('language', value.definition);
+      setLanguage(value.definition);
+      setLanguageID(value.lang_id);
+    } else {
+      setValue('language', '');
+      setLanguage(''); // or any default value you want
+    }
+  };
+  const handleLanguageLevelChange = (value: LanguageLevel | null) => {
+    if (value) {
+      setValue('language_level', value.code);
+      setLanguageLevel(value.code);
+      setLanguageLevelID(value.langLevel_id);
+    } else {
+      setValue('language_level', '');
+      setLanguageLevel(''); // or any default value you want
     }
   };
 
@@ -289,15 +320,28 @@ export default function MobilityProgramFormDoctoralAndBlended({
               placeHolder='www.iyte.edu.tr'
               name='link'
             ></TextInput>
-            <Flex justify={'space-between'} gap={5}>
-              <SelectAutoComplete
-                placeHolder='placeholder..'
-                selectLabel='Yabancı Dil'
-              />
-              <SelectAutoComplete
-                placeHolder='placeholder..'
-                selectLabel='Dil Yeterlilik Seviyesi'
-              />
+            <Flex gap={4}>
+              <Box w={'50%'}>
+                <SelectLanguage
+                  id='language'
+                  error={errors.language?.message}
+                  register={register('language')}
+                  placeholder=''
+                  selectLabel='Yabancı Dil'
+                  onChange={handleLanguageChange}
+                ></SelectLanguage>
+              </Box>
+
+              <Box w={'50%'}>
+                <SelectLanguageLevel
+                  id='language_level'
+                  error={errors.language_level?.message}
+                  register={register('language_level')}
+                  placeholder=''
+                  selectLabel='Seviyesi'
+                  onChange={handleLanguageLevelChange}
+                ></SelectLanguageLevel>
+              </Box>
             </Flex>
           </Flex>
         </Flex>
