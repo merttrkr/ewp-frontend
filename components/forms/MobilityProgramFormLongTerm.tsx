@@ -414,26 +414,18 @@ export default function MobilityProgramFormLongTerm({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
+                  {tableBApprovedArray.map((row) => (
+                    <Tr key={row.id}>
+                      <Td>{row.courseTitle}</Td>
+                      <Td>{row.courseCreditType}</Td>
+                      <Td>{row.courseCreditValue}</Td>
+                      <Td>{row.numberOfTerms}</Td>
+                      <Td>{row.totalNumberOfTerms}</Td>
+                      <Td>{row.courseCode}</Td>
+                      <Td>{row.recognitionConditions}</Td>
+                      <Td>{row.status}</Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
@@ -460,44 +452,27 @@ export default function MobilityProgramFormLongTerm({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>
-                      <IconButton
-                        colorScheme='blue'
-                        aria-label='delete button'
-                        icon={<BiTrash />}
-                        height={8}
-                        borderRadius='md'
-                      />
-                    </Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <IconButton
-                        colorScheme='blue'
-                        aria-label='delete button'
-                        icon={<BiTrash />}
-                        height={8}
-                        borderRadius='md'
-                      />
-                    </Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
+                  {tableBNotApprovedArray.map((row) => (
+                    <Tr key={row.id}>
+                      <Td>
+                        <IconButton
+                          colorScheme='blue'
+                          aria-label='delete button'
+                          icon={<BiTrash />}
+                          height={8}
+                          borderRadius='md'
+                        />
+                      </Td>
+                      <Td>{row.courseTitle}</Td>
+                      <Td>{row.courseCreditType}</Td>
+                      <Td>{row.courseCreditValue}</Td>
+                      <Td>{row.numberOfTerms}</Td>
+                      <Td>{row.totalNumberOfTerms}</Td>
+                      <Td>{row.courseCode}</Td>
+                      <Td>{row.recognitionConditions}</Td>
+                      <Td>{row.status}</Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
