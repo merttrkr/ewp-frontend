@@ -59,6 +59,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
           <label htmlFor={id}>{selectLabel}</label>
         </Heading>
         <Autocomplete
+        disabled={isDisabled}
           onChange={(event, value) => onChange(value || null)}
           disablePortal
           id={id}
