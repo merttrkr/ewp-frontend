@@ -144,7 +144,7 @@ export default function MobilityProgramForm({
               Tablo C
             </Text>
             <AddComponentModal
-              placeHolder='Ders Ekle +'
+              placeholder='Ders Ekle +'
               tableType='C'
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
