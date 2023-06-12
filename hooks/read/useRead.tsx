@@ -267,6 +267,21 @@ const useAgreement = () => {
     const courses: Course[] = await makeRequest<Course[]>(request);
     return courses;
   };
+  //https://localhost:5001/spGetApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=30
+  const getApprovedCoursesOfBlendedOrDoctorateForChangeProposals = async (
+    request: string
+  ): Promise<Course[]> => {
+    const courses: Course[] = await makeRequest<Course[]>(request);
+    return courses;
+  };
+
+  //https://localhost:5001/spGetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=23
+  const getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals = async (
+    request: string
+  ): Promise<Course[]> => {
+    const courses: Course[] = await makeRequest<Course[]>(request);
+    return courses;
+  };
 
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
@@ -293,6 +308,8 @@ const useAgreement = () => {
     getTableBApprovedCoursesForChangeProposals,
     getTableCNotApprovedCoursesForChangeProposals,
     getTableCApprovedCoursesForChangeProposals,
+    getApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+    getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
   };
 };
 
