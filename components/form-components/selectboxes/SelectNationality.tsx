@@ -36,7 +36,6 @@ const SelectNationality: React.FC<SelectNationalityProps> = ({
     const fetchInitialData = async () => {
       try {
         const result = await GetNationalities();
-        console.log('Result:', result);
         if (result) {
           setNationalityArray(result); // Update the state with the fetched data
         }

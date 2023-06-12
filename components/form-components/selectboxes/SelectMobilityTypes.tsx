@@ -40,7 +40,6 @@ const SelectMobilityTypes: React.FC<SelectMobilityTypesProps> = ({
         const data = await GetMobilityTypes(
           'https://localhost:5001/spGetMobilityTypes'
         );
-        console.log('Mobility Types:', data);
         if (data) {
           setMobilityTypesArray(data); // Update the state with the fetched data
         }
