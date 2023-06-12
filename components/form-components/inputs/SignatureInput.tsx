@@ -1,5 +1,9 @@
 import React from 'react';
-import { useFormContext, useForm } from 'react-hook-form';
+<style>
+  @import
+  url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap');
+</style>;
+
 import {
   Stack,
   Heading,
@@ -10,47 +14,56 @@ import {
 
 type SignatureInputProps = {
   label: string;
-  name: string;
+  id: string;
+  placeholder: string;
+  error: string | undefined;
+  register: any;
   type?: string;
+  isDisabled?: boolean;
 };
 
 const SignatureInput: React.FC<SignatureInputProps> = ({
-  label,
-  name,
   type = 'text',
+  isDisabled = false,
+  label,
+  id,
+  error,
+  register,
+  placeholder,
 }) => {
-  const {
-    register,
-    formState: { errors },
-  } = useForm();
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
-    <Stack>
-      <FormControl>
-        <Heading
-          pl='1'
-          as='h3'
-          size='sm'
-          fontWeight={'bold'}
-          color={HeadingColor}
-          pb='2'
-        >
-          <label htmlFor={name}>{label}</label>
-        </Heading>
-        <Input
-          type={type}
-          {...register(name)}
-          bg={'gray.100'}
-          border={0}
-          color={'gray.500'}
-          _placeholder={{
-            color: 'gray.500',
-          }}
-          width={300}
-          height={70}
-        />
-      </FormControl>
-    </Stack>
+    <FormControl>
+      <Heading
+        pl='1'
+        as='h3'
+        size='sm'
+        fontWeight={'bold'}
+        color={HeadingColor}
+        pb='2'
+      >
+        <label htmlFor={id}>{label}</label>
+      </Heading>
+      <Input
+        height={14}
+        fontStyle={'italic'}
+        fontFamily='Dancing Script'
+        fontWeight={600}
+        fontSize='xl'
+        id={id}
+        placeholder={placeholder}
+        {...register}
+        isDisabled={isDisabled}
+        type={type}
+        bg={'gray.100'}
+        border={0}
+        color={'gray.500'}
+        _placeholder={{
+          color: 'gray.500',
+        }}
+      />
+      {error && <span style={{ color: 'red' }}>{error}</span>}
+    </FormControl>
   );
 };
 
