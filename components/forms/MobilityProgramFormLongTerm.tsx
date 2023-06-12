@@ -284,24 +284,17 @@ export default function MobilityProgramFormLongTerm({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
+                  {tableAApprovedArray.map((row) => (
+                    <Tr key={row.id}>
+                      <Td>{row.courseTitle}</Td>
+                      <Td>{row.courseCreditType}</Td>
+                      <Td>{row.courseCreditValue}</Td>
+                      <Td>{row.numberOfTerms}</Td>
+                      <Td>{row.totalNumberOfTerms}</Td>
+                      <Td>{row.courseCode}</Td>
+                      <Td>{row.status}</Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
