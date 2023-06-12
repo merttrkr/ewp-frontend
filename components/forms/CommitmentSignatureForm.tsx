@@ -10,7 +10,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-import TextInput from '@/components/form-components/inputs/TextInput1';
+import TextInput from '@/components/form-components/inputs/TextInput';
 import SignatureInput from '../form-components/inputs/SignatureInput';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -21,9 +21,14 @@ type CommitmentSignatureFormProps = {
 
 type FormData = {
   signature: string;
-  personalName: string;
-  personalSurname: string;
-  personalEposta: string;
+  sender_signature: string;
+  sender_name: string;
+  sender_surname: string;
+  sender_email: string;
+  receiver_signature: string;
+  receiver_name: string;
+  receiver_surname: string;
+  receiver_email: string;
   comment: string;
 };
 
@@ -43,6 +48,18 @@ export default function CommitmentSignatureForm({
     control,
   } = useForm<FormData>();
 
+  const [formValues, setFormValues] = useState<FormData>({
+    sender_signature: '',
+    sender_name: '',
+    sender_surname: '',
+    sender_email: '',
+    receiver_signature: '',
+    receiver_name: '',
+    receiver_surname: '',
+    receiver_email: '',
+    comment: '',
+    signature: '',
+  });
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       try {
@@ -112,22 +129,28 @@ export default function CommitmentSignatureForm({
             </Heading>
             <SignatureInput
               label='Sorumlu Kişi İmzası'
-              name='signature'
+              name='sender_signature'
             ></SignatureInput>
             <TextInput
-              placeHolder='Test Test'
+              id='sender_name'
               label='Sorumlu Kişinin Adı Soyadı'
-              name='personalName'
+              placeholder={formValues.sender_name}
+              error={errors.sender_name?.message}
+              register={register('sender_name')}
             />
             <TextInput
-              placeHolder='Test Test'
+              id='sender_surname'
               label='Mevkisi / Pozisyonu'
-              name='personalSurname'
+              placeholder={formValues.sender_surname}
+              error={errors.sender_surname?.message}
+              register={register('sender_surname')}
             />
             <TextInput
-              placeHolder='test@gmail.com'
+              id='sender_email'
               label='E-postası'
-              name='personalEposta'
+              placeholder={formValues.sender_email}
+              error={errors.sender_email?.message}
+              register={register('sender_email')}
             />
           </Stack>
 
@@ -142,27 +165,35 @@ export default function CommitmentSignatureForm({
             </Heading>
             <SignatureInput
               label='Sorumlu Kişi İmzası'
-              name='signature'
+              name='receiver_signature'
             ></SignatureInput>
             <TextInput
-              placeHolder='Test Test'
+              id='receiver_name'
               label='Sorumlu Kişinin Adı Soyadı'
-              name='personalName'
+              placeholder={formValues.receiver_name}
+              error={errors.receiver_name?.message}
+              register={register('receiver_name')}
             />
             <TextInput
-              placeHolder='Test Test'
+              id='receiver_surname'
               label='Mevkisi / Pozisyonu'
-              name='personalSurname'
+              placeholder={formValues.receiver_surname}
+              error={errors.receiver_surname?.message}
+              register={register('receiver_surname')}
             />
             <TextInput
-              placeHolder='test@gmail.com'
+              id='receiver_email'
               label='E-postası'
-              name='personalEposta'
+              placeholder={formValues.receiver_email}
+              error={errors.receiver_email?.message}
+              register={register('receiver_email')}
             />
             <TextInput
+              id='comment'
               label='Alıcı Kurumun Anlaşmayı Neden Onaylamadığını Açıklayan Yorum'
-              name='comment'
-              placeHolder='placeholder..'
+              placeholder={formValues.comment}
+              error={errors.comment?.message}
+              register={register('comment')}
             ></TextInput>
           </Stack>
         </Flex>
