@@ -22,10 +22,12 @@ import { BiTrash } from 'react-icons/bi';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
+import useRead from '@/hooks/read/useRead';
+import { Course } from '@/models/response/courseResponse';
 
 type MobilityProgramFormProps = {
   pageName: String;
@@ -40,6 +42,12 @@ type FormData = {
 export default function MobilityProgramForm({
   pageName,
 }: MobilityProgramFormProps) {
+  const {
+    getTableCApprovedCoursesForChangeProposals,
+    getTableCNotApprovedCoursesForChangeProposals,
+    getTotalCourseCreditsForTableC,
+  } = useRead();
+
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -49,6 +57,12 @@ export default function MobilityProgramForm({
   const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
+  const [tableCNotApprovedArray, setTableCNotApprovedArray] = useState<
+    Course[]
+  >([]);
+  const [tableCApprovedArray, setTableCApprovedArray] = useState<Course[]>([]);
+  const [pmpID, setPmpID] = useState(26);
+  const [totalCCourseCredits, setTotalCCourseCredits] = useState(0);
   const toast = useToast();
 
   const {
@@ -58,6 +72,47 @@ export default function MobilityProgramForm({
     setValue,
     control,
   } = useForm<FormData>();
+
+  const handleGetTableCNotApprovedCourses = async () => {
+    try {
+      const courses = await getTableCNotApprovedCoursesForChangeProposals(
+        'https://localhost:5001/spGetTableCNotApprovedCoursesForChangeProposals?pmp_id=' +
+          pmpID
+      );
+      setTableCNotApprovedArray(courses);
+    } catch (error) {
+      console.error('Error fetching table C courses:', error);
+    }
+  };
+
+  const handleGetTableCApprovedCourses = async () => {
+    try {
+      const courses = await getTableCApprovedCoursesForChangeProposals(
+        'https://localhost:5001/spGetTableCApprovedCoursesForChangeProposals?pmp_id=' +
+          pmpID
+      );
+      setTableCApprovedArray(courses);
+    } catch (error) {
+      console.error('Error fetching table C courses:', error);
+    }
+  };
+  const handleGetTotalCourseCreditsForTableC = async () => {
+    try {
+      const totalCredits = await getTotalCourseCreditsForTableC(
+        'https://localhost:5001/spGetTotalCourseCreditsForTableC?pmp_id=' +
+          pmpID
+      );
+      setTotalCCourseCredits(totalCredits);
+    } catch (error) {
+      console.error('Error fetching total course credits for Table C:', error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetTableCNotApprovedCourses();
+    handleGetTableCApprovedCourses();
+    handleGetTotalCourseCreditsForTableC();
+  }, []);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {

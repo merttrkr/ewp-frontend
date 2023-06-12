@@ -337,7 +337,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
             </TableContainer>
           </Flex>
 
-          <Flex pl={5}>
+          <Flex pl={5} gap={4}>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Derslerin Toplam Kredi Değeri:
             </Text>
