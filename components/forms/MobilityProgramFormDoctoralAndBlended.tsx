@@ -48,9 +48,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
   pageName,
 }: MobilityProgramFormDoctoralAndBlendedProps) {
   const {
-    getApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
-    getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
-    getTotalCourseCreditsForBlendedOrDoctorate,
+    GetApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+    GetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+    GetTotalCourseCreditsForBlendedOrDoctorate,
   } = useRead();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -84,7 +84,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const handleGetApprovedCoursesOfBlendedOrDoctorate = async () => {
     try {
       const courses =
-        await getApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
+        await GetApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
           'https://localhost:5001/spGetApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=' +
             pmpID
         );
@@ -96,7 +96,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const handleGetNotApprovedCoursesOfBlendedOrDoctorate = async () => {
     try {
       const courses =
-        await getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
+        await GetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
           'https://localhost:5001/spGetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=' +
             pmpID
         );
@@ -108,7 +108,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
 
   const handleGetTotalCourseCreditsForBlendedOrDoctorate = async () => {
     try {
-      const courseCredits = await getTotalCourseCreditsForBlendedOrDoctorate(
+      const courseCredits = await GetTotalCourseCreditsForBlendedOrDoctorate(
         'https://localhost:5001/spGetTotalCourseCreditsForBlendedOrDoctorate?pmp_id=' +
           pmpID
       );
