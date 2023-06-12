@@ -147,6 +147,9 @@ export default function TabComponent() {
             subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
             collaborationConditionId={newCollaborationConditionId}
             bilateralAgreementID={bilateralAgreementID}
+            organizationInfoId={newOrganizationInfoId}
+            partnerOrganizationInfoId={newPartnerOrganizationInfoId}
+            partnerCollaborationConditionId={newPartnerCollaborationConditionId}
             isPartnerValue={0}
           />
           <InstitutionConditionsForm
@@ -154,6 +157,9 @@ export default function TabComponent() {
             subText={'Lütfen partner kuruma ait koşulları doldurunuz.'}
             collaborationConditionId={newPartnerCollaborationConditionId}
             bilateralAgreementID={bilateralAgreementID}
+            organizationInfoId={newPartnerOrganizationInfoId}
+            partnerOrganizationInfoId={newOrganizationInfoId}
+            partnerCollaborationConditionId={newCollaborationConditionId}
             isPartnerValue={1}
           />
         </TabPanel>
