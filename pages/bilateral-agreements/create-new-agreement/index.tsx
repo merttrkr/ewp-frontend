@@ -99,6 +99,17 @@ export default function TabComponent() {
     };
     fetchBilateralAgreementIsInEffect();
   }
+  useEffect(() => {
+
+
+
+    if (saveState != 0) {
+      setNewOrganizationInfoId(newOrganizationInfoId);
+
+      setNewPartnerOrganizationInfoId(newPartnerOrganizationInfoId);
+
+    }
+  }, [saveState]);
 
   useEffect(() => {
     handleIDForBoth();
@@ -110,6 +121,7 @@ export default function TabComponent() {
   }, [bilateralAgreementID]);
   const handleSaveStateUpdate = () => {
     setSaveState((prevState) => prevState + 1);
+
     console.log('--------x----------', saveState);
   };
 
@@ -143,6 +155,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <InstitutionConditionsForm
+            saveState={saveState}
             pageName='Kurumuma Ait Koşullar'
             subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
             collaborationConditionId={newCollaborationConditionId}
@@ -153,6 +166,7 @@ export default function TabComponent() {
             isPartnerValue={0}
           />
           <InstitutionConditionsForm
+          saveState={saveState}
             pageName='Partner Kuruma Ait Koşullar'
             subText={'Lütfen partner kuruma ait koşulları doldurunuz.'}
             collaborationConditionId={newPartnerCollaborationConditionId}
