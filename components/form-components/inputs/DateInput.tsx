@@ -42,7 +42,7 @@ const DateInput: React.FC<DateInputProps> = ({
   };
 
   return (
-    <FormControl width='full'>
+    <FormControl>
       <Box {...rest}>
         <Heading
           pl='1'
