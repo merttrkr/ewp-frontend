@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Flex,
-  Button,
-  Input,
-  useColorModeValue,
-  Stack,
-  Heading,
-  Select,
-} from '@chakra-ui/react';
+import { Flex, Button, Input, Stack, Select } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import useRead from '@/hooks/read/useRead';
 import PreviewOLA from '@/components/PreviewOLA';
 
 export default function DisplayAgreements() {
-  const HeadingColor = useColorModeValue('gray.700', 'gray.300');
   const [currentPage, setCurrentPage] = useState(1); // Current page number
   const [searchQuery, setSearchQuery] = useState(''); // Search query
   const [selectedMobilityType, setSelectedMobilityType] = useState(''); // Selected mobility type for filtering
@@ -29,7 +20,10 @@ export default function DisplayAgreements() {
         `https://localhost:5001/spGetAllLearningAgreements`
       );
       if (data != null) {
-        setLearningAgreements(data);
+        const filteredData = data.filter(
+          (item) => item.sendingInstitutionName && item.receivingInstitutionName
+        );
+        setLearningAgreements(filteredData);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -41,11 +35,14 @@ export default function DisplayAgreements() {
   }, []);
 
   const filteredAgreements = learningAgreements.filter((agreement) => {
+    const mobilityType = agreement.mobilityType || '-';
     const studentName = agreement.studentFullName || '-';
     const lowerCaseQuery = searchQuery.toLowerCase();
+    const lowerCaseMobilityType = mobilityType.toLowerCase();
     return (
-      studentName.toLowerCase().includes(lowerCaseQuery) &&
-      agreement.proposedMobilityProgramme_id !== null
+      lowerCaseMobilityType.includes(selectedMobilityType.toLowerCase()) &&
+      (lowerCaseMobilityType.includes(lowerCaseQuery) ||
+        studentName.toLowerCase().includes(lowerCaseQuery))
     );
   });
 
@@ -75,15 +72,7 @@ export default function DisplayAgreements() {
       {/* Search input field */}
       <Flex align={'center'} justify={'space-between'} px={6} py={4}>
         <Stack direction='row'>
-          <Heading
-            pl='1'
-            as='h3'
-            fontSize='md'
-            fontWeight={'medium'}
-            color={HeadingColor}
-          >
-            Filter By Mobility Type:
-          </Heading>
+          <label htmlFor='filterSelect'>Filter By Mobility Type:</label>
           <Select
             id='filterSelect'
             value={selectedMobilityType}
