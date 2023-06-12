@@ -276,6 +276,11 @@ const NAV_ITEMS: Array<NavItem> = [
     label: 'Öğrenim Anlaşmaları',
     children: [
       {
+        label: 'Öğrenim Anlaşmalarını İncele',
+        subLabel: 'Tüm Öğrenim Anlaşmalarını İncele',
+        href: '/learning-agreements/display-all-agreements',
+      },
+      {
         label: 'Uzun Dönem Öğrenim Anlaşması Oluştur',
         subLabel: 'Uzun Dönem Öğrenim Anlaşması Oluştur',
         href: '/learning-agreements/create-long-term-la',
@@ -291,11 +296,7 @@ const NAV_ITEMS: Array<NavItem> = [
         href: '/learning-agreements/create-blended-la',
       },
 
-      {
-        label: 'Öğrenim Anlaşmalarını İncele',
-        subLabel: 'Tüm Öğrenim Anlaşmalarını İncele',
-        href: '/learning-agreements/display-all-agreements',
-      },
+      
     ],
   },
 ];
