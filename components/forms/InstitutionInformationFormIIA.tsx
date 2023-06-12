@@ -56,16 +56,7 @@ export default function InstitutionInformationForm({
   saveState,
   onSave,
 }: InstitutionInformationFormProps) {
-  const {
-    GetCollaborationConditionTypes,
-    GetLanguages,
-    GetLanguageLevels,
-    GetSubjectAreas,
-    GetEducationTypesAndLevels,
-    GetAcademicYearInfo,
-    GetSelectedContactInfoOfOrganizationInfo,
-    GetOrganizationInfo,
-  } = useRead();
+  const { GetOrganizationInfo } = useRead();
 
   const { GenerateIIACode, GenerateIIAID } = useCreate();
   const toast = useToast();
