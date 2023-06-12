@@ -121,16 +121,19 @@ export default function CommitmentSignatureForm({
           <Stack w='50%' spacing={4} p='5' borderRight={'1px solid lightgray'}>
             <Heading
               as='text'
-              size='sm'
-              fontWeight={'normal'}
+              size='md'
+              fontWeight={'bold'}
               color={HeadingColor}
             >
-              Gönderen Kurumdaki Sorumlu Kişinin İmza Bilgileri
+              Gönderen Kurum
             </Heading>
             <SignatureInput
+              id='sender_signature'
+              register={register('sender_signature')}
+              placeholder='imza'
               label='Sorumlu Kişi İmzası'
-              name='sender_signature'
-            ></SignatureInput>
+              error={errors.sender_signature?.message}
+            />
             <TextInput
               id='sender_name'
               label='Sorumlu Kişinin Adı Soyadı'
@@ -157,20 +160,24 @@ export default function CommitmentSignatureForm({
           <Stack w='50%' spacing={4} p='5'>
             <Heading
               as='text'
-              size='sm'
-              fontWeight={'normal'}
+              size='md'
+              fontWeight={'bold'}
               color={HeadingColor}
             >
-              Alıcı Kurumdaki Sorumlu Kişinin İmza Bilgileri
+              Alıcı Kurum
             </Heading>
+
             <SignatureInput
+              id='receiver_signature'
+              register={register('receiver_signature')}
+              placeholder='imza'
               label='Sorumlu Kişi İmzası'
-              name='receiver_signature'
-            ></SignatureInput>
+              error={errors.receiver_signature?.message}
+            />
             <TextInput
               id='receiver_name'
               label='Sorumlu Kişinin Adı Soyadı'
-              placeholder={formValues.receiver_name}
+              placeholder=''
               error={errors.receiver_name?.message}
               register={register('receiver_name')}
             />
