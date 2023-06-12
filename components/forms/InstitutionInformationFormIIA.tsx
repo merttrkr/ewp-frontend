@@ -413,9 +413,7 @@ export default function InstitutionInformationForm({
             <SelectInstitution
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
-              register={register('hei_id', {
-                required: 'This is required',
-              })}
+              register={register('hei_id')}
               placeHolder={institution}
               selectLabel='Kurum / Üniversite Adı'
               onChange={handleSelectChangeInstitution}
