@@ -67,7 +67,7 @@ export default function MobilityProgramFormLongTerm({
     Course[]
   >([]);
   const [tableBApprovedArray, setTableBApprovedArray] = useState<Course[]>([]);
-  const [pmpID, setPmpID] = useState(26);
+  const [pmpID, setPmpID] = useState(0);
   const [totalACourseCredits, setTotalACourseCredits] = useState(0);
   const [totalBCourseCredits, setTotalBCourseCredits] = useState(0);
   const toast = useToast();
@@ -230,6 +230,27 @@ export default function MobilityProgramFormLongTerm({
       setLanguageLevel(''); // or any default value you want
     }
   };
+
+  const handleAddComponentA = (component: Course) => {
+    const newArray: Course[] = [...tableANotApprovedArray, component];
+    setTableANotApprovedArray(newArray);
+  };
+  const handleDeleteComponentA = (component: Course) => {
+    const newArray: Course[] = tableANotApprovedArray.filter(
+      (item) => item !== component
+    );
+    setTableANotApprovedArray(newArray);
+  };
+  const handleAddComponentB = (component: Course) => {
+    const newArray: Course[] = [...tableBNotApprovedArray, component];
+    setTableBNotApprovedArray(newArray);
+  };
+  const handleDeleteComponentB = (component: Course) => {
+    const newArray: Course[] = tableBNotApprovedArray.filter(
+      (item) => item !== component
+    );
+    setTableBNotApprovedArray(newArray);
+  };
   return (
     <Stack
       marginBottom='20'
@@ -291,6 +312,7 @@ export default function MobilityProgramFormLongTerm({
             <AddComponentModal
               placeholder='Ders Ekle +'
               tableType='A'
+              sendModal={handleAddComponentA}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
@@ -352,6 +374,7 @@ export default function MobilityProgramFormLongTerm({
                           icon={<BiTrash />}
                           height={8}
                           borderRadius='md'
+                          onClick={() => handleDeleteComponentA(row)}
                         />
                       </Td>
                       <Td>{row.courseTitle}</Td>
@@ -418,6 +441,7 @@ export default function MobilityProgramFormLongTerm({
             <AddComponentModal
               placeholder='Ders Ekle +'
               tableType='B'
+              sendModal={handleAddComponentB}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
@@ -486,6 +510,7 @@ export default function MobilityProgramFormLongTerm({
                           icon={<BiTrash />}
                           height={8}
                           borderRadius='md'
+                          onClick={() => handleDeleteComponentB(row)}
                         />
                       </Td>
                       <Td>{row.courseTitle}</Td>
@@ -513,7 +538,7 @@ export default function MobilityProgramFormLongTerm({
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
             <TextInput
               label='Alıcı Kurumdaki Kurs Kataloğu Linki'
-              placeholder='www.iyte.edu.tr'
+              placeholder='www...'
               id='link_b'
               error={errors.link_b?.message}
               register={register('link_b')}

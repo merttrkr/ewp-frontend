@@ -70,7 +70,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     setBlendedOrDoctorateNotApprovedArray,
   ] = useState<Course[]>([]);
   const [totalCourseCredits, setTotalCourseCredits] = useState(0);
-  const [pmpID, setPmpID] = useState(43);
+  const [pmpID, setPmpID] = useState(0);
   const toast = useToast();
 
   const {
@@ -128,7 +128,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
       try {
         toast({
           title: 'Kayıt Başarılı.',
-          description: 'Mobilite bilgileri başarıyla kaydedildi.',
+          description: 'Ders bilgileri başarıyla kaydedildi.',
           status: 'success',
           position: 'top-right',
           duration: 5000,
@@ -188,6 +188,19 @@ export default function MobilityProgramFormDoctoralAndBlended({
       setLanguageLevel(''); // or any default value you want
     }
   };
+  const handleAddComponent = (component: Course) => {
+    const newArray: Course[] = [
+      ...blendedOrDoctorateNotApprovedArray,
+      component,
+    ];
+    setBlendedOrDoctorateNotApprovedArray(newArray);
+  };
+  const handleDeleteComponent = (component: Course) => {
+    const newArray: Course[] = blendedOrDoctorateNotApprovedArray.filter(
+      (item) => item !== component
+    );
+    setBlendedOrDoctorateNotApprovedArray(newArray);
+  };
 
   return (
     <Stack
@@ -245,7 +258,10 @@ export default function MobilityProgramFormDoctoralAndBlended({
             <Text fontSize={'lg'} fontWeight={'bold'} color={HeadingColor}>
               Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler)
             </Text>
-            <AddComponentModal placeholder='Ders Ekle +'></AddComponentModal>
+            <AddComponentModal
+              placeholder='Ders Ekle +'
+              sendModal={handleAddComponent}
+            ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
             </Text>
@@ -267,7 +283,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {blendedOrDoctorateNotApprovedArray.map((row) => (
+                  {blendedOrDoctorateApprovedArray.map((row: Course) => (
                     <Tr key={row.id}>
                       <Td>{row.courseTitle}</Td>
                       <Td>{row.courseCreditType}</Td>
@@ -307,7 +323,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {blendedOrDoctorateNotApprovedArray.map((row) => (
+                  {blendedOrDoctorateNotApprovedArray.map((row: Course) => (
                     <Tr key={row.id}>
                       <Td>
                         <IconButton
@@ -316,6 +332,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
                           icon={<BiTrash />}
                           height={8}
                           borderRadius='md'
+                          onClick={() => handleDeleteComponent(row)}
                         />
                       </Td>
                       <Td>{row.courseTitle}</Td>
@@ -344,7 +361,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
             <TextInput
               label='Alıcı Kurumdaki Kurs Kataloğu Linki'
-              placeholder='www.iyte.edu.tr'
+              placeholder='www...'
               id='link'
               error={errors.link?.message}
               register={register('link')}
