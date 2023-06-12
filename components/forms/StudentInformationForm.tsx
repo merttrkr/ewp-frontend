@@ -26,6 +26,8 @@ import SelectGender from '../form-components/selectboxes/SelectGender';
 import { Gender } from '@/models/response/genderResponse';
 type StudentInformationFormProps = {
   pageName: String;
+  omobilityId?: string;
+  mobilityType?: string;
 };
 type FormData = {
   education_type_and_level: string;
@@ -44,6 +46,8 @@ type FormData = {
 
 export default function StudentInformationForm({
   pageName,
+  omobilityId = '',
+  mobilityType = '',
 }: StudentInformationFormProps) {
   //useForm hook
   const {
@@ -197,8 +201,9 @@ export default function StudentInformationForm({
       >
         <Flex p='5'>
           <SelectMobilityTypes
+            isDisabled
             selectLabel='Seçilmiş Hareketlilik (Mobilite) Tipi'
-            placeholder=''
+            placeholder={mobilityType}
             register={register('mobility_type')} // Replace with your form registration method
             onChange={handleSelectChangeMobilityType}
             error={errors.mobility_type?.message} // Replace with your form error handling
@@ -209,8 +214,8 @@ export default function StudentInformationForm({
           <Stack w='50%' spacing={4} p='5'>
             <TextInput
               id='omobility_id'
-              label='Omobility id'
-              placeholder='DENEME-ID-2'
+              label='Omobility Id'
+              placeholder={omobilityId}
               isDisabled
               error={errors.omobility_id?.message}
               register={register('omobility_id')}
