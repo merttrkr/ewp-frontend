@@ -1,21 +1,28 @@
-import {
-
-  Button,
-  Flex,
-  Stack,
-  useColorModeValue,
-  Text,
-,
-} from '@chakra-ui/react';
+import { Button, Flex, Stack, useColorModeValue, Text } from '@chakra-ui/react';
 import DisplayText from './form-components/DisplayText';
 import { FiChevronRight } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 
 type PreviewOLAProps = {
-  OLA: String;
+  agreement: LearningAgreement;
+};
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Month is zero-based
+  const year = date.getFullYear();
+
+  // Pad single digits with leading zeros
+  const formattedDay = String(day).padStart(2, '0');
+  const formattedMonth = String(month).padStart(2, '0');
+
+  const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
+
+  return formattedDate;
 };
 
-export default function PreviewOLA({ OLA }: PreviewOLAProps) {
+export default function PreviewOLA({ agreement }: PreviewOLAProps) {
   const HeaderBackground = useColorModeValue('#9C1F23', '#9C1F23');
   const FormBackground = useColorModeValue('gray.100', 'gray.700');
 
@@ -59,32 +66,36 @@ export default function PreviewOLA({ OLA }: PreviewOLAProps) {
         >
           <DisplayText
             label={'Hareketlilik Başlangıç Tarihi: '}
-            content={'26/12/2022'}
+            content={
+              agreement.plannedStartingDateOfMobility
+                ? formatDate(agreement.plannedStartingDateOfMobility)
+                : '-'
+            }
           ></DisplayText>
           <DisplayText
             label={'Hareketliliğin Geçerli Olacağı Akademik Yıl: '}
-            content={'Placeholder'}
+            content={agreement.academicYear ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Gönderen Kurum/ Üniversite Adı: '}
-            content={'Placeholder'}
+            content={agreement.receivingInstitutionName ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Alıcı Kurum/ Üniversite Adı: '}
-            content={'Placeholder'}
+            content={agreement.sendingInstitutionName ?? '-'}
           ></DisplayText>
 
           <DisplayText
             label={'Gönderen Kurum Yetkili Kişinin Adı Soyadı: '}
-            content={'Placeholder'}
+            content={agreement.sendingAcademicPersonnelFullName ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Alıcı Kurum Yetkili Kişinin Adı Soyadı: '}
-            content={'Placeholder'}
+            content={agreement.receivingAcademicPersonnelFullName ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Öğrencinin Adı Soyadı: '}
-            content={'Placeholder'}
+            content={agreement.studentFullName ?? '-'}
           ></DisplayText>
         </Flex>
         <Flex
@@ -96,31 +107,35 @@ export default function PreviewOLA({ OLA }: PreviewOLAProps) {
         >
           <DisplayText
             label={'Hareketlilik Bitiş Tarihi: '}
-            content={'26/12/2027'}
+            content={
+              agreement.plannedEndDateOfMobility
+                ? formatDate(agreement.plannedEndDateOfMobility)
+                : '-'
+            }
           ></DisplayText>
           <DisplayText
             label={'Öğrencinin Öğrenim Seviyesi(EQF Seviyesi): '}
-            content={'26/12/2027'}
+            content={agreement.EqfLevel ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Gönderen Kurumun Departman/ Bölüm Adı: '}
-            content={'Placeholder'}
+            content={agreement.sendingInstitutionOunitName ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Alıcı Kurumun Departman/ Bölüm Adı: '}
-            content={'Placeholder'}
+            content={agreement.receivingInstitutionOunitName ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Gönderen Kurum Yetkili Kişinin E-Postası: '}
-            content={'Placeholder'}
+            content={agreement.sendingAcademicPersonnelEmail ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Alıcı Kurum Yetkili Kişinin E-Postası: '}
-            content={'Placeholder'}
+            content={agreement.receivingAcademicPersonnelEmail ?? '-'}
           ></DisplayText>
           <DisplayText
             label={'Öğrencinin E-Postası: '}
-            content={'Placeholder'}
+            content={agreement.studentEmail ?? '-'}
           ></DisplayText>
         </Flex>
       </Flex>
