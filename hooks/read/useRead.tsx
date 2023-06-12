@@ -4,6 +4,8 @@ import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse
 import { CollaborationConditionResponse } from '@/models/response/collaborationConditionResponse';
 import { CollaborationConditionType } from '@/models/response/collaborationConditionTypeResponse';
 import { ContactResponse, Contact } from '@/models/response/contactResponse';
+import { Course } from '@/models/response/courseResponse';
+
 import {
   DepartmentResponse,
   Department,
@@ -219,6 +221,53 @@ const useAgreement = () => {
     return genderNames;
   };
 
+  //https://localhost:5001/spGetTableANotApprovedCoursesForChangeProposals?pmp_id=28
+  const getTableANotApprovedCoursesForChangeProposals = async (
+    request: string
+  ): Promise<Course[]> => {
+    const courses: Course[] = await makeRequest<Course[]>(request);
+    return courses;
+  };
+
+  //https://localhost:5001/spGetTableAApprovedCoursesForChangeProposals?pmp_id=26'
+  const getTableAApprovedCoursesForChangeProposals = async (
+    request: string
+  ): Promise<Course[]> => {
+    const courses: Course[] = await makeRequest<Course[]>(request);
+    return courses;
+  };
+
+  //https://localhost:5001/spGetTableBNotApprovedCoursesForChangeProposals?pmp_id=28
+  const getTableBNotApprovedCoursesForChangeProposals = async (
+    request: string
+  ): Promise<Course[]> => {
+    const courses: Course[] = await makeRequest<Course[]>(request);
+    return courses;
+  };
+
+  //https://localhost:5001/spGetTableBApprovedCoursesForChangeProposals?pmp_id=26'
+  const getTableBApprovedCoursesForChangeProposals = async (
+    request: string
+  ): Promise<Course[]> => {
+    const courses: Course[] = await makeRequest<Course[]>(request);
+    return courses;
+  };
+  //https://localhost:5001/spGetTableCNotApprovedCoursesForChangeProposals?pmp_id=28
+  const getTableCNotApprovedCoursesForChangeProposals = async (
+    request: string
+  ): Promise<Course[]> => {
+    const courses: Course[] = await makeRequest<Course[]>(request);
+    return courses;
+  };
+
+  //https://localhost:5001/spGetTableCApprovedCoursesForChangeProposals?pmp_id=26'
+  const getTableCApprovedCoursesForChangeProposals = async (
+    request: string
+  ): Promise<Course[]> => {
+    const courses: Course[] = await makeRequest<Course[]>(request);
+    return courses;
+  };
+
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
@@ -238,6 +287,12 @@ const useAgreement = () => {
     GetNationalities,
     GetMobilityTypes,
     GetGenderNames,
+    getTableANotApprovedCoursesForChangeProposals,
+    getTableAApprovedCoursesForChangeProposals,
+    getTableBNotApprovedCoursesForChangeProposals,
+    getTableBApprovedCoursesForChangeProposals,
+    getTableCNotApprovedCoursesForChangeProposals,
+    getTableCApprovedCoursesForChangeProposals,
   };
 };
 
