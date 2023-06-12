@@ -41,7 +41,7 @@ export default function Home() {
           alt={'EWP Logo'}
         ></Image>
         <Box>
-          <Heading color={'#9C1F23'}>Welcome to EWP-IYTE!</Heading>
+          <Heading color={'#9C1F23'}>EWP IYTE'ye hoş geldiniz!</Heading>
         </Box>
       </Flex>
     </Flex>
