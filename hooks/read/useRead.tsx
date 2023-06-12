@@ -9,6 +9,7 @@ import {
   Department,
 } from '@/models/response/departmentResponse';
 import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
+import { Gender } from '@/models/response/genderResponse';
 import {
   InstitutionInfo,
   InstitutionInfoResponse,
@@ -212,6 +213,11 @@ const useAgreement = () => {
     );
     return mobilityTypes;
   };
+  //https://localhost:5001/spGetGenderNames
+  const GetGenderNames = async (request: string): Promise<Gender[]> => {
+    const genderNames: Gender[] = await makeRequest<Gender[]>(request);
+    return genderNames;
+  };
 
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
@@ -231,6 +237,7 @@ const useAgreement = () => {
     GetOrganizationCollaborationCondition,
     GetNationalities,
     GetMobilityTypes,
+    GetGenderNames,
   };
 };
 
