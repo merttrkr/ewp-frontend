@@ -42,16 +42,12 @@ const useCreate = () => {
   //https://localhost:5001/spGenerateIIAId
   const GenerateIIAID = async (request: string): Promise<string> => {
     const IIAID: string = await makeRequestString<string>(request);
-
-
     return IIAID;
   };
 
   //https://localhost:5001/spGenerateIIACode
   const GenerateIIACode = async (request: string): Promise<string> => {
     const IIACode: string = await makeRequestString<string>(request);
-
-
     return IIACode;
   };
 
@@ -72,10 +68,18 @@ const useCreate = () => {
       request: string
     ): Promise<IdForBothCollaborationConditionResponse[]> => {
       const idForBothCollaborationConditionResponse: IdForBothCollaborationConditionResponse[] =
-        await makeRequestJSON<IdForBothCollaborationConditionResponse[]>(request);
+        await makeRequestJSON<IdForBothCollaborationConditionResponse[]>(
+          request
+        );
 
       return idForBothCollaborationConditionResponse;
     };
+
+  //https://localhost:5001/spGenerateOmobilityId
+  const GenerateOmobilityId = async (request: string): Promise<string> => {
+    const omobilityId: string = await makeRequestString<string>(request);
+    return omobilityId;
+  };
 
   return {
     GenerateBilateralAgreementID,
@@ -83,6 +87,7 @@ const useCreate = () => {
     GenerateIIACode,
     GenerateIdsForBothOrganizationAndPartnerOrganization,
     GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition,
+    GenerateOmobilityId,
   };
 };
 
