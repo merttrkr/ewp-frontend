@@ -18,12 +18,11 @@ import InstitutionInformationFormIIA from '@/components/forms/InstitutionInforma
 import PreviewOrSaveForm from '@/components/forms/PreviewOrSaveForm';
 import useRead from '@/hooks/read/useRead';
 import { IdForBothCollaborationConditionResponse } from '@/models/response/idForBothCollaborationConditionResponse';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 export default function TabComponent() {
-  const router = useRouter()
-  const { id } = router.query
-
+  const router = useRouter();
+  const { id } = router.query;
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -40,15 +39,13 @@ export default function TabComponent() {
   const [bilateralAgreementState, setbilateralAgreementState] = useState('');
   const [saveState, setSaveState] = useState(0);
 
-
   const { CheckIfBilateralAgreementIsInEffect } = useRead();
-
 
   async function handleCheckIfBilateralAgreementIsInEffect() {
     const fetchBilateralAgreementIsInEffect = async () => {
       const data = await CheckIfBilateralAgreementIsInEffect(
         'https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=' +
-        bilateralAgreementID
+          bilateralAgreementID
       );
       if (data) {
         setbilateralAgreementState(data);
@@ -57,21 +54,19 @@ export default function TabComponent() {
     fetchBilateralAgreementIsInEffect();
   }
   useEffect(() => {
-
     let ids = id?.toString().split(',');
     console.log('ids', ids);
-    
-    if(ids !== undefined) {
+
+    if (ids !== undefined) {
       setNewOrganizationInfoId(Number(ids[0]));
 
       setNewPartnerOrganizationInfoId(Number(ids[1]));
-      
+
       setNewCollaborationConditionId(Number(ids[2]));
       setNewPartnerCollaborationConditionId(Number(ids[3]));
       setBilateralAgreementID(Number(ids[4]));
-     }
+    }
   }, [id]);
-
 
   useEffect(() => {
     handleCheckIfBilateralAgreementIsInEffect();
@@ -112,7 +107,6 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <InstitutionConditionsForm
-
             pageName='Kurumuma Ait Koşullar'
             subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
             collaborationConditionId={newCollaborationConditionId}
@@ -120,7 +114,6 @@ export default function TabComponent() {
             organizationInfoId={newOrganizationInfoId}
             partnerOrganizationInfoId={newPartnerOrganizationInfoId}
             partnerCollaborationConditionId={newPartnerCollaborationConditionId}
-
             isPartnerValue={0}
           />
           <InstitutionConditionsForm
