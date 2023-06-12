@@ -43,9 +43,9 @@ export default function MobilityProgramForm({
   pageName,
 }: MobilityProgramFormProps) {
   const {
-    getTableCApprovedCoursesForChangeProposals,
-    getTableCNotApprovedCoursesForChangeProposals,
-    getTotalCourseCreditsForTableC,
+    GetTableCApprovedCoursesForChangeProposals,
+    GetTableCNotApprovedCoursesForChangeProposals,
+    GetTotalCourseCreditsForTableC,
   } = useRead();
 
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -75,7 +75,7 @@ export default function MobilityProgramForm({
 
   const handleGetTableCNotApprovedCourses = async () => {
     try {
-      const courses = await getTableCNotApprovedCoursesForChangeProposals(
+      const courses = await GetTableCNotApprovedCoursesForChangeProposals(
         'https://localhost:5001/spGetTableCNotApprovedCoursesForChangeProposals?pmp_id=' +
           pmpID
       );
@@ -87,7 +87,7 @@ export default function MobilityProgramForm({
 
   const handleGetTableCApprovedCourses = async () => {
     try {
-      const courses = await getTableCApprovedCoursesForChangeProposals(
+      const courses = await GetTableCApprovedCoursesForChangeProposals(
         'https://localhost:5001/spGetTableCApprovedCoursesForChangeProposals?pmp_id=' +
           pmpID
       );
@@ -98,7 +98,7 @@ export default function MobilityProgramForm({
   };
   const handleGetTotalCourseCreditsForTableC = async () => {
     try {
-      const totalCredits = await getTotalCourseCreditsForTableC(
+      const totalCredits = await GetTotalCourseCreditsForTableC(
         'https://localhost:5001/spGetTotalCourseCreditsForTableC?pmp_id=' +
           pmpID
       );
