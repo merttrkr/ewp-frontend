@@ -183,7 +183,7 @@ export default function StudentInformationForm({
           <Stack w='50%' spacing={4} p='5'>
             <TextInput
               id='omobility_id'
-              label='Omobility-id'
+              label='Omobility id'
               placeholder='DENEME-ID-2'
               isDisabled
               error={errors.omobility_id?.message}
@@ -224,7 +224,7 @@ export default function StudentInformationForm({
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
             <TextInput
-              placeholder='Test Test'
+              placeholder=''
               label='Öğrencinin Soy İsmi'
               id='student_surname'
               error={errors.student_surname?.message}
