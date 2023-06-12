@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormContext, useForm } from 'react-hook-form';
+
 import {
   Stack,
   Heading,
@@ -8,7 +8,7 @@ import {
   FormControl,
 } from '@chakra-ui/react';
 
-type FormInputProps = {
+type TextInputProps = {
   label: string;
   id: string;
   placeholder: string;
@@ -18,7 +18,7 @@ type FormInputProps = {
   isDisabled?: boolean;
 };
 
-const FormInput: React.FC<FormInputProps> = ({
+const TextInput: React.FC<TextInputProps> = ({
   type = 'text',
   isDisabled = false,
   label,
@@ -58,4 +58,4 @@ const FormInput: React.FC<FormInputProps> = ({
   );
 };
 
-export default FormInput;
+export default TextInput;
