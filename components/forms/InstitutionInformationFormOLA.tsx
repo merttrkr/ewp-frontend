@@ -11,35 +11,48 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '@/components/form-components/inputs/TextInput1';
+import TextInput from '@/components/form-components/inputs/TextInput';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
+import { Department } from '@/models/response/departmentResponse';
+import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
+import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
 
 type InstitutionInformationFormProps = {
   pageName: String;
+  heiId?: string;
+  heiName?: string;
 };
 
 type FormData = {
-  sendingInstitutionName: string;
-  departmentName: string;
-  personalName: string;
-  personalSurname: string;
-  personalEposta: string;
-  phoneNumber: string;
+  hei_id: string;
+  department_name: string;
+  academic_personal_name: string;
+  academic_personal_surname: string;
+  academic_personal_eposta: string;
+  administrative_personal_name: string;
+  administrative_personal_surname: string;
+  administrative_personal_eposta: string;
+  phone_number: string;
   extension: string;
 };
 
 export default function InstitutionInformationForm({
   pageName,
+  heiId = '',
+  heiName = '',
 }: InstitutionInformationFormProps) {
   const [formValues, setFormValues] = useState<FormData>({
-    sendingInstitutionName: '',
-    departmentName: '',
-    personalName: '',
-    personalSurname: '',
-    personalEposta: '',
-    phoneNumber: '',
+    hei_id: '',
+    department_name: '',
+    academic_personal_name: '',
+    academic_personal_surname: '',
+    academic_personal_eposta: '',
+    administrative_personal_name: '',
+    administrative_personal_surname: '',
+    administrative_personal_eposta: '',
+    phone_number: '',
     extension: '',
   });
 
@@ -47,6 +60,10 @@ export default function InstitutionInformationForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
+  const [universityId, setUniversityId] = useState(heiId);
+  const [universityName, setUniversityName] = useState(heiName);
+  const [department, setDepartment] = useState('');
+  const [departmentID, setDepartmentID] = useState(0);
   const toast = useToast();
 
   //useForm hook
@@ -58,6 +75,16 @@ export default function InstitutionInformationForm({
     control,
   } = useForm<FormData>();
 
+  useEffect(() => {
+    if (heiId != '') {
+      setUniversityId(heiId);
+    }
+    if (heiName != '') {
+      setUniversityName(heiName);
+    }
+  }, [heiId]);
+  console.log('universityId başta', universityId);
+  console.log('universityName başta', universityName);
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
@@ -87,6 +114,29 @@ export default function InstitutionInformationForm({
       }
     });
   }
+  const handleSelectChangeDepartment = (value: Department | null) => {
+    if (value) {
+      setValue('department_name', value.organizationalUnitName);
+      setDepartment(value.organizationalUnitName);
+      setDepartmentID(value.id);
+    } else {
+      setValue('department_name', ''); // or any default value you want
+      setDepartment(''); // or any default value you want
+    }
+  };
+  const handleSelectChangeInstitution = (value: InstitutionInfo | null) => {
+    if (value) {
+      setValue('hei_id', value.heiId);
+      setUniversityId(value.heiId);
+      setUniversityName(value.UniName);
+      console.log('universityId ', universityId);
+      console.log('universityName ', universityName);
+    } else {
+      setValue('hei_id', ''); // or any default value you want
+      setDepartment(''); // or any default value you want
+    }
+  };
+
   return (
     <Flex direction={'column'}>
       <Stack
@@ -117,54 +167,87 @@ export default function InstitutionInformationForm({
         >
           <Flex>
             <Stack w='50%' spacing={4} p='5'>
-              <TextInput
-                label='Kurum / Üniversite Adı'
-                placeHolder='Selcuk University'
-                name='sendingInstitutionName'
+              <SelectInstitution
+                apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
+                id='instution_name'
+                register={register('hei_id')}
+                placeHolder={heiName}
+                selectLabel='Kurum / Üniversite Adı'
+                onChange={handleSelectChangeInstitution}
+                error={errors.hei_id?.message}
               />
-              <SelectAutoComplete
-                placeHolder='placeholder..'
+              <SelectDepartment
+                id='departmant_name'
+                register={register('department_name')}
+                placeHolder=''
                 selectLabel='Departman / Bölüm Adı'
+                onChange={handleSelectChangeDepartment}
+                param={universityId}
+                error={errors.department_name?.message}
               />
               <TextInput
-                placeHolder='Test Test'
+                id='academic_personal_name'
                 label='Akademik Personelin İsmi'
-                name='personalName'
+                placeholder={formValues.academic_personal_name}
+                error={errors.academic_personal_name?.message}
+                register={register('academic_personal_name')}
               />
+
               <TextInput
-                placeHolder='Test Test'
+                id='academic_personal_surname'
                 label='Akademik Personelin Soy İsmi'
-                name='personalSurname'
+                placeholder={formValues.academic_personal_surname}
+                error={errors.academic_personal_surname?.message}
+                register={register('academic_personal_surname')}
               />
+
               <TextInput
-                placeHolder='test@gmail.com'
+                id='academic_personal_eposta'
                 label='Akademik Personelin E-postası'
-                name='personalEposta'
+                placeholder={formValues.academic_personal_eposta}
+                error={errors.academic_personal_eposta?.message}
+                register={register('academic_personal_eposta')}
               />
             </Stack>
             <Stack w='50%' spacing={4} p='5'>
               <TextInput
-                placeHolder='Test Test'
+                id='administrative_personal_name'
                 label='İdari Personelin İsmi'
-                name='personalName'
-              />
-              <TextInput
-                placeHolder='Test Test'
-                label='İdari Personelin Soy İsmi'
-                name='personalSurname'
-              />
-              <TextInput
-                placeHolder='test@gmail.com'
-                label='İdari Personelin E-postası'
-                name='personalEposta'
+                placeholder={formValues.administrative_personal_name}
+                error={errors.administrative_personal_name?.message}
+                register={register('administrative_personal_name')}
               />
 
               <TextInput
-                placeHolder='placeholder..'
-                name='0'
-                label='Telefon Numarası (E164 Formatında Belirtiniz)'
+                id='administrative_personal_surname'
+                label='İdari Personelin Soy İsmi'
+                placeholder={formValues.administrative_personal_surname}
+                error={errors.administrative_personal_surname?.message}
+                register={register('administrative_personal_surname')}
               />
-              <TextInput placeHolder='placeholder..' name='0' label='Dahili' />
+              <Box height={1}></Box>
+              <TextInput
+                id='administrative_personal_eposta'
+                label='İdari Personelin E-postası'
+                placeholder={formValues.administrative_personal_eposta}
+                error={errors.administrative_personal_eposta?.message}
+                register={register('administrative_personal_eposta')}
+              />
+
+              <TextInput
+                id='phone_number'
+                label='Telefon Numarası (E164 Formatında Belirtiniz)'
+                placeholder={formValues.phone_number}
+                error={errors.phone_number?.message}
+                register={register('phone_number')}
+              />
+              <TextInput
+                id='extension'
+                label='Dahili'
+                placeholder={formValues.extension}
+                error={errors.extension?.message}
+                register={register('extension')}
+              />
             </Stack>
           </Flex>
           <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
