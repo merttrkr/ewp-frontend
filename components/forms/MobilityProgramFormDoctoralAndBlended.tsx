@@ -50,6 +50,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const {
     getApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
     getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
+    getTotalCourseCreditsForBlendedOrDoctorate,
   } = useRead();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -68,6 +69,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     blendedOrDoctorateNotApprovedArray,
     setBlendedOrDoctorateNotApprovedArray,
   ] = useState<Course[]>([]);
+  const [totalCourseCredits, setTotalCourseCredits] = useState(0);
   const [pmpID, setPmpID] = useState(26);
   const toast = useToast();
 
@@ -94,7 +96,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const handleGetNotApprovedCoursesOfBlendedOrDoctorate = async () => {
     try {
       const courses =
-        await getApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
+        await getNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
           'https://localhost:5001/spGetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=' +
             pmpID
         );
@@ -103,9 +105,22 @@ export default function MobilityProgramFormDoctoralAndBlended({
       console.error('Error fetching courses:', error);
     }
   };
+
+  const handleGetTotalCourseCreditsForBlendedOrDoctorate = async () => {
+    try {
+      const courseCredits = await getTotalCourseCreditsForBlendedOrDoctorate(
+        'https://localhost:5001/spGetTotalCourseCreditsForBlendedOrDoctorate?pmp_id=' +
+          pmpID
+      );
+      setTotalCourseCredits(courseCredits);
+    } catch (error) {
+      console.error('Error fetching total course credits:', error);
+    }
+  };
   useEffect(() => {
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetApprovedCoursesOfBlendedOrDoctorate();
+    handleGetTotalCourseCreditsForBlendedOrDoctorate();
   }, []);
 
   const onSubmit = (values: FormData) => {
@@ -326,7 +341,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Derslerin Toplam Kredi Değeri:
             </Text>
-            <Text>0</Text>
+            {totalCourseCredits}
           </Flex>
 
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
