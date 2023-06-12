@@ -114,6 +114,17 @@ export default function MobilityProgramForm({
     handleGetTotalCourseCreditsForTableC();
   }, []);
 
+  const handleAddComponent = (component: Course) => {
+    const newArray: Course[] = [...tableCNotApprovedArray, component];
+    setTableCNotApprovedArray(newArray);
+  };
+  const handleDeleteComponent = (component: Course) => {
+    const newArray: Course[] = tableCNotApprovedArray.filter(
+      (item) => item !== component
+    );
+    setTableCNotApprovedArray(newArray);
+  };
+
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       try {
@@ -198,6 +209,7 @@ export default function MobilityProgramForm({
             <AddComponentModal
               placeholder='Ders Ekle +'
               tableType='C'
+              sendModal={handleAddComponent}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
@@ -269,6 +281,7 @@ export default function MobilityProgramForm({
                           icon={<BiTrash />}
                           height={8}
                           borderRadius='md'
+                          onClick={() => handleDeleteComponent(row)}
                         />
                       </Td>
                       <Td>{row.courseTitle}</Td>
