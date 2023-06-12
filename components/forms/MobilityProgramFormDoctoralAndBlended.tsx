@@ -19,7 +19,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '../form-components/inputs/TextInput1';
+import TextInput from '../form-components/inputs/TextInput';
 import { BiTrash } from 'react-icons/bi';
 import AddComponentModal from './AddComponentModal';
 import { useForm } from 'react-hook-form';
@@ -191,7 +191,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
             <Text fontSize={'lg'} fontWeight={'bold'} color={HeadingColor}>
               Alıcı Kurumda Çalışılması Planlanılan Komponentler (Dersler)
             </Text>
-            <AddComponentModal placeHolder='Ders Ekle +'></AddComponentModal>
+            <AddComponentModal placeholder='Ders Ekle +'></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
             </Text>
@@ -317,8 +317,10 @@ export default function MobilityProgramFormDoctoralAndBlended({
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
             <TextInput
               label='Alıcı Kurumdaki Kurs Kataloğu Linki'
-              placeHolder='www.iyte.edu.tr'
-              name='link'
+              placeholder='www.iyte.edu.tr'
+              id='link'
+              error={errors.link?.message}
+              register={register('link')}
             ></TextInput>
             <Flex gap={4}>
               <Box w={'50%'}>

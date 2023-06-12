@@ -17,7 +17,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '../form-components/inputs/TextInput1';
+import TextInput from '../form-components/inputs/TextInput';
 import DateInput from '../form-components/inputs/DateInput';
 import { BiTrash } from 'react-icons/bi';
 import AddComponentModal from './AddComponentModal';
@@ -33,11 +33,12 @@ type MobilityProgramFormLongTermProps = {
   pageName: String;
 };
 type FormData = {
-  link: string;
   mobility_start_date: string;
   mobility_end_date: string;
   language: string;
   language_level: string;
+  link_a: string;
+  link_b: string;
 };
 export default function MobilityProgramFormLongTerm({
   pageName,
@@ -193,7 +194,7 @@ export default function MobilityProgramFormLongTerm({
               Tablo A
             </Text>
             <AddComponentModal
-              placeHolder='Ders Ekle +'
+              placeholder='Ders Ekle +'
               tableType='A'
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
@@ -305,8 +306,10 @@ export default function MobilityProgramFormLongTerm({
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
             <TextInput
               label='Alıcı Kurumdaki Kurs Kataloğu Linki'
-              placeHolder='www.iyte.edu.tr'
-              name='link'
+              placeholder='www.iyte.edu.tr'
+              id='link_a'
+              error={errors.link_a?.message}
+              register={register('link_a')}
             ></TextInput>
             <Flex gap={4}>
               <Box w={'50%'}>
@@ -341,7 +344,7 @@ export default function MobilityProgramFormLongTerm({
               Tablo B
             </Text>
             <AddComponentModal
-              placeHolder='Ders Ekle +'
+              placeholder='Ders Ekle +'
               tableType='B'
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
@@ -463,8 +466,10 @@ export default function MobilityProgramFormLongTerm({
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
             <TextInput
               label='Alıcı Kurumdaki Kurs Kataloğu Linki'
-              placeHolder='www.iyte.edu.tr'
-              name='link'
+              placeholder='www.iyte.edu.tr'
+              id='link_b'
+              error={errors.link_b?.message}
+              register={register('link_b')}
             ></TextInput>
             <Flex gap={4}>
               <Box w={'50%'}>
