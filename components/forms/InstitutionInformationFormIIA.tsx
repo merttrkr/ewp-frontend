@@ -8,7 +8,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import TextInput from '../form-components/inputs/TextInput';
-import DatePickerInput from '../form-components/inputs/DatePickerInput';
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 //selectboxes
@@ -26,6 +25,7 @@ import getFormattedDate from '@/helper/currentDate';
 import { useToast } from '@chakra-ui/react';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import useRead from '@/hooks/read/useRead';
+import DateInput from '../form-components/inputs/DateInput';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -92,9 +92,7 @@ export default function InstitutionInformationForm({
   const [institutionID, setInstitutionId] = useState(0);
 
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
-
-  //date picker input state
-  const [startDate, setStartDate] = useState(getFormattedDate());
+  const [signingDateInp, setSigningDateInp] = useState<string>('');
   console.log('bilateralAgreementID:', bilateralAgreementID);
   console.log('organizationInfoId:', organizationInfoId);
   console.log('  isPartnerValue:', isPartnerValue);
@@ -206,7 +204,7 @@ export default function InstitutionInformationForm({
         id: organizationInfoId,
         university_id: institutionID,
         universityDepartment_id: departmentID,
-        signingDate: startDate,
+        signingDate: signingDateInp,
         isPartner: isPartnerValue,
         IIACode: IIACode,
         IIAId: IIAID,
@@ -242,7 +240,6 @@ export default function InstitutionInformationForm({
   }
   //submit function
   function onSubmit(values: FormData) {
-    values.signing_date = startDate;
     values.IIA_ID = IIAID;
     values.IIA_Code = IIACode;
 
@@ -350,7 +347,7 @@ export default function InstitutionInformationForm({
       setDepartment(organizationInfo?.ounitName);
       setIIACode(organizationInfo?.IIACode);
       setIIAID(organizationInfo?.IIAID);
-      setStartDate(organizationInfo?.signingDate);
+      setSigningDateInp(organizationInfo?.signingDate);
       setAuthorizedSignotary(organizationInfo?.signingPersonFullName);
       setContactPerson(organizationInfo?.signingPersonFullName);
 
@@ -373,6 +370,16 @@ export default function InstitutionInformationForm({
       fetchInitialData();
     }
   }
+
+  const handleSigningDateChange = (value: string) => {
+    if (value !== '') {
+      setValue('signing_date', value); // You can format the date value as needed
+      setSigningDateInp(value);
+    } else {
+      setValue('signing_date', ''); // or any default value you want
+      setSigningDateInp('');
+    }
+  };
 
   return (
     <Stack
@@ -465,10 +472,13 @@ export default function InstitutionInformationForm({
               error={errors.IIA_ID?.message}
               register={register('IIA_ID')}
             />
-            <DatePickerInput
-              datePickerInputLabel='İmzalanma Tarihi'
-              startDate={startDate}
-              setStartDate={setStartDate}
+            <DateInput
+              id='signing_date'
+              register={register('signing_date')}
+              placeholder=''
+              label='İmzalanma Tarihi'
+              onChange={handleSigningDateChange}
+              error={errors.signing_date?.message}
             />
 
             <Flex w={'full'} bg={'gray.100'}></Flex>
