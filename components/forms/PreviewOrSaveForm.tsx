@@ -6,7 +6,9 @@ import {
   Input,
   Stack,
   Text,
+  Toast,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import DisplayText from '../form-components/DisplayText';
 import useRead from '@/hooks/read/useRead';
@@ -40,6 +42,7 @@ export default function PreviewOrSaveForm({
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
   const [contactPerson, setContactPerson] = useState([] as string[] );
+  const toast = useToast();
   useEffect(() => {
     handleGetOrganizationInfo();
     handleGetSelectedContactInfoOfOrganizationInfo();
@@ -84,7 +87,16 @@ export default function PreviewOrSaveForm({
  
   }
   
+function successToast() {
 
+  toast({
+    title: 'Kayıt Başarılı.',
+    description: 'Anlaşma Taslak olarak kaydedildi.',
+    status: 'success',
+    position: 'top-right',
+    duration: 5000,
+    isClosable: true,
+  });}
 
   return (
     <Stack
@@ -110,7 +122,7 @@ export default function PreviewOrSaveForm({
         {pageName}
       </Heading>
       <Flex gap={3} justifyContent={'center'} p={6}>
-        <Button variant='condition' type='submit'>
+        <Button  onClick={successToast} variant='condition' type='submit'>
           Anlaşmayı Taslak Olarak Kaydet
         </Button>
         <Button variant='autoWidthFull' type='reset'>
@@ -132,33 +144,33 @@ export default function PreviewOrSaveForm({
           <Stack w='50%' spacing={4} p='5'>
             <DisplayText
               label={'Kurum / Üniversite Adı'}
-              content={organizationInfo?.uniName ?? 'NOT FOUND'}
+              content={organizationInfo?.uniName ?? '-'}
             ></DisplayText>
             <DisplayText
               label={'İkili Anlaşma Kodu (IIA-Kodu)'}
-              content={organizationInfo?.IIACode ?? 'NOT FOUND'}
+              content={organizationInfo?.IIACode ?? '-'}
             ></DisplayText>
             <DisplayText
               label={'Anlaşmayı İmzalayacak Yetkili'}
-              content={organizationInfo?.signingPersonFullName ?? 'NOT FOUND'}
+              content={organizationInfo?.signingPersonFullName ?? '-'}
             ></DisplayText>
             <DisplayText
               label={'İletişim Kurulabilecek Yetkililer'}
-              content={contactPerson.join(', ')  ?? 'NOT FOUND'}
+              content={contactPerson.join(', ')  ?? '-'}
             ></DisplayText>
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
             <DisplayText
               label={'Departman / Bölüm Adı'}
-              content={organizationInfo?.ounitName ?? 'NOT FOUND'}
+              content={organizationInfo?.ounitName ?? '-'}
             ></DisplayText>
             <DisplayText
               label={'İkili Anlaşma IDsi (IIA-ID)'}
-              content={organizationInfo?.IIAID ?? 'NOT FOUND'}
+              content={organizationInfo?.IIAID ?? '-'}
             ></DisplayText>
             <DisplayText 
             label='İmzalanma Tarihi' 
-            content={ organizationInfo?.signingDate ?? 'NOT FOUND'} 
+            content={ organizationInfo?.signingDate ?? '-'} 
             />
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
