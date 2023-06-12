@@ -22,12 +22,14 @@ import DateInput from '../form-components/inputs/DateInput';
 import { BiTrash } from 'react-icons/bi';
 import AddComponentModal from './AddComponentModal';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import getFormattedDate from '@/helper/currentDate';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
 import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
+import useRead from '@/hooks/read/useRead';
+import { Course } from '@/models/response/courseResponse';
 
 type MobilityProgramFormLongTermProps = {
   pageName: String;
@@ -43,6 +45,12 @@ type FormData = {
 export default function MobilityProgramFormLongTerm({
   pageName,
 }: MobilityProgramFormLongTermProps) {
+  const {
+    getTableANotApprovedCoursesForChangeProposals,
+    getTableAApprovedCoursesForChangeProposals,
+    getTableBNotApprovedCoursesForChangeProposals,
+    getTableBApprovedCoursesForChangeProposals,
+  } = useRead();
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
@@ -50,7 +58,15 @@ export default function MobilityProgramFormLongTerm({
   const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
-
+  const [tableANotApprovedArray, setTableANotApprovedArray] = useState<
+    Course[]
+  >([]);
+  const [tableAApprovedArray, setTableAApprovedArray] = useState<Course[]>([]);
+  const [tableBNotApprovedArray, setTableBNotApprovedArray] = useState<
+    Course[]
+  >([]);
+  const [tableBApprovedArray, setTableBApprovedArray] = useState<Course[]>([]);
+  const [pmpID, setPmpID] = useState(26);
   const toast = useToast();
 
   const {
@@ -60,6 +76,60 @@ export default function MobilityProgramFormLongTerm({
     setValue,
     control,
   } = useForm<FormData>();
+
+  const handleGetTableANotApprovedCourses = async () => {
+    try {
+      const courses = await getTableANotApprovedCoursesForChangeProposals(
+        'https://localhost:5001/spGetTableANotApprovedCoursesForChangeProposals?pmp_id=' +
+          pmpID
+      );
+      setTableANotApprovedArray(courses);
+    } catch (error) {
+      console.error('Error fetching table A courses:', error);
+    }
+  };
+
+  const handleGetTableBNotApprovedCourses = async () => {
+    try {
+      const courses = await getTableBNotApprovedCoursesForChangeProposals(
+        'https://localhost:5001/spGetTableBNotApprovedCoursesForChangeProposals?pmp_id=' +
+          pmpID
+      );
+      setTableBNotApprovedArray(courses);
+    } catch (error) {
+      console.error('Error fetching table B courses:', error);
+    }
+  };
+  const handleGetTableAApprovedCourses = async () => {
+    try {
+      const courses = await getTableAApprovedCoursesForChangeProposals(
+        'https://localhost:5001/spGetTableAApprovedCoursesForChangeProposals?pmp_id=' +
+          pmpID
+      );
+      setTableAApprovedArray(courses);
+    } catch (error) {
+      console.error('Error fetching table A courses:', error);
+    }
+  };
+
+  const handleGetTableBApprovedCourses = async () => {
+    try {
+      const courses = await getTableBApprovedCoursesForChangeProposals(
+        'https://localhost:5001/spGetTableBApprovedCoursesForChangeProposals?pmp_id=' +
+          pmpID
+      );
+      setTableBApprovedArray(courses);
+    } catch (error) {
+      console.error('Error fetching table B courses:', error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetTableANotApprovedCourses();
+    handleGetTableBNotApprovedCourses();
+    handleGetTableAApprovedCourses();
+    handleGetTableBApprovedCourses();
+  }, []);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
@@ -255,42 +325,26 @@ export default function MobilityProgramFormLongTerm({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>
-                      <IconButton
-                        colorScheme='blue'
-                        aria-label='delete button'
-                        icon={<BiTrash />}
-                        height={8}
-                        borderRadius='md'
-                      />
-                    </Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <IconButton
-                        colorScheme='blue'
-                        aria-label='delete button'
-                        icon={<BiTrash />}
-                        height={8}
-                        borderRadius='md'
-                      />
-                    </Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
+                  {tableANotApprovedArray.map((row) => (
+                    <Tr key={row.id}>
+                      <Td>
+                        <IconButton
+                          colorScheme='blue'
+                          aria-label='delete button'
+                          icon={<BiTrash />}
+                          height={8}
+                          borderRadius='md'
+                        />
+                      </Td>
+                      <Td>{row.courseTitle}</Td>
+                      <Td>{row.courseCreditType}</Td>
+                      <Td>{row.courseCreditValue}</Td>
+                      <Td>{row.numberOfTerms}</Td>
+                      <Td>{row.totalNumberOfTerms}</Td>
+                      <Td>{row.courseCode}</Td>
+                      <Td>{row.status}</Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
