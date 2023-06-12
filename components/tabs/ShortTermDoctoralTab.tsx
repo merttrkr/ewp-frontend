@@ -40,7 +40,11 @@ export default function TabComponent() {
           <StudentInformationForm pageName='Öğrenciye Ait Bilgiler' />
         </TabPanel>
         <TabPanel>
-          <InstitutionInformationFormOLA pageName='Gönderen Kurum /Üniversite Bilgisi' />
+          <InstitutionInformationFormOLA
+            pageName='Gönderen Kurum /Üniversite Bilgisi'
+            heiId='iyte.edu.tr'
+            heiName='Izmir Institute Of Technology'
+          />
           <InstitutionInformationFormOLA pageName='Alıcı Kurum /Üniversite Bilgisi' />
         </TabPanel>
         <TabPanel>
