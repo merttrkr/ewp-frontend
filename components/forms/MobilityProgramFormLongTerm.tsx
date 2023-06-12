@@ -23,7 +23,6 @@ import { BiTrash } from 'react-icons/bi';
 import AddComponentModal from './AddComponentModal';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import getFormattedDate from '@/helper/currentDate';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
 import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
@@ -46,12 +45,12 @@ export default function MobilityProgramFormLongTerm({
   pageName,
 }: MobilityProgramFormLongTermProps) {
   const {
-    getTableANotApprovedCoursesForChangeProposals,
-    getTableAApprovedCoursesForChangeProposals,
-    getTableBNotApprovedCoursesForChangeProposals,
-    getTableBApprovedCoursesForChangeProposals,
-    getTotalCourseCreditsForTableA,
-    getTotalCourseCreditsForTableB,
+    GetTableANotApprovedCoursesForChangeProposals,
+    GetTableAApprovedCoursesForChangeProposals,
+    GetTableBNotApprovedCoursesForChangeProposals,
+    GetTableBApprovedCoursesForChangeProposals,
+    GetTotalCourseCreditsForTableA,
+    GetTotalCourseCreditsForTableB,
   } = useRead();
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
@@ -83,7 +82,7 @@ export default function MobilityProgramFormLongTerm({
 
   const handleGetTableANotApprovedCourses = async () => {
     try {
-      const courses = await getTableANotApprovedCoursesForChangeProposals(
+      const courses = await GetTableANotApprovedCoursesForChangeProposals(
         'https://localhost:5001/spGetTableANotApprovedCoursesForChangeProposals?pmp_id=' +
           pmpID
       );
@@ -95,7 +94,7 @@ export default function MobilityProgramFormLongTerm({
 
   const handleGetTableBNotApprovedCourses = async () => {
     try {
-      const courses = await getTableBNotApprovedCoursesForChangeProposals(
+      const courses = await GetTableBNotApprovedCoursesForChangeProposals(
         'https://localhost:5001/spGetTableBNotApprovedCoursesForChangeProposals?pmp_id=' +
           pmpID
       );
@@ -106,7 +105,7 @@ export default function MobilityProgramFormLongTerm({
   };
   const handleGetTableAApprovedCourses = async () => {
     try {
-      const courses = await getTableAApprovedCoursesForChangeProposals(
+      const courses = await GetTableAApprovedCoursesForChangeProposals(
         'https://localhost:5001/spGetTableAApprovedCoursesForChangeProposals?pmp_id=' +
           pmpID
       );
@@ -118,7 +117,7 @@ export default function MobilityProgramFormLongTerm({
 
   const handleGetTableBApprovedCourses = async () => {
     try {
-      const courses = await getTableBApprovedCoursesForChangeProposals(
+      const courses = await GetTableBApprovedCoursesForChangeProposals(
         'https://localhost:5001/spGetTableBApprovedCoursesForChangeProposals?pmp_id=' +
           pmpID
       );
@@ -129,7 +128,7 @@ export default function MobilityProgramFormLongTerm({
   };
   const handleGetTotalCourseCreditsForTableA = async () => {
     try {
-      const totalCourseCredits = await getTotalCourseCreditsForTableA(
+      const totalCourseCredits = await GetTotalCourseCreditsForTableA(
         'https://localhost:5001/spGetTotalCourseCreditsForTableA?pmp_id=' +
           pmpID
       );
@@ -141,7 +140,7 @@ export default function MobilityProgramFormLongTerm({
 
   const handleGetTotalCourseCreditsForTableB = async () => {
     try {
-      const totalCourseCredits = await getTotalCourseCreditsForTableB(
+      const totalCourseCredits = await GetTotalCourseCreditsForTableB(
         'https://localhost:5001/spGetTotalCourseCreditsForTableB?pmp_id=' +
           pmpID
       );
