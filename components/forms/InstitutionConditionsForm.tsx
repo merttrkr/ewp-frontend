@@ -47,6 +47,7 @@ type InstitutionConditionsFormProps = {
   organizationInfoId: number;
   partnerOrganizationInfoId: number;
   partnerCollaborationConditionId: number;
+  saveState: number;
 };
 
 type FormData = {
@@ -78,6 +79,7 @@ export default function InstitutionConditionsForm({
   organizationInfoId,
   partnerOrganizationInfoId,
   partnerCollaborationConditionId,
+  saveState,
 }: InstitutionConditionsFormProps) {
   //get hooks
   const {
@@ -201,6 +203,7 @@ export default function InstitutionConditionsForm({
       handleGetPartnerOrganizationCollaborationCondition();
     }
   }, [
+    saveState,
     collaborationConditionId,
     organizationInfoId,
     partnerOrganizationInfoId,
@@ -601,11 +604,10 @@ export default function InstitutionConditionsForm({
           <SelectCollaborationCondition
             id='condition_type'
             error={errors.condition_type?.message}
-            register={register('condition_type', {
-              required: 'This is required',
-            })}
+            register={register('condition_type')}
             placeholder='Öğrenim'
             selectLabel='Koşul seçiniz'
+            
             onChange={handleConditionChange}
           ></SelectCollaborationCondition>
         </Flex>
@@ -616,6 +618,7 @@ export default function InstitutionConditionsForm({
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='sender_instution_name'
               register={register('sender_hei_id')}
+              isDisabled
               placeHolder={senderInstitution}
               selectLabel='Gönderen Kurum / Üniversite Adı'
               onChange={handleSenderInstitutionChange}
@@ -626,6 +629,7 @@ export default function InstitutionConditionsForm({
               register={register('sender_department')}
               placeHolder={senderDepartment}
               selectLabel='Gönderen Kurum Departman / Bölüm Adı'
+              isDisabled
               onChange={handleSenderDepartmentChange}
               param={senderInstitution}
               error={errors.sender_department?.message}
@@ -635,6 +639,7 @@ export default function InstitutionConditionsForm({
               error={errors.sender_contact_person?.message}
               register={register('sender_contact_person')}
               placeholder={senderContactPerson}
+              isDisabled
               selectLabel='Gönderen Kurumdaki İletişim Kurulabilecek Yetkililer'
               onChange={handleSenderContactChange}
               param={senderInstitution}
@@ -681,6 +686,7 @@ export default function InstitutionConditionsForm({
               id='receiver_instution_name'
               register={register('receiver_hei_id')}
               placeHolder={receiverInstitution}
+              isDisabled
               selectLabel='Alıcı Kurum / Üniversite Adı'
               onChange={handleReceiverInstitutionChange}
               error={errors.receiver_hei_id?.message}
@@ -691,12 +697,14 @@ export default function InstitutionConditionsForm({
               register={register('receiver_department')}
               placeHolder={receiverDepartment}
               selectLabel='Alıcı Kurum Departman / Bölüm Adı'
+              isDisabled
               onChange={handleReceiverDepartmentChange}
               param={receiverInstitution}
               error={errors.receiver_department?.message}
             />
             <SelectContact
               id='contact_persons'
+              isDisabled
               error={errors.receiver_contact_person?.message}
               register={register('receiver_contact_person')}
               placeholder={receiverContactPerson}
