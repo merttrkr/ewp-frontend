@@ -63,7 +63,6 @@ const DateInput: React.FC<DateInputProps> = ({
           type='date'
           value={selectedDate}
           onChange={handleDateChange}
-          isInvalid={!!error}
         />
         {error && (
           <Box mt={1} color='red.500' fontSize='sm'>
