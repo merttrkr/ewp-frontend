@@ -16,7 +16,6 @@ export default function DisplayText({ label, content }: DisplayTextProps) {
         as='h3'
         fontSize='md'
         fontWeight={'medium'}
-        noOfLines={1}
         color={HeadingColor}
       >
         {label}
