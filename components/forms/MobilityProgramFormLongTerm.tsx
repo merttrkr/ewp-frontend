@@ -50,6 +50,8 @@ export default function MobilityProgramFormLongTerm({
     getTableAApprovedCoursesForChangeProposals,
     getTableBNotApprovedCoursesForChangeProposals,
     getTableBApprovedCoursesForChangeProposals,
+    getTotalCourseCreditsForTableA,
+    getTotalCourseCreditsForTableB,
   } = useRead();
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
@@ -67,6 +69,8 @@ export default function MobilityProgramFormLongTerm({
   >([]);
   const [tableBApprovedArray, setTableBApprovedArray] = useState<Course[]>([]);
   const [pmpID, setPmpID] = useState(26);
+  const [totalACourseCredits, setTotalACourseCredits] = useState(0);
+  const [totalBCourseCredits, setTotalBCourseCredits] = useState(0);
   const toast = useToast();
 
   const {
@@ -123,12 +127,37 @@ export default function MobilityProgramFormLongTerm({
       console.error('Error fetching table B courses:', error);
     }
   };
+  const handleGetTotalCourseCreditsForTableA = async () => {
+    try {
+      const totalCourseCredits = await getTotalCourseCreditsForTableA(
+        'https://localhost:5001/spGetTotalCourseCreditsForTableA?pmp_id=' +
+          pmpID
+      );
+      setTotalACourseCredits(totalCourseCredits);
+    } catch (error) {
+      console.error('Error fetching total course credits for Table A:', error);
+    }
+  };
+
+  const handleGetTotalCourseCreditsForTableB = async () => {
+    try {
+      const totalCourseCredits = await getTotalCourseCreditsForTableB(
+        'https://localhost:5001/spGetTotalCourseCreditsForTableB?pmp_id=' +
+          pmpID
+      );
+      setTotalBCourseCredits(totalCourseCredits);
+    } catch (error) {
+      console.error('Error fetching total course credits for Table B:', error);
+    }
+  };
 
   useEffect(() => {
     handleGetTableANotApprovedCourses();
     handleGetTableBNotApprovedCourses();
     handleGetTableAApprovedCourses();
     handleGetTableBApprovedCourses();
+    handleGetTotalCourseCreditsForTableA(); // Call the new function
+    handleGetTotalCourseCreditsForTableB(); // Call the new function
   }, []);
 
   const onSubmit = (values: FormData) => {
@@ -343,11 +372,11 @@ export default function MobilityProgramFormLongTerm({
             </TableContainer>
           </Flex>
 
-          <Flex pl={5}>
+          <Flex pl={5} gap={4}>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Derslerin Toplam Kredi Değeri:
             </Text>
-            <Text>0</Text>
+            <Text>{totalACourseCredits}</Text>
           </Flex>
 
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
@@ -478,11 +507,11 @@ export default function MobilityProgramFormLongTerm({
             </TableContainer>
           </Flex>
 
-          <Flex pl={5}>
+          <Flex pl={5} gap={4}>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Derslerin Toplam Kredi Değeri:
             </Text>
-            <Text>0</Text>
+            <Text>{totalBCourseCredits}</Text>
           </Flex>
 
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
