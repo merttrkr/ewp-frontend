@@ -48,7 +48,8 @@ export default function PreviewOLA({ agreement }: PreviewOLAProps) {
           <Text fontWeight={'bold'} fontSize={'sm'}>
             Seçilen Hareketlilik Tipi:
           </Text>
-          <Text fontSize={'sm'}>Uzun Dönem</Text>
+          <Text fontSize={'sm'}>{agreement.mobilityType}</Text>
+          <Text fontSize={'sm'}>{agreement.proposedMobilityProgramme_id}</Text>
         </Flex>
 
         <Button variant={'white'} rightIcon={<FiChevronRight />}>
