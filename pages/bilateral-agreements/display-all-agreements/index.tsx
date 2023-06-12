@@ -19,8 +19,9 @@ export default function DisplayAgreements() {
     async function fetchBilateralAgreements() {
       try {
         const data = await GetBilateralAgreements('https://localhost:5001/spGetBilateralAgreements');
-        if (data && data.length > 0) {
-          setBilateralAgreements(data);
+        if (data && data.length > 0)  {
+          const filteredData = data.filter(item => item.ownIIACode || item.partnerIIACode); // Filter out items where IIACode does not exist or is null
+          setBilateralAgreements(filteredData);
         }
       } catch (error) {
         console.error('Error fetching bilateral agreements:', error);
