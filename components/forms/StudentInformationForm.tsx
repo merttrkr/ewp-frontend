@@ -1,20 +1,15 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
-  HStack,
   Heading,
   Stack,
-  Text,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
-import TextInput from '@/components/form-components/inputs/TextInput1';
-import CheckBoxInput from '@/components/form-components/inputs/CheckBoxInput';
-import DisplayText from '../form-components/DisplayText';
+import TextInput from '@/components/form-components/inputs/TextInput';
 import DatePickerInput from '../form-components/inputs/DatePickerInput';
 import SelectISCED from '../form-components/selectboxes/SelectISCED';
 import { useForm } from 'react-hook-form';
@@ -35,6 +30,13 @@ type FormData = {
   isced_code_and_fields: string;
   nationality: string;
   mobility_type: string;
+  omobility_id: string;
+  gender: string;
+  student_name: string;
+  isced_explanation: string;
+  eur_student_identifier: string;
+  student_surname: string;
+  student_email: string;
 };
 
 export default function StudentInformationForm({
@@ -180,15 +182,19 @@ export default function StudentInformationForm({
         <Flex>
           <Stack w='50%' spacing={4} p='5'>
             <TextInput
+              id='omobility_id'
               label='Omobility-id'
-              placeHolder='DENEME-ID-2'
-              name='omobilityId'
+              placeholder='DENEME-ID-2'
               isDisabled
+              error={errors.omobility_id?.message}
+              register={register('omobility_id')}
             />
             <TextInput
-              placeHolder='Test Test'
+              id='student_name'
+              placeholder=''
               label='Öğrencinin İsmi'
-              name='name'
+              error={errors.student_name?.message}
+              register={register('student_name')}
             />
 
             <SelectAutoComplete
@@ -201,9 +207,11 @@ export default function StudentInformationForm({
               datePickerInputLabel='Öğrencinin Doğum Tarihi'
             />
             <TextInput
-              placeHolder='test@gmail.com'
+              placeholder='test@gmail.com'
               label='Öğrencinin E-postası'
-              name='eposta'
+              id='student_email'
+              error={errors.student_email?.message}
+              register={register('student_email')}
             />
             <SelectISCED
               id='isced_code_and_fields'
@@ -216,9 +224,11 @@ export default function StudentInformationForm({
           </Stack>
           <Stack w='50%' spacing={4} p='5'>
             <TextInput
-              placeHolder='Test Test'
+              placeholder='Test Test'
               label='Öğrencinin Soy İsmi'
-              name='name'
+              id='student_surname'
+              error={errors.student_surname?.message}
+              register={register('student_surname')}
             />
             <SelectNationality
               id='nationality'
@@ -241,15 +251,18 @@ export default function StudentInformationForm({
               error={errors.education_type_and_level?.message}
             ></SelectEducationTypeAndLevel>
             <TextInput
-              placeHolder='placeholder..'
-              name='0'
-              label='European Student Identifer (Öğrencinin Global ID`si)'
-              isDisabled
+              placeholder=''
+              id='eur_student_identifier'
+              label='European Student Identifier'
+              error={errors.eur_student_identifier?.message}
+              register={register('eur_student_identifier')}
             />
             <TextInput
-              placeHolder='placeholder..'
-              name='0'
-              label='ISCED Açıklaması'
+              placeholder=''
+              label='ISCED Explanation'
+              id='isced_explanation'
+              error={errors.isced_explanation?.message}
+              register={register('isced_explanation')}
             />
           </Stack>
         </Flex>
