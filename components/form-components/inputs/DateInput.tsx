@@ -61,7 +61,7 @@ const DateInput: React.FC<DateInputProps> = ({
           placeholder={placeholder}
           size='md'
           type='date'
-          value={selectedDate}
+          value={placeholder }
           onChange={handleDateChange}
         />
         {error && (
