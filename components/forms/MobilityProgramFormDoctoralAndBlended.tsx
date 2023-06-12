@@ -83,7 +83,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     try {
       const courses =
         await getApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
-          'https://localhost:5001/spGetTableAApprovedCoursesForChangeProposals?pmp_id=' +
+          'https://localhost:5001/spGetApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=' +
             pmpID
         );
       setBlendedOrDoctorateApprovedArray(courses);
@@ -95,7 +95,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     try {
       const courses =
         await getApprovedCoursesOfBlendedOrDoctorateForChangeProposals(
-          'https://localhost:5001/spGetTableANotApprovedCoursesForChangeProposals?pmp_id=' +
+          'https://localhost:5001/spGetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals?pmp_id=' +
             pmpID
         );
       setBlendedOrDoctorateNotApprovedArray(courses);
@@ -255,28 +255,19 @@ export default function MobilityProgramFormDoctoralAndBlended({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
+                  {blendedOrDoctorateNotApprovedArray.map((row) => (
+                    <Tr key={row.id}>
+                      <Td>{row.courseTitle}</Td>
+                      <Td>{row.courseCreditType}</Td>
+                      <Td>{row.courseCreditValue}</Td>
+                      <Td>{row.numberOfTerms}</Td>
+                      <Td>{row.totalNumberOfTerms}</Td>
+                      <Td>{row.courseCode}</Td>
+                      <Td>{row.recognitionConditions}</Td>
+                      <Td>{row.courseShortDescription}</Td>
+                      <Td>{row.status}</Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
@@ -304,46 +295,28 @@ export default function MobilityProgramFormDoctoralAndBlended({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>
-                      <IconButton
-                        colorScheme='blue'
-                        aria-label='delete button'
-                        icon={<BiTrash />}
-                        height={8}
-                        borderRadius='md'
-                      />
-                    </Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <IconButton
-                        colorScheme='blue'
-                        aria-label='delete button'
-                        icon={<BiTrash />}
-                        height={8}
-                        borderRadius='md'
-                      />
-                    </Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                    <Td>placeholder</Td>
-                  </Tr>
+                  {blendedOrDoctorateNotApprovedArray.map((row) => (
+                    <Tr key={row.id}>
+                      <Td>
+                        <IconButton
+                          colorScheme='blue'
+                          aria-label='delete button'
+                          icon={<BiTrash />}
+                          height={8}
+                          borderRadius='md'
+                        />
+                      </Td>
+                      <Td>{row.courseTitle}</Td>
+                      <Td>{row.courseCreditType}</Td>
+                      <Td>{row.courseCreditValue}</Td>
+                      <Td>{row.numberOfTerms}</Td>
+                      <Td>{row.totalNumberOfTerms}</Td>
+                      <Td>{row.courseCode}</Td>
+                      <Td>{row.recognitionConditions}</Td>
+                      <Td>{row.courseShortDescription}</Td>
+                      <Td>{row.status}</Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </TableContainer>
