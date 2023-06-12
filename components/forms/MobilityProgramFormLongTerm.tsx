@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '../form-components/inputs/TextInput1';
-import DatePickerInput from '../form-components/inputs/DatePickerInput';
+import DateInput from '../form-components/inputs/DateInput';
 import { BiTrash } from 'react-icons/bi';
 import AddComponentModal from './AddComponentModal';
 import { useForm } from 'react-hook-form';
@@ -30,11 +30,15 @@ type MobilityProgramFormLongTermProps = {
 };
 type FormData = {
   link: string;
+  mobility_start_date: string;
+  mobility_end_date: string;
 };
 export default function MobilityProgramFormLongTerm({
   pageName,
 }: MobilityProgramFormLongTermProps) {
-  const [startDate, setStartDate] = useState(getFormattedDate());
+  //use states
+  const [mobilityStartDate, setMobilityStartDate] = useState('');
+  const [mobilityEndDate, setMobilityEndDate] = useState('');
   const toast = useToast();
 
   const {
@@ -79,6 +83,27 @@ export default function MobilityProgramFormLongTerm({
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
+
+  const handleMobilityStartDateChange = (value: string) => {
+    if (value !== '') {
+      setValue('mobility_start_date', value);
+      setMobilityStartDate(value);
+    } else {
+      setValue('mobility_start_date', '');
+      setMobilityStartDate('');
+    }
+  };
+
+  const handleMobilityEndDateChange = (value: string) => {
+    if (value !== '') {
+      setValue('mobility_end_date', value);
+      setMobilityEndDate(value);
+    } else {
+      setValue('mobility_end_date', '');
+      setMobilityEndDate('');
+    }
+  };
+
   return (
     <Stack
       marginBottom='20'
@@ -110,20 +135,27 @@ export default function MobilityProgramFormLongTerm({
       >
         <Flex gap={5} p='5'>
           <Stack w='50%'>
-            <DatePickerInput
-              startDate={startDate}
-              setStartDate={setStartDate}
-              datePickerInputLabel='Hareketliliğin Başlangıç Tarihi'
+            <DateInput
+              id='mobility_start_date'
+              register={register('mobility_start_date')}
+              placeholder=''
+              label='Hareketliliğin Başlangıç Tarihi'
+              onChange={handleMobilityStartDateChange}
+              error={errors.mobility_start_date?.message}
             />
           </Stack>
           <Stack w='50%'>
-            <DatePickerInput
-              startDate={startDate}
-              setStartDate={setStartDate}
-              datePickerInputLabel='Hareketliliğin Bitiş Tarihi'
+            <DateInput
+              id='mobility_end_date'
+              register={register('mobility_end_date')}
+              placeholder=''
+              label='Hareketliliğin Bitiş Tarihi'
+              onChange={handleMobilityEndDateChange}
+              error={errors.mobility_end_date?.message}
             />
           </Stack>
         </Flex>
+
         <Flex direction={'column'}>
           <Flex direction={'column'} rowGap={3} p={5}>
             <Text fontSize={'lg'} fontWeight={'bold'} color={HeadingColor}>
