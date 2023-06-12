@@ -14,16 +14,29 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 
 import AddComponentModal from './AddComponentModal';
 import { BiTrash } from 'react-icons/bi';
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
+import { LanguageLevel } from '@/models/response/languageLevelResponse';
+import { Language } from '@/models/response/languageResponse';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
+import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 
 type MobilityProgramFormProps = {
   pageName: String;
 };
-
+type FormData = {
+  link: string;
+  mobility_start_date: string;
+  mobility_end_date: string;
+  language: string;
+  language_level: string;
+};
 export default function MobilityProgramForm({
   pageName,
 }: MobilityProgramFormProps) {
@@ -31,7 +44,70 @@ export default function MobilityProgramForm({
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
+  //usestates
+  const [language, setLanguage] = useState('');
+  const [languageID, setLanguageID] = useState(0);
+  const [languageLevel, setLanguageLevel] = useState('');
+  const [languageLevelID, setLanguageLevelID] = useState(0);
+  const toast = useToast();
 
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    setValue,
+    control,
+  } = useForm<FormData>();
+
+  const onSubmit = (values: FormData) => {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        alert(JSON.stringify(values, null));
+        console.log('values: ', values);
+
+        toast({
+          title: 'Kayıt Başarılı.',
+          description: 'Öğrenciye Ait Bilgiler başarıyla kaydedildi.',
+          status: 'success',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        });
+        resolve();
+      } catch (error) {
+        toast({
+          title: 'Kayıt Başarısız.',
+          description: `${error}`,
+          status: 'error',
+          position: 'top-right',
+          duration: 5000,
+          isClosable: true,
+        });
+        console.log(error);
+        reject(error);
+      }
+    });
+  };
+  const handleLanguageChange = (value: Language | null) => {
+    if (value) {
+      setValue('language', value.definition);
+      setLanguage(value.definition);
+      setLanguageID(value.lang_id);
+    } else {
+      setValue('language', '');
+      setLanguage(''); // or any default value you want
+    }
+  };
+  const handleLanguageLevelChange = (value: LanguageLevel | null) => {
+    if (value) {
+      setValue('language_level', value.code);
+      setLanguageLevel(value.code);
+      setLanguageLevelID(value.langLevel_id);
+    } else {
+      setValue('language_level', '');
+      setLanguageLevel(''); // or any default value you want
+    }
+  };
   return (
     <Stack
       marginBottom='20'
@@ -59,6 +135,7 @@ export default function MobilityProgramForm({
         display='flex'
         flexDirection='column'
         gap={10}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Flex direction={'column'}>
           <Flex direction={'column'} rowGap={3} p={5}>
@@ -193,21 +270,38 @@ export default function MobilityProgramForm({
           </Flex>
 
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
-            <Flex justify={'space-between'} gap={5}>
-              <SelectAutoComplete
-                placeHolder='placeholder..'
-                selectLabel='Yabancı Dil'
-              />
-              <SelectAutoComplete
-                placeHolder='placeholder..'
-                selectLabel='Dil Yeterlilik Seviyesi'
-              />
+            <Flex gap={4}>
+              <Box w={'50%'}>
+                <SelectLanguage
+                  id='language'
+                  error={errors.language?.message}
+                  register={register('language')}
+                  placeholder=''
+                  selectLabel='Yabancı Dil'
+                  onChange={handleLanguageChange}
+                ></SelectLanguage>
+              </Box>
+
+              <Box w={'50%'}>
+                <SelectLanguageLevel
+                  id='language_level'
+                  error={errors.language_level?.message}
+                  register={register('language_level')}
+                  placeholder=''
+                  selectLabel='Seviyesi'
+                  onChange={handleLanguageLevelChange}
+                ></SelectLanguageLevel>
+              </Box>
             </Flex>
           </Flex>
         </Flex>
         <Flex justify={'right'} gap={2}>
-          <Button variant='submit'>Kaydet</Button>
-          <Button variant='clear'>Sıfırla</Button>
+          <Button variant='submit' type='submit'>
+            Kaydet
+          </Button>
+          <Button variant='clear' type='reset'>
+            Sıfırla
+          </Button>
         </Flex>
       </Box>
     </Stack>
