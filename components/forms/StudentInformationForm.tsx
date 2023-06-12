@@ -10,7 +10,7 @@ import {
 
 import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '@/components/form-components/inputs/TextInput';
-import DatePickerInput from '../form-components/inputs/DatePickerInput';
+import DateInput from '../form-components/inputs/DateInput';
 import SelectISCED from '../form-components/selectboxes/SelectISCED';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -39,6 +39,7 @@ type FormData = {
   eur_student_identifier: string;
   student_surname: string;
   student_email: string;
+  student_birthdate: string;
 };
 
 export default function StudentInformationForm({
@@ -70,7 +71,7 @@ export default function StudentInformationForm({
   const [selectedMobilityTypeID, setSelectedMobilityTypeID] = useState(0);
   const [gender, setGender] = useState('');
   const [genderID, setGenderID] = useState(0);
-  const [startDate, setStartDate] = useState(getFormattedDate());
+  const [studentBirthdate, setStudentBirthdate] = useState<string>('');
   //submit
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
@@ -157,6 +158,16 @@ export default function StudentInformationForm({
     }
   };
 
+  const handleStudentBirthdateChange = (value: string) => {
+    if (value !== '') {
+      setValue('student_birthdate', value); // You can format the date value as needed
+      setStudentBirthdate(value);
+    } else {
+      setValue('student_birthdate', ''); // or any default value you want
+      setStudentBirthdate('');
+    }
+  };
+
   return (
     <Stack
       marginBottom='20'
@@ -221,11 +232,15 @@ export default function StudentInformationForm({
               onChange={handleGenderChange}
             ></SelectGender>
 
-            <DatePickerInput
-              startDate={startDate}
-              setStartDate={setStartDate}
-              datePickerInputLabel='Öğrencinin Doğum Tarihi'
+            <DateInput
+              id='student_birthdate'
+              register={register('student_birthdate')}
+              placeholder=''
+              label='Öğrencinin Doğum Tarihi'
+              onChange={handleStudentBirthdateChange}
+              error={errors.student_birthdate?.message}
             />
+
             <TextInput
               placeholder='test@gmail.com'
               label='Öğrencinin E-postası'
