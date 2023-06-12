@@ -107,6 +107,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <InstitutionConditionsForm
+            saveState={saveState}
             pageName='Kurumuma Ait Koşullar'
             subText={'Lütfen kurumunuza ait koşulları doldurunuz.'}
             collaborationConditionId={newCollaborationConditionId}
@@ -117,6 +118,7 @@ export default function TabComponent() {
             isPartnerValue={0}
           />
           <InstitutionConditionsForm
+            saveState={saveState}
             pageName='Partner Kuruma Ait Koşullar'
             subText={'Lütfen partner kuruma ait koşulları doldurunuz.'}
             collaborationConditionId={newPartnerCollaborationConditionId}
