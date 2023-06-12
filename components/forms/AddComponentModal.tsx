@@ -52,7 +52,7 @@ export default function InitialFocus({
       setTimeout(() => {
         const result: Course = {
           id: 70,
-          courseCreditType: values.credit_type,
+          courseCreditType: 'ECTS',
           courseTitle: values.course_name,
           courseCreditValue: values.credit_value,
           numberOfTerms: values.term_count,
@@ -94,7 +94,7 @@ export default function InitialFocus({
 
                   <TextInput
                     id='credit_value'
-                    placeholder='ECTS'
+                    placeholder=''
                     label='Dersin Kredi Değeri'
                     error={errors.credit_value?.message}
                     register={register('credit_value')}
@@ -121,7 +121,8 @@ export default function InitialFocus({
                 <Stack w={'50%'}>
                   <TextInput
                     id='credit_type'
-                    placeholder=''
+                    placeholder='ECTS'
+                    
                     label='Dersin Kredi Tipi'
                     error={errors.credit_type?.message}
                     register={register('credit_type')}
