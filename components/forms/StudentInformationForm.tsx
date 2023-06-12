@@ -22,6 +22,8 @@ import SelectNationality from '../form-components/selectboxes/SelectNationality'
 import { Nationality } from '@/models/response/nationalityResponse';
 import { MobilityType } from '@/models/response/mobilityTypeResponse';
 import SelectMobilityTypes from '../form-components/selectboxes/SelectMobilityTypes';
+import SelectGender from '../form-components/selectboxes/SelectGender';
+import { Gender } from '@/models/response/genderResponse';
 type StudentInformationFormProps = {
   pageName: String;
 };
@@ -66,6 +68,8 @@ export default function StudentInformationForm({
   const [selectedNationalityID, setSelectedNationalityID] = useState(0);
   const [selectedMobilityType, setSelectedMobilityType] = useState('');
   const [selectedMobilityTypeID, setSelectedMobilityTypeID] = useState(0);
+  const [gender, setGender] = useState('');
+  const [genderID, setGenderID] = useState(0);
   const [startDate, setStartDate] = useState(getFormattedDate());
   //submit
   function onSubmit(values: FormData) {
@@ -142,6 +146,17 @@ export default function StudentInformationForm({
     }
   };
 
+  const handleGenderChange = (value: Gender | null) => {
+    if (value) {
+      setValue('gender', value.genderName);
+      setGender(value.genderName);
+      setGenderID(value.id);
+    } else {
+      setValue('gender', ''); // or any default value you want
+      setGender('');
+    }
+  };
+
   return (
     <Stack
       marginBottom='20'
@@ -197,10 +212,15 @@ export default function StudentInformationForm({
               register={register('student_name')}
             />
 
-            <SelectAutoComplete
-              placeHolder='Kadın'
-              selectLabel='Öğrencinin Cinsiyet'
-            />
+            <SelectGender
+              id='gender'
+              error={errors.gender?.message}
+              register={register('gender')}
+              placeholder=''
+              selectLabel='Öğrencinin Cinsiyeti'
+              onChange={handleGenderChange}
+            ></SelectGender>
+
             <DatePickerInput
               startDate={startDate}
               setStartDate={setStartDate}
