@@ -70,7 +70,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     setBlendedOrDoctorateNotApprovedArray,
   ] = useState<Course[]>([]);
   const [totalCourseCredits, setTotalCourseCredits] = useState(0);
-  const [pmpID, setPmpID] = useState(26);
+  const [pmpID, setPmpID] = useState(43);
   const toast = useToast();
 
   const {
@@ -126,12 +126,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        alert(JSON.stringify(values, null));
-        console.log('values: ', values);
-
         toast({
           title: 'Kayıt Başarılı.',
-          description: 'Öğrenciye Ait Bilgiler başarıyla kaydedildi.',
+          description: 'Mobilite bilgileri başarıyla kaydedildi.',
           status: 'success',
           position: 'top-right',
           duration: 5000,
