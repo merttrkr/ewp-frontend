@@ -42,7 +42,7 @@ const Select: React.FC<SelectDepartmentProps> = ({
           'https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=' +
             param
         );
-        const data = await (result ? result.departments : []); // Call the fetchData function
+        const data = (result ? result.departments : []); // Call the fetchData function
         if (data) {
           setDepartmentArray(data); // Update the state with the fetched data
         }
@@ -71,6 +71,7 @@ const Select: React.FC<SelectDepartmentProps> = ({
             onChange={(event, value) => onChange(value || null)}
             disablePortal
             id={id}
+            disabled={isDisabled}
             options={departmentArray}
             getOptionLabel={(option) => option.organizationalUnitName}
             isOptionEqualToValue={(option, value) => option.id === value.id}
