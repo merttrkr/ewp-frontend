@@ -14,29 +14,30 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import SelectAutoComplete from '../form-components/SelectAutoComplete';
-import TextInput from '../form-components/inputs/TextInput1';
-import TextInput2 from '../form-components/inputs/TextInput';
+import TextInput from '../form-components/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 
 type ModalInputProps = {
-  placeHolder: string;
+  placeholder: string;
   tableType?: string;
 };
 type FormData = {
-  name: string;
-  courseName: string;
+  course_name: string;
+  total_term_count: string;
+  course_description?: string;
+  credit_type: string;
+  term_count: string;
+  course_code: string;
+  recognition_conditions?: string;
+  credit_value: string;
 };
 
 export default function InitialFocus({
-  placeHolder,
+  placeholder,
   tableType,
 }: ModalInputProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const HeadingColor = useColorModeValue('gray.800', 'gray.300');
-
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
-
   const {
     handleSubmit,
     register,
@@ -55,16 +56,10 @@ export default function InitialFocus({
   return (
     <>
       <Button variant='autoWidthFull' width={150} onClick={onOpen}>
-        {placeHolder}
+        {placeholder}
       </Button>
 
-      <Modal
-        size={'xl'}
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal size={'xl'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader color={HeadingColor}>Yeni Ders Ekle</ModalHeader>
@@ -72,70 +67,84 @@ export default function InitialFocus({
           <ModalBody pb={3}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex gap={5}>
-                <Stack gap={2}>
-                  <TextInput2
+                <Stack w={'50%'}>
+                  <TextInput
                     label='Dersin Adı'
-                    id='courseName'
+                    id='course_name'
                     placeholder=''
-                    error={errors.courseName?.message}
-                    register={register('courseName', {
-                      required: 'This is required',
-                      minLength: {
-                        value: 4,
-                        message: 'Minimum length should be 4',
-                      },
-                    })}
-                  />
-                  <SelectAutoComplete
-                    selectLabel='Dersin Kredi Değeri'
-                    placeHolder='test'
-                  />
-                  <TextInput
-                    name='firstname'
-                    placeHolder='Mert Türker'
-                    label='Toplam Eğitim Dönemi Sayısı'
-                  />
-                  {(tableType === 'C' || !tableType) && (
-                    <TextInput
-                      name='firstname'
-                      placeHolder='Mert Türker'
-                      label='Dersi Tanımlayan Kısa Açıklama'
-                    />
-                  )}
-                  <SelectAutoComplete selectLabel='Durumu' placeHolder='test' />
-                </Stack>
-                <Stack gap={2}>
-                  <TextInput
-                    name='firstname'
-                    placeHolder='Mert Türker'
-                    label='Dersin Kredi Tipi'
+                    error={errors.course_name?.message}
+                    register={register('course_name')}
                   />
 
                   <TextInput
-                    name='firstname'
-                    placeHolder='Mert Türker'
-                    label='Eğitim Dönemi Sayısı'
+                    id='credit_value'
+                    placeholder='ECTS'
+                    label='Dersin Kredi Değeri'
+                    error={errors.credit_value?.message}
+                    register={register('credit_value')}
                   />
+
                   <TextInput
-                    name='firstname'
-                    placeHolder='Mert Türker'
+                    id='total_term_count'
+                    placeholder=''
+                    label='Toplam Eğitim Dönemi Sayısı'
+                    error={errors.total_term_count?.message}
+                    register={register('total_term_count')}
+                  />
+
+                  {(tableType === 'C' || !tableType) && (
+                    <TextInput
+                      id='course_description'
+                      placeholder=''
+                      label='Dersi Tanımlayan Kısa Açıklama'
+                      error={errors.course_description?.message}
+                      register={register('course_description')}
+                    />
+                  )}
+                </Stack>
+                <Stack w={'50%'}>
+                  <TextInput
+                    id='credit_type'
+                    placeholder=''
+                    label='Dersin Kredi Tipi'
+                    error={errors.credit_type?.message}
+                    register={register('credit_type')}
+                  />
+
+                  <TextInput
+                    id='term_count'
+                    placeholder=''
+                    label='Eğitim Dönemi Sayısı'
+                    error={errors.term_count?.message}
+                    register={register('term_count')}
+                  />
+
+                  <TextInput
+                    id='course_code'
+                    placeholder=''
                     label='Dersin Kodu'
+                    error={errors.course_code?.message}
+                    register={register('course_code')}
                   />
 
                   {tableType !== 'A' && (
                     <TextInput
-                      name='firstname'
-                      placeHolder='Mert Türker'
+                      id='recognition_conditions'
+                      placeholder=''
                       label='Dersin Tanınma Koşulları'
+                      error={errors.recognition_conditions?.message}
+                      register={register('recognition_conditions')}
                     />
                   )}
                 </Stack>
               </Flex>
-              <ModalFooter>
+              <ModalFooter mt={2}>
                 <Button variant={'autoWidthFull'} mr={3} type='submit'>
                   Kaydet
                 </Button>
-                <Button variant={'clear'}>İptal</Button>
+                <Button variant={'clear'} type='reset'>
+                  İptal
+                </Button>
               </ModalFooter>
             </form>
           </ModalBody>
