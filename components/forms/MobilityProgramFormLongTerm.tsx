@@ -162,12 +162,9 @@ export default function MobilityProgramFormLongTerm({
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        alert(JSON.stringify(values, null));
-        console.log('values: ', values);
-
         toast({
           title: 'Kayıt Başarılı.',
-          description: 'Öğrenciye Ait Bilgiler başarıyla kaydedildi.',
+          description: 'Uzun Dönem Mobilite başarıyla kaydedildi.',
           status: 'success',
           position: 'top-right',
           duration: 5000,

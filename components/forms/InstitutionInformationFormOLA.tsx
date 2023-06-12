@@ -18,6 +18,7 @@ import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import { Department } from '@/models/response/departmentResponse';
 import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
+import useCreate from '@/hooks/create/useCreate';
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -64,6 +65,7 @@ export default function InstitutionInformationForm({
   const [universityName, setUniversityName] = useState(heiName);
   const [department, setDepartment] = useState('');
   const [departmentID, setDepartmentID] = useState(0);
+
   const toast = useToast();
 
   //useForm hook
@@ -88,9 +90,6 @@ export default function InstitutionInformationForm({
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        alert(JSON.stringify(values, null));
-        console.log('values: ', values);
-
         toast({
           title: 'Kayıt Başarılı.',
           description: 'Kurum bilgileri başarıyla kaydedildi.',
@@ -251,8 +250,12 @@ export default function InstitutionInformationForm({
             </Stack>
           </Flex>
           <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
-            <Button variant='submit'>Kaydet</Button>
-            <Button variant='clear'>Sıfırla</Button>
+            <Button variant='submit' type='submit'>
+              Kaydet
+            </Button>
+            <Button variant='clear' type='reset'>
+              Sıfırla
+            </Button>
           </Flex>
         </Box>
       </Stack>

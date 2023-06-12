@@ -63,9 +63,6 @@ export default function CommitmentSignatureForm({
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        alert(JSON.stringify(values, null));
-        console.log('values: ', values);
-
         toast({
           title: 'Kayıt Başarılı.',
           description: 'Form başarıyla kaydedildi.',
