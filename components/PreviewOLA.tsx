@@ -10,14 +10,36 @@ import {
 } from '@chakra-ui/react';
 import DisplayText from './form-components/DisplayText';
 import { FiChevronRight } from 'react-icons/fi';
+import useRead from '@/hooks/read/useRead';
+import { useEffect, useState } from 'react';
 
 type PreviewOLAProps = {
   OLA: String;
 };
 
 export default function PreviewOLA({ OLA }: PreviewOLAProps) {
+  const { GetAllLearningAgreements } = useRead();
   const HeaderBackground = useColorModeValue('#9C1F23', '#9C1F23');
   const FormBackground = useColorModeValue('gray.100', 'gray.700');
+  const [laArray, setLaArray] = useState<LearningAgreement[]>([]);
+
+  async function handleGetLearningAgreements() {
+    try {
+      const data = await GetAllLearningAgreements(
+        `https://localhost:5001/spGetAllLearningAgreements`
+      );
+      if (data != null) {
+        setLaArray(data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  useEffect(() => {
+    handleGetLearningAgreements();
+  }, []);
+
   return (
     <Stack
       margin='6'

@@ -294,7 +294,7 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: 'Öğrenim Anlaşmalarını İncele',
         subLabel: 'Tüm Öğrenim Anlaşmalarını İncele',
-        href: '/learning-agreements',
+        href: '/learning-agreements/display-all-agreements',
       },
     ],
   },
