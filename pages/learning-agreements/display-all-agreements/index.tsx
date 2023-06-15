@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Button, Input, Stack, Select, Center, Heading } from '@chakra-ui/react';
+import {
+  Flex,
+  Button,
+  Input,
+  Stack,
+  Select,
+  Center,
+  Heading,
+} from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import useRead from '@/hooks/read/useRead';
 import PreviewOLA from '@/components/PreviewOLA';
@@ -70,8 +78,14 @@ export default function DisplayAgreements() {
   return (
     <>
       {/* Search input field */}
-      <Flex align={'center'} justify={'space-between'} px={6} py={4}>
-        <Stack direction='row'>
+      <Flex
+        align={['center', null, 'flex-start']}
+        justify={['center', null, 'space-between']}
+        flexWrap={['wrap', null, 'nowrap']}
+        px={6}
+        py={4}
+      >
+        <Stack direction='row' mb={[4, null, 0]}>
           <label htmlFor='filterSelect'>Filter By Mobility Type:</label>
           <Select
             id='filterSelect'
@@ -86,10 +100,10 @@ export default function DisplayAgreements() {
             </option>
           </Select>
         </Stack>
-        <Stack direction='row'>
+        <Stack w={["100%","50%" ,"20%"]} direction='row'>
           <SearchIcon mt={3} color='gray.600' />
           <Input
-            width='auto'
+            
             value={searchQuery}
             onChange={handleSearchChange}
           />
@@ -98,27 +112,33 @@ export default function DisplayAgreements() {
 
       {/* Loop through the currentAgreements array and render PreviewOLA component for each agreement */}
       {currentAgreements.length === 0 ? (
-        
-         <Flex justify={'center'}><Heading fontWeight={'sm'} fontSize={"2xl"} fontStyle={'normal'}>No agreements to display.</Heading></Flex> 
-        
+        <Flex justify='center'>
+          <Heading
+            fontWeight='sm'
+            fontSize={['lg', null, '2xl']}
+            fontStyle='normal'
+          >
+            No agreements to display.
+          </Heading>
+        </Flex>
       ) : (
-      currentAgreements.map((agreement) => (
-        <PreviewOLA
-          key={agreement.proposedMobilityProgramme_id}
-          agreement={agreement}
-        />
-      )))
-    }
-      
+        currentAgreements.map((agreement) => (
+          <PreviewOLA
+            key={agreement.proposedMobilityProgramme_id}
+            agreement={agreement}
+          />
+        ))
+      )}
 
       {/* Pagination controls */}
-      <Flex justify={'center'}>
+      <Flex justify='center' mt={4}>
         {Array.from({ length: totalPages }, (_, index) => index + 1).map(
           (pageNumber) => (
             <Button
               key={pageNumber}
               onClick={() => handlePageChange(pageNumber)}
               variant={currentPage === pageNumber ? 'solid' : 'outline'}
+              mr={2}
             >
               {pageNumber}
             </Button>
