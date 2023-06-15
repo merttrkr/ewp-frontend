@@ -14,16 +14,7 @@ import DisplayText from '../form-components/DisplayText';
 import useRead from '@/hooks/read/useRead';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { useEffect, useState } from 'react';
-const {
-  GetCollaborationConditionTypes,
-  GetLanguages,
-  GetLanguageLevels,
-  GetSubjectAreas,
-  GetEducationTypesAndLevels,
-  GetAcademicYearInfo,
-  GetSelectedContactInfoOfOrganizationInfo,
-  GetOrganizationInfo,
-} = useRead();
+
 type PreviewOrSaveFormProps = {
   pageName: String;
   bilateralAgreementID: number;
@@ -48,7 +39,17 @@ export default function PreviewOrSaveForm({
     handleGetSelectedContactInfoOfOrganizationInfo();
   }, [saveState, organizationInfoId]);
 
-
+  const {
+    GetCollaborationConditionTypes,
+    GetLanguages,
+    GetLanguageLevels,
+    GetSubjectAreas,
+    GetEducationTypesAndLevels,
+    GetAcademicYearInfo,
+    GetSelectedContactInfoOfOrganizationInfo,
+    GetOrganizationInfo,
+  } = useRead();
+  
   async function handleGetOrganizationInfo() {
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
