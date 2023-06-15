@@ -13,7 +13,7 @@ type SelectContactProps = {
   isDisabled?: boolean;
   id?: string;
   register: any;
-  onChange: (value: Contact | null) => void; // New prop for handling value change
+  onChange: (value: Contact[] | null) => void; // Updated prop for handling value change
   param: string;
   error: string | undefined;
 };
@@ -25,7 +25,7 @@ const Select: React.FC<SelectContactProps> = ({
   placeholder,
   register,
   error,
-  onChange, // Add the new onChange prop
+  onChange, // Updated onChange prop
   param,
 }) => {
   const { GetContactInfoByHeiID } = useRead();
@@ -47,7 +47,7 @@ const Select: React.FC<SelectContactProps> = ({
         }
       }
     };
-    if (param != '') {
+    if (param !== '') {
       fetchInitialData();
     }
   }, [param]); // Include GetContactInfoByHeiID in the dependency array
@@ -67,8 +67,9 @@ const Select: React.FC<SelectContactProps> = ({
             <label htmlFor={id}>{selectLabel}</label>
           </Heading>
           <Autocomplete
-          disabled={isDisabled}
-            onChange={(event, value) => onChange(value || null)}
+            multiple // Enable multiple selections
+            disabled={isDisabled}
+            onChange={(event, value) => onChange(value)} // Pass the array of selected values
             disablePortal
             id={id}
             options={contactArray}
