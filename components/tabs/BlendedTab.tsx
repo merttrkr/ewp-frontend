@@ -38,7 +38,7 @@ export default function TabComponent() {
 
   return (
     <Tabs variant='colorful' colorScheme='gray'>
-      <TabList>
+      <TabList overflowX="auto">
         <Tab>Öğrenciye Ait Bilgiler</Tab>
         <Tab>Kurum / Üniversite Bilgisi</Tab>
         <Tab>Hareketlilik (Mobilite) Programı</Tab>
