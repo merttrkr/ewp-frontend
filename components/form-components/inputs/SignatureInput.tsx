@@ -1,16 +1,5 @@
 import React from 'react';
-<style>
-  @import
-  url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap');
-</style>;
-
-import {
-  Stack,
-  Heading,
-  useColorModeValue,
-  Input,
-  FormControl,
-} from '@chakra-ui/react';
+import { Stack, Heading, useColorModeValue, Input, FormControl } from '@chakra-ui/react';
 
 type SignatureInputProps = {
   label: string;
@@ -38,7 +27,7 @@ const SignatureInput: React.FC<SignatureInputProps> = ({
         pl='1'
         as='h3'
         size='sm'
-        fontWeight={'bold'}
+        fontWeight='bold'
         color={HeadingColor}
         pb='2'
       >
@@ -46,7 +35,7 @@ const SignatureInput: React.FC<SignatureInputProps> = ({
       </Heading>
       <Input
         height={14}
-        fontStyle={'italic'}
+        fontStyle='italic'
         fontFamily='Dancing Script'
         fontWeight={600}
         fontSize='xl'
@@ -55,11 +44,14 @@ const SignatureInput: React.FC<SignatureInputProps> = ({
         {...register}
         isDisabled={isDisabled}
         type={type}
-        bg={'gray.100'}
+        bg='gray.100'
         border={0}
-        color={'gray.500'}
+        color='gray.500'
         _placeholder={{
           color: 'gray.500',
+        }}
+        style={{
+          import: "url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap')",
         }}
       />
       {error && <span style={{ color: 'red' }}>{error}</span>}
