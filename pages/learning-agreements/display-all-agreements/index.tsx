@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Button, Input, Stack, Select } from '@chakra-ui/react';
+import { Flex, Button, Input, Stack, Select, Center, Heading } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import useRead from '@/hooks/read/useRead';
 import PreviewOLA from '@/components/PreviewOLA';
@@ -97,12 +97,19 @@ export default function DisplayAgreements() {
       </Flex>
 
       {/* Loop through the currentAgreements array and render PreviewOLA component for each agreement */}
-      {currentAgreements.map((agreement) => (
+      {currentAgreements.length === 0 ? (
+        
+         <Flex justify={'center'}><Heading fontWeight={'sm'} fontSize={"2xl"} fontStyle={'normal'}>No agreements to display.</Heading></Flex> 
+        
+      ) : (
+      currentAgreements.map((agreement) => (
         <PreviewOLA
           key={agreement.proposedMobilityProgramme_id}
           agreement={agreement}
         />
-      ))}
+      )))
+    }
+      
 
       {/* Pagination controls */}
       <Flex justify={'center'}>
