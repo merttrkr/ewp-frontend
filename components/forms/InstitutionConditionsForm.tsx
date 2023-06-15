@@ -245,7 +245,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-          partnerOrganizationInfoId
+        partnerOrganizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setPartnerOrganizationInfo(data);
@@ -341,7 +341,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-          organizationInfoId
+        organizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         setSenderContactPerson(data[0]);
@@ -354,12 +354,12 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-          partnerOrganizationInfoId
+        partnerOrganizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         setReceiverContactPerson(data[0]);
 
-     
+
       }
     };
     fetchInitialData();
@@ -369,7 +369,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-          organizationInfoId
+        organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
 
@@ -412,7 +412,7 @@ export default function InstitutionConditionsForm({
           duration: 5000,
           isClosable: true,
         });
-    
+
         reject(error);
       }
     });
@@ -560,17 +560,17 @@ export default function InstitutionConditionsForm({
 
   return (
     <Stack
-      marginBottom='20'
-      px={6}
-      py={6}
-      w='100%'
+      marginBottom={['20', null, '0']}
+      px={[4, 6]}
+      py={[4, 6]}
+      w={['100%', null, 'auto']}
       bg={HeaderBackground}
       marginLeft={0}
       borderBottom='1px'
       borderColor={BorderColor}
-      borderRadius={'xl'}
+      borderRadius='xl'
     >
-      <Box pl={6} py={4}>
+      <Box pl={[4, 6]} py={[3, 4]}>
         <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
           {pageName}
         </Heading>
@@ -593,13 +593,13 @@ export default function InstitutionConditionsForm({
             register={register('condition_type')}
             placeholder='Öğrenim'
             selectLabel='Koşul seçiniz'
-            
+
             onChange={handleConditionChange}
           ></SelectCollaborationCondition>
         </Flex>
 
-        <Flex>
-          <Stack w='50%' spacing={4} p='5'>
+        <Flex flexWrap={['wrap', null, 'nowrap']}>
+          <Stack w={['100%', '50%']} spacing={4} p={[3, 5]}>
             <SelectInstitution
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='sender_instution_name'
@@ -666,7 +666,7 @@ export default function InstitutionConditionsForm({
               error={errors.education_type_and_level?.message}
             ></SelectEducationTypeAndLevel>
           </Stack>
-          <Stack w='50%' spacing={4} p='5'>
+          <Stack w={['100%', '50%']} spacing={4} p={[3, 5]}>
             <SelectInstitution
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='receiver_instution_name'
@@ -758,13 +758,15 @@ export default function InstitutionConditionsForm({
           />
         </Box>
 
-        <Flex gap={3} justifyContent={'right'} pr={4} mt={'8'}>
+        <Flex gap={3} justifyContent={['center', null, 'right']} pr={[2, 4]} mt={[6, 8]}>
           <Button variant='submit' type='submit'>
             Kaydet
           </Button>
-          <Button variant='condition'>Aynı Koşulları Partnerime De Ekle</Button>
+          <Button whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis" variant='condition'>Aynı Koşulları Partnerime De Ekle</Button>
           <Button variant='clear' type='reset'>
-            Clear
+            Temizle
           </Button>
         </Flex>
       </Box>
