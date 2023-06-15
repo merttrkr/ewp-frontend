@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PreviewIIA from '@/components/PreviewIIA';
-import { Flex, Button, Input, Stack, Center } from '@chakra-ui/react';
+import { Flex, Button, Input, Stack, Center, Text, Heading } from '@chakra-ui/react';
 import TextInput from '@/components/form-components/inputs/TextInput';
 import { SearchIcon } from '@chakra-ui/icons';
 import useRead from '@/hooks/read/useRead';
@@ -19,7 +19,7 @@ export default function DisplayAgreements() {
     async function fetchBilateralAgreements() {
       try {
         const data = await GetBilateralAgreements('https://localhost:5001/spGetBilateralAgreements');
-        if (data && data.length > 0)  {
+        if (data && data.length > 0) {
           const filteredData = data.filter(item => item.ownIIACode || item.partnerIIACode); // Filter out items where IIACode does not exist or is null
           setBilateralAgreements(filteredData);
         }
@@ -65,14 +65,19 @@ export default function DisplayAgreements() {
         <Button as={NextLink} href={'/bilateral-agreements/create-new-agreement/'} variant="condition">Yeni Anlaşma Oluştur</Button>
       </Flex>
 
-      {/* Loop through the currentAgreements array and render PreviewIIA component for each agreement */}
-      {currentAgreements.map(agreement => (
-        <PreviewIIA 
-          key={agreement.bilateralAgreement_id} 
-          IIA={agreement.ownIIACode || '-'}
-          BilateralAgreement={agreement}
-        />
-      ))}
+      {currentAgreements.length === 0 ? (
+        <Flex justify={'center'}><Heading fontWeight={'sm'} fontSize={"2xl"} fontStyle={'normal'}>No agreements to display.</Heading></Flex>
+
+      ) : (
+        // Loop through the currentAgreements array and render PreviewIIA component for each agreement
+        currentAgreements.map(agreement => (
+          <PreviewIIA
+            key={agreement.bilateralAgreement_id}
+            IIA={agreement.ownIIACode || '-'}
+            BilateralAgreement={agreement}
+          />
+        ))
+      )}
 
       {/* Pagination controls */}
       <Flex justify={'center'}>
