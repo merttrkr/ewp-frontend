@@ -80,14 +80,14 @@ export default function InstitutionInformationForm({
   //values of the form
   const [institution, setInstitution] = useState('');
   const [department, setDepartment] = useState('');
-  const [authorizedSignotary, setAuthorizedSignotary] = useState('');
+  const [authorizedSignotary, setAuthorizedSignotary]= useState('');
   const [contactPerson, setContactPerson] = useState('');
   const [IIACode, setIIACode] = useState('');
   const [IIAID, setIIAID] = useState('');
   //values from generate functions
   const [authorizedSignotaryPersonID, setauthorizedSignotaryPersonID] =
-    useState(0);
-  const [contactPersonID, setContactPersonID] = useState(0);
+    useState<number[]>([]);
+  const [contactPersonID, setContactPersonID] = useState<number[]>([]);
   const [departmentID, setDepartmentID] = useState(0);
   const [institutionID, setInstitutionId] = useState(0);
 
@@ -151,24 +151,34 @@ export default function InstitutionInformationForm({
 
   async function handleSetSigningPerson() {
     const setSigningPerson = async () => {
-      await SetSigningPerson(
-        'https://localhost:5001/spSetSigningPerson?organizationInfo_id=' +
-        organizationInfoId +
-        '&signingPerson_id=' +
-        authorizedSignotaryPersonID
-      );
+      if (organizationInfoId != 0 ) {
+      authorizedSignotaryPersonID.map(async (item)=>{
+        console.log('item' +  organizationInfoId  + '   '+ item);
+        
+        await SetSigningPerson(
+          'https://localhost:5001/spSetSigningPerson?organizationInfo_id=' +
+          organizationInfoId +
+          '&signingPerson_id=' +
+          item
+        );
+      }
+      )}
+      
     };
     setSigningPerson();
   }
 
   async function handleAddOrganizationContactInfo() {
     const setAddOrganizationContactInfo = async () => {
-      await AddOrganizationContactInfo(
-        'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
-        organizationInfoId +
-        '&contact_id=' +
-        contactPersonID
-      );
+      contactPersonID.map(async (item)=>{
+        await AddOrganizationContactInfo(
+          'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
+          organizationInfoId +
+          '&contact_id=' +
+          item
+        );
+      })
+  
     };
     setAddOrganizationContactInfo();
   }
@@ -291,26 +301,34 @@ export default function InstitutionInformationForm({
     }
   };
 
-  const handleSelectChangeContact = (value: Contact | null) => {
+  const handleSelectChangeContact = (value: Contact[] | null) => {
     if (value) {
-      setValue('contact_persons', value.fullName);
-      setContactPerson(value.fullName);
-      setContactPersonID(value.id);
+      const contactPersonNames = value.map(contact => contact.fullName).join(', ');
+      setValue('contact_persons', contactPersonNames);
+      setContactPerson(contactPersonNames);
+      const contactPersonIDs = value.map(contact => contact.id);
+      setContactPersonID(contactPersonIDs);
     } else {
       setValue('contact_persons', ''); // or any default value you want
       setContactPerson(''); // or any default value you want
+      setContactPersonID([]); // or any default value you want
     }
   };
-  const handleAuthorizedSignerSelectChangeContact = (value: Contact | null) => {
+  
+  const handleAuthorizedSignerSelectChangeContact = (value: Contact[] | null) => {
     if (value) {
-      setValue('authorized_signotary', value.fullName);
-      setAuthorizedSignotary(value.fullName);
-      setauthorizedSignotaryPersonID(value.id);
+      const authorizedSignatoryNames = value.map(contact => contact.fullName).join(', ');
+      setValue('authorized_signotary', authorizedSignatoryNames);
+      setAuthorizedSignotary(authorizedSignatoryNames);
+      const authorizedSignatoryIDs = value.map(contact => contact.id);
+      setauthorizedSignotaryPersonID(authorizedSignatoryIDs);
     } else {
       setValue('authorized_signotary', ''); // or any default value you want
       setAuthorizedSignotary(''); // or any default value you want
+      setauthorizedSignotaryPersonID([]); // or any default value you want
     }
   };
+  
   const handleSelectChangeDepartment = (value: Department | null) => {
     if (value) {
       setValue('departmant_name', value.organizationalUnitName);
@@ -414,7 +432,7 @@ export default function InstitutionInformationForm({
               id='contact_persons'
               error={errors.contact_persons?.message}
               register={register('contact_persons')}
-              placeholder={authorizedSignotary}
+              placeholder={contactPerson}
               selectLabel='İletişim Kurulabilecek Yetkililer'
               onChange={handleSelectChangeContact}
               param={institution}
