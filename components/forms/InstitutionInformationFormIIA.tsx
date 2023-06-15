@@ -366,33 +366,33 @@ export default function InstitutionInformationForm({
 
   return (
     <Stack
-      marginBottom='20'
-      px={6}
-      py={3}
-      w='100%'
-      bg={HeaderBackground}
-      marginLeft={0}
-      borderBottom='1px'
-      borderColor={BorderColor}
-      borderRadius={'xl'}
+    marginBottom={['10', '20']}
+    px={[3, 6]}
+    py={[2, 3]}
+    w='100%'
+    bg={HeaderBackground}
+    marginLeft={[0, 4]}
+    borderBottom='1px'
+    borderColor={BorderColor}
+    borderRadius={'xl'}
     >
-      <Box pl={6} py={4}>
+      <Box pl={[3, 6]} py={[2, 4]}>
         <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
           {pageName}
         </Heading>
         <Text>{subText}</Text>
       </Box>
       <Box
-        onSubmit={handleSubmit(onSubmit)}
-        as='form'
-        mt={10}
-        boxShadow={'lg'}
-        padding={5}
-        bg={FormBackground}
-        borderRadius={'xl'}
+   onSubmit={handleSubmit(onSubmit)}
+   as='form'
+   mt={[6, 10]}
+   boxShadow={'lg'}
+   padding={[3, 5]}
+   bg={FormBackground}
+   borderRadius={'xl'}
       >
-        <Flex>
-          <Stack w='50%' spacing={4} p='5'>
+        <Flex direction={['column', 'row']}>
+          <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
@@ -429,7 +429,7 @@ export default function InstitutionInformationForm({
               param={institution}
             />
           </Stack>
-          <Stack w='50%' spacing={4} p='5'>
+          <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectDepartment
               id='departmant_name'
               register={register('departmant_name')}
