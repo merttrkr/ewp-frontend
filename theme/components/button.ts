@@ -1,26 +1,25 @@
 import { useColorModeValue } from "@chakra-ui/react";
-import { defineStyle, defineStyleConfig } from "@chakra-ui/styled-system"
-import { mode } from '@chakra-ui/theme-tools'; // import utility to set light and dark mode props
+import { defineStyle, defineStyleConfig } from "@chakra-ui/styled-system";
+import { mode } from '@chakra-ui/theme-tools';
 
 const baseStyle = defineStyle({
-  borderRadius: 0, // disable the border radius
-  fontWeight: "normal", // change the font weight to normal
-  fontFamily: "mono", // change the font family to monospaced
-})
+  borderRadius: 0,
+  fontWeight: "normal",
+  fontFamily: "mono",
+});
 
 const sizes = {
   md: defineStyle({
-    fontSize: "sm", // Change font size to sm (14px)
+    fontSize: "sm",
   }),
-}
+};
 
-// Defining a custom variant
 const submitVariant = defineStyle((props) => {
-  const { colorScheme: c } = props
+  const { colorScheme: c } = props;
   return {
     fontFamily: "heading",
-    w: "15%",
-    bg: mode("#20558B", "#0E3051"),
+    w: ["100%", "15%"],
+    bg: mode("#20558B", "#0E3051")(props),
     color: "white",
     borderRadius: 'md',
     transition: 'transform 0.15s ease-out, background 0.15s ease-out',
@@ -29,15 +28,14 @@ const submitVariant = defineStyle((props) => {
       boxShadow: "xl",
       transform: "scale(1.02, 1.02)",
     },
-  }
-})
+  };
+});
 
-// Defining a custom variant
 const clearVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    w: "15%",
+    w: ["100%", "15%"],
     bg: "white",
     color: mode("#20558B", "#0E3051"),
     borderRadius: 'md',
@@ -50,15 +48,14 @@ const clearVariant = defineStyle(() => {
     _active: {
       transform: "scale(1, 1)",
     },
-  }
-})
+  };
+});
 
-// Defining a custom variant
 const conditionVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    w: "auto",
+    w: ["100%", "auto"],
     borderColor: "#20558B",
     color: '#20558B',
     borderRadius: 'md',
@@ -74,17 +71,16 @@ const conditionVariant = defineStyle(() => {
     },
 
     _dark: {
-      color: "white"
-    }
-  }
-})
+      color: "white",
+    },
+  };
+});
 
-// Defining a custom variant
 const autoWidthFullVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    w: "auto",
+    w: ["100%", "auto"],
     bg: mode("#9C1F23", "#0E3051"),
     color: "white",
     borderColor: "#9C1F23",
@@ -95,16 +91,15 @@ const autoWidthFullVariant = defineStyle(() => {
       bg: '#20558B',
       boxShadow: "xl",
       transform: "scale(1.02, 1.02)",
-    }
-  }
-})
+    },
+  };
+});
 
-// Defining a custom variant
 const whiteVariant = defineStyle(() => {
   return {
     border: "2px",
     fontFamily: "heading",
-    w: "auto",
+    w: ["100%", "auto"],
     h: "8",
     fontSize: "sm",
     color: mode("white", "#0E3051"),
@@ -114,10 +109,9 @@ const whiteVariant = defineStyle(() => {
     _hover: {
       boxShadow: "xl",
       transform: "scale(1.02, 1.02)",
-    }
-  }
-})
-
+    },
+  };
+});
 
 export const buttonTheme = defineStyleConfig({
   baseStyle,
@@ -129,4 +123,4 @@ export const buttonTheme = defineStyleConfig({
     autoWidthFull: autoWidthFullVariant,
     white: whiteVariant,
   },
-})
+});
