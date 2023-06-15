@@ -144,7 +144,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
           duration: 5000,
           isClosable: true,
         });
-        console.log(error);
+
         reject(error);
       }
     });

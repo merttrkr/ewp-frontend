@@ -34,8 +34,8 @@ export default function PreviewIIA({ IIA, BilateralAgreement }: PreviewIIAProps)
         `https://localhost:5001/spGetOrganizationIdsAndCollaborationConditionIds?bilateralAgreement_id=${BilateralAgreement.bilateralAgreement_id}`
       );
 
-      if (data !== undefined && data !== null ) {
-        console.log('data: ', data);
+      if (data !== undefined && data !== null) {
+
         setOrganizationIds([
           data?.organizationInfo_id,
           data?.partnerOrganizationInfo_id,
@@ -186,7 +186,7 @@ export default function PreviewIIA({ IIA, BilateralAgreement }: PreviewIIAProps)
       </Flex>
       <Flex pt={1} pb={4}>
 
-       {renderNextLink}
+        {renderNextLink}
 
       </Flex>
     </Stack>

@@ -93,10 +93,7 @@ export default function InstitutionInformationForm({
 
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
   const [signingDateInp, setSigningDateInp] = useState<string>('');
-  console.log('bilateralAgreementID:', bilateralAgreementID);
-  console.log('organizationInfoId:', organizationInfoId);
-  console.log('  isPartnerValue:', isPartnerValue);
-  console.log('------------------');
+
 
   //useForm hook
   const {
@@ -136,7 +133,7 @@ export default function InstitutionInformationForm({
     const insertEmptyRowToBilateralAgreement = async () => {
       await InsertEmptyRowToBilateralAgreement(
         'https://localhost:5001/spInsertEmptyRowToBilateralAgreement?bilateralAgreement_id=' +
-          id
+        id
       );
     };
     insertEmptyRowToBilateralAgreement();
@@ -146,7 +143,7 @@ export default function InstitutionInformationForm({
     const insertEmptyRowToOrganizationInfo = async () => {
       await InsertEmptyRowToOrganizationInfo(
         'https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=' +
-          id
+        id
       );
     };
     insertEmptyRowToOrganizationInfo();
@@ -156,9 +153,9 @@ export default function InstitutionInformationForm({
     const setSigningPerson = async () => {
       await SetSigningPerson(
         'https://localhost:5001/spSetSigningPerson?organizationInfo_id=' +
-          organizationInfoId +
-          '&signingPerson_id=' +
-          authorizedSignotaryPersonID
+        organizationInfoId +
+        '&signingPerson_id=' +
+        authorizedSignotaryPersonID
       );
     };
     setSigningPerson();
@@ -168,9 +165,9 @@ export default function InstitutionInformationForm({
     const setAddOrganizationContactInfo = async () => {
       await AddOrganizationContactInfo(
         'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
-          organizationInfoId +
-          '&contact_id=' +
-          contactPersonID
+        organizationInfoId +
+        '&contact_id=' +
+        contactPersonID
       );
     };
     setAddOrganizationContactInfo();
@@ -180,9 +177,9 @@ export default function InstitutionInformationForm({
     const setUniversityIdOfOrganizationInfo = async () => {
       await SetUniversityIdOfOrganizationInfo(
         'https://localhost:5001/spSetUniversityIdOfOrganizationInfo?hei_id=' +
-          institution +
-          '&organizationInfo_id=' +
-          organizationInfoId
+        institution +
+        '&organizationInfo_id=' +
+        organizationInfoId
       );
     };
     setUniversityIdOfOrganizationInfo();
@@ -192,7 +189,7 @@ export default function InstitutionInformationForm({
     const updateDateOfBilateralAgreement = async () => {
       await UpdateDateOfBilateralAgreement(
         'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=' +
-          bilateralAgreementID
+        bilateralAgreementID
       );
     };
     updateDateOfBilateralAgreement();
@@ -233,7 +230,7 @@ export default function InstitutionInformationForm({
     const setCreatorOfBilateralAgreement = async () => {
       await SetCreatorOfBilateralAgreement(
         'https://localhost:5001/spSetCreatorOfBilateralAgreement?bilateralAgreement_id=' +
-          bilateralAgreementID
+        bilateralAgreementID
       );
     };
     setCreatorOfBilateralAgreement();
@@ -245,29 +242,18 @@ export default function InstitutionInformationForm({
 
     return new Promise<void>(async (resolve, reject) => {
       try {
-        console.log('new org id: ', organizationInfoId);
-        console.log('bilateral agreement id: ', bilateralAgreementID);
         await handleInsertEmptyRowToBilateralAgreement(bilateralAgreementID);
-        console.log('inserted empty row to bilateral agreement');
         await handleInsertEmptyRowToOrganizationInfo(organizationInfoId);
-        console.log('inserted empty row to organization info');
         await handleSetUniversityIdOfOrganizationInfo();
-        console.log('set university id of organization info', institutionID);
         await handleSetSigningPerson();
-        console.log('set signing person', authorizedSignotaryPersonID);
         await handleAddOrganizationContactInfo();
-        console.log('add organization contact info', contactPersonID);
         await handleUpdateDateOfBilateralAgreement();
-        console.log('update date of bilateral agreement');
+
         await handleSaveOrganizationInfo();
-        console.log('save organization info', organizationInfoId);
+
         await handleAddOrganizationInfoToBilateralAgreement();
-        console.log(
-          'add organization info to bilateral agreement',
-          organizationInfoId
-        );
+
         await handleSetCreatorOfBilateralAgreement();
-        console.log('set creator of bilateral agreement', organizationInfoId);
         onSave();
 
         toast({
@@ -288,7 +274,6 @@ export default function InstitutionInformationForm({
           duration: 5000,
           isClosable: true,
         });
-        console.log(error);
         reject(error);
       }
     });
@@ -351,7 +336,6 @@ export default function InstitutionInformationForm({
       setAuthorizedSignotary(organizationInfo?.signingPersonFullName);
       setContactPerson(organizationInfo?.signingPersonFullName);
       setSigningDateInp(organizationInfo?.signingDate);
-      console.log('organizationInfo?.uniName : ', organizationInfo?.uniName);
     }
   }, [organizationInfo]);
 
@@ -359,11 +343,10 @@ export default function InstitutionInformationForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-          organizationInfoId
+        organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setOrganizationInfo(data);
-        console.log('data: ', data); // Process the fetched data
       }
     };
     if (organizationInfoId != 0) {

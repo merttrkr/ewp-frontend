@@ -180,7 +180,6 @@ export default function MobilityProgramFormLongTerm({
           duration: 5000,
           isClosable: true,
         });
-        console.log(error);
         reject(error);
       }
     });

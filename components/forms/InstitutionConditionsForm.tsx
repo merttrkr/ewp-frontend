@@ -160,7 +160,7 @@ export default function InstitutionConditionsForm({
       }
     };
     if (collaborationConditionId != 0) {
-      console.log('collaborationConditionId added: ', collaborationConditionId);
+
       insertEmptyRowToCollaborationCondition();
     }
   }
@@ -212,10 +212,7 @@ export default function InstitutionConditionsForm({
 
   useEffect(() => {
     if (collaborationCondition && organizationInfo && partnerOrganizationInfo) {
-      console.log(
-        'organizationInfo?.heiId: ',
-        organizationInfo?.heiId + organizationInfoId
-      );
+
       setSenderInstitution(organizationInfo?.heiId);
 
       setReceiverInstitution(partnerOrganizationInfo?.heiId);
@@ -274,14 +271,7 @@ export default function InstitutionConditionsForm({
         console.error('Error:', error);
       }
     };
-    console.log(
-      'cc:',
-      collaborationConditionId,
-      'li:',
-      languageID,
-      'lli:',
-      languageLevelID
-    );
+
     if (collaborationConditionId && languageID != 0 && languageLevelID != 0) {
       addLanguageSkillForCollaborationCondition();
     }
@@ -356,7 +346,6 @@ export default function InstitutionConditionsForm({
       if (data) {
         setSenderContactPerson(data[0]);
 
-        console.log('data: ', data); // Process the fetched data
       }
     };
     fetchInitialData();
@@ -370,7 +359,7 @@ export default function InstitutionConditionsForm({
       if (data) {
         setReceiverContactPerson(data[0]);
 
-        console.log('data: ', data); // Process the fetched data
+     
       }
     };
     fetchInitialData();
@@ -383,7 +372,7 @@ export default function InstitutionConditionsForm({
           organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
-        console.log('data: ', data); // Process the fetched data
+
         setOrganizationInfo(data);
       }
     };
@@ -395,10 +384,7 @@ export default function InstitutionConditionsForm({
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        //alert(JSON.stringify(values, null));
-        //console.log('values: ', values);
-        console.log('collaboration condition id:' + collaborationConditionId);
-        console.log('bilateral agreement id:' + bilateralAgreementID);
+
         await handleInsertEmptyRowToCollaborationCondition();
         await handleAddLanguageSkillForCollaborationCondition();
         await handleUpdateDateOfBilateralAgreement();
@@ -426,7 +412,7 @@ export default function InstitutionConditionsForm({
           duration: 5000,
           isClosable: true,
         });
-        console.log(error);
+    
         reject(error);
       }
     });

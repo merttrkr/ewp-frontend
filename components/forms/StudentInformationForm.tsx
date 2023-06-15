@@ -81,7 +81,6 @@ export default function StudentInformationForm({
     return new Promise<void>(async (resolve, reject) => {
       try {
         alert(JSON.stringify(values, null));
-        console.log('values: ', values);
 
         toast({
           title: 'Kayıt Başarılı.',
@@ -101,7 +100,6 @@ export default function StudentInformationForm({
           duration: 5000,
           isClosable: true,
         });
-        console.log(error);
         reject(error);
       }
     });

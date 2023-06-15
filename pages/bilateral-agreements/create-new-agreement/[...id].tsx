@@ -55,7 +55,6 @@ export default function TabComponent() {
   }
   useEffect(() => {
     let ids = id?.toString().split(',');
-    console.log('ids', ids);
 
     if (ids !== undefined) {
       setNewOrganizationInfoId(Number(ids[0]));
@@ -74,7 +73,6 @@ export default function TabComponent() {
 
   const handleSaveStateUpdate = () => {
     setSaveState((prevState) => prevState + 1);
-    console.log('--------x----------', saveState);
   };
 
   return (

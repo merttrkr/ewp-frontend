@@ -131,10 +131,7 @@ const useUpdate = () => {
   const UpdateDateOfBilateralAgreement = async (
     request: string
   ): Promise<string> => {
-    console.log('request update last: ', request);
-    console.log(
-      'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=53'
-    );
+
     const result: string = await makeRequest<string>(request);
 
     return result;
@@ -213,7 +210,6 @@ const useUpdate = () => {
       bilateralAgreement_id,
     } = request;
 
-    console.log('request save : ', request);
     const url = `https://localhost:5001/spSaveOrganizationInfo?id=${id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&signingDate=${signingDate}&isPartner=${isPartner}&IIACode=${IIACode}&IIAId=${IIAId}&bilateralAgreement_id=${bilateralAgreement_id}`;
 
     const result: number = await makeRequest<number>(url);

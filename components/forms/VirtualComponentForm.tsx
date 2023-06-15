@@ -146,7 +146,6 @@ export default function MobilityProgramForm({
           duration: 5000,
           isClosable: true,
         });
-        console.log(error);
         reject(error);
       }
     });

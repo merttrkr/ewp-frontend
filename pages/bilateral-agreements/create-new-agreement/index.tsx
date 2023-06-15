@@ -122,7 +122,6 @@ export default function TabComponent() {
   const handleSaveStateUpdate = () => {
     setSaveState((prevState) => prevState + 1);
 
-    console.log('--------x----------', saveState);
   };
 
   return (

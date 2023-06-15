@@ -81,7 +81,7 @@ export default function CommitmentSignatureForm({
           duration: 5000,
           isClosable: true,
         });
-        console.log(error);
+
         reject(error);
       }
     });

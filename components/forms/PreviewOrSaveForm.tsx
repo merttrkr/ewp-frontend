@@ -51,7 +51,6 @@ export default function PreviewOrSaveForm({
 
   async function handleGetOrganizationInfo() {
     const fetchInitialData = async () => {
-      console.log('savestate handleGetOrganizationInfo : ', saveState);
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
         organizationInfoId
@@ -67,14 +66,12 @@ export default function PreviewOrSaveForm({
   }
   async function handleGetSelectedContactInfoOfOrganizationInfo() {
     const fetchInitialData = async () => {
-      console.log('organizationInfoId handleGetSelectedContactInfoOfOrganizationInfo : ', organizationInfoId);
       
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
         organizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data && data.length > 0) {
-        console.log('data: ', data); // Process the fetched data
         // Assuming the fetched data is an array of contact persons
         const senderContactPersons = data.map((contactPerson: string) => contactPerson);
         setContactPerson(senderContactPersons);

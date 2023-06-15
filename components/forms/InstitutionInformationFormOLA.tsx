@@ -85,8 +85,7 @@ export default function InstitutionInformationForm({
       setUniversityName(heiName);
     }
   }, [heiId]);
-  console.log('universityId başta', universityId);
-  console.log('universityName başta', universityName);
+
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
@@ -108,7 +107,6 @@ export default function InstitutionInformationForm({
           duration: 5000,
           isClosable: true,
         });
-        console.log(error);
         reject(error);
       }
     });
@@ -128,8 +126,6 @@ export default function InstitutionInformationForm({
       setValue('hei_id', value.heiId);
       setUniversityId(value.heiId);
       setUniversityName(value.UniName);
-      console.log('universityId ', universityId);
-      console.log('universityName ', universityName);
     } else {
       setValue('hei_id', ''); // or any default value you want
       setDepartment(''); // or any default value you want
