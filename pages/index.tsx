@@ -1,4 +1,3 @@
-import HeroSection from '@/components/HeroSection';
 import Image from 'next/image';
 import {
   Box,
@@ -20,7 +19,7 @@ export default function Home() {
       width={'100%'}
       alignItems={'center'}
       justifyContent={'center'}
-      paddingY={'25'}
+      paddingY={25}
     >
       <Flex
         justifyContent={'center'}
@@ -36,12 +35,12 @@ export default function Home() {
       >
         <Image
           width={150}
-          height={'150'}
+          height={150}
           src={colorMode === 'light' ? logoSrc : darkLogoSrc}
           alt={'EWP Logo'}
-        ></Image>
+        />
         <Box>
-          <Heading color={'#9C1F23'}>EWP IYTE'ye hoş geldiniz!</Heading>
+          <Heading color='#9C1F23'>EWP IYTE&apos;ye hoş geldiniz!</Heading>
         </Box>
       </Flex>
     </Flex>
