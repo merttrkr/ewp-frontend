@@ -26,6 +26,7 @@ import { useToast } from '@chakra-ui/react';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import useRead from '@/hooks/read/useRead';
 import DateInput from '../form-components/inputs/DateInput';
+import { log } from 'console';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -86,7 +87,7 @@ export default function InstitutionInformationForm({
   const [IIAID, setIIAID] = useState('');
   //values from generate functions
   const [authorizedSignotaryPersonID, setauthorizedSignotaryPersonID] =
-    useState<number[]>([]);
+    useState(0);
   const [contactPersonID, setContactPersonID] = useState<number[]>([]);
   const [departmentID, setDepartmentID] = useState(0);
   const [institutionID, setInstitutionId] = useState(0);
@@ -151,18 +152,17 @@ export default function InstitutionInformationForm({
 
   async function handleSetSigningPerson() {
     const setSigningPerson = async () => {
+
+      
       if (organizationInfoId != 0 ) {
-      authorizedSignotaryPersonID.map(async (item)=>{
-        console.log('item' +  organizationInfoId  + '   '+ item);
-        
+
         await SetSigningPerson(
           'https://localhost:5001/spSetSigningPerson?organizationInfo_id=' +
           organizationInfoId +
           '&signingPerson_id=' +
-          item
+          authorizedSignotaryPersonID
         );
       }
-      )}
       
     };
     setSigningPerson();
@@ -301,13 +301,17 @@ export default function InstitutionInformationForm({
     }
   };
 
-  const handleSelectChangeContact = (value: Contact[] | null) => {
-    if (value) {
+  const handleSelectChangeContact = (value: Contact | Contact[] | null) => {
+    if (Array.isArray(value)) {
       const contactPersonNames = value.map(contact => contact.fullName).join(', ');
       setValue('contact_persons', contactPersonNames);
       setContactPerson(contactPersonNames);
       const contactPersonIDs = value.map(contact => contact.id);
       setContactPersonID(contactPersonIDs);
+    } else if (value) {
+      setValue('contact_persons', value.fullName);
+      setContactPerson(value.fullName);
+      setContactPersonID(Array(value.id));
     } else {
       setValue('contact_persons', ''); // or any default value you want
       setContactPerson(''); // or any default value you want
@@ -315,19 +319,22 @@ export default function InstitutionInformationForm({
     }
   };
   
-  const handleAuthorizedSignerSelectChangeContact = (value: Contact[] | null) => {
-    if (value) {
-      const authorizedSignatoryNames = value.map(contact => contact.fullName).join(', ');
-      setValue('authorized_signotary', authorizedSignatoryNames);
-      setAuthorizedSignotary(authorizedSignatoryNames);
-      const authorizedSignatoryIDs = value.map(contact => contact.id);
-      setauthorizedSignotaryPersonID(authorizedSignatoryIDs);
+  
+  const handleAuthorizedSignerSelectChangeContact = (value: Contact | Contact[] | null) => {
+
+    if (value && !Array.isArray(value) ) {
+      setValue('authorized_signotary', value.fullName);
+      setAuthorizedSignotary(value.fullName);
+      console.log(value.id);
+    
+      setauthorizedSignotaryPersonID(value.id);
     } else {
       setValue('authorized_signotary', ''); // or any default value you want
       setAuthorizedSignotary(''); // or any default value you want
-      setauthorizedSignotaryPersonID([]); // or any default value you want
+      setauthorizedSignotaryPersonID(0); // or any default value you want
     }
   };
+  
   
   const handleSelectChangeDepartment = (value: Department | null) => {
     if (value) {
@@ -429,6 +436,7 @@ export default function InstitutionInformationForm({
               register={register('IIA_Code')}
             />
             <SelectContact
+              isMultiple
               id='contact_persons'
               error={errors.contact_persons?.message}
               register={register('contact_persons')}
