@@ -45,7 +45,7 @@ export default function TabComponent() {
     const fetchBilateralAgreementIsInEffect = async () => {
       const data = await CheckIfBilateralAgreementIsInEffect(
         'https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=' +
-          bilateralAgreementID
+        bilateralAgreementID
       );
       if (data) {
         setbilateralAgreementState(data);
@@ -142,9 +142,14 @@ export default function TabComponent() {
           />
           <Flex
             bgColor={HeaderBackground}
-            mb={'100'}
+            mb={100}
             borderRadius={'md'}
             height={50}
+            flexDirection={['column', 'column', 'row']}
+            alignItems={['center', 'center', 'flex-start']}
+            justifyContent={['center', 'center', 'flex-start']}
+            px={[4, 4, 6]}
+            py={[4, 4, 0]}
           >
             <Heading
               pl={6}
@@ -153,13 +158,13 @@ export default function TabComponent() {
               size='md'
               fontWeight={'medium'}
               color={HeadingColor}
+              textAlign={['center', 'center', 'left']}
             >
               Anlaşma Yürürlük Durumu:{' '}
-              {bilateralAgreementState === 'Hayır'
-                ? 'Yürürlükte değil'
-                : 'Yürürlükte'}
+              {bilateralAgreementState === 'Hayır' ? 'Yürürlükte değil' : 'Yürürlükte'}
             </Heading>
           </Flex>
+
         </TabPanel>
       </TabPanels>
     </Tabs>
