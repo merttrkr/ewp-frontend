@@ -32,7 +32,7 @@ export default function PreviewOrSaveForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
-  const [contactPerson, setContactPerson] = useState([] as string[] );
+  const [contactPerson, setContactPerson] = useState([] as string[]);
   const toast = useToast();
   useEffect(() => {
     handleGetOrganizationInfo();
@@ -49,7 +49,7 @@ export default function PreviewOrSaveForm({
     GetSelectedContactInfoOfOrganizationInfo,
     GetOrganizationInfo,
   } = useRead();
-  
+
   async function handleGetOrganizationInfo() {
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
@@ -60,14 +60,13 @@ export default function PreviewOrSaveForm({
         setOrganizationInfo(data);
       }
     };
-    if(organizationInfoId != 0){
+    if (organizationInfoId !== 0) {
       fetchInitialData();
     }
-    
   }
+
   async function handleGetSelectedContactInfoOfOrganizationInfo() {
     const fetchInitialData = async () => {
-      
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
         organizationInfoId
@@ -77,24 +76,22 @@ export default function PreviewOrSaveForm({
         const senderContactPersons = data.map((contactPerson: string) => contactPerson);
         setContactPerson(senderContactPersons);
       }
-
     };
-    if(organizationInfoId != 0){
+    if (organizationInfoId !== 0) {
       fetchInitialData();
     }
- 
   }
-  
-function successToast() {
 
-  toast({
-    title: 'Kayıt Başarılı.',
-    description: 'Anlaşma Taslak olarak kaydedildi.',
-    status: 'success',
-    position: 'top-right',
-    duration: 5000,
-    isClosable: true,
-  });}
+  function successToast() {
+    toast({
+      title: 'Kayıt Başarılı.',
+      description: 'Anlaşma Taslak olarak kaydedildi.',
+      status: 'success',
+      position: 'top-right',
+      duration: 5000,
+      isClosable: true,
+    });
+  }
 
   return (
     <Stack
@@ -119,11 +116,11 @@ function successToast() {
       >
         {pageName}
       </Heading>
-      <Flex gap={3} justifyContent={'center'} p={6}>
-        <Button  onClick={successToast} variant='condition' type='submit'>
+      <Flex direction={['column', 'column', 'row']} justifyContent={['center', 'center', 'space-between']} p={6}>
+        <Button onClick={successToast} variant='condition' type='submit' mb={[4, 4, 0]}>
           Anlaşmayı Taslak Olarak Kaydet
         </Button>
-        <Button variant='autoWidthFull' type='reset'>
+        <Button variant='autoWidthFull' type='reset' mb={[4, 4, 0]}>
           Karşı Kuruma Anlaşma Bildirimi Gönder
         </Button>
         <Button variant='autoWidthFull' type='reset'>
@@ -138,37 +135,37 @@ function successToast() {
         bg={FormBackground}
         borderRadius={'xl'}
       >
-        <Flex>
-          <Stack w='50%' spacing={4} p='5'>
+        <Flex direction={['column', 'column', 'row']}>
+          <Stack w={['100%', '100%', '50%']} spacing={4} p='5'>
             <DisplayText
               label={'Kurum / Üniversite Adı'}
               content={organizationInfo?.uniName ?? '-'}
-            ></DisplayText>
+            />
             <DisplayText
               label={'İkili Anlaşma Kodu (IIA-Kodu)'}
               content={organizationInfo?.IIACode ?? '-'}
-            ></DisplayText>
+            />
             <DisplayText
               label={'Anlaşmayı İmzalayacak Yetkili'}
               content={organizationInfo?.signingPersonFullName ?? '-'}
-            ></DisplayText>
+            />
             <DisplayText
               label={'İletişim Kurulabilecek Yetkililer'}
-              content={contactPerson.join(', ')  ?? '-'}
-            ></DisplayText>
+              content={contactPerson.join(', ') ?? '-'}
+            />
           </Stack>
-          <Stack w='50%' spacing={4} p='5'>
+          <Stack w={['100%', '100%', '50%']} spacing={4} p='5'>
             <DisplayText
               label={'Departman / Bölüm Adı'}
               content={organizationInfo?.ounitName ?? '-'}
-            ></DisplayText>
+            />
             <DisplayText
               label={'İkili Anlaşma IDsi (IIA-ID)'}
               content={organizationInfo?.IIAID ?? '-'}
-            ></DisplayText>
-            <DisplayText 
-            label='İmzalanma Tarihi' 
-            content={ organizationInfo?.signingDate ?? '-'} 
+            />
+            <DisplayText
+              label='İmzalanma Tarihi'
+              content={organizationInfo?.signingDate ?? '-'}
             />
             <Flex w={'full'} bg={'gray.100'}></Flex>
           </Stack>
