@@ -113,8 +113,12 @@ export default function InstitutionConditionsForm({
   const [receiverDepartment, setReceiverDepartment] = useState('');
   const [senderContactPerson, setSenderContactPerson] = useState('');
   const [receiverContactPerson, setReceiverContactPerson] = useState('');
-  const [senderContactPersonID, setSenderContactPersonID] = useState(0);
-  const [receiverContactPersonID, setReceiverContactPersonID] = useState(0);
+  const [senderContactPersonID, setSenderContactPersonID] = useState<number[]>(
+    []
+  );
+  const [receiverContactPersonID, setReceiverContactPersonID] = useState<
+    number[]
+  >([]);
   const [startingAcademicYear, setStartingAcademicYear] = useState('');
   const [endingAcademicYear, setEndingAcademicYear] = useState('');
   const [startingAcademicYearID, setStartingAcademicYearID] = useState(0);
@@ -160,7 +164,6 @@ export default function InstitutionConditionsForm({
       }
     };
     if (collaborationConditionId != 0) {
-
       insertEmptyRowToCollaborationCondition();
     }
   }
@@ -212,7 +215,6 @@ export default function InstitutionConditionsForm({
 
   useEffect(() => {
     if (collaborationCondition && organizationInfo && partnerOrganizationInfo) {
-
       setSenderInstitution(organizationInfo?.heiId);
 
       setReceiverInstitution(partnerOrganizationInfo?.heiId);
@@ -245,7 +247,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-        partnerOrganizationInfoId
+          partnerOrganizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setPartnerOrganizationInfo(data);
@@ -341,11 +343,13 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-        organizationInfoId
+          organizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
-        setSenderContactPerson(data[0]);
-
+        const contactPersonNames = data
+          .map((contact: string) => contact)
+          .join(', ');
+        setSenderContactPerson(contactPersonNames);
       }
     };
     fetchInitialData();
@@ -354,12 +358,13 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-        partnerOrganizationInfoId
+          partnerOrganizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
-        setReceiverContactPerson(data[0]);
-
-
+        const contactPersonNames = data
+          .map((contact: string) => contact)
+          .join(', ');
+        setReceiverContactPerson(contactPersonNames);
       }
     };
     fetchInitialData();
@@ -369,10 +374,9 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-        organizationInfoId
+          organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
-
         setOrganizationInfo(data);
       }
     };
@@ -384,7 +388,6 @@ export default function InstitutionConditionsForm({
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
-
         await handleInsertEmptyRowToCollaborationCondition();
         await handleAddLanguageSkillForCollaborationCondition();
         await handleUpdateDateOfBilateralAgreement();
@@ -462,22 +465,38 @@ export default function InstitutionConditionsForm({
     }
   };
 
-  const handleSenderContactChange = (value: Contact | null) => {
-    if (value) {
+  const handleSenderContactChange = (value: Contact | Contact[] | null) => {
+    if (Array.isArray(value)) {
+      const contactPersonNames = value
+        .map((contact) => contact.fullName)
+        .join(', ');
+      setValue('sender_contact_person', contactPersonNames);
+      setSenderContactPerson(contactPersonNames);
+      const contactPersonIDs = value.map((contact) => contact.id);
+      setSenderContactPersonID(contactPersonIDs);
+    } else if (value) {
       setValue('sender_contact_person', value.fullName);
       setSenderContactPerson(value.fullName);
-      setSenderContactPersonID(value.id);
+      setSenderContactPersonID(Array(value.id));
     } else {
       setValue('sender_contact_person', ''); // or any default value you want
       setSenderContactPerson(''); // or any default value you want
     }
   };
 
-  const handleReceiverContactChange = (value: Contact | null) => {
-    if (value) {
+  const handleReceiverContactChange = (value: Contact | Contact[] | null) => {
+    if (Array.isArray(value)) {
+      const contactPersonNames = value
+        .map((contact) => contact.fullName)
+        .join(', ');
+      setValue('receiver_contact_person', contactPersonNames);
+      setReceiverContactPerson(contactPersonNames);
+      const contactPersonIDs = value.map((contact) => contact.id);
+      setReceiverContactPersonID(contactPersonIDs);
+    } else if (value) {
       setValue('receiver_contact_person', value.fullName);
       setReceiverContactPerson(value.fullName);
-      setReceiverContactPersonID(value.id);
+      setReceiverContactPersonID(Array(value.id));
     } else {
       setValue('receiver_contact_person', ''); // or any default value you want
       setReceiverContactPerson(''); // or any default value you want
@@ -565,7 +584,6 @@ export default function InstitutionConditionsForm({
       py={[2, 3]}
       w={['100%', null, 'auto']}
       bg={HeaderBackground}
-
       borderBottom='1px'
       borderColor={BorderColor}
       borderRadius='xl'
@@ -582,19 +600,17 @@ export default function InstitutionConditionsForm({
         mt={[6, 10]}
         boxShadow={'lg'}
         padding={[3, 5]}
-
         bg={FormBackground}
         borderRadius={'xl'}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Flex w={"100%"}  p={[2, 5]}>
+        <Flex w={'100%'} p={[2, 5]}>
           <SelectCollaborationCondition
             id='condition_type'
             error={errors.condition_type?.message}
             register={register('condition_type')}
             placeholder='Öğrenim'
             selectLabel='Koşul seçiniz'
-
             onChange={handleConditionChange}
           ></SelectCollaborationCondition>
         </Flex>
@@ -758,8 +774,20 @@ export default function InstitutionConditionsForm({
             register={register('other_info')}
           />
         </Box>
-        <Flex direction={['column', 'row']} gap={2} justifyContent={['center', null, 'right']} alignItems={['flex-start', 'center']} pr={[2, 4]} mt={[6, 8]}>
-          <Button whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" variant='condition'>
+        <Flex
+          direction={['column', 'row']}
+          gap={2}
+          justifyContent={['center', null, 'right']}
+          alignItems={['flex-start', 'center']}
+          pr={[2, 4]}
+          mt={[6, 8]}
+        >
+          <Button
+            whiteSpace='nowrap'
+            overflow='hidden'
+            textOverflow='ellipsis'
+            variant='condition'
+          >
             Aynı Koşulları Partnerime De Ekle
           </Button>
           <Button variant='submit' type='submit'>
