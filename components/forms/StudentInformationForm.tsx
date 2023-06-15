@@ -172,17 +172,18 @@ export default function StudentInformationForm({
 
   return (
     <Stack
-      marginBottom='20'
-      px={6}
-      py='3'
-      w='100%'
-      bg={HeaderBackground}
-      marginLeft={0}
-      borderBottom='1px'
-      borderColor={BorderColor}
-      borderRadius={'xl'}
+    
+    marginBottom='20'
+    px={[2, 6]} // Responsive padding on small and larger screens
+    py='3'
+    w='100%'
+    bg={HeaderBackground}
+    marginLeft={0}
+    borderBottom='1px'
+    borderColor={BorderColor}
+    borderRadius={'xl'}
     >
-      <Box pl={6} py={4}>
+      <Box pl={[2, 6]} py={4}>
         <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
           {pageName}
         </Heading>
@@ -192,12 +193,12 @@ export default function StudentInformationForm({
         as={'form'}
         mt={10}
         boxShadow={'lg'}
-        padding={5}
+        padding={[2, 5]}
         bg={FormBackground}
         borderRadius={'xl'}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Flex p='5'>
+        <Flex w={"100%"}  p={[2, 5]}>
           <SelectMobilityTypes
             isDisabled
             selectLabel='Seçilmiş Hareketlilik (Mobilite) Tipi'
@@ -208,8 +209,8 @@ export default function StudentInformationForm({
           />
         </Flex>
 
-        <Flex>
-          <Stack w='50%' spacing={4} p='5'>
+        <Flex flexWrap={['wrap', null, 'nowrap']}>
+          <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <TextInput
               id='omobility_id'
               label='Omobility Id'
@@ -260,7 +261,7 @@ export default function StudentInformationForm({
               onChange={handleISCEDchange}
             ></SelectISCED>
           </Stack>
-          <Stack w='50%' spacing={4} p='5'>
+          <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <TextInput
               placeholder=''
               label='Öğrencinin Soy İsmi'

@@ -12,7 +12,7 @@ export default function Home() {
   const logoAltText = 'EWP Logo';
   const logoSrc = '/logo_ewp.png';
   const darkLogoSrc = '/logo_ewp_dark.png';
-  
+
   return (
     <Flex
       width='100%'
@@ -50,7 +50,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <Heading color={accentColor} fontSize={['4xl', '5xl']} textAlign='center'>
-              EWP IYTE&apos; ye hoş geldiniz!
+              EWP IYTE&apos;ye hoş geldiniz!
             </Heading>
           </motion.div>
         </Box>
