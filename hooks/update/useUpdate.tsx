@@ -235,6 +235,8 @@ const useUpdate = () => {
   const AddOrganizationContactInfo = async (
     request: string
   ): Promise<string> => {
+    console.log(request + ' request');
+    
     const result: string = await makeRequest<string>(request);
     return result;
   };

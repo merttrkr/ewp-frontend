@@ -26,7 +26,7 @@ import { useToast } from '@chakra-ui/react';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import useRead from '@/hooks/read/useRead';
 import DateInput from '../form-components/inputs/DateInput';
-import { log } from 'console';
+import { log, time } from 'console';
 
 type InstitutionInformationFormProps = {
   pageName: string;
@@ -169,19 +169,27 @@ export default function InstitutionInformationForm({
   }
 
   async function handleAddOrganizationContactInfo() {
-    const setAddOrganizationContactInfo = async () => {
-      contactPersonID.map(async (item)=>{
-        await AddOrganizationContactInfo(
-          'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
+    const addContactPromises = contactPersonID.map(async (item) => {
+      await AddOrganizationContactInfo(
+        'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
           organizationInfoId +
           '&contact_id=' +
           item
-        );
-      })
+      );
+    });
   
-    };
-    setAddOrganizationContactInfo();
+    try {
+      await Promise.all(addContactPromises);
+      // All requests completed successfully
+      // Add any additional logic here
+    } catch (error) {
+      console.log('girdim'+ error);
+      
+      // Error occurred during one or more requests
+      // Handle or log the error as needed
+    }
   }
+  
 
   async function handleSetUniversityIdOfOrganizationInfo() {
     const setUniversityIdOfOrganizationInfo = async () => {
