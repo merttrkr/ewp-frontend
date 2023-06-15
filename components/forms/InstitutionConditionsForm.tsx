@@ -561,8 +561,8 @@ export default function InstitutionConditionsForm({
   return (
     <Stack
       marginBottom={['20', null, '0']}
-      px={[4, 6]}
-      py={[4, 6]}
+      px={[3, 6]}
+      py={[2, 3]}
       w={['100%', null, 'auto']}
       bg={HeaderBackground}
       marginLeft={0}
@@ -570,7 +570,7 @@ export default function InstitutionConditionsForm({
       borderColor={BorderColor}
       borderRadius='xl'
     >
-      <Box pl={[4, 6]} py={[3, 4]}>
+      <Box pl={[3, 6]} py={[2, 4]}>
         <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
           {pageName}
         </Heading>
@@ -579,9 +579,10 @@ export default function InstitutionConditionsForm({
 
       <Box
         as={'form'}
-        mt={10}
+        mt={[6, 10]}
         boxShadow={'lg'}
-        padding={5}
+        padding={[3, 5]}
+
         bg={FormBackground}
         borderRadius={'xl'}
         onSubmit={handleSubmit(onSubmit)}
@@ -599,7 +600,7 @@ export default function InstitutionConditionsForm({
         </Flex>
 
         <Flex flexWrap={['wrap', null, 'nowrap']}>
-          <Stack w={['100%', '50%']} spacing={4} p={[3, 5]}>
+          <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='sender_instution_name'
@@ -666,7 +667,7 @@ export default function InstitutionConditionsForm({
               error={errors.education_type_and_level?.message}
             ></SelectEducationTypeAndLevel>
           </Stack>
-          <Stack w={['100%', '50%']} spacing={4} p={[3, 5]}>
+          <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='receiver_instution_name'
@@ -757,15 +758,14 @@ export default function InstitutionConditionsForm({
             register={register('other_info')}
           />
         </Box>
-
-        <Flex gap={3} justifyContent={['center', null, 'right']} pr={[2, 4]} mt={[6, 8]}>
+        <Flex direction={['column', 'row']} gap={2} justifyContent={['center', null, 'right']} alignItems={['flex-start', 'center']} pr={[2, 4]} mt={[6, 8]}>
+          <Button whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" variant='condition'>
+            Aynı Koşulları Partnerime De Ekle
+          </Button>
           <Button variant='submit' type='submit'>
             Kaydet
           </Button>
-          <Button whiteSpace="nowrap"
-            overflow="hidden"
-            textOverflow="ellipsis" variant='condition'>Aynı Koşulları Partnerime De Ekle</Button>
-          <Button variant='clear' type='reset'>
+          <Button variant='clear' type='reset' ml={[0, 2]}>
             Temizle
           </Button>
         </Flex>
