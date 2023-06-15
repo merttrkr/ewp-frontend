@@ -565,7 +565,7 @@ export default function InstitutionConditionsForm({
       py={[2, 3]}
       w={['100%', null, 'auto']}
       bg={HeaderBackground}
-      marginLeft={0}
+
       borderBottom='1px'
       borderColor={BorderColor}
       borderRadius='xl'
@@ -587,7 +587,7 @@ export default function InstitutionConditionsForm({
         borderRadius={'xl'}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Flex p='5' w='100%'>
+        <Flex w={"100%"}  p={[2, 5]}>
           <SelectCollaborationCondition
             id='condition_type'
             error={errors.condition_type?.message}

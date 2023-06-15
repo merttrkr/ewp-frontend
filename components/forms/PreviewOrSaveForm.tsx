@@ -116,7 +116,7 @@ export default function PreviewOrSaveForm({
       >
         {pageName}
       </Heading>
-      <Flex direction={['column', 'column', 'row']} justifyContent={['center', 'center', 'space-between']} p={6}>
+      <Flex gap={3} direction={['column', 'column', 'row']} justifyContent={['center', 'center', 'space-between']} p={6}>
         <Button onClick={successToast} variant='condition' type='submit' mb={[4, 4, 0]}>
           Anlaşmayı Taslak Olarak Kaydet
         </Button>

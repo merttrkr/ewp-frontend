@@ -371,7 +371,7 @@ export default function InstitutionInformationForm({
       py={[2, 3]}
       w={['100%', null, 'auto']}
       bg={HeaderBackground}
-      marginLeft={[0, 4]}
+     
       borderBottom='1px'
       borderColor={BorderColor}
       borderRadius={'xl'}
