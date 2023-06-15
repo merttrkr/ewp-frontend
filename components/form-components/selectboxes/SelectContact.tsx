@@ -13,13 +13,15 @@ type SelectContactProps = {
   isDisabled?: boolean;
   id?: string;
   register: any;
-  onChange: (value: Contact[] | null) => void; // Updated prop for handling value change
+  onChange: (value: Contact[] | null | Contact) => void; // Updated prop for handling value change
   param: string;
   error: string | undefined;
+  isMultiple?: boolean;
 };
 
 const Select: React.FC<SelectContactProps> = ({
   isDisabled = false,
+  isMultiple = false,
   selectLabel,
   id = 'default-select',
   placeholder,
@@ -67,7 +69,7 @@ const Select: React.FC<SelectContactProps> = ({
             <label htmlFor={id}>{selectLabel}</label>
           </Heading>
           <Autocomplete
-            multiple // Enable multiple selections
+            multiple={isMultiple} // Enable multiple selections
             disabled={isDisabled}
             onChange={(event, value) => onChange(value)} // Pass the array of selected values
             disablePortal
