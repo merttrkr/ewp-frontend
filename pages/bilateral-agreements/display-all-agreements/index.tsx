@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import PreviewIIA from '@/components/PreviewIIA';
-import { Flex, Button, Input, Stack, Center, Text, Heading } from '@chakra-ui/react';
+import {
+  Flex,
+  Button,
+  Input,
+  Stack,
+  Center,
+  Text,
+  Heading,
+  Box,
+  SimpleGrid,
+} from '@chakra-ui/react';
 import TextInput from '@/components/form-components/inputs/TextInput';
 import { SearchIcon } from '@chakra-ui/icons';
 import useRead from '@/hooks/read/useRead';
@@ -57,35 +67,43 @@ export default function DisplayAgreements() {
   return (
     <>
       {/* Search input field */}
-      <Flex align={'center'} justify={'flex-end'} px={6} py={4}>
-        <Stack justify={'right'} px={2} direction={'row'}>
+      <Flex align={'center'} justify={'flex-end'} px={6} py={4} direction={['column', 'row']}>
+        <Stack justify={['flex-start', 'right']} px={2} direction={['row', 'row', 'row', 'row', 'row', 'row', 'row']}>
           <SearchIcon mt={3} color="gray.600" />
           <Input width='auto' value={searchQuery} onChange={handleSearchChange} />
         </Stack>
-        <Button as={NextLink} href={'/bilateral-agreements/create-new-agreement/'} variant="condition">Yeni Anlaşma Oluştur</Button>
+        <Button as={NextLink} href={'/bilateral-agreements/create-new-agreement/'} variant="condition" mt={[4, 0]}>
+          Yeni Anlaşma Oluştur
+        </Button>
       </Flex>
 
       {currentAgreements.length === 0 ? (
-        <Flex justify={'center'}><Heading fontWeight={'sm'} fontSize={"2xl"} fontStyle={'normal'}>No agreements to display.</Heading></Flex>
-
+        <Flex justify={'center'}>
+          <Heading fontWeight={'sm'} fontSize={"2xl"} fontStyle={'normal'}>
+            No agreements to display.
+          </Heading>
+        </Flex>
       ) : (
         // Loop through the currentAgreements array and render PreviewIIA component for each agreement
-        currentAgreements.map(agreement => (
-          <PreviewIIA
-            key={agreement.bilateralAgreement_id}
-            IIA={agreement.ownIIACode || '-'}
-            BilateralAgreement={agreement}
-          />
-        ))
+        <SimpleGrid columns={[1, 2, 3]} gap={4} px={4} py={2}>
+          {currentAgreements.map(agreement => (
+            <PreviewIIA
+              key={agreement.bilateralAgreement_id}
+              IIA={agreement.ownIIACode || '-'}
+              BilateralAgreement={agreement}
+            />
+          ))}
+        </SimpleGrid>
       )}
 
       {/* Pagination controls */}
-      <Flex justify={'center'}>
+      <Flex justify={'center'} mt={4}>
         {Array.from({ length: totalPages }, (_, index) => index + 1).map(pageNumber => (
           <Button
             key={pageNumber}
             onClick={() => handlePageChange(pageNumber)}
             variant={currentPage === pageNumber ? 'solid' : 'outline'}
+            mr={2}
           >
             {pageNumber}
           </Button>
