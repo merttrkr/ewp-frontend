@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 export default function Home() {
   const { colorMode } = useColorMode();
   const containerBackground = useColorModeValue('gray.100', 'gray.700');
-  const accentColor = useColorModeValue('gray.700', 'gray.300');
+  const accentColor = useColorModeValue('gray.600', 'gray.300');
   const logoSize = colorMode === 'light' ? 200 : 250;
   const logoAltText = 'EWP Logo';
   const logoSrc = '/logo_ewp.png';
