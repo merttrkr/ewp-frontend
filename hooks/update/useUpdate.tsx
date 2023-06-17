@@ -6,6 +6,7 @@ import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFo
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
 import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
+import { InstitutionInfoRequest } from '@/models/request/institutionInfoRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -337,6 +338,49 @@ const useUpdate = () => {
     return result;
   };
 
+  //https://localhost:5001/spSaveSendingInstitutionInfo?sendingInstitutionInfo_id=1&hei_id=iyte.edu.tr&universityDepartment_id=1&academicPersonnelName=fafa&academicPersonnelSurname=ahahha&academicPersonnelEmail=w%40gmail.com&administrativePersonnelName=a&administrativePersonnelSurname=b&administrativePersonnelEmail=a%40gmail.com&phoneNumberE164=1234456&phoneNumberExt=123
+  const SaveSendingInstitutionInfo = async (
+    request: InstitutionInfoRequest
+  ): Promise<number> => {
+    const {
+      sendingInstitutionInfo_id,
+      hei_id,
+      universityDepartment_id,
+      academicPersonnelName,
+      academicPersonnelSurname,
+      academicPersonnelEmail,
+      administrativePersonnelName,
+      administrativePersonnelSurname,
+      administrativePersonnelEmail,
+      phoneNumberE164,
+      phoneNumberExt,
+    } = request;
+    const encodedAcademicPersonnelName = encodeURIComponent(
+      academicPersonnelName
+    );
+    const encodedAcademicPersonnelSurname = encodeURIComponent(
+      academicPersonnelSurname
+    );
+    const encodedAcademicPersonnelEmail = encodeURIComponent(
+      academicPersonnelEmail
+    );
+    const encodedAdministrativePersonnelName = encodeURIComponent(
+      administrativePersonnelName
+    );
+    const encodedAdministrativePersonnelSurname = encodeURIComponent(
+      administrativePersonnelSurname
+    );
+    const encodedAdministrativePersonnelEmail = encodeURIComponent(
+      administrativePersonnelEmail
+    );
+
+    const url = `https://localhost:5001/spSaveSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${encodedAcademicPersonnelName}&academicPersonnelSurname=${encodedAcademicPersonnelSurname}&academicPersonnelEmail=${encodedAcademicPersonnelEmail}&administrativePersonnelName=${encodedAdministrativePersonnelName}&administrativePersonnelSurname=${encodedAdministrativePersonnelSurname}&administrativePersonnelEmail=${encodedAdministrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
+
   return {
     UpdateStateOfBilateralAgreement,
     AddCollaborationConditionToBilateralAgreement,
@@ -352,6 +396,7 @@ const useUpdate = () => {
     AddReceivingInstitutionInfo,
     AddOrganizationInfoToBilateralAgreement,
     SaveStudentInfo,
+    SaveSendingInstitutionInfo,
 
     InsertLASelectedCourse,
 
