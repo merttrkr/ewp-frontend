@@ -124,9 +124,15 @@ export default function DisplayAgreements() {
       ) : (
         currentAgreements.map((agreement) => (
           <PreviewOLA
+            sendingInstitutionInfoId={agreement.sendingInstitutionInfo_id ? agreement.sendingInstitutionInfo_id : 0}
+            receivingInstitutionInfoId={agreement.receivingInstitutionInfo_id ? agreement.receivingInstitutionInfo_id : 0}
+            proposedMobilityProgrammeId={agreement.proposedMobilityProgramme_id ? agreement.proposedMobilityProgramme_id : 0}
+            commitmentId={agreement.commitment_id ? agreement.commitment_id : 0}
+            virtualComponentId={agreement.virtualComponent_id ? agreement.virtualComponent_id : 0}
+            changesProposalVersionId={agreement.changesProposalVersionId ? agreement.changesProposalVersionId : 0}
+            studentInfoId={agreement.studentInfo_id ? agreement.studentInfo_id : 0}
             key={agreement.proposedMobilityProgramme_id}
-            agreement={agreement}
-          />
+            agreement={agreement}        />
         ))
       )}
 
