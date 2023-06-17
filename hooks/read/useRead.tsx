@@ -341,6 +341,18 @@ const useAgreement = () => {
     return sendingInstitutionInfo;
   };
 
+  //https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=21
+  const GetSendingHeiId = async (request: string): Promise<string> => {
+    const hei: string = await makeRequest<string>(request);
+    return hei;
+  };
+
+  //https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=21
+  const GetUniversityFullname = async (request: string): Promise<string> => {
+    const hei: string = await makeRequest<string>(request);
+    return hei;
+  };
+
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
@@ -375,6 +387,8 @@ const useAgreement = () => {
     GetAllLearningAgreements,
     GetStudentInfoById,
     GetSendingInstitutionInfoById,
+    GetSendingHeiId,
+    GetUniversityFullname,
   };
 };
 
