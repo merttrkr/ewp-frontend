@@ -29,6 +29,7 @@ type InstitutionInformationFormProps = {
   heiName?: string;
   institutionInfoID?: number;
   learningAgreementId: number;
+  isPartner: number;
 };
 
 type FormData = {
@@ -50,6 +51,7 @@ export default function InstitutionInformationForm({
   heiName = '',
   institutionInfoID = 0,
   learningAgreementId,
+  isPartner,
 }: InstitutionInformationFormProps) {
   const [formValues, setFormValues] = useState<FormData>({
     hei_id: '',

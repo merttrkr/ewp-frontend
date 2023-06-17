@@ -170,10 +170,12 @@ export default function TabComponent() {
             heiName='Izmir Institute Of Technology'
             institutionInfoID={21}
             learningAgreementId={learningAgreementID}
+            isPartner={0}
           />
           <InstitutionInformationFormOLA
             learningAgreementId={learningAgreementID}
             pageName='Alıcı Kurum /Üniversite Bilgisi'
+            isPartner={1}
           />
         </TabPanel>
         <TabPanel>
