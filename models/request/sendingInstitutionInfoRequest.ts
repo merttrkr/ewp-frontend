@@ -1,4 +1,4 @@
-export interface InstitutionInfoRequest {
+export interface SendingInstitutionInfoRequest {
     sendingInstitutionInfo_id: number;
     hei_id: string;
     universityDepartment_id: number;
