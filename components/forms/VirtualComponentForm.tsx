@@ -19,7 +19,6 @@ import {
 
 import AddComponentModal from './AddComponentModal';
 import { BiTrash } from 'react-icons/bi';
-import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import { LanguageLevel } from '@/models/response/languageLevelResponse';
 import { Language } from '@/models/response/languageResponse';
 import { useEffect, useState } from 'react';

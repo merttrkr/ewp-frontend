@@ -8,7 +8,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
 import TextInput from '@/components/form-components/inputs/TextInput';
 import DateInput from '../form-components/inputs/DateInput';
 import SelectISCED from '../form-components/selectboxes/SelectISCED';
@@ -172,16 +171,15 @@ export default function StudentInformationForm({
 
   return (
     <Stack
-    
-    marginBottom='20'
-    px={[2, 6]} // Responsive padding on small and larger screens
-    py='3'
-    w='100%'
-    bg={HeaderBackground}
-    marginLeft={0}
-    borderBottom='1px'
-    borderColor={BorderColor}
-    borderRadius={'xl'}
+      marginBottom='20'
+      px={[2, 6]} // Responsive padding on small and larger screens
+      py='3'
+      w='100%'
+      bg={HeaderBackground}
+      marginLeft={0}
+      borderBottom='1px'
+      borderColor={BorderColor}
+      borderRadius={'xl'}
     >
       <Box pl={[2, 6]} py={4}>
         <Heading as='h3' size='md' fontWeight={'medium'} color={HeadingColor}>
@@ -198,7 +196,7 @@ export default function StudentInformationForm({
         borderRadius={'xl'}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Flex w={"100%"}  p={[2, 5]}>
+        <Flex w={'100%'} p={[2, 5]}>
           <SelectMobilityTypes
             isDisabled
             selectLabel='Seçilmiş Hareketlilik (Mobilite) Tipi'

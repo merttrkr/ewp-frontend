@@ -16,7 +16,7 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import SelectAutoComplete from '@/components/form-components/SelectAutoComplete';
+
 import TextInput from '../form-components/inputs/TextInput';
 import DateInput from '../form-components/inputs/DateInput';
 import { BiTrash } from 'react-icons/bi';
