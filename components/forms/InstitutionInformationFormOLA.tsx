@@ -28,6 +28,7 @@ type InstitutionInformationFormProps = {
   heiId?: string;
   heiName?: string;
   institutionInfoID?: number;
+  learningAgreementId: number;
 };
 
 type FormData = {
@@ -48,6 +49,7 @@ export default function InstitutionInformationForm({
   heiId = '',
   heiName = '',
   institutionInfoID = 0,
+  learningAgreementId,
 }: InstitutionInformationFormProps) {
   const [formValues, setFormValues] = useState<FormData>({
     hei_id: '',
@@ -62,8 +64,11 @@ export default function InstitutionInformationForm({
     extension: '',
   });
   const { GetUniversityFullname } = useRead();
-  const { InsertEmptyRowToSendingInstitutionInfo, SaveSendingInstitutionInfo } =
-    useUpdate();
+  const {
+    InsertEmptyRowToSendingInstitutionInfo,
+    SaveSendingInstitutionInfo,
+    SaveSendingInstitutionInfoIdToLearningAgreementTable,
+  } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
@@ -108,6 +113,18 @@ export default function InstitutionInformationForm({
     fetchUniversityFullname();
   }
 
+  async function handleSaveSendingInstitutionInfoIdToLearningAgreementTable() {
+    const saveSendingInstitutionInfoIdToLearningAgreementTable = async () => {
+      await SaveSendingInstitutionInfoIdToLearningAgreementTable(
+        'https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=' +
+          institutionInfoId +
+          '&learningAgreement_id=' +
+          learningAgreementId
+      );
+    };
+    saveSendingInstitutionInfoIdToLearningAgreementTable();
+  }
+
   async function handleInsertEmptyRowToSendingInstitutionInfo() {
     const insertEmptyRowToSendingInstitutionInfo = async () => {
       await InsertEmptyRowToSendingInstitutionInfo(
@@ -122,7 +139,7 @@ export default function InstitutionInformationForm({
     const saveSendingInstitutionInfo = async () => {
       const request: InstitutionInfoRequest = {
         sendingInstitutionInfo_id: institutionInfoId,
-        hei_id: values.hei_id,
+        hei_id: heiId != '' ? heiId : values.hei_id,
         universityDepartment_id: values.department_id,
         academicPersonnelName: values.academic_personal_name,
         academicPersonnelSurname: values.academic_personal_surname,
@@ -142,10 +159,10 @@ export default function InstitutionInformationForm({
 
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
-      console.log('institutionInfoID', institutionInfoID);
-      console.log('institutionInfoId', institutionInfoId);
       await handleInsertEmptyRowToSendingInstitutionInfo();
       await handleSaveSendingInstitutionInfo(values);
+      console.log('learningAgreementID', learningAgreementId);
+      await handleSaveSendingInstitutionInfoIdToLearningAgreementTable();
       try {
         toast({
           title: 'Kayıt Başarılı.',
