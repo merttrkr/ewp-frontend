@@ -390,6 +390,13 @@ const useUpdate = () => {
     const result: number = await makeRequest<number>(request);
     return result;
   };
+  //https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=34&learningAgreement_id=122
+  const SaveSendingInstitutionInfoIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+    return result;
+  };
 
   // https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=56&plannedStartingDateOfMobility=2026.06.07
   const SavePlannedStartingDateOfMobility = async (
@@ -459,19 +466,15 @@ const useUpdate = () => {
   };
   //https://localhost:5001/sendNotificationToPartner?notifier_hei_id=iyte.edu.tr&iia_id=773B75A4-35E9-4E8F-966C-10179654F697&partner_hei_id=selcuk.edu.tr
   const sendIIANotification = async (
-      request: IIANotificationRequest
-    ): Promise<number> => {
-      const {
-        notifier_hei_id,
-        iia_id,
-        partner_hei_id,
-      } = request;
-  
-      const url = `https://localhost:5001/sendNotificationToPartner?notifier_hei_id=${notifier_hei_id}&iia_id=${iia_id}&partner_hei_id=${partner_hei_id}`;
-      const result: number = await makeRequest<number>(url);
-  
-      return result;
-    };
+    request: IIANotificationRequest
+  ): Promise<number> => {
+    const { notifier_hei_id, iia_id, partner_hei_id } = request;
+
+    const url = `https://localhost:5001/sendNotificationToPartner?notifier_hei_id=${notifier_hei_id}&iia_id=${iia_id}&partner_hei_id=${partner_hei_id}`;
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
 
   return {
     sendIIANotification,
@@ -485,6 +488,7 @@ const useUpdate = () => {
     SetSigningPerson,
     UpdateDateOfBilateralAgreement,
     SaveOrganizationInfo,
+    SaveSendingInstitutionInfoIdToLearningAgreementTable,
     AddSendingInstitutionInfo,
     AddReceivingInstitutionInfo,
     AddOrganizationInfoToBilateralAgreement,
