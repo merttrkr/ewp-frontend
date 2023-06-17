@@ -21,7 +21,7 @@ import SelectInstitution from '../form-components/selectboxes/SelectInstitution'
 import useCreate from '@/hooks/create/useCreate';
 import useRead from '@/hooks/read/useRead';
 import useUpdate from '@/hooks/update/useUpdate';
-import { SendingInstitutionInfoRequest } from '@/models/request/sendingInstitutionInfoRequest';
+import { SendingInstitutionInfo } from '@/models/request/sendingInstitutionInfoRequest';
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -153,7 +153,7 @@ export default function InstitutionInformationForm({
 
   async function handleSaveSendingInstitutionInfo(values: FormData) {
     const saveSendingInstitutionInfo = async () => {
-      const request: SendingInstitutionInfoRequest = {
+      const request: SendingInstitutionInfo = {
         sendingInstitutionInfo_id: institutionInfoId,
         hei_id: heiId != '' ? heiId : values.hei_id,
         universityDepartment_id: values.department_id,
