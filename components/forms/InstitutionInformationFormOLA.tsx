@@ -21,7 +21,7 @@ import SelectInstitution from '../form-components/selectboxes/SelectInstitution'
 import useCreate from '@/hooks/create/useCreate';
 import useRead from '@/hooks/read/useRead';
 import useUpdate from '@/hooks/update/useUpdate';
-import { InstitutionInfoRequest } from '@/models/request/institutionInfoRequest';
+import { SendingInstitutionInfoRequest } from '@/models/request/sendingInstitutionInfoRequest';
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -69,7 +69,9 @@ export default function InstitutionInformationForm({
   const {
     InsertEmptyRowToSendingInstitutionInfo,
     SaveSendingInstitutionInfo,
+    InsertEmptyRowToReceivingInstitutionInfo,
     SaveSendingInstitutionInfoIdToLearningAgreementTable,
+    SaveReceivingInstitutionInfoIdToLearningAgreementTable,
   } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -127,6 +129,18 @@ export default function InstitutionInformationForm({
     saveSendingInstitutionInfoIdToLearningAgreementTable();
   }
 
+  async function handleSaveReceivingInstitutionInfoIdToLearningAgreementTable() {
+    const saveSendingInstitutionInfoIdToLearningAgreementTable = async () => {
+      await SaveSendingInstitutionInfoIdToLearningAgreementTable(
+        'https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=' +
+          institutionInfoId +
+          '&learningAgreement_id=' +
+          learningAgreementId
+      );
+    };
+    saveSendingInstitutionInfoIdToLearningAgreementTable();
+  }
+
   async function handleInsertEmptyRowToSendingInstitutionInfo() {
     const insertEmptyRowToSendingInstitutionInfo = async () => {
       await InsertEmptyRowToSendingInstitutionInfo(
@@ -139,7 +153,7 @@ export default function InstitutionInformationForm({
 
   async function handleSaveSendingInstitutionInfo(values: FormData) {
     const saveSendingInstitutionInfo = async () => {
-      const request: InstitutionInfoRequest = {
+      const request: SendingInstitutionInfoRequest = {
         sendingInstitutionInfo_id: institutionInfoId,
         hei_id: heiId != '' ? heiId : values.hei_id,
         universityDepartment_id: values.department_id,
