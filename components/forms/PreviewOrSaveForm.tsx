@@ -136,6 +136,18 @@ export default function PreviewOrSaveForm({
     });
   }
 
+  function handlesendNotification(){
+    handleUpdateStateOfBilateralAgreement('Teklif');
+    handleUpdateDateOfBilateralAgreement();
+    toast({
+      title: 'Bildirim Gönderildi.',
+      description: 'Anlaşma Teklif Bildirimi Gönderildi.',
+      status: 'success',
+      position: 'top-right',
+      duration: 5000,
+      isClosable: true,
+    });
+  }
   return (
     <Stack
       marginBottom='20'
@@ -163,7 +175,7 @@ export default function PreviewOrSaveForm({
         <Button onClick={handleSaveAsDraft} variant='condition' type='submit' mb={[4, 4, 0]}>
           Anlaşmayı Taslak Olarak Kaydet
         </Button>
-        <Button variant='autoWidthFull' type='reset' mb={[4, 4, 0]}>
+        <Button onClick={handlesendNotification} variant='autoWidthFull' type='reset' mb={[4, 4, 0]}>
           Karşı Kuruma Anlaşma Bildirimi Gönder
         </Button>
         <Button variant='autoWidthFull' type='reset'>
