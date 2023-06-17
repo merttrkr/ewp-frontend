@@ -23,6 +23,7 @@ import { MobilityType } from '@/models/response/mobilityTypeResponse';
 import { Nationality } from '@/models/response/nationalityResponse';
 import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
+import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 
@@ -331,6 +332,15 @@ const useAgreement = () => {
     return studentInfo;
   };
 
+  //https://localhost:5001/spGetSendingInstitutionInfoById?sendingInstitutionInfo_id=21
+  const GetSendingInstitutionInfoById = async (
+    request: string
+  ): Promise<SendingInstitutionInfoResponse> => {
+    const sendingInstitutionInfo: SendingInstitutionInfoResponse =
+      await makeRequest<SendingInstitutionInfoResponse>(request);
+    return sendingInstitutionInfo;
+  };
+
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
@@ -364,6 +374,7 @@ const useAgreement = () => {
     GetTotalCourseCreditsForBlendedOrDoctorate,
     GetAllLearningAgreements,
     GetStudentInfoById,
+    GetSendingInstitutionInfoById,
   };
 };
 
