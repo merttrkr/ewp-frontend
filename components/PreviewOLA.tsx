@@ -2,9 +2,19 @@ import { Button, Flex, Stack, useColorModeValue, Text } from '@chakra-ui/react';
 import DisplayText from './form-components/DisplayText';
 import { FiChevronRight } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
+import NextLink from 'next/link';
 
 type PreviewOLAProps = {
   agreement: LearningAgreement;
+  studentInfoId: number;
+  sendingInstitutionInfoId : number;
+  receivingInstitutionInfoId : number;
+  proposedMobilityProgrammeId : number;
+  commitmentId : number;
+  virtualComponentId : number;
+  changesProposalVersionId : number;
+ 
+
 };
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -22,9 +32,43 @@ const formatDate = (dateString: string) => {
   return formattedDate;
 };
 
-export default function PreviewOLA({ agreement }: PreviewOLAProps) {
+export default function PreviewOLA({ 
+  agreement,
+  studentInfoId,
+  sendingInstitutionInfoId,
+  receivingInstitutionInfoId,
+  proposedMobilityProgrammeId,
+  commitmentId,
+  virtualComponentId,
+  changesProposalVersionId,
+
+ }: PreviewOLAProps) {
   const HeaderBackground = useColorModeValue('#9C1F23', '#9C1F23');
   const FormBackground = useColorModeValue('gray.100', 'gray.700');
+
+
+  const renderNextLink = studentInfoId !== 0 && (
+    <NextLink href={getAgreementUrl(agreement.mobilityType)}>
+      <Button variant="white" rightIcon={<FiChevronRight />}>Anlaşmayı Düzenle</Button>
+    </NextLink>
+  );
+  
+  function getAgreementUrl(mobilityType: string) {
+    const baseUrl = 'http://localhost:3000/learning-agreements/create';
+  
+    switch (mobilityType) {
+      case 'Long-term Mobility':
+        return `${baseUrl}-long-term-la?studentInfoId=${studentInfoId}&sendingInstitutionInfoId=${sendingInstitutionInfoId}&receivingInstitutionInfoId=${receivingInstitutionInfoId}`;
+      case 'Blended Mobility':
+        return `${baseUrl}-blended-la?studentInfoId=${studentInfoId}&proposedMobilityProgrammeId=${proposedMobilityProgrammeId}&commitmentId=${commitmentId}`;
+      case 'Short-term Doctoral Mobility':
+        return `${baseUrl}-short-term-doctoral-la?studentInfoId=${studentInfoId}&virtualComponentId=${virtualComponentId}&changesProposalVersionId=${changesProposalVersionId}`;
+      default:
+        return '';
+    }
+  }
+  
+  
 
   return (
     <Stack
@@ -52,9 +96,7 @@ export default function PreviewOLA({ agreement }: PreviewOLAProps) {
         
         </Flex>
 
-        <Button variant={'white'} rightIcon={<FiChevronRight />}>
-          Anlaşmayı Düzenle
-        </Button>
+        {renderNextLink}
       </Flex>
 
       <Flex width={'full'} gap={5} justify={'space-around'} padding={6}>
