@@ -178,14 +178,16 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <PreviewOrSaveForm
-          newPartnerCollaborationConditionId = {newPartnerCollaborationConditionId}
-          newCollaborationConditionId = {newCollaborationConditionId}
+            partnerOrganizationInfoId={newOrganizationInfoId}
+            newPartnerCollaborationConditionId = {newPartnerCollaborationConditionId}
+            newCollaborationConditionId = {newCollaborationConditionId}
             saveState={saveState}
             organizationInfoId={newOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
             pageName='Kurumuma Ait Bilgiler'
           />
           <PreviewOrSaveForm
+            partnerOrganizationInfoId={newOrganizationInfoId}
             newPartnerCollaborationConditionId = {newPartnerCollaborationConditionId}
             newCollaborationConditionId = {newCollaborationConditionId}
             saveState={saveState}

@@ -23,6 +23,7 @@ type PreviewOrSaveFormProps = {
   saveState: number;
   newPartnerCollaborationConditionId: number;
   newCollaborationConditionId : number; 
+  partnerOrganizationInfoId: number;
 };
 
 export default function PreviewOrSaveForm({
@@ -32,12 +33,14 @@ export default function PreviewOrSaveForm({
   bilateralAgreementID,
   newPartnerCollaborationConditionId,
   newCollaborationConditionId,
+  partnerOrganizationInfoId,
 }: PreviewOrSaveFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
+  const [partnerOrganizationInfo, setPartnerOrganizationInfo] = useState<OrganizationInfo>();
   const [contactPerson, setContactPerson] = useState([] as string[]);
   const toast = useToast();
 
@@ -52,6 +55,7 @@ export default function PreviewOrSaveForm({
     AddOrganizationInfoToBilateralAgreement,
     SetCreatorOfBilateralAgreement,
     UpdateStateOfBilateralAgreement,
+    sendIIANotification,
   } = useUpdate();
   
   const {
@@ -79,6 +83,20 @@ export default function PreviewOrSaveForm({
       fetchInitialData();
     }
   }
+  async function handleGetPartnerOrganizationInfo() {
+    const fetchInitialData = async () => {
+      const data = await GetOrganizationInfo(
+        'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
+        partnerOrganizationInfoId
+      ); // Call the GetOrganizationInfo function
+      if (data) {
+        setPartnerOrganizationInfo(data);
+      }
+    };
+    if (organizationInfoId !== 0) {
+      fetchInitialData();
+    }
+  }
 
   async function handleGetSelectedContactInfoOfOrganizationInfo() {
     const fetchInitialData = async () => {
@@ -96,7 +114,30 @@ export default function PreviewOrSaveForm({
       fetchInitialData();
     }
   }
-
+  async function handleIIANotification() {
+    const notificationRequest = {
+      notifier_hei_id: organizationInfo?.heiId ?? '',
+      iia_id: organizationInfo?.IIAID ?? '',
+      partner_hei_id: partnerOrganizationInfo?.heiId ?? '',
+    };
+  
+    try {
+      const result = await sendIIANotification(notificationRequest);
+      console.log(result); // You can handle the result as needed
+    } catch (error) {
+      toast({
+        title: 'Bildirim Gönderilemedi.',
+        description: 'Bildirim Gönderilemedi.',
+        status: 'error',
+        position: 'top-right',
+        duration: 5000,
+        isClosable: true,
+      });
+      console.error(error); // Handle the error if necessary
+    }
+  }
+  
+  
 
 
   async function handleUpdateDateOfBilateralAgreement() {
@@ -121,7 +162,8 @@ export default function PreviewOrSaveForm({
   useEffect(() => {
     handleGetOrganizationInfo();
     handleGetSelectedContactInfoOfOrganizationInfo();
-  }, [saveState, organizationInfoId]);
+    handleGetPartnerOrganizationInfo();
+  }, [saveState, organizationInfoId, partnerOrganizationInfoId]);
 
   function handleSaveAsDraft(){
     handleUpdateStateOfBilateralAgreement('Taslak');

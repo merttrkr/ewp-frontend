@@ -219,6 +219,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <PreviewOrSaveForm
+            partnerOrganizationInfoId={newOrganizationInfoId}
             newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
             newCollaborationConditionId={newCollaborationConditionId}
             saveState={saveState}
@@ -227,6 +228,7 @@ export default function TabComponent() {
             pageName="Kurumuma Ait Bilgiler"
           />
           <PreviewOrSaveForm
+            partnerOrganizationInfoId={newOrganizationInfoId}
             newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
             newCollaborationConditionId={newCollaborationConditionId}
             saveState={saveState}

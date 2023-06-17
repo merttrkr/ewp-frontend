@@ -8,6 +8,7 @@ import { CollaborationConditionRequest } from '@/models/request/collaborationCon
 import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
 import { InstitutionInfoRequest } from '@/models/request/institutionInfoRequest';
 import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
+import { IIANotificationRequest } from '@/models/request/IIANotificationRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -456,8 +457,24 @@ const useUpdate = () => {
 
     return result;
   };
+  //https://localhost:5001/sendNotificationToPartner?notifier_hei_id=iyte.edu.tr&iia_id=773B75A4-35E9-4E8F-966C-10179654F697&partner_hei_id=selcuk.edu.tr
+  const sendIIANotification = async (
+      request: IIANotificationRequest
+    ): Promise<number> => {
+      const {
+        notifier_hei_id,
+        iia_id,
+        partner_hei_id,
+      } = request;
+  
+      const url = `https://localhost:5001/sendNotificationToPartner?notifier_hei_id=${notifier_hei_id}&iia_id=${iia_id}&partner_hei_id=${partner_hei_id}`;
+      const result: number = await makeRequest<number>(url);
+  
+      return result;
+    };
 
   return {
+    sendIIANotification,
     UpdateStateOfBilateralAgreement,
     AddCollaborationConditionToBilateralAgreement,
     SaveCollaborationCondition,
