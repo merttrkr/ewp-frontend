@@ -28,14 +28,14 @@ export default function TabComponent() {
   } = useCreate();
 
   const [omobilityID, setOmobilityID] = useState('');
-  const [learningAgreementID, setLearningAgreementID] = useState('');
-  const [studentInfoID, setStudentInfoID] = useState('');
-  const [sendingInstitutionInfoID, setSendingInstitutionInfoID] = useState('');
+  const [learningAgreementID, setLearningAgreementID] = useState(0);
+  const [studentInfoID, setStudentInfoID] = useState(0);
+  const [sendingInstitutionInfoID, setSendingInstitutionInfoID] = useState(0);
   const [receivingInstitutionInfoID, setReceivingInstitutionInfoID] =
-    useState('');
+    useState(0);
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
-    useState('');
-  const [commitmentID, setCommitmentID] = useState('');
+    useState(0);
+  const [commitmentID, setCommitmentID] = useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(3);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
@@ -160,7 +160,7 @@ export default function TabComponent() {
             omobilityId={omobilityID}
             mobilityType='Short-term Doctoral Mobility'
             mobilityTypeId={mobilityTypeId}
-            studentInfoId={studentInfoId}
+            studentInfoId={studentInfoID}
           />
         </TabPanel>
         <TabPanel>
