@@ -1,4 +1,3 @@
-
 const useDelete = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
     let response = await fetch(request, {
@@ -14,10 +13,12 @@ const useDelete = () => {
 
     return response.json() as Promise<T>;
   };
-
-  return {
-
+  //https://localhost:5001/spRemoveSelectedCourseById?selectedCourse_id=12
+  const RemoveSelectedCourseById = async (request: string): Promise<void> => {
+    await makeRequest<string>(request);
   };
+
+  return { RemoveSelectedCourseById };
 };
 
 export default useDelete;
