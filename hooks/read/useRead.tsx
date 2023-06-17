@@ -23,6 +23,7 @@ import { MobilityType } from '@/models/response/mobilityTypeResponse';
 import { Nationality } from '@/models/response/nationalityResponse';
 import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
+import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
 import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
@@ -353,6 +354,18 @@ const useAgreement = () => {
     return hei;
   };
 
+  // https://localhost:5001/spGetProposedMobilityProgrammeById?pmp_id=22
+  const GetProposedMobilityProgrammeById = async (
+    pmp_id: number
+  ): Promise<ProposedMobilityProgrammeResponse> => {
+    const url = `https://localhost:5001/spGetProposedMobilityProgrammeById?pmp_id=${pmp_id}`;
+
+    const response: ProposedMobilityProgrammeResponse =
+      await makeRequest<ProposedMobilityProgrammeResponse>(url);
+
+    return response;
+  };
+
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
@@ -389,6 +402,7 @@ const useAgreement = () => {
     GetSendingInstitutionInfoById,
     GetSendingHeiId,
     GetUniversityFullname,
+    GetProposedMobilityProgrammeById,
   };
 };
 
