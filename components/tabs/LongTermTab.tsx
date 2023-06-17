@@ -188,6 +188,7 @@ export default function TabComponent() {
             pageName='Gönderen Kurum /Üniversite Bilgisi'
             heiId='iyte.edu.tr'
             heiName='Izmir Institute Of Technology'
+            institutionInfoID={21}
           />
           <InstitutionInformationFormOLA pageName='Alıcı Kurum /Üniversite Bilgisi' />
         </TabPanel>
