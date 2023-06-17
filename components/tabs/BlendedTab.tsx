@@ -160,6 +160,7 @@ export default function TabComponent() {
             omobilityId={omobilityID}
             mobilityType='Blended Mobility'
             mobilityTypeId={mobilityTypeId}
+            studentInfoId={studentInfoID}
           />
         </TabPanel>
         <TabPanel>
