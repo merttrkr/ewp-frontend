@@ -23,11 +23,15 @@ import { MobilityType } from '@/models/response/mobilityTypeResponse';
 import SelectMobilityTypes from '../form-components/selectboxes/SelectMobilityTypes';
 import SelectGender from '../form-components/selectboxes/SelectGender';
 import { Gender } from '@/models/response/genderResponse';
+import useUpdate from '@/hooks/update/useUpdate';
+import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
+
 type StudentInformationFormProps = {
   pageName: String;
   omobilityId: string;
   mobilityType: string;
   mobilityTypeId: number;
+  studentInfoId: number;
 };
 type FormData = {
   education_type_and_level: string;
@@ -49,6 +53,7 @@ export default function StudentInformationForm({
   omobilityId,
   mobilityType,
   mobilityTypeId,
+  studentInfoId,
 }: StudentInformationFormProps) {
   //useForm hook
   const {
@@ -58,7 +63,7 @@ export default function StudentInformationForm({
     setValue,
     control,
   } = useForm<FormData>();
-
+  const { InsertEmptyRowToStudentInfo, SaveStudentInfo } = useUpdate();
   //color
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -76,12 +81,58 @@ export default function StudentInformationForm({
   const [selectedMobilityTypeID, setSelectedMobilityTypeID] = useState(0);
   const [gender, setGender] = useState('');
   const [genderID, setGenderID] = useState(0);
-  const [studentBirthdate, setStudentBirthdate] = useState<string>('');
+  const [studentBirthdate, setStudentBirthdate] = useState('');
+
+  async function handleInsertEmptyRowToStudentInfo() {
+    const insertEmptyRowToStudentInfo = async () => {
+      await InsertEmptyRowToStudentInfo(
+        'https://localhost:5001/spInsertEmptyRowToStudentInfo?studentInfo_id=' +
+          studentInfoId +
+          '&mobilityType_id=' +
+          mobilityTypeId
+      );
+    };
+    if (
+      studentInfoId &&
+      studentInfoId !== 0 &&
+      mobilityTypeId &&
+      mobilityTypeId !== 0
+    ) {
+      insertEmptyRowToStudentInfo();
+    }
+  }
+
+  async function handleSaveStudentInfo(values: FormData) {
+    const saveStudentInfo = async () => {
+      const request: StudentInfoRequest = {
+        studentInfo_id: studentInfoId,
+        mobilityType_id: mobilityTypeId,
+        name: values.student_name,
+        surname: values.student_surname,
+        gender_id: genderID,
+        nationality_id: selectedNationalityID,
+        birthdate: studentBirthdate,
+        educationTypeAndLevel_id: educationTypeAndLevelID,
+        email: values.student_email,
+        subjectArea_id: ISCEDCodeAndFieldsID,
+        subjectAreaDescription: values.isced_explanation,
+        global_id: values.eur_student_identifier,
+        omobility_id: omobilityId,
+      };
+
+      await SaveStudentInfo(request);
+    };
+
+    saveStudentInfo();
+  }
+
   //submit
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        alert(JSON.stringify(values, null));
+        console.log('studentInfoId:', studentInfoId);
+        await handleInsertEmptyRowToStudentInfo();
+        await handleSaveStudentInfo(values);
 
         toast({
           title: 'Kayıt Başarılı.',

@@ -84,56 +84,56 @@ const useCreate = () => {
   // https://localhost:5001/spGenerateNewIdForLearningAgreement
   const GenerateNewIdForLearningAgreement = async (
     request: string
-  ): Promise<string> => {
-    return makeRequestString<string>(request);
+  ): Promise<number> => {
+    return makeRequestString<number>(request);
   };
 
   // New function: GenerateNewIdForStudentInfo
   // https://localhost:5001/spGenerateNewIdForStudentInfo
   const GenerateNewIdForStudentInfo = async (
     request: string
-  ): Promise<string> => {
-    return makeRequestString<string>(request);
+  ): Promise<number> => {
+    return makeRequestString<number>(request);
   };
 
   // New function: GenerateNewIdForSendingInstitutionInfo
   // https://localhost:5001/spGenerateNewIdForSendingInstitutionInfo
   const GenerateNewIdForSendingInstitutionInfo = async (
     request: string
-  ): Promise<string> => {
-    return makeRequestString<string>(request);
+  ): Promise<number> => {
+    return makeRequestString<number>(request);
   };
 
   // New function: GenerateNewIdForReceivingInstitutionInfo
   // https://localhost:5001/spGenerateNewIdForReceivingInstitutionInfo
   const GenerateNewIdForReceivingInstitutionInfo = async (
     request: string
-  ): Promise<string> => {
-    return makeRequestString<string>(request);
+  ): Promise<number> => {
+    return makeRequestString<number>(request);
   };
 
   // New function: GenerateNewIdForProposedMobilityProgramme
   // https://localhost:5001/spGenerateNewIdForProposedMobilityProgramme
   const GenerateNewIdForProposedMobilityProgramme = async (
     request: string
-  ): Promise<string> => {
-    return makeRequestString<string>(request);
+  ): Promise<number> => {
+    return makeRequestString<number>(request);
   };
 
   // New function: GenerateNewIdForCommitment
   // https://localhost:5001/spGenerateNewIdForCommitment
   const GenerateNewIdForCommitment = async (
     request: string
-  ): Promise<string> => {
-    return makeRequestString<string>(request);
+  ): Promise<number> => {
+    return makeRequestString<number>(request);
   };
 
   // New function: GenerateNewIdForVirtualComponent
   // https://localhost:5001/spGenerateNewIdForVirtualComponent
   const GenerateNewIdForVirtualComponent = async (
     request: string
-  ): Promise<string> => {
-    return makeRequestString<string>(request);
+  ): Promise<number> => {
+    return makeRequestString<number>(request);
   };
 
   return {

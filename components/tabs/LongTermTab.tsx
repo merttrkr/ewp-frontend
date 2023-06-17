@@ -30,15 +30,15 @@ export default function TabComponent() {
   } = useCreate();
 
   const [omobilityID, setOmobilityID] = useState('');
-  const [learningAgreementID, setLearningAgreementID] = useState('');
-  const [studentInfoID, setStudentInfoID] = useState('');
-  const [sendingInstitutionInfoID, setSendingInstitutionInfoID] = useState('');
+  const [learningAgreementID, setLearningAgreementID] = useState(0);
+  const [studentInfoID, setStudentInfoID] = useState(0);
+  const [sendingInstitutionInfoID, setSendingInstitutionInfoID] = useState(0);
   const [receivingInstitutionInfoID, setReceivingInstitutionInfoID] =
-    useState('');
+    useState(0);
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
-    useState('');
-  const [commitmentID, setCommitmentID] = useState('');
-  const [virtualComponentID, setVirtualComponentID] = useState('');
+    useState(0);
+  const [commitmentID, setCommitmentID] = useState(0);
+  const [virtualComponentID, setVirtualComponentID] = useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(1);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
@@ -180,6 +180,7 @@ export default function TabComponent() {
             omobilityId={omobilityID}
             mobilityType='Long-term Mobility'
             mobilityTypeId={mobilityTypeId}
+            studentInfoId={studentInfoID}
           />
         </TabPanel>
         <TabPanel>

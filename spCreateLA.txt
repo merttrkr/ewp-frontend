@@ -1,24 +1,24 @@
-https://localhost:5001/spGenerateNewIdForLearningAgreement
+https://localhost:5001/spGenerateNewIdForLearningAgreement +
 40
 
-https://localhost:5001/spGenerateNewIdForStudentInfo
+https://localhost:5001/spGenerateNewIdForStudentInfo +
 73
 
-https://localhost:5001/spGenerateNewIdForSendingInstitutionInfo
+https://localhost:5001/spGenerateNewIdForSendingInstitutionInfo +
 56
 
-https://localhost:5001/spGenerateNewIdForReceivingInstitutionInfo
+https://localhost:5001/spGenerateNewIdForReceivingInstitutionInfo +
 51
 
-https://localhost:5001/spGenerateNewIdForProposedMobilityProgramme
+https://localhost:5001/spGenerateNewIdForProposedMobilityProgramme +
 53
 
-https://localhost:5001/spGenerateNewIdForCommitment
+https://localhost:5001/spGenerateNewIdForCommitment +
 43
 
 LONG TERM
 mobilityType 1
-https://localhost:5001/spGenerateNewIdForVirtualComponent
+https://localhost:5001/spGenerateNewIdForVirtualComponent +
 32
 
 BLENDED
@@ -30,15 +30,15 @@ mobTType 3
 ***************************************************************
 StudentinfoForm
 
-https://localhost:5001/spInsertEmptyRowToStudentInfo?studentInfo_id=21&mobilityType_id=1
++ https://localhost:5001/spInsertEmptyRowToStudentInfo?studentInfo_id=21&mobilityType_id=1 +
 
-eğer student infosu yoksa 
-https://localhost:5001/spGenerateNewIdForStudentInfo tekrar yarat
+eğer student infosu yoksa +
+https://localhost:5001/spGenerateNewIdForStudentInfo tekrar yarat //
 
 generate o mobility id
 
 olan bilgileri çekmek için:
-https://localhost:5001/spGetStudentInfoById?studentInfo_id=12 
++ https://localhost:5001/spGetStudentInfoById?studentInfo_id=12  +
 {
   "id": 12,
   "mobilityType_id": 1,
@@ -55,10 +55,10 @@ https://localhost:5001/spGetStudentInfoById?studentInfo_id=12
   "omobility_id": null,
   "globalId": null
 }
-save everything
-https://localhost:5001/spSaveStudentInfo?studentInfo_id=1&mobilityType_id=1&name=ilayda&surname=%C3%B6zel&gender_id=2&nationality_id=1&birthdate=2000.06.05&educationTypeAndLevel_id=2&email=example%40gmail.com&subjectArea_id=1&subjectAreaDescription=none&global_id=affsdgsg&omobility_id=ahsjsjd
+save everything +
++ https://localhost:5001/spSaveStudentInfo?studentInfo_id=1&mobilityType_id=1&name=ilayda&surname=%C3%B6zel&gender_id=2&nationality_id=1&birthdate=2000.06.05&educationTypeAndLevel_id=2&email=example%40gmail.com&subjectArea_id=1&subjectAreaDescription=none&global_id=affsdgsg&omobility_id=ahsjsjd
 
-eger l a dolsurulmadıysa boş kalmasın sil
+eger l a dolsurulmadıysa boş kalmasın sil //
 https://localhost:5001/spDeleteIfLearningAgreementIsEmpty?learningAgreement_id=12
 
 
@@ -66,16 +66,16 @@ https://localhost:5001/spDeleteIfLearningAgreementIsEmpty?learningAgreement_id=1
 Institution info form
 
 kuika ile ilgili bi şey ignore
-https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=45
+https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=45 //
 
-kurum üni adı gösterim
-https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=21
+kurum üni adı gösterim +
++ https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=21
 Izmir Institute of Technology
 
-https://localhost:5001/spInsertEmptyRowToSendingInstitutionInfo?sendingInstitutioInfo_id=56
++ https://localhost:5001/spInsertEmptyRowToSendingInstitutionInfo?sendingInstitutioInfo_id=56 +
 
-gönderem kurum bilgileri çekmek için
-https://localhost:5001/spGetSendingInstitutionInfoById?sendingInstitutionInfo_id=21
+gönderem kurum bilgileri çekmek için +
++ https://localhost:5001/spGetSendingInstitutionInfoById?sendingInstitutionInfo_id=21
 {
   "id": 21,
   "university_id": 748,
@@ -90,18 +90,18 @@ https://localhost:5001/spGetSendingInstitutionInfoById?sendingInstitutionInfo_id
   "phoneNumberExt": null
 }
 
-https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=21
++ https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=21 +
 iyte.edu.tr
 
-save 
-https://localhost:5001/spSaveSendingInstitutionInfo?sendingInstitutionInfo_id=1&hei_id=iyte.edu.tr&universityDepartment_id=1&academicPersonnelName=fafa&academicPersonnelSurname=ahahha&academicPersonnelEmail=w%40gmail.com&administrativePersonnelName=a&administrativePersonnelSurname=b&administrativePersonnelEmail=a%40gmail.com&phoneNumberE164=1234456&phoneNumberExt=123
+save +
++ https://localhost:5001/spSaveSendingInstitutionInfo?sendingInstitutionInfo_id=1&hei_id=iyte.edu.tr&universityDepartment_id=1&academicPersonnelName=fafa&academicPersonnelSurname=ahahha&academicPersonnelEmail=w%40gmail.com&administrativePersonnelName=a&administrativePersonnelSurname=b&administrativePersonnelEmail=a%40gmail.com&phoneNumberE164=1234456&phoneNumberExt=123
 
 sıfırlamak için, silmeden önce dger tablolardaki referansları sil
 https://localhost:5001/spSaveSendingInstitutionInfo?sendingInstitutionInfo_id=1&hei_id=iyte.edu.tr&universityDepartment_id=1&academicPersonnelName=fafa&academicPersonnelSurname=ahahha&academicPersonnelEmail=w%40gmail.com&administrativePersonnelName=a&administrativePersonnelSurname=b&administrativePersonnelEmail=a%40gmail.com&phoneNumberE164=1234456&phoneNumberExt=123
 bunu nulla save et
-https://localhost:5001/spDeleteRowFromSendingInstitutionInfoById?sendingInstitutionInfo_id=12
+https://localhost:5001/spDeleteRowFromSendingInstitutionInfoById?sendingInstitutionInfo_id=12 //
 
-her şeyi birleştiren
++ her şeyi birleştiren +
 https://localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=10&learningAgreement_id=2
 
 eger tablar arası geçerken kaydedilmediyse o satırı sil yapmış cem
@@ -110,9 +110,9 @@ eger tablar arası geçerken kaydedilmediyse o satırı sil yapmış cem
 Mobility Programme
 
 
-https://localhost:5001/spInsertEmptyRowToProposedMobilityProgramme?pmp_id=22
++ https://localhost:5001/spInsertEmptyRowToProposedMobilityProgramme?pmp_id=22 +
 
-https://localhost:5001/spGetProposedMobilityProgrammeById?pmp_id=22
++ https://localhost:5001/spGetProposedMobilityProgrammeById?pmp_id=22
 {
   "id": 22,
   "plannedStartingDateOfMobility": "2022-12-01T00:00:00",
@@ -125,22 +125,22 @@ https://localhost:5001/spGetProposedMobilityProgrammeById?pmp_id=22
 
 
 save diyince bunları kaydediyosa gerek yok
-https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=56&plannedStartingDateOfMobility=2026.06.07
++ https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=56&plannedStartingDateOfMobility=2026.06.07 +
 
-https://localhost:5001/spSavePlannedEndDateOfMobility?pmp_id=57&plannedEndDateOfMobility=2022.07.08
++ https://localhost:5001/spSavePlannedEndDateOfMobility?pmp_id=57&plannedEndDateOfMobility=2022.07.08 +
 
 
 Ders Ekle Kaydet
 save
-https://localhost:5001/spInsertEmptyRowToProposedMobilityProgramme?pmp_id=22
-https://localhost:5001/spInsertLASelectedCourse?courseTitle=aahah&courseCreditType_id=2&courseCreditValue=1&numberOfTerms=3&totalNumberOfTerms=12&courseCode=432&recognitionConditions=none&courseShortDescription=no&tableType=A&isApproved=1&proposedMobilityProgramme_id=12452
-https://localhost:5001/spSaveProposedMobilityProgramme?pmp_id=56&plannedStartingDateOfMobility=2027.06.07&plannedEndDateOfMobility=2027.06.07&receivingInstitutionCourseCatalogueLink=asdsdxs&language_id=2&languageLevel_id=2&provisionsLinkIfEducationUnsuccessful=gajhsjas
++ https://localhost:5001/spInsertEmptyRowToProposedMobilityProgramme?pmp_id=22
++ https://localhost:5001/spInsertLASelectedCourse?courseTitle=aahah&courseCreditType_id=2&courseCreditValue=1&numberOfTerms=3&totalNumberOfTerms=12&courseCode=432&recognitionConditions=none&courseShortDescription=no&tableType=A&isApproved=1&proposedMobilityProgramme_id=12452
++ https://localhost:5001/spSaveProposedMobilityProgramme?pmp_id=56&plannedStartingDateOfMobility=2027.06.07&plannedEndDateOfMobility=2027.06.07&receivingInstitutionCourseCatalogueLink=asdsdxs&language_id=2&languageLevel_id=2&provisionsLinkIfEducationUnsuccessful=gajhsjas
 
 sil butonu 
-https://localhost:5001/spRemoveSelectedCourseById?selectedCourse_id=12
++ https://localhost:5001/spRemoveSelectedCourseById?selectedCourse_id=12
 
 link
-https://localhost:5001/spSaveReceivingInstitutionCourseCatalogueLink?pmp_id=45&receivingInstitutionCourseCatalogueLink=www.ilayda.com
++ https://localhost:5001/spSaveReceivingInstitutionCourseCatalogueLink?pmp_id=45&receivingInstitutionCourseCatalogueLink=www.ilayda.com
 
-https://localhost:5001/spSaveLanguageId?pmp_id=3&language_id=5
-https://localhost:5001/spSaveLanguageLevelId?pmp_id=3&languageLevel_id=10
++https://localhost:5001/spSaveLanguageId?pmp_id=3&language_id=5
++https://localhost:5001/spSaveLanguageLevelId?pmp_id=3&languageLevel_id=10
