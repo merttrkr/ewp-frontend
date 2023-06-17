@@ -25,8 +25,9 @@ import SelectGender from '../form-components/selectboxes/SelectGender';
 import { Gender } from '@/models/response/genderResponse';
 type StudentInformationFormProps = {
   pageName: String;
-  omobilityId?: string;
-  mobilityType?: string;
+  omobilityId: string;
+  mobilityType: string;
+  mobilityTypeId: number;
 };
 type FormData = {
   education_type_and_level: string;
@@ -45,8 +46,9 @@ type FormData = {
 
 export default function StudentInformationForm({
   pageName,
-  omobilityId = '',
-  mobilityType = '',
+  omobilityId,
+  mobilityType,
+  mobilityTypeId,
 }: StudentInformationFormProps) {
   //useForm hook
   const {

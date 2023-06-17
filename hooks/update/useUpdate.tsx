@@ -5,6 +5,9 @@ import {
 import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFormRequest';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
+import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
+import { InstitutionInfoRequest } from '@/models/request/institutionInfoRequest';
+import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -131,7 +134,6 @@ const useUpdate = () => {
   const UpdateDateOfBilateralAgreement = async (
     request: string
   ): Promise<string> => {
-
     const result: string = await makeRequest<string>(request);
 
     return result;
@@ -236,7 +238,7 @@ const useUpdate = () => {
     request: string
   ): Promise<string> => {
     console.log(request + ' request');
-    
+
     const result: string = await makeRequest<string>(request);
     return result;
   };
@@ -255,7 +257,6 @@ const useUpdate = () => {
     const result: string = await makeRequest<string>(request);
     return result;
   };
-
 
   /*https://localhost:5001/spSaveCollaborationCondition?id=1&bilateralAgreement_id=1&isPartner=1&
   academicYearStart_id=1&academicYearEnd_id=1&annualQuota=1&subjectArea_id=1&subjectAreaDescript
@@ -305,7 +306,156 @@ const useUpdate = () => {
     const result: string = await makeRequest<string>(request);
     return result;
   };
+  //https:localhost:5001/spSaveStudentInfo?studentInfo_id=1&mobilityType_id=1&name=ilayda&surname=%C3%B6zel&gender_id=2&nationality_id=1&birthdate=2000.06.05&educationTypeAndLevel_id=2&email=example%40gmail.com&subjectArea_id=1&subjectAreaDescription=none&global_id=affsdgsg&omobility_id=ahsjsjd
+  const SaveStudentInfo = async (
+    request: StudentInfoRequest
+  ): Promise<number> => {
+    const {
+      studentInfo_id,
+      mobilityType_id,
+      name,
+      surname,
+      gender_id,
+      nationality_id,
+      birthdate,
+      educationTypeAndLevel_id,
+      email,
+      subjectArea_id,
+      subjectAreaDescription,
+      global_id,
+      omobility_id,
+    } = request;
+    const encodedName = encodeURIComponent(name);
+    const encodedSurname = encodeURIComponent(surname);
+    const encodedEmail = encodeURIComponent(email);
+    const encodedSubjectAreaDescription = encodeURIComponent(
+      subjectAreaDescription
+    );
 
+    const url = `https://localhost:5001/spSaveStudentInfo?studentInfo_id=${studentInfo_id}&mobilityType_id=${mobilityType_id}&name=${encodedName}&surname=${encodedSurname}&gender_id=${gender_id}&nationality_id=${nationality_id}&birthdate=${birthdate}&educationTypeAndLevel_id=${educationTypeAndLevel_id}&email=${encodedEmail}&subjectArea_id=${subjectArea_id}&subjectAreaDescription=${encodedSubjectAreaDescription}&global_id=${global_id}&omobility_id=${omobility_id}`;
+
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
+
+  //https://localhost:5001/spSaveSendingInstitutionInfo?sendingInstitutionInfo_id=1&hei_id=iyte.edu.tr&universityDepartment_id=1&academicPersonnelName=fafa&academicPersonnelSurname=ahahha&academicPersonnelEmail=w%40gmail.com&administrativePersonnelName=a&administrativePersonnelSurname=b&administrativePersonnelEmail=a%40gmail.com&phoneNumberE164=1234456&phoneNumberExt=123
+  const SaveSendingInstitutionInfo = async (
+    request: InstitutionInfoRequest
+  ): Promise<number> => {
+    const {
+      sendingInstitutionInfo_id,
+      hei_id,
+      universityDepartment_id,
+      academicPersonnelName,
+      academicPersonnelSurname,
+      academicPersonnelEmail,
+      administrativePersonnelName,
+      administrativePersonnelSurname,
+      administrativePersonnelEmail,
+      phoneNumberE164,
+      phoneNumberExt,
+    } = request;
+    const encodedAcademicPersonnelName = encodeURIComponent(
+      academicPersonnelName
+    );
+    const encodedAcademicPersonnelSurname = encodeURIComponent(
+      academicPersonnelSurname
+    );
+    const encodedAcademicPersonnelEmail = encodeURIComponent(
+      academicPersonnelEmail
+    );
+    const encodedAdministrativePersonnelName = encodeURIComponent(
+      administrativePersonnelName
+    );
+    const encodedAdministrativePersonnelSurname = encodeURIComponent(
+      administrativePersonnelSurname
+    );
+    const encodedAdministrativePersonnelEmail = encodeURIComponent(
+      administrativePersonnelEmail
+    );
+
+    const url = `https://localhost:5001/spSaveSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${encodedAcademicPersonnelName}&academicPersonnelSurname=${encodedAcademicPersonnelSurname}&academicPersonnelEmail=${encodedAcademicPersonnelEmail}&administrativePersonnelName=${encodedAdministrativePersonnelName}&administrativePersonnelSurname=${encodedAdministrativePersonnelSurname}&administrativePersonnelEmail=${encodedAdministrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
+
+  //  https:localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=10&learningAgreement_id=2
+  const SaveReceivingInstitutionInfoIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+    return result;
+  };
+
+  // https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=56&plannedStartingDateOfMobility=2026.06.07
+  const SavePlannedStartingDateOfMobility = async (
+    request: string
+  ): Promise<number> => {
+    const response: number = await makeRequest<number>(request);
+    return response;
+  };
+
+  //https://localhost:5001/spSavePlannedEndDateOfMobility?pmp_id=57&plannedEndDateOfMobility=2022.07.08
+  const SavePlannedEndDateOfMobility = async (
+    request: string
+  ): Promise<number> => {
+    const response: number = await makeRequest<number>(request);
+    return response;
+  };
+
+  // https://localhost:5001/spSaveProposedMobilityProgramme?pmp_id=56&plannedStartingDateOfMobility=2027.06.07&plannedEndDateOfMobility=2027.06.07&receivingInstitutionCourseCatalogueLink=asdsdxs&language_id=2&languageLevel_id=2&provisionsLinkIfEducationUnsuccessful=gajhsjas
+  const SaveProposedMobilityProgramme = async (
+    request: MobilityProgrammeRequest
+  ): Promise<number> => {
+    const {
+      pmp_id,
+      plannedStartingDateOfMobility,
+      plannedEndDateOfMobility,
+      receivingInstitutionCourseCatalogueLink,
+      language_id,
+      languageLevel_id,
+      provisionsLinkIfEducationUnsuccessful,
+    } = request;
+
+    const encodedReceivingInstitutionCourseCatalogueLink = encodeURIComponent(
+      receivingInstitutionCourseCatalogueLink
+    );
+    const encodedProvisionsLinkIfEducationUnsuccessful = encodeURIComponent(
+      provisionsLinkIfEducationUnsuccessful
+    );
+
+    const url = `https://localhost:5001/spSaveProposedMobilityProgramme?pmp_id=${pmp_id}&plannedStartingDateOfMobility=${plannedStartingDateOfMobility}&plannedEndDateOfMobility=${plannedEndDateOfMobility}&receivingInstitutionCourseCatalogueLink=${encodedReceivingInstitutionCourseCatalogueLink}&language_id=${language_id}&languageLevel_id=${languageLevel_id}&provisionsLinkIfEducationUnsuccessful=${encodedProvisionsLinkIfEducationUnsuccessful}`;
+
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
+
+  // https://localhost:5001/spSaveReceivingInstitutionCourseCatalogueLink?pmp_id=45&receivingInstitutionCourseCatalogueLink=www.ilayda.com
+  const SaveReceivingInstitutionCourseCatalogueLink = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+
+    return result;
+  };
+
+  //https://localhost:5001/spSaveLanguageId?pmp_id=3&language_id=5
+  const SaveLanguageId = async (request: string): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+
+    return result;
+  };
+
+  //https://localhost:5001/spSaveLanguageLevelId?pmp_id=3&languageLevel_id=10
+  const SaveLanguageLevelId = async (request: string): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+
+    return result;
+  };
 
   return {
     UpdateStateOfBilateralAgreement,
@@ -321,6 +471,15 @@ const useUpdate = () => {
     AddSendingInstitutionInfo,
     AddReceivingInstitutionInfo,
     AddOrganizationInfoToBilateralAgreement,
+    SaveStudentInfo,
+    SaveSendingInstitutionInfo,
+    SaveReceivingInstitutionInfoIdToLearningAgreementTable,
+    SavePlannedStartingDateOfMobility,
+    SavePlannedEndDateOfMobility,
+    SaveProposedMobilityProgramme,
+    SaveReceivingInstitutionCourseCatalogueLink,
+    SaveLanguageId,
+    SaveLanguageLevelId,
 
     InsertLASelectedCourse,
 

@@ -26,6 +26,7 @@ export default function TabComponent() {
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
     GenerateNewIdForCommitment,
+    GenerateNewIdForVirtualComponent,
   } = useCreate();
 
   const [omobilityID, setOmobilityID] = useState('');
@@ -37,6 +38,8 @@ export default function TabComponent() {
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
     useState('');
   const [commitmentID, setCommitmentID] = useState('');
+  const [virtualComponentID, setVirtualComponentID] = useState('');
+  const [mobilityTypeId, setMobilityTypeId] = useState(1);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
 
@@ -123,6 +126,22 @@ export default function TabComponent() {
     };
     fetchCommitmentID();
   }
+  async function handleGenerateNewIdForVirtualComponent() {
+    const fetchNewIdForVirtualComponent = async () => {
+      try {
+        const data = await GenerateNewIdForVirtualComponent(
+          'https://localhost:5001/spGenerateNewIdForVirtualComponent'
+        );
+        if (data) {
+          setVirtualComponentID(data);
+        }
+      } catch (error) {
+        // Handle error
+        console.error('Error generating ID for virtual component:', error);
+      }
+    };
+    fetchNewIdForVirtualComponent();
+  }
 
   useEffect(() => {
     handleGenerateOmobilityId();
@@ -132,6 +151,7 @@ export default function TabComponent() {
     handleGenerateNewIdForReceivingInstitutionInfo();
     handleGenerateNewIdForProposedMobilityProgramme();
     handleGenerateNewIdForCommitment();
+    handleGenerateNewIdForVirtualComponent();
   }, []);
   return (
     <Tabs variant='colorful' colorScheme='gray'>
@@ -159,6 +179,7 @@ export default function TabComponent() {
             pageName='Öğrenciye Ait Bilgiler'
             omobilityId={omobilityID}
             mobilityType='Long-term Mobility'
+            mobilityTypeId={mobilityTypeId}
           />
         </TabPanel>
         <TabPanel>

@@ -36,6 +36,7 @@ export default function TabComponent() {
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
     useState('');
   const [commitmentID, setCommitmentID] = useState('');
+  const [mobilityTypeId, setMobilityTypeId] = useState(3);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
 
@@ -158,6 +159,7 @@ export default function TabComponent() {
             pageName='Öğrenciye Ait Bilgiler'
             omobilityId={omobilityID}
             mobilityType='Short-term Doctoral Mobility'
+            mobilityTypeId={mobilityTypeId}
           />
         </TabPanel>
         <TabPanel>

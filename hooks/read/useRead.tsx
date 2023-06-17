@@ -1,4 +1,5 @@
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
+import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
 import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
 import { CollaborationConditionResponse } from '@/models/response/collaborationConditionResponse';
@@ -22,6 +23,9 @@ import { MobilityType } from '@/models/response/mobilityTypeResponse';
 import { Nationality } from '@/models/response/nationalityResponse';
 import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
+import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
+import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
+import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 
 const useAgreement = () => {
@@ -319,6 +323,49 @@ const useAgreement = () => {
     >(request);
     return agreements;
   };
+
+  //https://localhost:5001/spGetStudentInfoById?studentInfo_id=12
+  const GetStudentInfoById = async (
+    request: string
+  ): Promise<StudentInfoResponse> => {
+    const studentInfo: StudentInfoResponse =
+      await makeRequest<StudentInfoResponse>(request);
+    return studentInfo;
+  };
+
+  //https://localhost:5001/spGetSendingInstitutionInfoById?sendingInstitutionInfo_id=21
+  const GetSendingInstitutionInfoById = async (
+    request: string
+  ): Promise<SendingInstitutionInfoResponse> => {
+    const sendingInstitutionInfo: SendingInstitutionInfoResponse =
+      await makeRequest<SendingInstitutionInfoResponse>(request);
+    return sendingInstitutionInfo;
+  };
+
+  //https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=21
+  const GetSendingHeiId = async (request: string): Promise<string> => {
+    const hei: string = await makeRequest<string>(request);
+    return hei;
+  };
+
+  //https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=21
+  const GetUniversityFullname = async (request: string): Promise<string> => {
+    const hei: string = await makeRequest<string>(request);
+    return hei;
+  };
+
+  // https://localhost:5001/spGetProposedMobilityProgrammeById?pmp_id=22
+  const GetProposedMobilityProgrammeById = async (
+    pmp_id: number
+  ): Promise<ProposedMobilityProgrammeResponse> => {
+    const url = `https://localhost:5001/spGetProposedMobilityProgrammeById?pmp_id=${pmp_id}`;
+
+    const response: ProposedMobilityProgrammeResponse =
+      await makeRequest<ProposedMobilityProgrammeResponse>(url);
+
+    return response;
+  };
+
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
@@ -351,6 +398,11 @@ const useAgreement = () => {
     GetTotalCourseCreditsForTableC,
     GetTotalCourseCreditsForBlendedOrDoctorate,
     GetAllLearningAgreements,
+    GetStudentInfoById,
+    GetSendingInstitutionInfoById,
+    GetSendingHeiId,
+    GetUniversityFullname,
+    GetProposedMobilityProgrammeById,
   };
 };
 
