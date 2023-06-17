@@ -381,6 +381,30 @@ const useUpdate = () => {
     return result;
   };
 
+  //  https:localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=10&learningAgreement_id=2
+  const SaveReceivingInstitutionInfoIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+    return result;
+  };
+
+  // https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=56&plannedStartingDateOfMobility=2026.06.07
+  const SavePlannedStartingDateOfMobility = async (
+    request: string
+  ): Promise<number> => {
+    const response: number = await makeRequest<number>(request);
+    return response;
+  };
+
+  //https://localhost:5001/spSavePlannedEndDateOfMobility?pmp_id=57&plannedEndDateOfMobility=2022.07.08
+  const SavePlannedEndDateOfMobility = async (
+    request: string
+  ): Promise<number> => {
+    const response: number = await makeRequest<number>(request);
+    return response;
+  };
+
   return {
     UpdateStateOfBilateralAgreement,
     AddCollaborationConditionToBilateralAgreement,
@@ -397,6 +421,9 @@ const useUpdate = () => {
     AddOrganizationInfoToBilateralAgreement,
     SaveStudentInfo,
     SaveSendingInstitutionInfo,
+    SaveReceivingInstitutionInfoIdToLearningAgreementTable,
+    SavePlannedStartingDateOfMobility,
+    SavePlannedEndDateOfMobility,
 
     InsertLASelectedCourse,
 
