@@ -256,6 +256,7 @@ const useUpdate = () => {
     return result;
   };
 
+
   /*https://localhost:5001/spSaveCollaborationCondition?id=1&bilateralAgreement_id=1&isPartner=1&
   academicYearStart_id=1&academicYearEnd_id=1&annualQuota=1&subjectArea_id=1&subjectAreaDescript
   ion=test&otherInfo=test&annualTotalMonths=5&isCoEducational=1&educationTypeAndLevel_id=1*/
@@ -297,7 +298,17 @@ const useUpdate = () => {
     return result;
   };
 
+  //https://localhost:5001/spUpdateStateOfBilateralAgreement?bilateralAgreement_id=21&new_state=Taslak
+  const UpdateStateOfBilateralAgreement = async (
+    request: string
+  ): Promise<string> => {
+    const result: string = await makeRequest<string>(request);
+    return result;
+  };
+
+
   return {
+    UpdateStateOfBilateralAgreement,
     AddCollaborationConditionToBilateralAgreement,
     SaveCollaborationCondition,
     AddLanguageSkillForCollaborationCondition,
