@@ -67,37 +67,41 @@ export default function DisplayAgreements() {
   return (
     <>
       {/* Search input field */}
-      <Flex align={'center'} justify={'flex-end'} px={6} py={4} direction={['column', 'row']}>
-        <Stack justify={['flex-start', 'right']} px={2} direction={['row', 'row', 'row', 'row', 'row', 'row', 'row']}>
-          <SearchIcon mt={3} color="gray.600" />
-          <Input width='auto' value={searchQuery} onChange={handleSearchChange} />
+      <Flex align="center" justify={['flex-start', 'flex-end']} px={6} py={4} direction={['column', 'row']}>
+        <Stack justify="flex-start" px={2} direction={['column', 'row', 'row', 'row', 'row', 'row', 'row']}>
+          <SearchIcon mt={[0, 3]} color="gray.600" />
+          <Input width={['full', 'auto']} value={searchQuery} onChange={handleSearchChange} />
         </Stack>
-        <Button as={NextLink} href={'/bilateral-agreements/create-new-agreement/'} variant="condition" mt={[4, 0]}>
+        <Button as={NextLink} href="/bilateral-agreements/create-new-agreement/" variant="condition" mt={[4, 0]}>
           Yeni Anlaşma Oluştur
         </Button>
       </Flex>
 
       {currentAgreements.length === 0 ? (
-        <Flex justify={'center'}>
-          <Heading fontWeight={'sm'} fontSize={"2xl"} fontStyle={'normal'}>
+        <Flex justify="center">
+          <Heading fontWeight="sm" fontSize="2xl" fontStyle="normal">
             No agreements to display.
           </Heading>
         </Flex>
       ) : (
-        // Loop through the currentAgreements array and render PreviewIIA component for each agreement
-        <SimpleGrid columns={[1, 2, 3]} gap={4} px={4} py={2}>
-          {currentAgreements.map(agreement => (
-            <PreviewIIA
-              key={agreement.bilateralAgreement_id}
-              IIA={agreement.ownIIACode || '-'}
-              BilateralAgreement={agreement}
-            />
-          ))}
-        </SimpleGrid>
+
+
+<Flex width="100%" direction={['column', 'column', 'row']} gap={2} justifyContent={['center', null, 'right']}>
+  <SimpleGrid columns={[1, 1, 2, 3]} gap={4} px={4} py={2} width="100%">
+    {currentAgreements.map((agreement) => (
+      <PreviewIIA
+        key={agreement.bilateralAgreement_id}
+        IIA={agreement.ownIIACode || '-'}
+        BilateralAgreement={agreement}
+      />
+    ))}
+  </SimpleGrid>
+</Flex>
+
       )}
 
       {/* Pagination controls */}
-      <Flex justify={'center'} mt={4}>
+      <Flex justify="center" mt={4}>
         {Array.from({ length: totalPages }, (_, index) => index + 1).map(pageNumber => (
           <Button
             key={pageNumber}
