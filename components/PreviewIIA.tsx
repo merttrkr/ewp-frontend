@@ -35,7 +35,12 @@ export default function PreviewIIA({ IIA, BilateralAgreement }: PreviewIIAProps)
       );
 
       if (data !== undefined && data !== null) {
-
+        console.log( "details ", data?.organizationInfo_id,
+          data?.partnerOrganizationInfo_id,
+          data?.collaborationCondition_id,
+          data?.partnerCollaborationCondition_id,
+          BilateralAgreement.bilateralAgreement_id,);
+        
         setOrganizationIds([
           data?.organizationInfo_id,
           data?.partnerOrganizationInfo_id,
@@ -54,7 +59,7 @@ export default function PreviewIIA({ IIA, BilateralAgreement }: PreviewIIAProps)
   }, []);
 
   const renderNextLink = organizationIds.length > 0 && (
-    <NextLink href={`/bilateral-agreements/create-new-agreement/${organizationIds.toString()}`}>
+    <NextLink href={`/bilateral-agreements/create-new-agreement/${organizationIds}`}>
       <Button variant='autoWidthFull'>Anlaşma Detaylarını Görüntüle</Button>
     </NextLink>
   );

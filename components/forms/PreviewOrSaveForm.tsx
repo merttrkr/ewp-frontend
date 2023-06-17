@@ -21,6 +21,8 @@ type PreviewOrSaveFormProps = {
   bilateralAgreementID: number;
   organizationInfoId: number;
   saveState: number;
+  newPartnerCollaborationConditionId: number;
+  newCollaborationConditionId : number; 
 };
 
 export default function PreviewOrSaveForm({
@@ -28,6 +30,8 @@ export default function PreviewOrSaveForm({
   organizationInfoId,
   saveState,
   bilateralAgreementID,
+  newPartnerCollaborationConditionId,
+  newCollaborationConditionId,
 }: PreviewOrSaveFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -36,10 +40,6 @@ export default function PreviewOrSaveForm({
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
   const [contactPerson, setContactPerson] = useState([] as string[]);
   const toast = useToast();
-  useEffect(() => {
-    handleGetOrganizationInfo();
-    handleGetSelectedContactInfoOfOrganizationInfo();
-  }, [saveState, organizationInfoId]);
 
   const {
     InsertEmptyRowToOrganizationInfo,
@@ -109,18 +109,22 @@ export default function PreviewOrSaveForm({
     updateDateOfBilateralAgreement();
   }
 
-  async function handleUpdateStateOfBilateralAgreement() {
+  async function handleUpdateStateOfBilateralAgreement(state: string) {
     const updateDateOfBilateralAgreement = async () => {
       await UpdateDateOfBilateralAgreement(
-        'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=' +
+        'https://localhost:5001/spUpdateStateOfBilateralAgreement?bilateralAgreement_id=21&new_state='+ state +
         bilateralAgreementID
       );
     };
     updateDateOfBilateralAgreement();
-  }
+  }  
+  useEffect(() => {
+    handleGetOrganizationInfo();
+    handleGetSelectedContactInfoOfOrganizationInfo();
+  }, [saveState, organizationInfoId]);
 
-  function handleSave(){
-    handleUpdateStateOfBilateralAgreement();
+  function handleSaveAsDraft(){
+    handleUpdateStateOfBilateralAgreement('Taslak');
     handleUpdateDateOfBilateralAgreement();
     toast({
       title: 'Kayıt Başarılı.',
@@ -156,7 +160,7 @@ export default function PreviewOrSaveForm({
         {pageName}
       </Heading>
       <Flex gap={3} direction={['column', 'column', 'row']} justifyContent={['center', 'center', 'space-between']} p={6}>
-        <Button onClick={handleSave} variant='condition' type='submit' mb={[4, 4, 0]}>
+        <Button onClick={handleSaveAsDraft} variant='condition' type='submit' mb={[4, 4, 0]}>
           Anlaşmayı Taslak Olarak Kaydet
         </Button>
         <Button variant='autoWidthFull' type='reset' mb={[4, 4, 0]}>
