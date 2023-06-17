@@ -179,6 +179,7 @@ export default function TabComponent() {
             pageName='Öğrenciye Ait Bilgiler'
             omobilityId={omobilityID}
             mobilityType='Long-term Mobility'
+            mobilityTypeId={mobilityTypeId}
           />
         </TabPanel>
         <TabPanel>
