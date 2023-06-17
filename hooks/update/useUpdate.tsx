@@ -7,6 +7,7 @@ import { OrganizationRequestToIIA } from '@/models/request/organizationRequestTo
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
 import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
 import { InstitutionInfoRequest } from '@/models/request/institutionInfoRequest';
+import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -405,6 +406,57 @@ const useUpdate = () => {
     return response;
   };
 
+  // https://localhost:5001/spSaveProposedMobilityProgramme?pmp_id=56&plannedStartingDateOfMobility=2027.06.07&plannedEndDateOfMobility=2027.06.07&receivingInstitutionCourseCatalogueLink=asdsdxs&language_id=2&languageLevel_id=2&provisionsLinkIfEducationUnsuccessful=gajhsjas
+  const SaveProposedMobilityProgramme = async (
+    request: MobilityProgrammeRequest
+  ): Promise<number> => {
+    const {
+      pmp_id,
+      plannedStartingDateOfMobility,
+      plannedEndDateOfMobility,
+      receivingInstitutionCourseCatalogueLink,
+      language_id,
+      languageLevel_id,
+      provisionsLinkIfEducationUnsuccessful,
+    } = request;
+
+    const encodedReceivingInstitutionCourseCatalogueLink = encodeURIComponent(
+      receivingInstitutionCourseCatalogueLink
+    );
+    const encodedProvisionsLinkIfEducationUnsuccessful = encodeURIComponent(
+      provisionsLinkIfEducationUnsuccessful
+    );
+
+    const url = `https://localhost:5001/spSaveProposedMobilityProgramme?pmp_id=${pmp_id}&plannedStartingDateOfMobility=${plannedStartingDateOfMobility}&plannedEndDateOfMobility=${plannedEndDateOfMobility}&receivingInstitutionCourseCatalogueLink=${encodedReceivingInstitutionCourseCatalogueLink}&language_id=${language_id}&languageLevel_id=${languageLevel_id}&provisionsLinkIfEducationUnsuccessful=${encodedProvisionsLinkIfEducationUnsuccessful}`;
+
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
+
+  // https://localhost:5001/spSaveReceivingInstitutionCourseCatalogueLink?pmp_id=45&receivingInstitutionCourseCatalogueLink=www.ilayda.com
+  const SaveReceivingInstitutionCourseCatalogueLink = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+
+    return result;
+  };
+
+  //https://localhost:5001/spSaveLanguageId?pmp_id=3&language_id=5
+  const SaveLanguageId = async (request: string): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+
+    return result;
+  };
+
+  //https://localhost:5001/spSaveLanguageLevelId?pmp_id=3&languageLevel_id=10
+  const SaveLanguageLevelId = async (request: string): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+
+    return result;
+  };
+
   return {
     UpdateStateOfBilateralAgreement,
     AddCollaborationConditionToBilateralAgreement,
@@ -424,6 +476,10 @@ const useUpdate = () => {
     SaveReceivingInstitutionInfoIdToLearningAgreementTable,
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,
+    SaveProposedMobilityProgramme,
+    SaveReceivingInstitutionCourseCatalogueLink,
+    SaveLanguageId,
+    SaveLanguageLevelId,
 
     InsertLASelectedCourse,
 
