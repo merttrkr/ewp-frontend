@@ -1,4 +1,5 @@
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
+import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
 import { BilateralAgreement } from '@/models/response/bilateralAgreementResponse';
 import { CollaborationConditionResponse } from '@/models/response/collaborationConditionResponse';
@@ -22,6 +23,7 @@ import { MobilityType } from '@/models/response/mobilityTypeResponse';
 import { Nationality } from '@/models/response/nationalityResponse';
 import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
+import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 
 const useAgreement = () => {
@@ -319,6 +321,16 @@ const useAgreement = () => {
     >(request);
     return agreements;
   };
+
+  //https://localhost:5001/spGetStudentInfoById?studentInfo_id=12
+  const GetStudentInfoById = async (
+    request: string
+  ): Promise<StudentInfoResponse> => {
+    const studentInfo: StudentInfoResponse =
+      await makeRequest<StudentInfoResponse>(request);
+    return studentInfo;
+  };
+
   return {
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
@@ -351,6 +363,7 @@ const useAgreement = () => {
     GetTotalCourseCreditsForTableC,
     GetTotalCourseCreditsForBlendedOrDoctorate,
     GetAllLearningAgreements,
+    GetStudentInfoById,
   };
 };
 
