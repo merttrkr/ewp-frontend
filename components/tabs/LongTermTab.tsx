@@ -18,8 +18,26 @@ import useCreate from '@/hooks/create/useCreate';
 import { useState, useEffect } from 'react';
 
 export default function TabComponent() {
-  const { GenerateOmobilityId } = useCreate();
+  const {
+    GenerateOmobilityId,
+    GenerateNewIdForLearningAgreement,
+    GenerateNewIdForStudentInfo,
+    GenerateNewIdForSendingInstitutionInfo,
+    GenerateNewIdForReceivingInstitutionInfo,
+    GenerateNewIdForProposedMobilityProgramme,
+    GenerateNewIdForCommitment,
+  } = useCreate();
+
   const [omobilityID, setOmobilityID] = useState('');
+  const [learningAgreementID, setLearningAgreementID] = useState('');
+  const [studentInfoID, setStudentInfoID] = useState('');
+  const [sendingInstitutionInfoID, setSendingInstitutionInfoID] = useState('');
+  const [receivingInstitutionInfoID, setReceivingInstitutionInfoID] =
+    useState('');
+  const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
+    useState('');
+  const [commitmentID, setCommitmentID] = useState('');
+
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
 
   async function handleGenerateOmobilityId() {
@@ -33,13 +51,91 @@ export default function TabComponent() {
     };
     fetchOmobilityID();
   }
+
+  async function handleGenerateNewIdForLearningAgreement() {
+    const fetchLearningAgreementID = async () => {
+      const data = await GenerateNewIdForLearningAgreement(
+        'https://localhost:5001/spGenerateNewIdForLearningAgreement'
+      );
+      if (data) {
+        setLearningAgreementID(data);
+      }
+    };
+    fetchLearningAgreementID();
+  }
+
+  async function handleGenerateNewIdForStudentInfo() {
+    const fetchStudentInfoID = async () => {
+      const data = await GenerateNewIdForStudentInfo(
+        'https://localhost:5001/spGenerateNewIdForStudentInfo'
+      );
+      if (data) {
+        setStudentInfoID(data);
+      }
+    };
+    fetchStudentInfoID();
+  }
+
+  async function handleGenerateNewIdForSendingInstitutionInfo() {
+    const fetchSendingInstitutionInfoID = async () => {
+      const data = await GenerateNewIdForSendingInstitutionInfo(
+        'https://localhost:5001/spGenerateNewIdForSendingInstitutionInfo'
+      );
+      if (data) {
+        setSendingInstitutionInfoID(data);
+      }
+    };
+    fetchSendingInstitutionInfoID();
+  }
+
+  async function handleGenerateNewIdForReceivingInstitutionInfo() {
+    const fetchReceivingInstitutionInfoID = async () => {
+      const data = await GenerateNewIdForReceivingInstitutionInfo(
+        'https://localhost:5001/spGenerateNewIdForReceivingInstitutionInfo'
+      );
+      if (data) {
+        setReceivingInstitutionInfoID(data);
+      }
+    };
+    fetchReceivingInstitutionInfoID();
+  }
+
+  async function handleGenerateNewIdForProposedMobilityProgramme() {
+    const fetchProposedMobilityProgrammeID = async () => {
+      const data = await GenerateNewIdForProposedMobilityProgramme(
+        'https://localhost:5001/spGenerateNewIdForProposedMobilityProgramme'
+      );
+      if (data) {
+        setProposedMobilityProgrammeID(data);
+      }
+    };
+    fetchProposedMobilityProgrammeID();
+  }
+
+  async function handleGenerateNewIdForCommitment() {
+    const fetchCommitmentID = async () => {
+      const data = await GenerateNewIdForCommitment(
+        'https://localhost:5001/spGenerateNewIdForCommitment'
+      );
+      if (data) {
+        setCommitmentID(data);
+      }
+    };
+    fetchCommitmentID();
+  }
+
   useEffect(() => {
     handleGenerateOmobilityId();
+    handleGenerateNewIdForLearningAgreement();
+    handleGenerateNewIdForStudentInfo();
+    handleGenerateNewIdForSendingInstitutionInfo();
+    handleGenerateNewIdForReceivingInstitutionInfo();
+    handleGenerateNewIdForProposedMobilityProgramme();
+    handleGenerateNewIdForCommitment();
   }, []);
-
   return (
     <Tabs variant='colorful' colorScheme='gray'>
-      <TabList overflowX="auto">
+      <TabList overflowX='auto'>
         <Tab>Öğrenciye Ait Bilgiler</Tab>
         <Tab>Kurum / Üniversite Bilgisi</Tab>
         <Tab>Hareketlilik (Mobilite) Programı</Tab>

@@ -128,6 +128,14 @@ const useCreate = () => {
     return makeRequestString<string>(request);
   };
 
+  // New function: GenerateNewIdForVirtualComponent
+  // https://localhost:5001/spGenerateNewIdForVirtualComponent
+  const GenerateNewIdForVirtualComponent = async (
+    request: string
+  ): Promise<string> => {
+    return makeRequestString<string>(request);
+  };
+
   return {
     GenerateBilateralAgreementID,
     GenerateIIAID,
@@ -141,6 +149,7 @@ const useCreate = () => {
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
     GenerateNewIdForCommitment,
+    GenerateNewIdForVirtualComponent,
   };
 };
 
