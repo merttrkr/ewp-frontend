@@ -5,6 +5,7 @@ import {
 import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFormRequest';
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
+import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -131,7 +132,6 @@ const useUpdate = () => {
   const UpdateDateOfBilateralAgreement = async (
     request: string
   ): Promise<string> => {
-
     const result: string = await makeRequest<string>(request);
 
     return result;
@@ -236,7 +236,7 @@ const useUpdate = () => {
     request: string
   ): Promise<string> => {
     console.log(request + ' request');
-    
+
     const result: string = await makeRequest<string>(request);
     return result;
   };
@@ -255,7 +255,6 @@ const useUpdate = () => {
     const result: string = await makeRequest<string>(request);
     return result;
   };
-
 
   /*https://localhost:5001/spSaveCollaborationCondition?id=1&bilateralAgreement_id=1&isPartner=1&
   academicYearStart_id=1&academicYearEnd_id=1&annualQuota=1&subjectArea_id=1&subjectAreaDescript
@@ -305,7 +304,38 @@ const useUpdate = () => {
     const result: string = await makeRequest<string>(request);
     return result;
   };
+  //https:localhost:5001/spSaveStudentInfo?studentInfo_id=1&mobilityType_id=1&name=ilayda&surname=%C3%B6zel&gender_id=2&nationality_id=1&birthdate=2000.06.05&educationTypeAndLevel_id=2&email=example%40gmail.com&subjectArea_id=1&subjectAreaDescription=none&global_id=affsdgsg&omobility_id=ahsjsjd
+  const SaveStudentInfo = async (
+    request: StudentInfoRequest
+  ): Promise<number> => {
+    const {
+      studentInfo_id,
+      mobilityType_id,
+      name,
+      surname,
+      gender_id,
+      nationality_id,
+      birthdate,
+      educationTypeAndLevel_id,
+      email,
+      subjectArea_id,
+      subjectAreaDescription,
+      global_id,
+      omobility_id,
+    } = request;
+    const encodedName = encodeURIComponent(name);
+    const encodedSurname = encodeURIComponent(surname);
+    const encodedEmail = encodeURIComponent(email);
+    const encodedSubjectAreaDescription = encodeURIComponent(
+      subjectAreaDescription
+    );
 
+    const url = `https://localhost:5001/spSaveStudentInfo?studentInfo_id=${studentInfo_id}&mobilityType_id=${mobilityType_id}&name=${encodedName}&surname=${encodedSurname}&gender_id=${gender_id}&nationality_id=${nationality_id}&birthdate=${birthdate}&educationTypeAndLevel_id=${educationTypeAndLevel_id}&email=${encodedEmail}&subjectArea_id=${subjectArea_id}&subjectAreaDescription=${encodedSubjectAreaDescription}&global_id=${global_id}&omobility_id=${omobility_id}`;
+
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
 
   return {
     UpdateStateOfBilateralAgreement,
@@ -321,6 +351,7 @@ const useUpdate = () => {
     AddSendingInstitutionInfo,
     AddReceivingInstitutionInfo,
     AddOrganizationInfoToBilateralAgreement,
+    SaveStudentInfo,
 
     InsertLASelectedCourse,
 
