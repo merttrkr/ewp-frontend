@@ -101,21 +101,21 @@ export default function TabComponent() {
   }
   useEffect(() => {
 
-
-
     if (saveState != 0) {
+      console.log("saveState ", saveState , " newOrganizationInfoId ", newOrganizationInfoId, " newPartnerOrganizationInfoId ", newPartnerOrganizationInfoId);
+      
       setNewOrganizationInfoId(newOrganizationInfoId);
-
       setNewPartnerOrganizationInfoId(newPartnerOrganizationInfoId);
-
     }
   }, [saveState]);
-
+  console.log("saveState ", saveState , " newOrganizationInfoId ", newOrganizationInfoId, " newPartnerOrganizationInfoId ", newPartnerOrganizationInfoId);
+  console.log("saveState ", saveState , " newcollabıd ", newCollaborationConditionId, " newPartnercollabıd ", newPartnerCollaborationConditionId);
   useEffect(() => {
     handleIDForBoth();
     handleIDForBothCollaborationCondition();
     handleGenerateBilateralAgreementID();
   }, []);
+
   useEffect(() => {
     handleCheckIfBilateralAgreementIsInEffect();
   }, [bilateralAgreementID]);
@@ -178,12 +178,16 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <PreviewOrSaveForm
+          newPartnerCollaborationConditionId = {newPartnerCollaborationConditionId}
+          newCollaborationConditionId = {newCollaborationConditionId}
             saveState={saveState}
             organizationInfoId={newOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
             pageName='Kurumuma Ait Bilgiler'
           />
           <PreviewOrSaveForm
+            newPartnerCollaborationConditionId = {newPartnerCollaborationConditionId}
+            newCollaborationConditionId = {newCollaborationConditionId}
             saveState={saveState}
             organizationInfoId={newPartnerOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
