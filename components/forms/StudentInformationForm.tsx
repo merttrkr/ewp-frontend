@@ -23,11 +23,14 @@ import { MobilityType } from '@/models/response/mobilityTypeResponse';
 import SelectMobilityTypes from '../form-components/selectboxes/SelectMobilityTypes';
 import SelectGender from '../form-components/selectboxes/SelectGender';
 import { Gender } from '@/models/response/genderResponse';
+import useUpdate from '@/hooks/update/useUpdate';
+
 type StudentInformationFormProps = {
   pageName: String;
   omobilityId: string;
   mobilityType: string;
   mobilityTypeId: number;
+  studentInfoId: string;
 };
 type FormData = {
   education_type_and_level: string;
@@ -49,6 +52,7 @@ export default function StudentInformationForm({
   omobilityId,
   mobilityType,
   mobilityTypeId,
+  studentInfoId,
 }: StudentInformationFormProps) {
   //useForm hook
   const {
@@ -58,7 +62,7 @@ export default function StudentInformationForm({
     setValue,
     control,
   } = useForm<FormData>();
-
+  const { InsertEmptyRowToStudentInfo } = useUpdate();
   //color
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -76,12 +80,26 @@ export default function StudentInformationForm({
   const [selectedMobilityTypeID, setSelectedMobilityTypeID] = useState(0);
   const [gender, setGender] = useState('');
   const [genderID, setGenderID] = useState(0);
-  const [studentBirthdate, setStudentBirthdate] = useState<string>('');
+  const [studentBirthdate, setStudentBirthdate] = useState('');
+
+  async function handleInsertEmptyRowToStudentInfo() {
+    const insertEmptyRowToStudentInfo = async () => {
+      await InsertEmptyRowToStudentInfo(
+        'https://localhost:5001/spInsertEmptyRowToStudentInfo?studentInfo_id=' +
+          studentInfoId +
+          '&mobilityType_id=' +
+          mobilityTypeId
+      );
+    };
+    insertEmptyRowToStudentInfo();
+  }
+
   //submit
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
         alert(JSON.stringify(values, null));
+        await handleInsertEmptyRowToStudentInfo();
 
         toast({
           title: 'Kayıt Başarılı.',
