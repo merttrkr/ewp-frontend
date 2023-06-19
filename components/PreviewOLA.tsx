@@ -54,18 +54,22 @@ export default function PreviewOLA({
   );
   
   function getAgreementUrl(mobilityType: string) {
+    
     const baseUrl = 'http://localhost:3000/learning-agreements/create';
+
+    const queryParams = {
+      studentInfoId: studentInfoId.toString(),
+      sendingInstitutionInfoId: sendingInstitutionInfoId.toString(),
+      receivingInstitutionInfoId: receivingInstitutionInfoId.toString(),
+      proposedMobilityProgrammeId: proposedMobilityProgrammeId.toString(),
+      commitmentId: commitmentId.toString(),
+      virtualComponentId: virtualComponentId.toString(),
+    };
   
-    switch (mobilityType) {
-      case 'Long-term Mobility':
-        return `${baseUrl}-long-term-la?studentInfoId=${studentInfoId}&sendingInstitutionInfoId=${sendingInstitutionInfoId}&receivingInstitutionInfoId=${receivingInstitutionInfoId}`;
-      case 'Blended Mobility':
-        return `${baseUrl}-blended-la?studentInfoId=${studentInfoId}&proposedMobilityProgrammeId=${proposedMobilityProgrammeId}&commitmentId=${commitmentId}`;
-      case 'Short-term Doctoral Mobility':
-        return `${baseUrl}-short-term-doctoral-la?studentInfoId=${studentInfoId}&virtualComponentId=${virtualComponentId}&changesProposalVersionId=${changesProposalVersionId}`;
-      default:
-        return '';
-    }
+    const query = new URLSearchParams(queryParams).toString();
+    const url = `${baseUrl}-${mobilityType.toLowerCase().replace(/ /g, '-')}?${query}`;
+  
+    return url;
   }
   
   
