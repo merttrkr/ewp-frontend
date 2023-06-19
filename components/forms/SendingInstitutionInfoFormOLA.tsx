@@ -1,12 +1,9 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
-  HStack,
   Heading,
   Stack,
-  Text,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
@@ -22,6 +19,7 @@ import useCreate from '@/hooks/create/useCreate';
 import useRead from '@/hooks/read/useRead';
 import useUpdate from '@/hooks/update/useUpdate';
 import { SendingInstitutionInfo } from '@/models/request/sendingInstitutionInfoRequest';
+import { ReceivingInstitutionInfo } from '@/models/request/receivingInstitutionInfoRequest';
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -29,7 +27,6 @@ type InstitutionInformationFormProps = {
   heiName?: string;
   institutionInfoID?: number;
   learningAgreementId: number;
-  isPartner: number;
 };
 
 type FormData = {
@@ -51,7 +48,6 @@ export default function InstitutionInformationForm({
   heiName = '',
   institutionInfoID = 0,
   learningAgreementId,
-  isPartner,
 }: InstitutionInformationFormProps) {
   const [formValues, setFormValues] = useState<FormData>({
     hei_id: '',
@@ -72,6 +68,7 @@ export default function InstitutionInformationForm({
     InsertEmptyRowToReceivingInstitutionInfo,
     SaveSendingInstitutionInfoIdToLearningAgreementTable,
     SaveReceivingInstitutionInfoIdToLearningAgreementTable,
+    SaveReceivingInstitutionInfo,
   } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -128,17 +125,16 @@ export default function InstitutionInformationForm({
     };
     saveSendingInstitutionInfoIdToLearningAgreementTable();
   }
-
   async function handleSaveReceivingInstitutionInfoIdToLearningAgreementTable() {
-    const saveSendingInstitutionInfoIdToLearningAgreementTable = async () => {
-      await SaveSendingInstitutionInfoIdToLearningAgreementTable(
-        'https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=' +
+    const saveReceivingInstitutionInfoIdToLearningAgreementTable = async () => {
+      await SaveReceivingInstitutionInfoIdToLearningAgreementTable(
+        'https://localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=' +
           institutionInfoId +
           '&learningAgreement_id=' +
           learningAgreementId
       );
     };
-    saveSendingInstitutionInfoIdToLearningAgreementTable();
+    saveReceivingInstitutionInfoIdToLearningAgreementTable();
   }
 
   async function handleInsertEmptyRowToSendingInstitutionInfo() {
@@ -149,6 +145,16 @@ export default function InstitutionInformationForm({
       );
     };
     insertEmptyRowToSendingInstitutionInfo();
+  }
+
+  async function handleInsertEmptyRowToReceivingInstitutionInfo() {
+    const insertEmptyRowToReceivingInstitutionInfo = async () => {
+      await InsertEmptyRowToReceivingInstitutionInfo(
+        'https://localhost:5001/spInsertEmptyRowToReceivingInstitutionInfo?receivingInstitutionInfo_id=' +
+          institutionInfoId
+      );
+    };
+    insertEmptyRowToReceivingInstitutionInfo();
   }
 
   async function handleSaveSendingInstitutionInfo(values: FormData) {
@@ -179,6 +185,7 @@ export default function InstitutionInformationForm({
       await handleSaveSendingInstitutionInfo(values);
       console.log('learningAgreementID', learningAgreementId);
       await handleSaveSendingInstitutionInfoIdToLearningAgreementTable();
+
       try {
         toast({
           title: 'Kayıt Başarılı.',
