@@ -324,17 +324,17 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: 'Uzun Dönem Öğrenim Anlaşması Oluştur',
         subLabel: 'Uzun Dönem Öğrenim Anlaşması Oluştur',
-        href: '/learning-agreements/create-long-term-la',
+        href: '/learning-agreements/create-long-term-mobility',
       },
       {
         label: 'Kısa Süreli Doktora Öğrenim Anlaşması Oluştur',
         subLabel: 'Doktora Öğrenim Anlaşması Oluştur',
-        href: '/learning-agreements/create-short-term-doctoral-la',
+        href: '/learning-agreements/create-short-term-doctoral-mobility',
       },
       {
         label: 'Karma Öğrenim Anlaşması Oluştur',
         subLabel: 'Karma Öğrenim Anlaşması Oluştur',
-        href: '/learning-agreements/create-blended-la',
+        href: '/learning-agreements/create-blended-mobility',
       },
 
       
