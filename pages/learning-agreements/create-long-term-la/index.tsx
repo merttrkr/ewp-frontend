@@ -1,5 +1,212 @@
-import LongTermTabComponent from '@/components/tabs/LongTermTab';
+import {
+  Flex,
+  Heading,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Box,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
-export default function CreateLongTermLA() {
-  return <LongTermTabComponent />;
+import useCreate from '@/hooks/create/useCreate';
+import { useState, useEffect } from 'react';
+import CommitmentSignatureForm from '@/components/forms/CommitmentSignatureForm';
+import InstitutionInformationFormOLA from '@/components/forms/InstitutionInformationFormOLA';
+import MobilityProgramFormLongTerm from '@/components/forms/MobilityProgramFormLongTerm';
+import StudentInformationForm from '@/components/forms/StudentInformationForm';
+import VirtualComponentForm from '@/components/forms/VirtualComponentForm';
+
+export default function TabComponent() {
+  const {
+    GenerateOmobilityId,
+    GenerateNewIdForLearningAgreement,
+    GenerateNewIdForStudentInfo,
+    GenerateNewIdForSendingInstitutionInfo,
+    GenerateNewIdForReceivingInstitutionInfo,
+    GenerateNewIdForProposedMobilityProgramme,
+    GenerateNewIdForCommitment,
+    GenerateNewIdForVirtualComponent,
+  } = useCreate();
+
+  const [omobilityID, setOmobilityID] = useState('');
+  const [learningAgreementID, setLearningAgreementID] = useState(0);
+  const [studentInfoID, setStudentInfoID] = useState(0);
+  const [sendingInstitutionInfoID, setSendingInstitutionInfoID] = useState(0);
+  const [receivingInstitutionInfoID, setReceivingInstitutionInfoID] =
+    useState(0);
+  const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
+    useState(0);
+  const [commitmentID, setCommitmentID] = useState(0);
+  const [virtualComponentID, setVirtualComponentID] = useState(0);
+  const [mobilityTypeId, setMobilityTypeId] = useState(1);
+
+  const HeadingColor = useColorModeValue('gray.600', 'gray.300');
+
+  async function handleGenerateOmobilityId() {
+    const fetchOmobilityID = async () => {
+      const data = await GenerateOmobilityId(
+        'https://localhost:5001/spGenerateOmobilityId'
+      );
+      if (data) {
+        setOmobilityID(data);
+      }
+    };
+    fetchOmobilityID();
+  }
+
+  async function handleGenerateNewIdForLearningAgreement() {
+    const fetchLearningAgreementID = async () => {
+      const data = await GenerateNewIdForLearningAgreement(
+        'https://localhost:5001/spGenerateNewIdForLearningAgreement'
+      );
+      if (data) {
+        setLearningAgreementID(data);
+      }
+    };
+    fetchLearningAgreementID();
+  }
+
+  async function handleGenerateNewIdForStudentInfo() {
+    const fetchStudentInfoID = async () => {
+      const data = await GenerateNewIdForStudentInfo(
+        'https://localhost:5001/spGenerateNewIdForStudentInfo'
+      );
+      if (data) {
+        setStudentInfoID(data);
+      }
+    };
+    fetchStudentInfoID();
+  }
+
+  async function handleGenerateNewIdForSendingInstitutionInfo() {
+    const fetchSendingInstitutionInfoID = async () => {
+      const data = await GenerateNewIdForSendingInstitutionInfo(
+        'https://localhost:5001/spGenerateNewIdForSendingInstitutionInfo'
+      );
+      if (data) {
+        setSendingInstitutionInfoID(data);
+      }
+    };
+    fetchSendingInstitutionInfoID();
+  }
+
+  async function handleGenerateNewIdForReceivingInstitutionInfo() {
+    const fetchReceivingInstitutionInfoID = async () => {
+      const data = await GenerateNewIdForReceivingInstitutionInfo(
+        'https://localhost:5001/spGenerateNewIdForReceivingInstitutionInfo'
+      );
+      if (data) {
+        setReceivingInstitutionInfoID(data);
+      }
+    };
+    fetchReceivingInstitutionInfoID();
+  }
+
+  async function handleGenerateNewIdForProposedMobilityProgramme() {
+    const fetchProposedMobilityProgrammeID = async () => {
+      const data = await GenerateNewIdForProposedMobilityProgramme(
+        'https://localhost:5001/spGenerateNewIdForProposedMobilityProgramme'
+      );
+      if (data) {
+        setProposedMobilityProgrammeID(data);
+      }
+    };
+    fetchProposedMobilityProgrammeID();
+  }
+
+  async function handleGenerateNewIdForCommitment() {
+    const fetchCommitmentID = async () => {
+      const data = await GenerateNewIdForCommitment(
+        'https://localhost:5001/spGenerateNewIdForCommitment'
+      );
+      if (data) {
+        setCommitmentID(data);
+      }
+    };
+    fetchCommitmentID();
+  }
+  async function handleGenerateNewIdForVirtualComponent() {
+    const fetchNewIdForVirtualComponent = async () => {
+      try {
+        const data = await GenerateNewIdForVirtualComponent(
+          'https://localhost:5001/spGenerateNewIdForVirtualComponent'
+        );
+        if (data) {
+          setVirtualComponentID(data);
+        }
+      } catch (error) {
+        // Handle error
+        console.error('Error generating ID for virtual component:', error);
+      }
+    };
+    fetchNewIdForVirtualComponent();
+  }
+
+  useEffect(() => {
+    handleGenerateOmobilityId();
+    handleGenerateNewIdForLearningAgreement();
+    handleGenerateNewIdForStudentInfo();
+    handleGenerateNewIdForSendingInstitutionInfo();
+    handleGenerateNewIdForReceivingInstitutionInfo();
+    handleGenerateNewIdForProposedMobilityProgramme();
+    handleGenerateNewIdForCommitment();
+    handleGenerateNewIdForVirtualComponent();
+  }, []);
+  return (
+    <Tabs variant='colorful' colorScheme='gray'>
+      <TabList overflowX='auto'>
+        <Tab>Öğrenciye Ait Bilgiler</Tab>
+        <Tab>Kurum / Üniversite Bilgisi</Tab>
+        <Tab>Hareketlilik (Mobilite) Programı</Tab>
+        <Tab>Sanal Dersler/ Komponentler</Tab>
+        <Tab>Taahhüt / İmza Bilgileri</Tab>
+      </TabList>
+      <Box pl='12'>
+        <Heading
+          as='h3'
+          size='md'
+          py='1'
+          fontWeight={'medium'}
+          color={HeadingColor}
+        >
+          Uzun Dönem Hareketlilik
+        </Heading>
+      </Box>
+      <TabPanels>
+        <TabPanel>
+          <StudentInformationForm
+            pageName='Öğrenciye Ait Bilgiler'
+            omobilityId={omobilityID}
+            mobilityType='Long-term Mobility'
+            mobilityTypeId={mobilityTypeId}
+            studentInfoId={studentInfoID}
+          />
+        </TabPanel>
+        <TabPanel>
+          <InstitutionInformationFormOLA
+            pageName='Gönderen Kurum /Üniversite Bilgisi'
+            heiId='iyte.edu.tr'
+            heiName='Izmir Institute Of Technology'
+            institutionInfoID={21}
+          />
+          <InstitutionInformationFormOLA pageName='Alıcı Kurum /Üniversite Bilgisi' />
+        </TabPanel>
+        <TabPanel>
+          <MobilityProgramFormLongTerm
+            pageName={'Hareketlilik Programı'}
+          ></MobilityProgramFormLongTerm>
+        </TabPanel>
+        <TabPanel>
+          <VirtualComponentForm
+            pageName={'Virtual Compnent'}
+          ></VirtualComponentForm>
+        </TabPanel>
+        <TabPanel>
+          <CommitmentSignatureForm pageName='Taahhüt Metni'></CommitmentSignatureForm>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
 }
