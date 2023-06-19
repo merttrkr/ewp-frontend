@@ -18,7 +18,6 @@ import {
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 
-
 export default function TabComponent() {
   const {
     GenerateOmobilityId,
@@ -191,10 +190,12 @@ export default function TabComponent() {
             heiId='iyte.edu.tr'
             heiName='Izmir Institute Of Technology'
             institutionInfoID={21}
+            sendingInstitutionInfoId={sendingInstitutionInfoID}
             learningAgreementId={learningAgreementID}
           />
           <ReceivingInstitutionInfoForm
             pageName='Alıcı Kurum /Üniversite Bilgisi'
+            receivingInstitutionInfoId={receivingInstitutionInfoID}
             learningAgreementId={learningAgreementID}
           />
         </TabPanel>
