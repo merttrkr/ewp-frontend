@@ -1,3 +1,10 @@
+import CommitmentSignatureForm from '@/components/forms/CommitmentSignatureForm';
+import MobilityProgramFormLongTerm from '@/components/forms/MobilityProgramFormLongTerm';
+import ReceivingInstitutionInfoForm from '@/components/forms/ReceivingInstitutionInfoFormOLA';
+import SendingInstitutionInfoForm from '@/components/forms/SendingInstitutionInfoFormOLA';
+import StudentInformationForm from '@/components/forms/StudentInformationForm';
+import VirtualComponentForm from '@/components/forms/VirtualComponentForm';
+import useCreate from '@/hooks/create/useCreate';
 import {
   Flex,
   Heading,
@@ -9,14 +16,8 @@ import {
   Box,
   useColorModeValue,
 } from '@chakra-ui/react';
-
-import useCreate from '@/hooks/create/useCreate';
 import { useState, useEffect } from 'react';
-import CommitmentSignatureForm from '@/components/forms/CommitmentSignatureForm';
-import InstitutionInformationFormOLA from '@/components/forms/InstitutionInformationFormOLA';
-import MobilityProgramFormLongTerm from '@/components/forms/MobilityProgramFormLongTerm';
-import StudentInformationForm from '@/components/forms/StudentInformationForm';
-import VirtualComponentForm from '@/components/forms/VirtualComponentForm';
+
 
 export default function TabComponent() {
   const {
@@ -185,13 +186,17 @@ export default function TabComponent() {
           />
         </TabPanel>
         <TabPanel>
-          <InstitutionInformationFormOLA
+          <SendingInstitutionInfoForm
             pageName='Gönderen Kurum /Üniversite Bilgisi'
             heiId='iyte.edu.tr'
             heiName='Izmir Institute Of Technology'
             institutionInfoID={21}
+            learningAgreementId={learningAgreementID}
           />
-          <InstitutionInformationFormOLA pageName='Alıcı Kurum /Üniversite Bilgisi' />
+          <ReceivingInstitutionInfoForm
+            pageName='Alıcı Kurum /Üniversite Bilgisi'
+            learningAgreementId={learningAgreementID}
+          />
         </TabPanel>
         <TabPanel>
           <MobilityProgramFormLongTerm
