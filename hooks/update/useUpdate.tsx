@@ -6,9 +6,10 @@ import { OrganizationInfoFormRequest } from '@/models/request/organizationInfoFo
 import { OrganizationRequestToIIA } from '@/models/request/organizationRequestToIIA';
 import { CollaborationConditionRequest } from '@/models/request/collaborationConditionRequest';
 import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
-import { InstitutionInfoRequest } from '@/models/request/institutionInfoRequest';
+import { SendingInstitutionInfo } from '@/models/request/sendingInstitutionInfoRequest';
 import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
 import { IIANotificationRequest } from '@/models/request/IIANotificationRequest';
+import { ReceivingInstitutionInfo } from '@/models/request/receivingInstitutionInfoRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -339,10 +340,41 @@ const useUpdate = () => {
 
     return result;
   };
+  //https://localhost:5001/spSaveReceivingInstitutionInfo?receivingInstitutionInfo_id=1&university_id=1&universityDepartment_id=1&academicYear_id=1&academicPersonnelName=asd&academicPersonnelSurname=asdd&academicPersonnelEmail=afsgs%40gmail.com&phoneNumberE164=123jhasjkas&phoneNumberExt=21889920
+  const SaveReceivingInstitutionInfo = async (
+    request: ReceivingInstitutionInfo
+  ): Promise<number> => {
+    const {
+      receivingInstitutionInfo_id,
+      university_id,
+      universityDepartment_id,
+      academicYear_id,
+      academicPersonnelName,
+      academicPersonnelSurname,
+      academicPersonnelEmail,
+      phoneNumberE164,
+      phoneNumberExt,
+    } = request;
+    const encodedAcademicPersonnelName = encodeURIComponent(
+      academicPersonnelName
+    );
+    const encodedAcademicPersonnelSurname = encodeURIComponent(
+      academicPersonnelSurname
+    );
+    const encodedAcademicPersonnelEmail = encodeURIComponent(
+      academicPersonnelEmail
+    );
+
+    const url = `https://localhost:5001/spSaveReceivingInstitutionInfo?receivingInstitutionInfo_id=${receivingInstitutionInfo_id}&university_id=${university_id}&universityDepartment_id=${universityDepartment_id}&academicYear_id=${academicYear_id}&academicPersonnelName=${encodedAcademicPersonnelName}&academicPersonnelSurname=${encodedAcademicPersonnelSurname}&academicPersonnelEmail=${encodedAcademicPersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
 
   //https://localhost:5001/spSaveSendingInstitutionInfo?sendingInstitutionInfo_id=1&hei_id=iyte.edu.tr&universityDepartment_id=1&academicPersonnelName=fafa&academicPersonnelSurname=ahahha&academicPersonnelEmail=w%40gmail.com&administrativePersonnelName=a&administrativePersonnelSurname=b&administrativePersonnelEmail=a%40gmail.com&phoneNumberE164=1234456&phoneNumberExt=123
   const SaveSendingInstitutionInfo = async (
-    request: InstitutionInfoRequest
+    request: SendingInstitutionInfo
   ): Promise<number> => {
     const {
       sendingInstitutionInfo_id,
@@ -385,6 +417,13 @@ const useUpdate = () => {
 
   //  https:localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=10&learningAgreement_id=2
   const SaveReceivingInstitutionInfoIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+    return result;
+  };
+  //https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=34&learningAgreement_id=122
+  const SaveSendingInstitutionInfoIdToLearningAgreementTable = async (
     request: string
   ): Promise<number> => {
     const result: number = await makeRequest<number>(request);
@@ -459,19 +498,15 @@ const useUpdate = () => {
   };
   //https://localhost:5001/sendNotificationToPartner?notifier_hei_id=iyte.edu.tr&iia_id=773B75A4-35E9-4E8F-966C-10179654F697&partner_hei_id=selcuk.edu.tr
   const sendIIANotification = async (
-      request: IIANotificationRequest
-    ): Promise<number> => {
-      const {
-        notifier_hei_id,
-        iia_id,
-        partner_hei_id,
-      } = request;
-  
-      const url = `https://localhost:5001/sendNotificationToPartner?notifier_hei_id=${notifier_hei_id}&iia_id=${iia_id}&partner_hei_id=${partner_hei_id}`;
-      const result: number = await makeRequest<number>(url);
-  
-      return result;
-    };
+    request: IIANotificationRequest
+  ): Promise<number> => {
+    const { notifier_hei_id, iia_id, partner_hei_id } = request;
+
+    const url = `https://localhost:5001/sendNotificationToPartner?notifier_hei_id=${notifier_hei_id}&iia_id=${iia_id}&partner_hei_id=${partner_hei_id}`;
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
 
   return {
     sendIIANotification,
@@ -485,11 +520,13 @@ const useUpdate = () => {
     SetSigningPerson,
     UpdateDateOfBilateralAgreement,
     SaveOrganizationInfo,
+    SaveSendingInstitutionInfoIdToLearningAgreementTable,
     AddSendingInstitutionInfo,
     AddReceivingInstitutionInfo,
     AddOrganizationInfoToBilateralAgreement,
     SaveStudentInfo,
     SaveSendingInstitutionInfo,
+    SaveReceivingInstitutionInfo,
     SaveReceivingInstitutionInfoIdToLearningAgreementTable,
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,

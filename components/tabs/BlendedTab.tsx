@@ -169,8 +169,14 @@ export default function TabComponent() {
             heiId='iyte.edu.tr'
             heiName='Izmir Institute Of Technology'
             institutionInfoID={21}
+            learningAgreementId={learningAgreementID}
+            isPartner={0}
           />
-          <InstitutionInformationFormOLA pageName='Alıcı Kurum /Üniversite Bilgisi' />
+          <InstitutionInformationFormOLA
+            pageName='Alıcı Kurum /Üniversite Bilgisi'
+            learningAgreementId={learningAgreementID}
+            isPartner={1}
+          />
         </TabPanel>
         <TabPanel>
           <MobilityProgramFormDoctoralAndBlended

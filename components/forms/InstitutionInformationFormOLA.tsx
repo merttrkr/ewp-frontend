@@ -21,17 +21,20 @@ import SelectInstitution from '../form-components/selectboxes/SelectInstitution'
 import useCreate from '@/hooks/create/useCreate';
 import useRead from '@/hooks/read/useRead';
 import useUpdate from '@/hooks/update/useUpdate';
+import { SendingInstitutionInfo } from '@/models/request/sendingInstitutionInfoRequest';
 
 type InstitutionInformationFormProps = {
   pageName: String;
   heiId?: string;
   heiName?: string;
   institutionInfoID?: number;
+  learningAgreementId: number;
+  isPartner: number;
 };
 
 type FormData = {
   hei_id: string;
-  department_name: string;
+  department_id: number;
   academic_personal_name: string;
   academic_personal_surname: string;
   academic_personal_eposta: string;
@@ -47,10 +50,12 @@ export default function InstitutionInformationForm({
   heiId = '',
   heiName = '',
   institutionInfoID = 0,
+  learningAgreementId,
+  isPartner,
 }: InstitutionInformationFormProps) {
   const [formValues, setFormValues] = useState<FormData>({
     hei_id: '',
-    department_name: '',
+    department_id: 0,
     academic_personal_name: '',
     academic_personal_surname: '',
     academic_personal_eposta: '',
@@ -61,7 +66,13 @@ export default function InstitutionInformationForm({
     extension: '',
   });
   const { GetUniversityFullname } = useRead();
-  const { InsertEmptyRowToSendingInstitutionInfo } = useUpdate();
+  const {
+    InsertEmptyRowToSendingInstitutionInfo,
+    SaveSendingInstitutionInfo,
+    InsertEmptyRowToReceivingInstitutionInfo,
+    SaveSendingInstitutionInfoIdToLearningAgreementTable,
+    SaveReceivingInstitutionInfoIdToLearningAgreementTable,
+  } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
@@ -90,6 +101,9 @@ export default function InstitutionInformationForm({
     if (heiName != '') {
       setUniversityName(heiName);
     }
+    if (institutionInfoID != 0) {
+      setInstitutionInfoId(institutionInfoID);
+    }
   }, [heiId]);
 
   async function handleGetUniversityFullname() {
@@ -97,10 +111,34 @@ export default function InstitutionInformationForm({
     const fetchUniversityFullname = async () => {
       await GetUniversityFullname(
         'https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=' +
-          sendingInstitutionInfoId
+          institutionInfoId
       );
     };
     fetchUniversityFullname();
+  }
+
+  async function handleSaveSendingInstitutionInfoIdToLearningAgreementTable() {
+    const saveSendingInstitutionInfoIdToLearningAgreementTable = async () => {
+      await SaveSendingInstitutionInfoIdToLearningAgreementTable(
+        'https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=' +
+          institutionInfoId +
+          '&learningAgreement_id=' +
+          learningAgreementId
+      );
+    };
+    saveSendingInstitutionInfoIdToLearningAgreementTable();
+  }
+
+  async function handleSaveReceivingInstitutionInfoIdToLearningAgreementTable() {
+    const saveSendingInstitutionInfoIdToLearningAgreementTable = async () => {
+      await SaveSendingInstitutionInfoIdToLearningAgreementTable(
+        'https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=' +
+          institutionInfoId +
+          '&learningAgreement_id=' +
+          learningAgreementId
+      );
+    };
+    saveSendingInstitutionInfoIdToLearningAgreementTable();
   }
 
   async function handleInsertEmptyRowToSendingInstitutionInfo() {
@@ -113,8 +151,34 @@ export default function InstitutionInformationForm({
     insertEmptyRowToSendingInstitutionInfo();
   }
 
+  async function handleSaveSendingInstitutionInfo(values: FormData) {
+    const saveSendingInstitutionInfo = async () => {
+      const request: SendingInstitutionInfo = {
+        sendingInstitutionInfo_id: institutionInfoId,
+        hei_id: heiId != '' ? heiId : values.hei_id,
+        universityDepartment_id: values.department_id,
+        academicPersonnelName: values.academic_personal_name,
+        academicPersonnelSurname: values.academic_personal_surname,
+        academicPersonnelEmail: values.academic_personal_eposta,
+        administrativePersonnelName: values.administrative_personal_name,
+        administrativePersonnelSurname: values.administrative_personal_surname,
+        administrativePersonnelEmail: values.administrative_personal_eposta,
+        phoneNumberE164: values.phone_number,
+        phoneNumberExt: values.extension,
+      };
+
+      await SaveSendingInstitutionInfo(request);
+    };
+
+    saveSendingInstitutionInfo();
+  }
+
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
+      await handleInsertEmptyRowToSendingInstitutionInfo();
+      await handleSaveSendingInstitutionInfo(values);
+      console.log('learningAgreementID', learningAgreementId);
+      await handleSaveSendingInstitutionInfoIdToLearningAgreementTable();
       try {
         toast({
           title: 'Kayıt Başarılı.',
@@ -140,11 +204,11 @@ export default function InstitutionInformationForm({
   }
   const handleSelectChangeDepartment = (value: Department | null) => {
     if (value) {
-      setValue('department_name', value.organizationalUnitName);
+      setValue('department_id', value.id);
       setDepartment(value.organizationalUnitName);
       setDepartmentID(value.id);
     } else {
-      setValue('department_name', ''); // or any default value you want
+      setValue('department_id', 0); // or any default value you want
       setDepartment(''); // or any default value you want
     }
   };
@@ -198,13 +262,13 @@ export default function InstitutionInformationForm({
               error={errors.hei_id?.message}
             />
             <SelectDepartment
-              id='departmant_name'
-              register={register('department_name')}
+              id='department_id'
+              register={register('department_id')}
               placeHolder=''
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
               param={universityId}
-              error={errors.department_name?.message}
+              error={errors.department_id?.message}
             />
             <TextInput
               id='academic_personal_name'
