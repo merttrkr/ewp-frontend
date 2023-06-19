@@ -10,12 +10,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import StudentInformationForm from '../forms/StudentInformationForm';
-import InstitutionInformationFormOLA from '../forms/InstitutionInformationFormOLA';
+import SendingInstitutionInfoForm from '../forms/SendingInstitutionInfoFormOLA';
 import MobilityProgramFormLongTerm from '../forms/MobilityProgramFormLongTerm';
 import CommitmentSignatureForm from '../forms/CommitmentSignatureForm';
 import VirtualComponentForm from '../forms/VirtualComponentForm';
 import useCreate from '@/hooks/create/useCreate';
 import { useState, useEffect } from 'react';
+import ReceivingInstitutionInfoForm from '../forms/ReceivingInstitutionInfoFormOLA';
 
 export default function TabComponent() {
   const {
@@ -184,18 +185,16 @@ export default function TabComponent() {
           />
         </TabPanel>
         <TabPanel>
-          <InstitutionInformationFormOLA
+          <SendingInstitutionInfoForm
             pageName='Gönderen Kurum /Üniversite Bilgisi'
             heiId='iyte.edu.tr'
             heiName='Izmir Institute Of Technology'
             institutionInfoID={21}
             learningAgreementId={learningAgreementID}
-            isPartner={0}
           />
-          <InstitutionInformationFormOLA
-            learningAgreementId={learningAgreementID}
+          <ReceivingInstitutionInfoForm
             pageName='Alıcı Kurum /Üniversite Bilgisi'
-            isPartner={1}
+            learningAgreementId={learningAgreementID}
           />
         </TabPanel>
         <TabPanel>
