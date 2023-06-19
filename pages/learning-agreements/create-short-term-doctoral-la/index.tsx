@@ -1,3 +1,9 @@
+import CommitmentSignatureForm from '@/components/forms/CommitmentSignatureForm';
+import MobilityProgramFormDoctoralAndBlended from '@/components/forms/MobilityProgramFormDoctoralAndBlended';
+import ReceivingInstitutionInfoForm from '@/components/forms/ReceivingInstitutionInfoFormOLA';
+import StudentInformationForm from '@/components/forms/StudentInformationForm';
+import useCreate from '@/hooks/create/useCreate';
+import SendingInstitutionInfoForm from '@/components/forms/SendingInstitutionInfoFormOLA';
 import {
   Box,
   Flex,
@@ -9,13 +15,8 @@ import {
   Tabs,
   useColorModeValue,
 } from '@chakra-ui/react';
-
-import useCreate from '@/hooks/create/useCreate';
 import { useState, useEffect } from 'react';
-import CommitmentSignatureForm from '@/components/forms/CommitmentSignatureForm';
-import InstitutionInformationFormOLA from '@/components/forms/InstitutionInformationFormOLA';
-import MobilityProgramFormDoctoralAndBlended from '@/components/forms/MobilityProgramFormDoctoralAndBlended';
-import StudentInformationForm from '@/components/forms/StudentInformationForm';
+
 
 export default function TabComponent() {
   const {
@@ -165,13 +166,17 @@ export default function TabComponent() {
           />
         </TabPanel>
         <TabPanel>
-          <InstitutionInformationFormOLA
+          <SendingInstitutionInfoForm
             pageName='Gönderen Kurum /Üniversite Bilgisi'
             heiId='iyte.edu.tr'
             heiName='Izmir Institute Of Technology'
             institutionInfoID={21}
+            learningAgreementId={learningAgreementID}
           />
-          <InstitutionInformationFormOLA pageName='Alıcı Kurum /Üniversite Bilgisi' />
+          <ReceivingInstitutionInfoForm
+            pageName='Alıcı Kurum /Üniversite Bilgisi'
+            learningAgreementId={learningAgreementID}
+          />
         </TabPanel>
         <TabPanel>
           <MobilityProgramFormDoctoralAndBlended
