@@ -415,7 +415,7 @@ const useUpdate = () => {
     return result;
   };
 
-  //  https:localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=10&learningAgreement_id=2
+  //https:localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=10&learningAgreement_id=2
   const SaveReceivingInstitutionInfoIdToLearningAgreementTable = async (
     request: string
   ): Promise<number> => {

@@ -649,7 +649,7 @@ export default function InstitutionConditionsForm({
             />
             <SelectAcademicYear
               id='academicYearStart_id'
-              error={errors.sender_contact_person?.message}
+              error={errors.starting_academic_year?.message}
               register={register('starting_academic_year')}
               placeholder={startingAcademicYear}
               selectLabel='Hangi Akademik Yıllar Arasında Başlıyor ?'
