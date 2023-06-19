@@ -65,10 +65,7 @@ export default function InstitutionInformationForm({
   const {
     InsertEmptyRowToSendingInstitutionInfo,
     SaveSendingInstitutionInfo,
-    InsertEmptyRowToReceivingInstitutionInfo,
     SaveSendingInstitutionInfoIdToLearningAgreementTable,
-    SaveReceivingInstitutionInfoIdToLearningAgreementTable,
-    SaveReceivingInstitutionInfo,
   } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -125,17 +122,6 @@ export default function InstitutionInformationForm({
     };
     saveSendingInstitutionInfoIdToLearningAgreementTable();
   }
-  async function handleSaveReceivingInstitutionInfoIdToLearningAgreementTable() {
-    const saveReceivingInstitutionInfoIdToLearningAgreementTable = async () => {
-      await SaveReceivingInstitutionInfoIdToLearningAgreementTable(
-        'https://localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=' +
-          institutionInfoId +
-          '&learningAgreement_id=' +
-          learningAgreementId
-      );
-    };
-    saveReceivingInstitutionInfoIdToLearningAgreementTable();
-  }
 
   async function handleInsertEmptyRowToSendingInstitutionInfo() {
     const insertEmptyRowToSendingInstitutionInfo = async () => {
@@ -145,16 +131,6 @@ export default function InstitutionInformationForm({
       );
     };
     insertEmptyRowToSendingInstitutionInfo();
-  }
-
-  async function handleInsertEmptyRowToReceivingInstitutionInfo() {
-    const insertEmptyRowToReceivingInstitutionInfo = async () => {
-      await InsertEmptyRowToReceivingInstitutionInfo(
-        'https://localhost:5001/spInsertEmptyRowToReceivingInstitutionInfo?receivingInstitutionInfo_id=' +
-          institutionInfoId
-      );
-    };
-    insertEmptyRowToReceivingInstitutionInfo();
   }
 
   async function handleSaveSendingInstitutionInfo(values: FormData) {
