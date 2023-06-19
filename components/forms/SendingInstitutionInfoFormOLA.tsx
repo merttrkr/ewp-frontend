@@ -19,7 +19,6 @@ import useCreate from '@/hooks/create/useCreate';
 import useRead from '@/hooks/read/useRead';
 import useUpdate from '@/hooks/update/useUpdate';
 import { SendingInstitutionInfo } from '@/models/request/sendingInstitutionInfoRequest';
-import { ReceivingInstitutionInfo } from '@/models/request/receivingInstitutionInfoRequest';
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -27,6 +26,7 @@ type InstitutionInformationFormProps = {
   heiName?: string;
   institutionInfoID?: number;
   learningAgreementId: number;
+  sendingInstitutionInfoId: number;
 };
 
 type FormData = {
@@ -48,6 +48,7 @@ export default function InstitutionInformationForm({
   heiName = '',
   institutionInfoID = 0,
   learningAgreementId,
+  sendingInstitutionInfoId,
 }: InstitutionInformationFormProps) {
   const [formValues, setFormValues] = useState<FormData>({
     hei_id: '',
@@ -101,21 +102,20 @@ export default function InstitutionInformationForm({
   }, [heiId]);
 
   async function handleGetUniversityFullname() {
-    const sendingInstitutionInfoId = 0;
-    const fetchUniversityFullname = async () => {
+    /*const fetchUniversityFullname = async () => {
       await GetUniversityFullname(
         'https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=' +
           institutionInfoId
       );
     };
-    fetchUniversityFullname();
+    fetchUniversityFullname();*/
   }
 
   async function handleSaveSendingInstitutionInfoIdToLearningAgreementTable() {
     const saveSendingInstitutionInfoIdToLearningAgreementTable = async () => {
       await SaveSendingInstitutionInfoIdToLearningAgreementTable(
         'https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=' +
-          institutionInfoId +
+          sendingInstitutionInfoId +
           '&learningAgreement_id=' +
           learningAgreementId
       );
@@ -127,7 +127,7 @@ export default function InstitutionInformationForm({
     const insertEmptyRowToSendingInstitutionInfo = async () => {
       await InsertEmptyRowToSendingInstitutionInfo(
         'https://localhost:5001/spInsertEmptyRowToSendingInstitutionInfo?sendingInstitutioInfo_id=' +
-          institutionInfoId
+          sendingInstitutionInfoId
       );
     };
     insertEmptyRowToSendingInstitutionInfo();
@@ -136,7 +136,7 @@ export default function InstitutionInformationForm({
   async function handleSaveSendingInstitutionInfo(values: FormData) {
     const saveSendingInstitutionInfo = async () => {
       const request: SendingInstitutionInfo = {
-        sendingInstitutionInfo_id: institutionInfoId,
+        sendingInstitutionInfo_id: sendingInstitutionInfoId,
         hei_id: heiId != '' ? heiId : values.hei_id,
         universityDepartment_id: values.department_id,
         academicPersonnelName: values.academic_personal_name,
@@ -160,6 +160,7 @@ export default function InstitutionInformationForm({
       await handleInsertEmptyRowToSendingInstitutionInfo();
       await handleSaveSendingInstitutionInfo(values);
       console.log('learningAgreementID', learningAgreementId);
+      console.log('institutionInfoID', sendingInstitutionInfoId);
       await handleSaveSendingInstitutionInfoIdToLearningAgreementTable();
 
       try {

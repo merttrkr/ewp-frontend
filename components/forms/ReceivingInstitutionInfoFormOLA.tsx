@@ -25,6 +25,7 @@ type ReceivingInstitutionInfoFormProps = {
   pageName: String;
   institutionInfoID?: number;
   learningAgreementId: number;
+  receivingInstitutionInfoId: number;
 };
 
 type FormData = {
@@ -42,6 +43,7 @@ export default function ReceivingInstitutionInfoForm({
   pageName,
   institutionInfoID = 0,
   learningAgreementId,
+  receivingInstitutionInfoId,
 }: ReceivingInstitutionInfoFormProps) {
   const [formValues, setFormValues] = useState<FormData>({
     hei_id: '',
@@ -88,21 +90,20 @@ export default function ReceivingInstitutionInfoForm({
   }, [institutionInfoID]);
 
   async function handleGetUniversityFullname() {
-    const sendingInstitutionInfoId = 0;
-    const fetchUniversityFullname = async () => {
+    /*const fetchUniversityFullname = async () => {
       await GetUniversityFullname(
         'https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=' +
           institutionInfoId
       );
     };
-    fetchUniversityFullname();
+    fetchUniversityFullname();*/
   }
 
   async function handleSaveReceivingInstitutionInfoIdToLearningAgreementTable() {
     const saveReceivingInstitutionInfoIdToLearningAgreementTable = async () => {
       await SaveReceivingInstitutionInfoIdToLearningAgreementTable(
         'https://localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=' +
-          institutionInfoId +
+          receivingInstitutionInfoId +
           '&learningAgreement_id=' +
           learningAgreementId
       );
@@ -114,7 +115,7 @@ export default function ReceivingInstitutionInfoForm({
     const insertEmptyRowToReceivingInstitutionInfo = async () => {
       await InsertEmptyRowToReceivingInstitutionInfo(
         'https://localhost:5001/spInsertEmptyRowToReceivingInstitutionInfo?receivingInstitutionInfo_id=' +
-          institutionInfoId
+          receivingInstitutionInfoId
       );
     };
     insertEmptyRowToReceivingInstitutionInfo();
@@ -123,8 +124,8 @@ export default function ReceivingInstitutionInfoForm({
   async function handleSaveReceivingInstitutionInfo(values: FormData) {
     const saveReceivingInstitutionInfo = async () => {
       const request: ReceivingInstitutionInfo = {
-        receivingInstitutionInfo_id: institutionInfoId,
-        university_id: 0,
+        receivingInstitutionInfo_id: receivingInstitutionInfoId,
+        university_id: institutionInfoId,
         universityDepartment_id: values.department_id,
         academicYear_id: academicYearID,
         academicPersonnelName: values.academic_personal_name,
@@ -142,6 +143,8 @@ export default function ReceivingInstitutionInfoForm({
 
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
+      console.log('uni hei receiving:', universityId);
+      console.log('receiving inst id:', receivingInstitutionInfoId);
       await handleInsertEmptyRowToReceivingInstitutionInfo();
       await handleSaveReceivingInstitutionInfo(values);
       console.log('learningAgreementID', learningAgreementId);
