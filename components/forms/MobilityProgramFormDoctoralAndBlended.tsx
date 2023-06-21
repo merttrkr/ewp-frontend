@@ -54,7 +54,11 @@ export default function MobilityProgramFormDoctoralAndBlended({
     GetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
     GetTotalCourseCreditsForBlendedOrDoctorate,
   } = useRead();
-  const { InsertEmptyRowToProposedMobilityProgramme } = useUpdate();
+  const {
+    InsertEmptyRowToProposedMobilityProgramme,
+    SavePlannedStartingDateOfMobility,
+    SavePlannedEndDateOfMobility,
+  } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -136,6 +140,27 @@ export default function MobilityProgramFormDoctoralAndBlended({
       console.error('Error fetching total course credits:', error);
     }
   };
+
+  const handleSavePlannedStartingDateOfMobility = async (date: string) => {
+    try {
+      const request = `https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=${pmpID}&plannedStartingDateOfMobility=${date}`;
+      await SavePlannedStartingDateOfMobility(request);
+      setMobilityStartDate(date);
+    } catch (error) {
+      console.error('Error saving planned starting date:', error);
+    }
+  };
+
+  const handleSavePlannedEndDateOfMobility = async (date: string) => {
+    try {
+      const request = `https://localhost:5001/spSavePlannedEndDateOfMobility?pmp_id=${pmpID}&plannedEndDateOfMobility=${date}`;
+      await SavePlannedEndDateOfMobility(request);
+      setMobilityEndDate(date);
+    } catch (error) {
+      console.error('Error saving planned end date:', error);
+    }
+  };
+
   useEffect(() => {
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetApprovedCoursesOfBlendedOrDoctorate();
@@ -144,6 +169,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
+      await handleInsertEmptyRowToProposedMobilityProgramme();
+      await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
+      await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
       try {
         toast({
           title: 'Kayıt Başarılı.',
