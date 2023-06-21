@@ -15,11 +15,13 @@ type SelectEducationTypeAndLevelProps = {
   register: any;
   onChange: (value: EducationTypeAndLevel | null) => void; // New prop for handling value change
   error: string | undefined;
+  inputValue?: string | number;
 };
 
 const SelectEducationTypeAndLevel: React.FC<
   SelectEducationTypeAndLevelProps
 > = ({
+  inputValue,
   isDisabled = false,
   selectLabel,
   id = 'default-select',
@@ -47,6 +49,18 @@ const SelectEducationTypeAndLevel: React.FC<
     };
     fetchInitialData();
   }, []);
+
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedGender = educationTypeAndLevelArray.find(
+        (type) => type.educationTypeAndLevel_id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedGender || null);
+    }
+  }, [inputValue, educationTypeAndLevelArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (

@@ -15,9 +15,11 @@ type SelectGenderProps = {
   register: any;
   onChange: (value: Gender | null) => void; // New prop for handling value change
   error: string | undefined;
+  inputValue? : string | number;
 };
 
 const SelectGender: React.FC<SelectGenderProps> = ({
+  inputValue,
   isDisabled = false,
   selectLabel,
   id = 'default-select',
@@ -43,6 +45,18 @@ const SelectGender: React.FC<SelectGenderProps> = ({
     };
     fetchInitialData();
   }, []);
+
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedGender = genderArray.find(
+        (type) => type.id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedGender || null);
+    }
+  }, [inputValue, genderArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (

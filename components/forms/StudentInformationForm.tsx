@@ -251,7 +251,8 @@ export default function StudentInformationForm({
       setValue('isced_explanation', studentInfo.subjectAreaDescription);
       setIscedExplanation(studentInfo.subjectAreaDescription);
       setValue('student_birthdate', studentInfo.birthdate);
-      
+      setEducationTypeAndLevelID(studentInfo.educationTypeAndLevel_id);
+      setGenderID(studentInfo.gender_id);
       setStudentBirthdate(studentInfo.birthdate);
       setValue('omobility_id', omobilityId);
       setOmobility_id(omobilityId);
@@ -287,6 +288,7 @@ export default function StudentInformationForm({
       >
         <Flex w={'100%'} p={[2, 5]}>
           <SelectMobilityTypes
+            inputValue={mobilityTypeId}
             isDisabled
             selectLabel='Seçilmiş Hareketlilik (Mobilite) Tipi'
             placeholder={mobilityType}
@@ -315,6 +317,7 @@ export default function StudentInformationForm({
             />
 
             <SelectGender
+              inputValue={genderID}
               id='gender'
               error={errors.gender?.message}
               register={register('gender')}
@@ -368,6 +371,7 @@ export default function StudentInformationForm({
               onChange={handleSelectChangeNationality}
             />
             <SelectEducationTypeAndLevel
+              inputValue={educationTypeAndLevelID}
               id='education_type_and_level'
               register={register('education_type_and_level', {
                 required: 'This is required',
