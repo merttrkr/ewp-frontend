@@ -202,6 +202,7 @@ export default function TabComponent() {
         <TabPanel>
           <MobilityProgramFormLongTerm
             pageName={'Hareketlilik Programı'}
+            pmpID={proposedMobilityProgrammeID}
           ></MobilityProgramFormLongTerm>
         </TabPanel>
         <TabPanel>

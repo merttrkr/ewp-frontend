@@ -33,6 +33,7 @@ import { Course } from '@/models/response/courseResponse';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
+  pmpID: number;
 };
 
 type FormData = {
@@ -45,6 +46,7 @@ type FormData = {
 
 export default function MobilityProgramFormDoctoralAndBlended({
   pageName,
+  pmpID,
 }: MobilityProgramFormDoctoralAndBlendedProps) {
   const {
     GetApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
@@ -69,7 +71,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
     setBlendedOrDoctorateNotApprovedArray,
   ] = useState<Course[]>([]);
   const [totalCourseCredits, setTotalCourseCredits] = useState(0);
-  const [pmpID, setPmpID] = useState(0);
   const toast = useToast();
 
   const {

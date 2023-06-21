@@ -29,9 +29,11 @@ import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 import useRead from '@/hooks/read/useRead';
 import { Course } from '@/models/response/courseResponse';
+import useUpdate from '@/hooks/update/useUpdate';
 
 type MobilityProgramFormLongTermProps = {
   pageName: String;
+  pmpID: number;
 };
 type FormData = {
   mobility_start_date: string;
@@ -43,6 +45,7 @@ type FormData = {
 };
 export default function MobilityProgramFormLongTerm({
   pageName,
+  pmpID,
 }: MobilityProgramFormLongTermProps) {
   const {
     GetTableANotApprovedCoursesForChangeProposals,
@@ -52,6 +55,8 @@ export default function MobilityProgramFormLongTerm({
     GetTotalCourseCreditsForTableA,
     GetTotalCourseCreditsForTableB,
   } = useRead();
+
+  const { InsertEmptyRowToProposedMobilityProgramme } = useUpdate();
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
@@ -67,7 +72,6 @@ export default function MobilityProgramFormLongTerm({
     Course[]
   >([]);
   const [tableBApprovedArray, setTableBApprovedArray] = useState<Course[]>([]);
-  const [pmpID, setPmpID] = useState(0);
   const [totalACourseCredits, setTotalACourseCredits] = useState(0);
   const [totalBCourseCredits, setTotalBCourseCredits] = useState(0);
   const toast = useToast();
@@ -79,6 +83,25 @@ export default function MobilityProgramFormLongTerm({
     setValue,
     control,
   } = useForm<FormData>();
+
+  async function handleInsertEmptyRowToProposedMobilityProgramme() {
+    const fetchInsertEmptyRowToProposedMobilityProgramme = async () => {
+      const requestUrl =
+        'https://localhost:5001/spInsertEmptyRowToProposedMobilityProgramme?pmp_id=' +
+        pmpID;
+
+      try {
+        const result = await InsertEmptyRowToProposedMobilityProgramme(
+          requestUrl
+        );
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (pmpID != 0) {
+      fetchInsertEmptyRowToProposedMobilityProgramme();
+    }
+  }
 
   const handleGetTableANotApprovedCourses = async () => {
     try {
@@ -157,10 +180,11 @@ export default function MobilityProgramFormLongTerm({
     handleGetTableBApprovedCourses();
     handleGetTotalCourseCreditsForTableA(); // Call the new function
     handleGetTotalCourseCreditsForTableB(); // Call the new function
-  }, []);
+  }, [pmpID]);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
+      await handleInsertEmptyRowToProposedMobilityProgramme();
       try {
         toast({
           title: 'Kayıt Başarılı.',
