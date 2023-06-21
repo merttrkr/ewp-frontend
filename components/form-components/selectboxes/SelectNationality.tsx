@@ -13,18 +13,20 @@ type SelectNationalityProps = {
   isDisabled?: boolean;
   id?: string;
   register: any;
-  onChange: (value: Nationality | null) => void; // New prop for handling value change
+  onChange: (value: Nationality | null) => void;
   error: string | undefined;
+  inputValue?: string | number;
 };
 
 const SelectNationality: React.FC<SelectNationalityProps> = ({
+  inputValue = null,
   isDisabled = false,
   selectLabel,
   id = 'default-select',
   placeholder,
   register,
   error,
-  onChange, // Add the new onChange prop
+  onChange,
 }) => {
   const { GetNationalities } = useRead();
   const [nationalityArray, setNationalityArray] = useState<Nationality[]>([]);
@@ -37,7 +39,7 @@ const SelectNationality: React.FC<SelectNationalityProps> = ({
       try {
         const result = await GetNationalities();
         if (result) {
-          setNationalityArray(result); // Update the state with the fetched data
+          setNationalityArray(result);
         }
       } catch (error) {
         console.error('Error:', error);
@@ -47,38 +49,43 @@ const SelectNationality: React.FC<SelectNationalityProps> = ({
   }, []);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedNationality = nationalityArray.find(
+        (nationality) => nationality.id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedNationality || null);
+    }
+  }, [inputValue, nationalityArray, onChange]);
+
   return (
     <ThemeProvider theme={theme}>
-      {
-        <FormControl>
-          <Heading
-            pl='1'
-            pb='2'
-            size='sm'
-            fontWeight={'bold'}
-            color={HeadingColor}
-          >
-            <label htmlFor={id}>{selectLabel}</label>
-          </Heading>
-          <Autocomplete
-            onChange={(event, value) => onChange(value || null)}
-            disablePortal
-            id={id}
-            options={nationalityArray}
-            getOptionLabel={(option) => option.nationality}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder={placeholder}
-                disabled={isDisabled}
-                inputRef={register}
-              />
-            )}
-          />
-          {error && <span style={{ color: 'red' }}>{error}</span>}
-        </FormControl>
-      }
+      <FormControl>
+        <Heading pl='1' pb='2' size='sm' fontWeight='bold' color={HeadingColor}>
+          <label htmlFor={id}>{selectLabel}</label>
+        </Heading>
+        <Autocomplete
+          onChange={(event, value) => onChange(value || null)}
+          disablePortal
+          id={id}
+          options={nationalityArray}
+          getOptionLabel={(option) => option.nationality}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder={placeholder}
+              disabled={isDisabled}
+              inputRef={register}
+            />
+          )}
+        />
+        {error && <span style={{ color: 'red' }}>{error}</span>}
+      </FormControl>
     </ThemeProvider>
   );
 };
