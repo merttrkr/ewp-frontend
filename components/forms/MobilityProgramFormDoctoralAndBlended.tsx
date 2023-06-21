@@ -30,6 +30,7 @@ import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 import useRead from '@/hooks/read/useRead';
 import { Course } from '@/models/response/courseResponse';
+import useUpdate from '@/hooks/update/useUpdate';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
@@ -53,6 +54,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     GetNotApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
     GetTotalCourseCreditsForBlendedOrDoctorate,
   } = useRead();
+  const { InsertEmptyRowToProposedMobilityProgramme } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -80,7 +82,24 @@ export default function MobilityProgramFormDoctoralAndBlended({
     setValue,
     control,
   } = useForm<FormData>();
+  async function handleInsertEmptyRowToProposedMobilityProgramme() {
+    const fetchInsertEmptyRowToProposedMobilityProgramme = async () => {
+      const requestUrl =
+        'https://localhost:5001/spInsertEmptyRowToProposedMobilityProgramme?pmp_id=' +
+        pmpID;
 
+      try {
+        const result = await InsertEmptyRowToProposedMobilityProgramme(
+          requestUrl
+        );
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (pmpID != 0) {
+      fetchInsertEmptyRowToProposedMobilityProgramme();
+    }
+  }
   const handleGetApprovedCoursesOfBlendedOrDoctorate = async () => {
     try {
       const courses =

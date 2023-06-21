@@ -180,7 +180,7 @@ export default function MobilityProgramFormLongTerm({
     handleGetTableBApprovedCourses();
     handleGetTotalCourseCreditsForTableA(); // Call the new function
     handleGetTotalCourseCreditsForTableB(); // Call the new function
-  }, [pmpID]);
+  }, []);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
