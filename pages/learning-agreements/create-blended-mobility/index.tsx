@@ -19,6 +19,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useRead from '@/hooks/read/useRead';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
+import { set } from 'react-hook-form';
 
 export default function TabComponent() {
   const {
@@ -62,7 +63,7 @@ export default function TabComponent() {
       studentInfoID;
     try {
       const studentInfo = await GetStudentInfoById(request);
-
+      setStudentInfo(studentInfo);
       console.log('Student Info:', studentInfo);
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
@@ -193,28 +194,30 @@ export default function TabComponent() {
         console.log('Commitment Id:', commitmentId);
 
         setStudentInfoID(Number(studentInfoId) || 0);
-        setProposedMobilityProgrammeID(
-          Number(proposedMobilityProgrammeId) || 0
-        );
+        setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || 0);
         setCommitmentID(Number(commitmentId) || 0);
+        setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || 0);
+        setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || 0);
+        
 
         await Promise.all([
-          (studentInfoID === 0 ||
-            studentInfoID === undefined ||
-            studentInfoID === null) &&
-            handleGenerateNewIdForStudentInfo(),
+          (studentInfoID === 0) &&
+          handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
             omobilityID === undefined ||
             omobilityID === null) &&
-            handleGenerateOmobilityId(),
+          handleGenerateOmobilityId(),
           (learningAgreementID === 0 ||
             learningAgreementID === undefined ||
             learningAgreementID === null) &&
-            handleGenerateNewIdForLearningAgreement(),
-
+          handleGenerateNewIdForLearningAgreement(),
+          (sendingInstitutionInfoID === 0) &&
           handleGenerateNewIdForSendingInstitutionInfo(),
+          (receivingInstitutionInfoID === 0) &&
           handleGenerateNewIdForReceivingInstitutionInfo(),
+          (proposedMobilityProgrammeID === 0) &&
           handleGenerateNewIdForProposedMobilityProgramme(),
+          (commitmentID === 0) &&
           handleGenerateNewIdForCommitment(),
         ]);
       } catch (error) {
@@ -269,6 +272,7 @@ export default function TabComponent() {
       <TabPanels>
         <TabPanel>
           <StudentInformationForm
+            studentInfo={studentInfo}
             pageName='Öğrenciye Ait Bilgiler'
             omobilityId={omobilityID}
             mobilityType='Blended Mobility'
