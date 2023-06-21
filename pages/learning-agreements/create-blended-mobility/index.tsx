@@ -15,7 +15,7 @@ import {
   Tabs,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/router';
 import useRead from '@/hooks/read/useRead';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
@@ -63,9 +63,10 @@ export default function TabComponent() {
       studentInfoID;
     try {
       const studentInfo = await GetStudentInfoById(request);
-      if (studentInfo ) {
+      if (studentInfo && Object.keys(studentInfo).length !== 0 ) {
       setStudentInfo(studentInfo);}
-      console.log('Student Info:', studentInfo);
+
+      
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
       console.error('Error fetching student info:', error);
@@ -78,7 +79,7 @@ export default function TabComponent() {
       const data = await GenerateOmobilityId(
         'https://localhost:5001/spGenerateOmobilityId'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && omobilityID === '') {
         setOmobilityID(data);
       } else {
         throw new Error('No data received for omobility ID');
@@ -94,7 +95,7 @@ export default function TabComponent() {
       const data = await GenerateNewIdForLearningAgreement(
         'https://localhost:5001/spGenerateNewIdForLearningAgreement'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && learningAgreementID === 0) {
         setLearningAgreementID(data);
       } else {
         throw new Error('No data received for learning agreement ID');
@@ -110,8 +111,11 @@ export default function TabComponent() {
       const data = await GenerateNewIdForStudentInfo(
         'https://localhost:5001/spGenerateNewIdForStudentInfo'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && studentInfoID === 0) {
+
         setStudentInfoID(data);
+        console.log('set ettim Student Info ID:', studentInfoID);
+        
       } else {
         throw new Error('No data received for student info ID');
       }
@@ -126,7 +130,7 @@ export default function TabComponent() {
       const data = await GenerateNewIdForSendingInstitutionInfo(
         'https://localhost:5001/spGenerateNewIdForSendingInstitutionInfo'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && sendingInstitutionInfoID === 0) {
         setSendingInstitutionInfoID(data);
       } else {
         throw new Error('No data received for sending institution info ID');
@@ -142,7 +146,7 @@ export default function TabComponent() {
       const data = await GenerateNewIdForReceivingInstitutionInfo(
         'https://localhost:5001/spGenerateNewIdForReceivingInstitutionInfo'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && receivingInstitutionInfoID === 0)  {
         setReceivingInstitutionInfoID(data);
       } else {
         throw new Error('No data received for receiving institution info ID');
@@ -158,7 +162,7 @@ export default function TabComponent() {
       const data = await GenerateNewIdForProposedMobilityProgramme(
         'https://localhost:5001/spGenerateNewIdForProposedMobilityProgramme'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && proposedMobilityProgrammeID === 0) {
         setProposedMobilityProgrammeID(data);
       } else {
         throw new Error('No data received for proposed mobility programme ID');
@@ -174,7 +178,7 @@ export default function TabComponent() {
       const data = await GenerateNewIdForCommitment(
         'https://localhost:5001/spGenerateNewIdForCommitment'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && commitmentID === 0) {
         setCommitmentID(data);
       } else {
         throw new Error('No data received for commitment ID');
@@ -185,6 +189,14 @@ export default function TabComponent() {
     }
   }
   useEffect(() => {
+    setStudentInfoID(Number(studentInfoId) || 0);
+    setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || 0);
+    setCommitmentID(Number(commitmentId) || 0);
+    setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || 0);
+    setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || 0);
+  }, [studentInfoId, proposedMobilityProgrammeId, commitmentId]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         console.log('Student Info Id:', studentInfoId);
@@ -194,11 +206,7 @@ export default function TabComponent() {
         );
         console.log('Commitment Id:', commitmentId);
 
-        setStudentInfoID(Number(studentInfoId) || 0);
-        setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || 0);
-        setCommitmentID(Number(commitmentId) || 0);
-        setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || 0);
-        setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || 0);
+
         
 
         await Promise.all([
@@ -206,7 +214,7 @@ export default function TabComponent() {
           handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
             omobilityID === undefined ||
-            omobilityID === null) &&
+            omobilityID === null ) &&
           handleGenerateOmobilityId(),
           (learningAgreementID === 0 ||
             learningAgreementID === undefined ||
