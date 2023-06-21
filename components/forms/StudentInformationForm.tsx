@@ -12,7 +12,7 @@ import TextInput from '@/components/form-components/inputs/TextInput';
 import DateInput from '../form-components/inputs/DateInput';
 import SelectISCED from '../form-components/selectboxes/SelectISCED';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 import SelectEducationTypeAndLevel from '../form-components/selectboxes/SelectEducationTypeAndLevel';
 import { EducationTypeAndLevel } from '@/models/response/educationTypeAndLevelResponse';
@@ -25,6 +25,7 @@ import SelectGender from '../form-components/selectboxes/SelectGender';
 import { Gender } from '@/models/response/genderResponse';
 import useUpdate from '@/hooks/update/useUpdate';
 import { StudentInfoRequest } from '@/models/request/studentInfoRequest';
+import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 
 type StudentInformationFormProps = {
   pageName: String;
@@ -32,6 +33,7 @@ type StudentInformationFormProps = {
   mobilityType: string;
   mobilityTypeId: number;
   studentInfoId: number;
+  studentInfo: StudentInfoResponse | undefined;
 };
 type FormData = {
   education_type_and_level: string;
@@ -49,6 +51,7 @@ type FormData = {
 };
 
 export default function StudentInformationForm({
+  studentInfo,
   pageName,
   omobilityId,
   mobilityType,
@@ -82,6 +85,15 @@ export default function StudentInformationForm({
   const [gender, setGender] = useState('');
   const [genderID, setGenderID] = useState(0);
   const [studentBirthdate, setStudentBirthdate] = useState('');
+  const [studentName, setStudentName] = useState('');
+  const [studentSurname, setStudentSurname] = useState('');
+  const [studentEmail, setStudentEmail] = useState('');
+  const [eurStudentIdentifier, setEurStudentIdentifier] = useState('');
+  const [iscedExplanation, setIscedExplanation] = useState('');
+  const [omobility_id, setOmobility_id] = useState('');
+  const [mobility_type, setMobility_type] = useState('');
+  const [mobility_type_id, setMobility_type_id] = useState(0);
+
 
   async function handleInsertEmptyRowToStudentInfo() {
     const insertEmptyRowToStudentInfo = async () => {
@@ -221,6 +233,30 @@ export default function StudentInformationForm({
       setStudentBirthdate('');
     }
   };
+  useEffect(() => {
+    console.log('girdim studentInfo:  xx', studentInfo);
+    
+    if (studentInfo) {
+      console.log('studentInfo:  xx', studentInfo);
+      
+      setValue('student_name', studentInfo.name);
+      setStudentName(studentInfo.name);
+     
+      setValue('student_surname', studentInfo.surname);
+      setStudentSurname(studentInfo.surname);
+      setValue('student_email', studentInfo.email);
+      setStudentEmail(studentInfo.email);
+      setValue('eur_student_identifier', studentInfo.global_id);
+      setEurStudentIdentifier(studentInfo.global_id);
+      setValue('isced_explanation', studentInfo.subjectAreaDescription);
+      setIscedExplanation(studentInfo.subjectAreaDescription);
+      setValue('student_birthdate', studentInfo.birthdate);
+      
+      setStudentBirthdate(studentInfo.birthdate);
+      setValue('omobility_id', omobilityId);
+      setOmobility_id(omobilityId);
+      setSelectedNationalityID(studentInfo.nationality_id);
+    }} , [studentInfo]);
 
   return (
     <Stack
@@ -272,7 +308,7 @@ export default function StudentInformationForm({
             />
             <TextInput
               id='student_name'
-              placeholder=''
+              placeholder={studentName}
               label='Öğrencinin İsmi'
               error={errors.student_name?.message}
               register={register('student_name')}
@@ -282,7 +318,7 @@ export default function StudentInformationForm({
               id='gender'
               error={errors.gender?.message}
               register={register('gender')}
-              placeholder=''
+              placeholder={gender}
               selectLabel='Öğrencinin Cinsiyeti'
               onChange={handleGenderChange}
             ></SelectGender>
@@ -290,14 +326,14 @@ export default function StudentInformationForm({
             <DateInput
               id='student_birthdate'
               register={register('student_birthdate')}
-              placeholder=''
+              placeholder={studentBirthdate}
               label='Öğrencinin Doğum Tarihi'
               onChange={handleStudentBirthdateChange}
               error={errors.student_birthdate?.message}
             />
 
             <TextInput
-              placeholder='test@gmail.com'
+              placeholder={studentEmail}
               label='Öğrencinin E-postası'
               id='student_email'
               error={errors.student_email?.message}
@@ -307,7 +343,7 @@ export default function StudentInformationForm({
               id='isced_code_and_fields'
               error={errors.isced_code_and_fields?.message}
               register={register('isced_code_and_fields')}
-              placeholder={ISCEDCodeAndFields}
+              placeholder=  {ISCEDCodeAndFields}
               selectLabel='ISCED Kodu ve Konu Alanları'
               onChange={handleISCEDchange}
             ></SelectISCED>
@@ -321,13 +357,14 @@ export default function StudentInformationForm({
               register={register('student_surname')}
             />
             <SelectNationality
+              inputValue={selectedNationalityID}
               id='nationality'
               error={errors.nationality?.message}
               register={register('nationality', {
                 required: 'This is required',
               })}
               selectLabel='Öğrencinin Ulusu'
-              placeholder=''
+              placeholder={selectedNationality}
               onChange={handleSelectChangeNationality}
             />
             <SelectEducationTypeAndLevel
@@ -341,14 +378,14 @@ export default function StudentInformationForm({
               error={errors.education_type_and_level?.message}
             ></SelectEducationTypeAndLevel>
             <TextInput
-              placeholder=''
+              placeholder={eurStudentIdentifier}
               id='eur_student_identifier'
               label='European Student Identifier'
               error={errors.eur_student_identifier?.message}
               register={register('eur_student_identifier')}
             />
             <TextInput
-              placeholder=''
+              placeholder={iscedExplanation}
               label='ISCED Explanation'
               id='isced_explanation'
               error={errors.isced_explanation?.message}
