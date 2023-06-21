@@ -55,8 +55,12 @@ export default function MobilityProgramFormLongTerm({
     GetTotalCourseCreditsForTableA,
     GetTotalCourseCreditsForTableB,
   } = useRead();
-
-  const { InsertEmptyRowToProposedMobilityProgramme } = useUpdate();
+  const {
+    InsertEmptyRowToProposedMobilityProgramme,
+    SavePlannedStartingDateOfMobility,
+    SavePlannedEndDateOfMobility,
+    InsertLASelectedCourse,
+  } = useUpdate();
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
@@ -173,6 +177,26 @@ export default function MobilityProgramFormLongTerm({
     }
   };
 
+  const handleSavePlannedStartingDateOfMobility = async (date: string) => {
+    try {
+      const request = `https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=${pmpID}&plannedStartingDateOfMobility=${date}`;
+      await SavePlannedStartingDateOfMobility(request);
+      setMobilityStartDate(date);
+    } catch (error) {
+      console.error('Error saving planned starting date:', error);
+    }
+  };
+
+  const handleSavePlannedEndDateOfMobility = async (date: string) => {
+    try {
+      const request = `https://localhost:5001/spSavePlannedEndDateOfMobility?pmp_id=${pmpID}&plannedEndDateOfMobility=${date}`;
+      await SavePlannedEndDateOfMobility(request);
+      setMobilityEndDate(date);
+    } catch (error) {
+      console.error('Error saving planned end date:', error);
+    }
+  };
+
   useEffect(() => {
     handleGetTableANotApprovedCourses();
     handleGetTableBNotApprovedCourses();
@@ -185,6 +209,8 @@ export default function MobilityProgramFormLongTerm({
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       await handleInsertEmptyRowToProposedMobilityProgramme();
+      await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
+      await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
       try {
         toast({
           title: 'Kayıt Başarılı.',
