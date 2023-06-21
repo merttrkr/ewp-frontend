@@ -177,6 +177,7 @@ export default function TabComponent() {
       <TabPanels>
         <TabPanel>
           <StudentInformationForm
+            studentInfo={undefined}
             pageName='Öğrenciye Ait Bilgiler'
             omobilityId={omobilityID}
             mobilityType='Long-term Mobility'
