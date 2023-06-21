@@ -63,7 +63,8 @@ export default function TabComponent() {
       studentInfoID;
     try {
       const studentInfo = await GetStudentInfoById(request);
-      setStudentInfo(studentInfo);
+      if (studentInfo ) {
+      setStudentInfo(studentInfo);}
       console.log('Student Info:', studentInfo);
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
