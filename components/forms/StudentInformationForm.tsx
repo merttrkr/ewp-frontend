@@ -251,10 +251,11 @@ export default function StudentInformationForm({
       setValue('isced_explanation', studentInfo.subjectAreaDescription);
       setIscedExplanation(studentInfo.subjectAreaDescription);
       setValue('student_birthdate', studentInfo.birthdate);
-
+      
       setStudentBirthdate(studentInfo.birthdate);
       setValue('omobility_id', omobilityId);
       setOmobility_id(omobilityId);
+      setSelectedNationalityID(studentInfo.nationality_id);
     }} , [studentInfo]);
 
   return (
@@ -356,7 +357,7 @@ export default function StudentInformationForm({
               register={register('student_surname')}
             />
             <SelectNationality
-              value = {selectedNationality === '' ? undefined : selectedNationality}
+              inputValue={selectedNationalityID}
               id='nationality'
               error={errors.nationality?.message}
               register={register('nationality', {
