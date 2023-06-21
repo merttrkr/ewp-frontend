@@ -15,9 +15,11 @@ type SelectMobilityTypesProps = {
   register: any;
   onChange: (value: MobilityType | null) => void; // New prop for handling value change
   error: string | undefined;
+  inputValue? : string | number;
 };
 
 const SelectMobilityTypes: React.FC<SelectMobilityTypesProps> = ({
+  inputValue = null,
   isDisabled = false,
   selectLabel,
   id = 'default-select',
@@ -49,6 +51,17 @@ const SelectMobilityTypes: React.FC<SelectMobilityTypesProps> = ({
     };
     fetchInitialData();
   }, []);
+    useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedMobilityType = mobilityTypesArray.find(
+        (type) => type.id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedMobilityType || null);
+    }
+  }, [inputValue, mobilityTypesArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
