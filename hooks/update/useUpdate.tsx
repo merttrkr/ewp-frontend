@@ -10,6 +10,7 @@ import { SendingInstitutionInfo } from '@/models/request/sendingInstitutionInfoR
 import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
 import { IIANotificationRequest } from '@/models/request/IIANotificationRequest';
 import { ReceivingInstitutionInfo } from '@/models/request/receivingInstitutionInfoRequest';
+import { CourseRequest } from '@/models/request/courseRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -107,25 +108,33 @@ const useUpdate = () => {
     return result;
   };
 
-  //https://localhost:5001/spInsertLASelectedCourse
+  //https://localhost:5001/spInsertLASelectedCourse?courseTitle=a&courseCreditType_id=2&courseCreditValue=1&numberOfTerms=2&totalNumberOfTerms=24&courseCode=dffd&recognitionConditions=sdd&courseShortDescription=aaa&tableType=2&isApproved=1&proposedMobilityProgramme_id=3
   const InsertLASelectedCourse = async (
-    request: SendingInstitutionInfoForm
+    request: CourseRequest
   ): Promise<number> => {
     const {
-      sendingInstitutionInfo_id,
-      hei_id,
-      universityDepartment_id,
-      academicPersonnelName,
-      academicPersonnelSurname,
-      academicPersonnelEmail,
-      administrativePersonnelName,
-      administrativePersonnelSurname,
-      administrativePersonnelEmail,
-      phoneNumberE164,
-      phoneNumberExt,
+      courseTitle,
+      courseCreditType_id,
+      courseCreditValue,
+      numberOfTerms,
+      totalNumberOfTerms,
+      courseCode,
+      recognitionConditions,
+      courseShortDescription,
+      tableType,
+      isApproved,
+      proposedMobilityProgramme_id,
     } = request;
-
-    const url = `https://localhost:5001/spAddSendingInstitutionInfo?sendingInstitutionInfo_id=${sendingInstitutionInfo_id}&hei_id=${hei_id}&universityDepartment_id=${universityDepartment_id}&academicPersonnelName=${academicPersonnelName}&academicPersonnelSurname=${academicPersonnelSurname}&academicPersonnelEmail=${academicPersonnelEmail}&administrativePersonnelName=${administrativePersonnelName}&administrativePersonnelSurname=${administrativePersonnelSurname}&administrativePersonnelEmail=${administrativePersonnelEmail}&phoneNumberE164=${phoneNumberE164}&phoneNumberExt=${phoneNumberExt}`;
+    const encodedCourseTitle = encodeURIComponent(courseTitle);
+    const encodedCourseCode = encodeURIComponent(courseCode);
+    const encodedRecognitionConditions = encodeURIComponent(
+      recognitionConditions ?? ''
+    );
+    const encodedCourseShortDescription = encodeURIComponent(
+      courseShortDescription ?? ''
+    );
+    const encodedTableType = encodeURIComponent(tableType ?? '');
+    const url = `https://localhost:5001/spInsertLASelectedCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&tableType=${encodedTableType}&isApproved=${isApproved}&proposedMobilityProgramme_id=${proposedMobilityProgramme_id}`;
 
     const result: number = await makeRequest<number>(url);
 
