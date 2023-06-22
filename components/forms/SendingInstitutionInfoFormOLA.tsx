@@ -206,7 +206,7 @@ export default function InstitutionInformationForm({
       
       setValue('department_id', sendingInstitutionInfo.universityDepartment_id);
       console.log('sendingInstitutionInfoResponse.universityDepartment_id:  xx', sendingInstitutionInfo.universityDepartment_id);
-      
+      setDepartmentID(sendingInstitutionInfo.universityDepartment_id);
       setValue('academic_personal_name', sendingInstitutionInfo.academicPersonnelContactName);
       setValue('academic_personal_surname', sendingInstitutionInfo.academicPersonnelContactSurname);
       setValue('academic_personal_eposta', sendingInstitutionInfo.academicPersonnelContactEmail);
@@ -256,9 +256,10 @@ export default function InstitutionInformationForm({
               error={errors.hei_id?.message}
             />
             <SelectDepartment
+              inputValue={departmentID}
               id='department_id'
               register={register('department_id')}
-              placeHolder=''
+              placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
               param={universityId}
