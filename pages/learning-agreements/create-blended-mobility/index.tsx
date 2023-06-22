@@ -15,7 +15,7 @@ import {
   Tabs,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/router';
 import useRead from '@/hooks/read/useRead';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
@@ -43,7 +43,7 @@ export default function TabComponent() {
     useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(2);
   const [studentInfo, setStudentInfo] = useState<StudentInfoResponse>();
-
+  const [urlSetted, setUrlSetted] = useState(false);
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
 
   const {
@@ -60,8 +60,10 @@ export default function TabComponent() {
       studentInfoID;
     try {
       const studentInfo = await GetStudentInfoById(request);
-      setStudentInfo(studentInfo);
-      console.log('Student Info:', studentInfo);
+      if (studentInfo && Object.keys(studentInfo).length !== 0) {
+        setStudentInfo(studentInfo);
+      }
+
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
       console.error('Error fetching student info:', error);
@@ -74,7 +76,7 @@ export default function TabComponent() {
       const data = await GenerateOmobilityId(
         'https://localhost:5001/spGenerateOmobilityId'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && omobilityID === '') {
         setOmobilityID(data);
       } else {
         throw new Error('No data received for omobility ID');
@@ -90,7 +92,7 @@ export default function TabComponent() {
       const data = await GenerateNewIdForLearningAgreement(
         'https://localhost:5001/spGenerateNewIdForLearningAgreement'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && learningAgreementID === 0) {
         setLearningAgreementID(data);
       } else {
         throw new Error('No data received for learning agreement ID');
@@ -106,8 +108,9 @@ export default function TabComponent() {
       const data = await GenerateNewIdForStudentInfo(
         'https://localhost:5001/spGenerateNewIdForStudentInfo'
       );
-      if (data !== null && data !== undefined) {
+      if (data !== null && data !== undefined && studentInfoID === 0) {
         setStudentInfoID(data);
+        console.log('set ettim Student Info ID:', studentInfoID);
       } else {
         throw new Error('No data received for student info ID');
       }
@@ -122,7 +125,11 @@ export default function TabComponent() {
       const data = await GenerateNewIdForSendingInstitutionInfo(
         'https://localhost:5001/spGenerateNewIdForSendingInstitutionInfo'
       );
-      if (data !== null && data !== undefined) {
+      if (
+        data !== null &&
+        data !== undefined &&
+        sendingInstitutionInfoID === 0
+      ) {
         setSendingInstitutionInfoID(data);
       } else {
         throw new Error('No data received for sending institution info ID');
@@ -138,7 +145,11 @@ export default function TabComponent() {
       const data = await GenerateNewIdForReceivingInstitutionInfo(
         'https://localhost:5001/spGenerateNewIdForReceivingInstitutionInfo'
       );
-      if (data !== null && data !== undefined) {
+      if (
+        data !== null &&
+        data !== undefined &&
+        receivingInstitutionInfoID === 0
+      ) {
         setReceivingInstitutionInfoID(data);
       } else {
         throw new Error('No data received for receiving institution info ID');
@@ -154,7 +165,11 @@ export default function TabComponent() {
       const data = await GenerateNewIdForProposedMobilityProgramme(
         'https://localhost:5001/spGenerateNewIdForProposedMobilityProgramme'
       );
-      if (data !== null && data !== undefined) {
+      if (
+        data !== null &&
+        data !== undefined &&
+        proposedMobilityProgrammeID === 0
+      ) {
         setProposedMobilityProgrammeID(data);
       } else {
         throw new Error('No data received for proposed mobility programme ID');
@@ -165,6 +180,43 @@ export default function TabComponent() {
     }
   }
 
+  async function handleGenerateNewIdForCommitment() {
+    try {
+      const data = await GenerateNewIdForCommitment(
+        'https://localhost:5001/spGenerateNewIdForCommitment'
+      );
+      if (data !== null && data !== undefined && commitmentID === 0) {
+        setCommitmentID(data);
+      } else {
+        throw new Error('No data received for commitment ID');
+      }
+    } catch (error) {
+      console.error('Error generating commitment ID:', error);
+      // Handle error: display an error message to the user or perform other error handling tasks
+    }
+  }
+
+  useEffect(() => {
+    setStudentInfoID(Number(studentInfoId) || studentInfoID);
+    setProposedMobilityProgrammeID(
+      Number(proposedMobilityProgrammeId) || studentInfoID
+    );
+    setCommitmentID(Number(commitmentId) || studentInfoID);
+    setSendingInstitutionInfoID(
+      Number(sendingInstitutionInfoId) || studentInfoID
+    );
+    setReceivingInstitutionInfoID(
+      Number(receivingInstitutionInfoId) || studentInfoID
+    );
+    setUrlSetted(true);
+  }, [
+    studentInfoId,
+    proposedMobilityProgrammeId,
+    commitmentId,
+    sendingInstitutionInfoId,
+    receivingInstitutionInfoId,
+  ]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -174,14 +226,8 @@ export default function TabComponent() {
           proposedMobilityProgrammeId
         );
 
-        setStudentInfoID(Number(studentInfoId) || 0);
-        setProposedMobilityProgrammeID(
-          Number(proposedMobilityProgrammeId) || 0
-        );
-        setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || 0);
-        setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || 0);
-
         await Promise.all([
+          handleGetStudentInfoById(),
           studentInfoID === 0 && handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
             omobilityID === undefined ||
@@ -205,16 +251,18 @@ export default function TabComponent() {
         // Set a loading state variable to false to indicate that the data fetching is complete
       }
     };
+    if (urlSetted) {
+      console.log('url setted');
 
-    fetchData();
-  }, [studentInfoId, proposedMobilityProgrammeId]);
+      fetchData();
+    }
+  }, [urlSetted]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         await Promise.all([
           console.log('Student Info ID:', studentInfoID),
-
           handleGetStudentInfoById(),
         ]);
       } catch (error) {

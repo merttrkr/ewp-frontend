@@ -93,7 +93,7 @@ export default function StudentInformationForm({
   const [omobility_id, setOmobility_id] = useState('');
   const [mobility_type, setMobility_type] = useState('');
   const [mobility_type_id, setMobility_type_id] = useState(0);
-
+  const [subjectAreaId, setSubjectAreaId] = useState(0);
 
   async function handleInsertEmptyRowToStudentInfo() {
     const insertEmptyRowToStudentInfo = async () => {
@@ -236,27 +236,22 @@ export default function StudentInformationForm({
   useEffect(() => {
     console.log('girdim studentInfo:  xx', studentInfo);
     
-    if (studentInfo) {
+    if (studentInfo != undefined  && Object.keys(studentInfo).length !== 0) {
       console.log('studentInfo:  xx', studentInfo);
-      
       setValue('student_name', studentInfo.name);
-      setStudentName(studentInfo.name);
-     
       setValue('student_surname', studentInfo.surname);
-      setStudentSurname(studentInfo.surname);
       setValue('student_email', studentInfo.email);
-      setStudentEmail(studentInfo.email);
-      setValue('eur_student_identifier', studentInfo.global_id);
-      setEurStudentIdentifier(studentInfo.global_id);
+      setValue('eur_student_identifier', studentInfo.globalId);
       setValue('isced_explanation', studentInfo.subjectAreaDescription);
-      setIscedExplanation(studentInfo.subjectAreaDescription);
       setValue('student_birthdate', studentInfo.birthdate);
+
       setEducationTypeAndLevelID(studentInfo.educationTypeAndLevel_id);
       setGenderID(studentInfo.gender_id);
       setStudentBirthdate(studentInfo.birthdate);
       setValue('omobility_id', omobilityId);
       setOmobility_id(omobilityId);
       setSelectedNationalityID(studentInfo.nationality_id);
+      setSubjectAreaId(studentInfo.subjectArea_id);
     }} , [studentInfo]);
 
   return (
@@ -343,6 +338,7 @@ export default function StudentInformationForm({
               register={register('student_email')}
             />
             <SelectISCED
+              inputValue={subjectAreaId}
               id='isced_code_and_fields'
               error={errors.isced_code_and_fields?.message}
               register={register('isced_code_and_fields')}

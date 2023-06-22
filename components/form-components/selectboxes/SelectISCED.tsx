@@ -15,9 +15,11 @@ type SelectISCEDProps = {
   register: any;
   onChange: (value: SubjectArea | null) => void; // New prop for handling value change
   error: string | undefined;
+  inputValue?: string | number;
 };
 
 const SelectISCED: React.FC<SelectISCEDProps> = ({
+  inputValue = null,
   isDisabled = false,
   selectLabel,
   id = 'default-select',
@@ -43,6 +45,18 @@ const SelectISCED: React.FC<SelectISCEDProps> = ({
     };
     fetchInitialData();
   }, []);
+
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedSubjectArea = subjectAreaArray.find(
+        (type) => type.subjectAreaId === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedSubjectArea || null);
+    }
+  }, [inputValue, subjectAreaArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
