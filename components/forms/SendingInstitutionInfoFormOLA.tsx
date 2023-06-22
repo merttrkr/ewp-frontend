@@ -19,6 +19,8 @@ import useCreate from '@/hooks/create/useCreate';
 import useRead from '@/hooks/read/useRead';
 import useUpdate from '@/hooks/update/useUpdate';
 import { SendingInstitutionInfo } from '@/models/request/sendingInstitutionInfoRequest';
+import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
+import { send } from 'process';
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -27,6 +29,7 @@ type InstitutionInformationFormProps = {
   institutionInfoID?: number;
   learningAgreementId: number;
   sendingInstitutionInfoId: number;
+  sendingInstitutionInfo?: SendingInstitutionInfoResponse;
 };
 
 type FormData = {
@@ -49,6 +52,7 @@ export default function InstitutionInformationForm({
   institutionInfoID = 0,
   learningAgreementId,
   sendingInstitutionInfoId,
+  sendingInstitutionInfo,
 }: InstitutionInformationFormProps) {
   const [formValues, setFormValues] = useState<FormData>({
     hei_id: '',
@@ -77,7 +81,7 @@ export default function InstitutionInformationForm({
   const [department, setDepartment] = useState('');
   const [departmentID, setDepartmentID] = useState(0);
   const [institutionInfoId, setInstitutionInfoId] = useState(institutionInfoID);
-
+  const [sendingInstitutionInfoResponse, setSendingInstitutionInfoResponse] = useState<SendingInstitutionInfoResponse>();
   const toast = useToast();
 
   //useForm hook
@@ -208,6 +212,24 @@ export default function InstitutionInformationForm({
     }
   };
 
+  useEffect(() => {
+    console.log('girdim sendingInstitutionInfoResponse:  xx', sendingInstitutionInfoResponse);
+    
+    if (sendingInstitutionInfoResponse != undefined  && Object.keys(sendingInstitutionInfoResponse).length !== 0) {
+      console.log('sendingInstitutionInfoResponse:  xx', sendingInstitutionInfoResponse);
+      
+      setValue('department_id', sendingInstitutionInfoResponse.universityDepartment_id);
+      setValue('academic_personal_name', sendingInstitutionInfoResponse.academicPersonnelContactName);
+      setValue('academic_personal_surname', sendingInstitutionInfoResponse.academicPersonnelContactSurname);
+      setValue('academic_personal_eposta', sendingInstitutionInfoResponse.academicPersonnelContactEmail);
+      setValue('administrative_personal_name', sendingInstitutionInfoResponse.administrativePersonnelContactName);
+      setValue('administrative_personal_surname', sendingInstitutionInfoResponse.administrativePersonnelContactSurname);
+      setValue('administrative_personal_eposta', sendingInstitutionInfoResponse.administrativePersonnelContactEmail);
+      setValue('phone_number', sendingInstitutionInfoResponse.phoneNumberE164);
+      setValue('extension', sendingInstitutionInfoResponse.phoneNumberExt);
+
+    }} , [sendingInstitutionInfoResponse]);
+
   return (
     <Stack
       marginBottom={['20', null, '0']}
@@ -257,7 +279,7 @@ export default function InstitutionInformationForm({
             <TextInput
               id='academic_personal_name'
               label='Akademik Personelin İsmi'
-              placeholder={formValues.academic_personal_name}
+              placeholder=''
               error={errors.academic_personal_name?.message}
               register={register('academic_personal_name')}
             />
@@ -265,7 +287,7 @@ export default function InstitutionInformationForm({
             <TextInput
               id='academic_personal_surname'
               label='Akademik Personelin Soy İsmi'
-              placeholder={formValues.academic_personal_surname}
+              placeholder=''
               error={errors.academic_personal_surname?.message}
               register={register('academic_personal_surname')}
             />
