@@ -26,7 +26,6 @@ export default function TabComponent() {
     GenerateNewIdForSendingInstitutionInfo,
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
-    GenerateNewIdForCommitment,
     GenerateNewIdForVirtualComponent,
   } = useCreate();
 
@@ -38,7 +37,6 @@ export default function TabComponent() {
     useState(0);
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
     useState(0);
-  const [commitmentID, setCommitmentID] = useState(0);
   const [virtualComponentID, setVirtualComponentID] = useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(1);
 
@@ -116,17 +114,6 @@ export default function TabComponent() {
     fetchProposedMobilityProgrammeID();
   }
 
-  async function handleGenerateNewIdForCommitment() {
-    const fetchCommitmentID = async () => {
-      const data = await GenerateNewIdForCommitment(
-        'https://localhost:5001/spGenerateNewIdForCommitment'
-      );
-      if (data) {
-        setCommitmentID(data);
-      }
-    };
-    fetchCommitmentID();
-  }
   async function handleGenerateNewIdForVirtualComponent() {
     const fetchNewIdForVirtualComponent = async () => {
       try {
@@ -151,7 +138,6 @@ export default function TabComponent() {
     handleGenerateNewIdForSendingInstitutionInfo();
     handleGenerateNewIdForReceivingInstitutionInfo();
     handleGenerateNewIdForProposedMobilityProgramme();
-    handleGenerateNewIdForCommitment();
     handleGenerateNewIdForVirtualComponent();
   }, []);
   return (

@@ -29,7 +29,6 @@ export default function TabComponent() {
     GenerateNewIdForSendingInstitutionInfo,
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
-    GenerateNewIdForCommitment,
   } = useCreate();
   const { GetStudentInfoById } = useRead();
   const router = useRouter();
@@ -42,7 +41,6 @@ export default function TabComponent() {
     useState(0);
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
     useState(0);
-  const [commitmentID, setCommitmentID] = useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(2);
   const [studentInfo, setStudentInfo] = useState<StudentInfoResponse>();
 
@@ -51,7 +49,6 @@ export default function TabComponent() {
   const {
     studentInfoId,
     proposedMobilityProgrammeId,
-    commitmentId,
     sendingInstitutionInfoId,
     receivingInstitutionInfoId,
     virtualComponentId,
@@ -168,21 +165,6 @@ export default function TabComponent() {
     }
   }
 
-  async function handleGenerateNewIdForCommitment() {
-    try {
-      const data = await GenerateNewIdForCommitment(
-        'https://localhost:5001/spGenerateNewIdForCommitment'
-      );
-      if (data !== null && data !== undefined) {
-        setCommitmentID(data);
-      } else {
-        throw new Error('No data received for commitment ID');
-      }
-    } catch (error) {
-      console.error('Error generating commitment ID:', error);
-      // Handle error: display an error message to the user or perform other error handling tasks
-    }
-  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -191,34 +173,30 @@ export default function TabComponent() {
           'Proposed Mobility Programme Id:',
           proposedMobilityProgrammeId
         );
-        console.log('Commitment Id:', commitmentId);
 
         setStudentInfoID(Number(studentInfoId) || 0);
-        setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || 0);
-        setCommitmentID(Number(commitmentId) || 0);
+        setProposedMobilityProgrammeID(
+          Number(proposedMobilityProgrammeId) || 0
+        );
         setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || 0);
         setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || 0);
-        
 
         await Promise.all([
-          (studentInfoID === 0) &&
-          handleGenerateNewIdForStudentInfo(),
+          studentInfoID === 0 && handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
             omobilityID === undefined ||
             omobilityID === null) &&
-          handleGenerateOmobilityId(),
+            handleGenerateOmobilityId(),
           (learningAgreementID === 0 ||
             learningAgreementID === undefined ||
             learningAgreementID === null) &&
-          handleGenerateNewIdForLearningAgreement(),
-          (sendingInstitutionInfoID === 0) &&
-          handleGenerateNewIdForSendingInstitutionInfo(),
-          (receivingInstitutionInfoID === 0) &&
-          handleGenerateNewIdForReceivingInstitutionInfo(),
-          (proposedMobilityProgrammeID === 0) &&
-          handleGenerateNewIdForProposedMobilityProgramme(),
-          (commitmentID === 0) &&
-          handleGenerateNewIdForCommitment(),
+            handleGenerateNewIdForLearningAgreement(),
+          sendingInstitutionInfoID === 0 &&
+            handleGenerateNewIdForSendingInstitutionInfo(),
+          receivingInstitutionInfoID === 0 &&
+            handleGenerateNewIdForReceivingInstitutionInfo(),
+          proposedMobilityProgrammeID === 0 &&
+            handleGenerateNewIdForProposedMobilityProgramme(),
         ]);
       } catch (error) {
         console.error('Error generating data:', error);
@@ -229,7 +207,7 @@ export default function TabComponent() {
     };
 
     fetchData();
-  }, [studentInfoId, proposedMobilityProgrammeId, commitmentId]);
+  }, [studentInfoId, proposedMobilityProgrammeId]);
 
   useEffect(() => {
     const fetchData = async () => {

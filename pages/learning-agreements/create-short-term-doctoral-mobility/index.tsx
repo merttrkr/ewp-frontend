@@ -25,7 +25,6 @@ export default function TabComponent() {
     GenerateNewIdForSendingInstitutionInfo,
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
-    GenerateNewIdForCommitment,
   } = useCreate();
 
   const [omobilityID, setOmobilityID] = useState('');
@@ -36,7 +35,6 @@ export default function TabComponent() {
     useState(0);
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
     useState(0);
-  const [commitmentID, setCommitmentID] = useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(3);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
@@ -113,18 +111,6 @@ export default function TabComponent() {
     fetchProposedMobilityProgrammeID();
   }
 
-  async function handleGenerateNewIdForCommitment() {
-    const fetchCommitmentID = async () => {
-      const data = await GenerateNewIdForCommitment(
-        'https://localhost:5001/spGenerateNewIdForCommitment'
-      );
-      if (data) {
-        setCommitmentID(data);
-      }
-    };
-    fetchCommitmentID();
-  }
-
   useEffect(() => {
     handleGenerateOmobilityId();
     handleGenerateNewIdForLearningAgreement();
@@ -132,7 +118,6 @@ export default function TabComponent() {
     handleGenerateNewIdForSendingInstitutionInfo();
     handleGenerateNewIdForReceivingInstitutionInfo();
     handleGenerateNewIdForProposedMobilityProgramme();
-    handleGenerateNewIdForCommitment();
   }, []);
 
   return (

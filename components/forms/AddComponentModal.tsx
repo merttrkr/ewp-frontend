@@ -12,15 +12,20 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TextInput from '../form-components/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 import { Course } from '@/models/response/courseResponse';
+import useUpdate from '@/hooks/update/useUpdate';
+import useCreate from '@/hooks/create/useCreate';
+import { SendingInstitutionInfoForm } from '@/models/response/institutionInfoFormResponse';
+import { CourseRequest } from '@/models/request/courseRequest';
 
 type ModalInputProps = {
   placeholder: string;
   tableType?: string;
   sendModal: (value: Course) => void;
+  pmpID: number;
 };
 type FormData = {
   course_name: string;
@@ -37,8 +42,13 @@ export default function InitialFocus({
   placeholder,
   tableType,
   sendModal,
+  pmpID,
 }: ModalInputProps) {
+  const { InsertEmptyRowToProposedMobilityProgramme, InsertLASelectedCourse } =
+    useUpdate();
+  const { GenerateNewIdForCommitment } = useCreate();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [commitmentID, setCommitmentID] = useState(0);
   const HeadingColor = useColorModeValue('gray.800', 'gray.300');
   const {
     handleSubmit,
@@ -47,25 +57,65 @@ export default function InitialFocus({
     reset,
   } = useForm<FormData>();
 
+  async function handleGenerateNewIdForCommitment() {
+    try {
+      const data = await GenerateNewIdForCommitment(
+        'https://localhost:5001/spGenerateNewIdForCommitment'
+      );
+      if (data !== null && data !== undefined) {
+        setCommitmentID(data);
+      } else {
+        throw new Error('No data received for commitment ID');
+      }
+    } catch (error) {
+      console.error('Error generating commitment ID:', error);
+      // Handle error: display an error message to the user or perform other error handling tasks
+    }
+  }
+  useEffect(() => {
+    handleGenerateNewIdForCommitment();
+  }, []);
+
+  async function handleInsertLASelectedCourse(course: Course) {
+    try {
+      const request: CourseRequest = {
+        courseTitle: course.courseTitle,
+        courseCreditType_id: 1,
+        courseCreditValue: course.courseCreditValue,
+        numberOfTerms: course.numberOfTerms,
+        totalNumberOfTerms: course.totalNumberOfTerms,
+        courseCode: course.courseCode,
+        recognitionConditions: course.recognitionConditions ?? '',
+        courseShortDescription: course.courseShortDescription ?? '',
+        tableType: tableType,
+        isApproved: 0,
+        proposedMobilityProgramme_id: pmpID,
+      };
+
+      await InsertLASelectedCourse(request);
+    } catch (error) {
+      console.error('Error inserting selected course:', error);
+    }
+  }
+
   function onSubmit(values: FormData) {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const result: Course = {
-          id: 70,
-          courseCreditType: 'ECTS',
-          courseTitle: values.course_name,
-          courseCreditValue: values.credit_value,
-          numberOfTerms: values.term_count,
-          totalNumberOfTerms: values.total_term_count,
-          courseCode: values.course_code,
-          status: 'inserted',
-          recognitionConditions: values.recognition_conditions,
-          courseShortDescription: values.course_description,
-        };
-        sendModal(result);
-        resolve();
-        reset();
-      });
+    return new Promise<void>(async (resolve) => {
+      const result: Course = {
+        id: commitmentID,
+        courseCreditType: 'ECTS',
+        courseTitle: values.course_name,
+        courseCreditValue: values.credit_value,
+        numberOfTerms: values.term_count,
+        totalNumberOfTerms: values.total_term_count,
+        courseCode: values.course_code,
+        status: 'inserted',
+        recognitionConditions: values.recognition_conditions,
+        courseShortDescription: values.course_description,
+      };
+      await handleInsertLASelectedCourse(result);
+      sendModal(result);
+      resolve();
+      reset();
     });
   }
 
@@ -122,7 +172,6 @@ export default function InitialFocus({
                   <TextInput
                     id='credit_type'
                     placeholder='ECTS'
-                    
                     label='Dersin Kredi Tipi'
                     error={errors.credit_type?.message}
                     register={register('credit_type')}
