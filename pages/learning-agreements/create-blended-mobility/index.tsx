@@ -180,28 +180,11 @@ export default function TabComponent() {
     }
   }
 
-  async function handleGenerateNewIdForCommitment() {
-    try {
-      const data = await GenerateNewIdForCommitment(
-        'https://localhost:5001/spGenerateNewIdForCommitment'
-      );
-      if (data !== null && data !== undefined && commitmentID === 0) {
-        setCommitmentID(data);
-      } else {
-        throw new Error('No data received for commitment ID');
-      }
-    } catch (error) {
-      console.error('Error generating commitment ID:', error);
-      // Handle error: display an error message to the user or perform other error handling tasks
-    }
-  }
-
   useEffect(() => {
     setStudentInfoID(Number(studentInfoId) || studentInfoID);
     setProposedMobilityProgrammeID(
       Number(proposedMobilityProgrammeId) || studentInfoID
     );
-    setCommitmentID(Number(commitmentId) || studentInfoID);
     setSendingInstitutionInfoID(
       Number(sendingInstitutionInfoId) || studentInfoID
     );
@@ -212,7 +195,6 @@ export default function TabComponent() {
   }, [
     studentInfoId,
     proposedMobilityProgrammeId,
-    commitmentId,
     sendingInstitutionInfoId,
     receivingInstitutionInfoId,
   ]);
