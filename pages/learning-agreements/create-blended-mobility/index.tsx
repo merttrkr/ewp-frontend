@@ -77,10 +77,11 @@ export default function TabComponent() {
       sendingInstitutionInfoID;
     try {
       const sendingInstitutionInfoResponse = await GetSendingInstitutionInfoById(request);
-      if (studentInfo && Object.keys(sendingInstitutionInfoResponse).length !== 0 ) {
+      if (sendingInstitutionInfoResponse && Object.keys(sendingInstitutionInfoResponse).length !== 0 ) {
       setSendingInstitutionInfo(sendingInstitutionInfoResponse);}
+      console.log("sendingInstitutionInfoResponse:", sendingInstitutionInfoResponse);
+      
 
-      console.log("sendingInstitutionInfo: ", sendingInstitutionInfo);
       
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
@@ -292,6 +293,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <SendingInstitutionInfoForm
+            sendingInstitutionInfo = {sendingInstitutionInfo}
             pageName='Gönderen Kurum /Üniversite Bilgisi'
             heiId='iyte.edu.tr'
             heiName='Izmir Institute Of Technology'
