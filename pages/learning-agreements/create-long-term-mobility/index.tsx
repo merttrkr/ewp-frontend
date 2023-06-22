@@ -26,7 +26,6 @@ export default function TabComponent() {
     GenerateNewIdForSendingInstitutionInfo,
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
-    GenerateNewIdForVirtualComponent,
   } = useCreate();
 
   const [omobilityID, setOmobilityID] = useState('');
@@ -37,7 +36,6 @@ export default function TabComponent() {
     useState(0);
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
     useState(0);
-  const [virtualComponentID, setVirtualComponentID] = useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(1);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
@@ -114,23 +112,6 @@ export default function TabComponent() {
     fetchProposedMobilityProgrammeID();
   }
 
-  async function handleGenerateNewIdForVirtualComponent() {
-    const fetchNewIdForVirtualComponent = async () => {
-      try {
-        const data = await GenerateNewIdForVirtualComponent(
-          'https://localhost:5001/spGenerateNewIdForVirtualComponent'
-        );
-        if (data) {
-          setVirtualComponentID(data);
-        }
-      } catch (error) {
-        // Handle error
-        console.error('Error generating ID for virtual component:', error);
-      }
-    };
-    fetchNewIdForVirtualComponent();
-  }
-
   useEffect(() => {
     handleGenerateOmobilityId();
     handleGenerateNewIdForLearningAgreement();
@@ -138,7 +119,6 @@ export default function TabComponent() {
     handleGenerateNewIdForSendingInstitutionInfo();
     handleGenerateNewIdForReceivingInstitutionInfo();
     handleGenerateNewIdForProposedMobilityProgramme();
-    handleGenerateNewIdForVirtualComponent();
   }, []);
   return (
     <Tabs variant='colorful' colorScheme='gray'>

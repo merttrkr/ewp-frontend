@@ -24,7 +24,6 @@ import { CourseRequest } from '@/models/request/courseRequest';
 type ModalInputProps = {
   placeholder: string;
   tableType?: string;
-  sendModal: (value: Course) => void;
   pmpID: number;
 };
 type FormData = {
@@ -41,14 +40,15 @@ type FormData = {
 export default function InitialFocus({
   placeholder,
   tableType,
-  sendModal,
   pmpID,
 }: ModalInputProps) {
-  const { InsertEmptyRowToProposedMobilityProgramme, InsertLASelectedCourse } =
-    useUpdate();
-  const { GenerateNewIdForCommitment } = useCreate();
+  const { InsertLASelectedCourse } = useUpdate();
+  const { GenerateNewIdForCommitment, GenerateNewIdForVirtualComponent } =
+    useCreate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [commitmentID, setCommitmentID] = useState(0);
+  const [virtualComponentID, setVirtualComponentID] = useState(0);
+
   const HeadingColor = useColorModeValue('gray.800', 'gray.300');
   const {
     handleSubmit,
@@ -72,8 +72,25 @@ export default function InitialFocus({
       // Handle error: display an error message to the user or perform other error handling tasks
     }
   }
+  async function handleGenerateNewIdForVirtualComponent() {
+    const fetchNewIdForVirtualComponent = async () => {
+      try {
+        const data = await GenerateNewIdForVirtualComponent(
+          'https://localhost:5001/spGenerateNewIdForVirtualComponent'
+        );
+        if (data) {
+          setVirtualComponentID(data);
+        }
+      } catch (error) {
+        // Handle error
+        console.error('Error generating ID for virtual component:', error);
+      }
+    };
+    fetchNewIdForVirtualComponent();
+  }
   useEffect(() => {
     handleGenerateNewIdForCommitment();
+    handleGenerateNewIdForVirtualComponent();
   }, []);
 
   async function handleInsertLASelectedCourse(course: Course) {
@@ -113,7 +130,6 @@ export default function InitialFocus({
         courseShortDescription: values.course_description,
       };
       await handleInsertLASelectedCourse(result);
-      sendModal(result);
       resolve();
       reset();
     });
