@@ -45,7 +45,7 @@ export default function TabComponent() {
   const [commitmentID, setCommitmentID] = useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(2);
   const [studentInfo, setStudentInfo] = useState<StudentInfoResponse>();
-
+  const [urlSetted, setUrlSetted] = useState(false);
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
 
   const {
@@ -188,13 +188,15 @@ export default function TabComponent() {
       // Handle error: display an error message to the user or perform other error handling tasks
     }
   }
+  
   useEffect(() => {
-    setStudentInfoID(Number(studentInfoId) || 0);
-    setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || 0);
-    setCommitmentID(Number(commitmentId) || 0);
-    setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || 0);
-    setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || 0);
-  }, [studentInfoId, proposedMobilityProgrammeId, commitmentId]);
+    setStudentInfoID(Number(studentInfoId) || studentInfoID );
+    setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || studentInfoID);
+    setCommitmentID(Number(commitmentId) || studentInfoID);
+    setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || studentInfoID);
+    setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || studentInfoID);
+    setUrlSetted(true);
+  }, [studentInfoId, proposedMobilityProgrammeId, commitmentId, sendingInstitutionInfoId, receivingInstitutionInfoId]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -206,10 +208,8 @@ export default function TabComponent() {
         );
         console.log('Commitment Id:', commitmentId);
 
-
-        
-
         await Promise.all([
+          handleGetStudentInfoById(),
           (studentInfoID === 0) &&
           handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
@@ -236,16 +236,19 @@ export default function TabComponent() {
         // Set a loading state variable to false to indicate that the data fetching is complete
       }
     };
-
-    fetchData();
-  }, [studentInfoId, proposedMobilityProgrammeId, commitmentId]);
+    if (urlSetted){
+      console.log('url setted');
+      
+      fetchData();
+    }
+    
+  }, [urlSetted]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         await Promise.all([
           console.log('Student Info ID:', studentInfoID),
-
           handleGetStudentInfoById(),
         ]);
       } catch (error) {
