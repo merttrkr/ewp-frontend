@@ -17,9 +17,11 @@ type SelectDepartmentProps = {
   onChange: (value: Department | null) => void; // New prop for handling value change
   param: string;
   error: string | undefined;
+  inputValue: string | number ;
 };
 
 const Select: React.FC<SelectDepartmentProps> = ({
+  inputValue = null,
   isDisabled = false,
   selectLabel,
   id = 'default-select',
@@ -52,6 +54,18 @@ const Select: React.FC<SelectDepartmentProps> = ({
       fetchInitialData();
     }
   }, [param]);
+
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedDepartman = departmentArray.find(
+        (type) => type.id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedDepartman || null);
+    }
+  }, [inputValue, departmentArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
