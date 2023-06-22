@@ -116,6 +116,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
       console.error('Error fetching courses:', error);
     }
   };
+
   const handleGetNotApprovedCoursesOfBlendedOrDoctorate = async () => {
     try {
       const courses =
@@ -308,6 +309,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
             <AddComponentModal
               placeholder='Ders Ekle +'
               sendModal={handleAddComponent}
+              pmpID={pmpID}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler

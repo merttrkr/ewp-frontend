@@ -361,6 +361,7 @@ export default function MobilityProgramFormLongTerm({
             <AddComponentModal
               placeholder='Ders Ekle +'
               tableType='A'
+              pmpID={pmpID}
               sendModal={handleAddComponentA}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
@@ -491,6 +492,7 @@ export default function MobilityProgramFormLongTerm({
               placeholder='Ders Ekle +'
               tableType='B'
               sendModal={handleAddComponentB}
+              pmpID={pmpID}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
