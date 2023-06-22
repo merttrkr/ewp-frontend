@@ -31,6 +31,7 @@ import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLe
 import useRead from '@/hooks/read/useRead';
 import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
+import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
@@ -58,6 +59,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     InsertEmptyRowToProposedMobilityProgramme,
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,
+    SaveProposedMobilityProgramme,
   } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -162,6 +164,27 @@ export default function MobilityProgramFormDoctoralAndBlended({
     }
   };
 
+  const handleSaveProposedMobilityProgramme = async (values: FormData) => {
+    const { link, mobility_start_date, mobility_end_date } = values;
+
+    const request: MobilityProgrammeRequest = {
+      pmp_id: pmpID,
+      plannedStartingDateOfMobility: mobility_start_date,
+      plannedEndDateOfMobility: mobility_end_date,
+      receivingInstitutionCourseCatalogueLink: link,
+      language_id: languageID,
+      languageLevel_id: languageLevelID,
+      provisionsLinkIfEducationUnsuccessful: '',
+    };
+
+    try {
+      const result = await SaveProposedMobilityProgramme(request);
+      // Handle the result if needed
+    } catch (error) {
+      console.error('Error saving proposed mobility program:', error);
+    }
+  };
+
   useEffect(() => {
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetApprovedCoursesOfBlendedOrDoctorate();
@@ -173,6 +196,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
       await handleInsertEmptyRowToProposedMobilityProgramme();
       await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
       await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
+      await handleSaveProposedMobilityProgramme(values);
       try {
         toast({
           title: 'Kayıt Başarılı.',
@@ -308,7 +332,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
             </Text>
             <AddComponentModal
               placeholder='Ders Ekle +'
-              sendModal={handleAddComponent}
               pmpID={pmpID}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
