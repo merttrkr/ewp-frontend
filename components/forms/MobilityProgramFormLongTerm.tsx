@@ -30,6 +30,7 @@ import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLe
 import useRead from '@/hooks/read/useRead';
 import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
+import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
 
 type MobilityProgramFormLongTermProps = {
   pageName: String;
@@ -59,7 +60,7 @@ export default function MobilityProgramFormLongTerm({
     InsertEmptyRowToProposedMobilityProgramme,
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,
-    InsertLASelectedCourse,
+    SaveProposedMobilityProgramme,
   } = useUpdate();
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
@@ -197,6 +198,47 @@ export default function MobilityProgramFormLongTerm({
     }
   };
 
+  const handleSaveProposedMobilityProgrammeA = async (values: FormData) => {
+    const { link_a, mobility_start_date, mobility_end_date } = values;
+
+    const request: MobilityProgrammeRequest = {
+      pmp_id: pmpID,
+      plannedStartingDateOfMobility: mobility_start_date,
+      plannedEndDateOfMobility: mobility_end_date,
+      receivingInstitutionCourseCatalogueLink: link_a,
+      language_id: languageID,
+      languageLevel_id: languageLevelID,
+      provisionsLinkIfEducationUnsuccessful: '',
+    };
+    try {
+      const result = await SaveProposedMobilityProgramme(request);
+      // Handle the result if needed
+    } catch (error) {
+      console.error('Error saving proposed mobility program:', error);
+    }
+  };
+
+  const handleSaveProposedMobilityProgrammeB = async (values: FormData) => {
+    const { link_b, mobility_start_date, mobility_end_date } = values;
+
+    const request: MobilityProgrammeRequest = {
+      pmp_id: pmpID,
+      plannedStartingDateOfMobility: mobility_start_date,
+      plannedEndDateOfMobility: mobility_end_date,
+      receivingInstitutionCourseCatalogueLink: link_b,
+      language_id: languageID,
+      languageLevel_id: languageLevelID,
+      provisionsLinkIfEducationUnsuccessful: '',
+    };
+
+    try {
+      const result = await SaveProposedMobilityProgramme(request);
+      // Handle the result if needed
+    } catch (error) {
+      console.error('Error saving proposed mobility program:', error);
+    }
+  };
+
   useEffect(() => {
     handleGetTableANotApprovedCourses();
     handleGetTableBNotApprovedCourses();
@@ -211,6 +253,8 @@ export default function MobilityProgramFormLongTerm({
       await handleInsertEmptyRowToProposedMobilityProgramme();
       await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
       await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
+      await handleSaveProposedMobilityProgrammeA(values);
+      await handleSaveProposedMobilityProgrammeB(values);
       try {
         toast({
           title: 'Kayıt Başarılı.',
@@ -362,7 +406,6 @@ export default function MobilityProgramFormLongTerm({
               placeholder='Ders Ekle +'
               tableType='A'
               pmpID={pmpID}
-              sendModal={handleAddComponentA}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
@@ -491,7 +534,6 @@ export default function MobilityProgramFormLongTerm({
             <AddComponentModal
               placeholder='Ders Ekle +'
               tableType='B'
-              sendModal={handleAddComponentB}
               pmpID={pmpID}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
