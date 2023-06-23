@@ -72,6 +72,8 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
+  const [addControl, setAddControl] = useState(0);
+  const [deleted, setDeleteControl] = useState(0);
   const [blendedOrDoctorateApprovedArray, setBlendedOrDoctorateApprovedArray] =
     useState<Course[]>([]);
   const [
@@ -187,13 +189,18 @@ export default function MobilityProgramFormDoctoralAndBlended({
   };
 
   useEffect(() => {
-    console.log('use efffect doctora');
-
     handleInsertEmptyRowToProposedMobilityProgramme();
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetApprovedCoursesOfBlendedOrDoctorate();
     handleGetTotalCourseCreditsForBlendedOrDoctorate();
   }, []);
+
+  useEffect(() => {
+    //when you add
+    console.log('use efffect doctora on Add');
+    handleGetNotApprovedCoursesOfBlendedOrDoctorate();
+    handleGetTotalCourseCreditsForBlendedOrDoctorate();
+  }, [addControl]);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
@@ -263,13 +270,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
       setLanguageLevel(''); // or any default value you want
     }
   };
-  const handleAddComponent = (component: Course) => {
-    const newArray: Course[] = [
-      ...blendedOrDoctorateNotApprovedArray,
-      component,
-    ];
-    setBlendedOrDoctorateNotApprovedArray(newArray);
-  };
+
   const handleDeleteComponent = (component: Course) => {
     const newArray: Course[] = blendedOrDoctorateNotApprovedArray.filter(
       (item) => item !== component
@@ -336,6 +337,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
             <AddComponentModal
               placeholder='Ders Ekle +'
               pmpID={pmpID}
+              onAdd={() => {
+                setAddControl((prevAddControl) => prevAddControl + 1);
+              }}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
