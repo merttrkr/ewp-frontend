@@ -175,6 +175,7 @@ export default function TabComponent() {
         <TabPanel>
           <VirtualComponentForm
             pageName={'Virtual Compnent'}
+            pmpID={proposedMobilityProgrammeID}
           ></VirtualComponentForm>
         </TabPanel>
         <TabPanel>
