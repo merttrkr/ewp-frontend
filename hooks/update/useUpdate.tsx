@@ -133,15 +133,20 @@ const useUpdate = () => {
     const encodedCourseShortDescription = encodeURIComponent(
       courseShortDescription ?? ''
     );
-    const encodedTableType = encodeURIComponent(tableType ?? '');
-    const url = `https://localhost:5001/spInsertLASelectedCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&tableType=${encodedTableType}&isApproved=${isApproved}&proposedMobilityProgramme_id=${proposedMobilityProgramme_id}`;
+    let url = '';
+    if (tableType === undefined) {
+      url = `https://localhost:5001/spInsertLASelectedCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&isApproved=${isApproved}&proposedMobilityProgramme_id=${proposedMobilityProgramme_id}`;
+    } else {
+      url = `https://localhost:5001/spInsertLASelectedCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&isApproved=${isApproved}&proposedMobilityProgramme_id=${proposedMobilityProgramme_id}&tableType=${tableType}`;
+    }
+
+    console.log('url: ', url);
 
     const result: number = await makeRequest<number>(url);
 
     return result;
   };
 
-  //https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=1
   const UpdateDateOfBilateralAgreement = async (
     request: string
   ): Promise<string> => {
