@@ -56,12 +56,14 @@ export default function MobilityProgramFormLongTerm({
     GetTotalCourseCreditsForTableA,
     GetTotalCourseCreditsForTableB,
   } = useRead();
+
   const {
     InsertEmptyRowToProposedMobilityProgramme,
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,
     SaveProposedMobilityProgramme,
   } = useUpdate();
+
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
@@ -79,6 +81,10 @@ export default function MobilityProgramFormLongTerm({
   const [tableBApprovedArray, setTableBApprovedArray] = useState<Course[]>([]);
   const [totalACourseCredits, setTotalACourseCredits] = useState(0);
   const [totalBCourseCredits, setTotalBCourseCredits] = useState(0);
+  const [addControlA, setAddControlA] = useState(0);
+  const [deletedControlA, setDeleteControlA] = useState(0);
+  const [addControlB, setAddControlB] = useState(0);
+  const [deletedControlB, setDeleteControlB] = useState(0);
   const toast = useToast();
 
   const {
@@ -241,16 +247,28 @@ export default function MobilityProgramFormLongTerm({
   };
 
   useEffect(() => {
-    console.log('use efffect long term');
-
     handleInsertEmptyRowToProposedMobilityProgramme();
     handleGetTableANotApprovedCourses();
     handleGetTableBNotApprovedCourses();
     handleGetTableAApprovedCourses();
     handleGetTableBApprovedCourses();
-    handleGetTotalCourseCreditsForTableA(); // Call the new function
-    handleGetTotalCourseCreditsForTableB(); // Call the new function
+    handleGetTotalCourseCreditsForTableA();
+    handleGetTotalCourseCreditsForTableB();
   }, []);
+
+  useEffect(() => {
+    //when you add to table A
+    console.log('use effect on add');
+    handleGetTableANotApprovedCourses();
+    handleGetTotalCourseCreditsForTableA(); // Call the new function
+  }, [addControlA]);
+
+  useEffect(() => {
+    //when you add to table B
+    console.log('use effect on add');
+    handleGetTableBNotApprovedCourses();
+    handleGetTotalCourseCreditsForTableB(); // Call the new function
+  }, [addControlB]);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
@@ -328,20 +346,13 @@ export default function MobilityProgramFormLongTerm({
     }
   };
 
-  const handleAddComponentA = (component: Course) => {
-    const newArray: Course[] = [...tableANotApprovedArray, component];
-    setTableANotApprovedArray(newArray);
-  };
   const handleDeleteComponentA = (component: Course) => {
     const newArray: Course[] = tableANotApprovedArray.filter(
       (item) => item !== component
     );
     setTableANotApprovedArray(newArray);
   };
-  const handleAddComponentB = (component: Course) => {
-    const newArray: Course[] = [...tableBNotApprovedArray, component];
-    setTableBNotApprovedArray(newArray);
-  };
+
   const handleDeleteComponentB = (component: Course) => {
     const newArray: Course[] = tableBNotApprovedArray.filter(
       (item) => item !== component
@@ -410,6 +421,9 @@ export default function MobilityProgramFormLongTerm({
               placeholder='Ders Ekle +'
               tableType='A'
               pmpID={pmpID}
+              onAdd={() => {
+                setAddControlA((prevAddControl) => prevAddControl + 1);
+              }}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
@@ -539,6 +553,9 @@ export default function MobilityProgramFormLongTerm({
               placeholder='Ders Ekle +'
               tableType='B'
               pmpID={pmpID}
+              onAdd={() => {
+                setAddControlB((prevAddControl) => prevAddControl + 1);
+              }}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
