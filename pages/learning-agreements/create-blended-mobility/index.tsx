@@ -29,7 +29,7 @@ export default function TabComponent() {
     GenerateNewIdForSendingInstitutionInfo,
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
-    
+
   } = useCreate();
   const { GetStudentInfoById, GetSendingInstitutionInfoById } = useRead();
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function TabComponent() {
   const [studentInfo, setStudentInfo] = useState<StudentInfoResponse>();
   const [urlSetted, setUrlSetted] = useState(false);
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
-  const [sendingInstitutionInfo , setSendingInstitutionInfo ] = useState<SendingInstitutionInfoResponse>();
+  const [sendingInstitutionInfo, setSendingInstitutionInfo] = useState<SendingInstitutionInfoResponse>();
   const {
     studentInfoId,
     proposedMobilityProgrammeId,
@@ -61,28 +61,30 @@ export default function TabComponent() {
       studentInfoID;
     try {
       const studentInfo = await GetStudentInfoById(request);
-      if (studentInfo && Object.keys(studentInfo).length !== 0 ) {
-      setStudentInfo(studentInfo);}
+      if (studentInfo && Object.keys(studentInfo).length !== 0) {
+        setStudentInfo(studentInfo);
+      }
 
-      
+
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
       console.error('Error fetching student info:', error);
       // Handle error: display an error message to the user or perform other error handling tasks
     }
   };
-  const handleGetSendingInstitutionInfoById= async () => {
+  const handleGetSendingInstitutionInfoById = async () => {
+    console.log('sendingInstitutionInfoID istek atıyorum :', sendingInstitutionInfoID);
+
     const request =
       'https://localhost:5001/spGetSendingInstitutionInfoById?sendingInstitutionInfo_id=' +
       sendingInstitutionInfoID;
     try {
       const sendingInstitutionInfoResponse = await GetSendingInstitutionInfoById(request);
-      if (sendingInstitutionInfoResponse && Object.keys(sendingInstitutionInfoResponse).length !== 0 ) {
-      setSendingInstitutionInfo(sendingInstitutionInfoResponse);}
+      if (sendingInstitutionInfoResponse && Object.keys(sendingInstitutionInfoResponse).length !== 0) {
+        setSendingInstitutionInfo(sendingInstitutionInfoResponse)
+      }
       console.log("sendingInstitutionInfoResponse:", sendingInstitutionInfoResponse);
-      
 
-      
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
       console.error('Error fetching student info:', error);
@@ -131,7 +133,7 @@ export default function TabComponent() {
 
         setStudentInfoID(data);
         console.log('set ettim Student Info ID:', studentInfoID);
-        
+
       } else {
         throw new Error('No data received for student info ID');
       }
@@ -148,6 +150,7 @@ export default function TabComponent() {
       );
       if (data !== null && data !== undefined && sendingInstitutionInfoID === 0) {
         setSendingInstitutionInfoID(data);
+
       } else {
         throw new Error('No data received for sending institution info ID');
       }
@@ -162,7 +165,7 @@ export default function TabComponent() {
       const data = await GenerateNewIdForReceivingInstitutionInfo(
         'https://localhost:5001/spGenerateNewIdForReceivingInstitutionInfo'
       );
-      if (data !== null && data !== undefined && receivingInstitutionInfoID === 0)  {
+      if (data !== null && data !== undefined && receivingInstitutionInfoID === 0) {
         setReceivingInstitutionInfoID(data);
       } else {
         throw new Error('No data received for receiving institution info ID');
@@ -189,12 +192,10 @@ export default function TabComponent() {
     }
   }
 
-
-  
   useEffect(() => {
-    setStudentInfoID(Number(studentInfoId) || studentInfoID );
+    setStudentInfoID(Number(studentInfoId) || studentInfoID);
     setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || studentInfoID);
-    setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || studentInfoID);
+    setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || sendingInstitutionInfoID);
     setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || studentInfoID);
     setUrlSetted(true);
   }, [studentInfoId, proposedMobilityProgrammeId, sendingInstitutionInfoId, receivingInstitutionInfoId]);
@@ -203,10 +204,7 @@ export default function TabComponent() {
     const fetchData = async () => {
       try {
         console.log('Student Info Id:', studentInfoId);
-        console.log(
-          'Proposed Mobility Programme Id:',
-          proposedMobilityProgrammeId
-        );
+        console.log('sendingInstitutionInfoId :', sendingInstitutionInfoId);
 
         await Promise.all([
           handleGetStudentInfoById(),
@@ -215,7 +213,7 @@ export default function TabComponent() {
           handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
             omobilityID === undefined ||
-            omobilityID === null ) &&
+            omobilityID === null) &&
           handleGenerateOmobilityId(),
           (learningAgreementID === 0 ||
             learningAgreementID === undefined ||
@@ -235,12 +233,12 @@ export default function TabComponent() {
         // Set a loading state variable to false to indicate that the data fetching is complete
       }
     };
-    if (urlSetted){
+    if (urlSetted) {
       console.log('url setted');
-      
+
       fetchData();
     }
-    
+
   }, [urlSetted]);
 
   useEffect(() => {
@@ -249,6 +247,7 @@ export default function TabComponent() {
         await Promise.all([
           console.log('Student Info ID:', studentInfoID),
           handleGetStudentInfoById(),
+          handleGetSendingInstitutionInfoById(),
         ]);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -259,7 +258,7 @@ export default function TabComponent() {
     };
 
     fetchData();
-  }, [studentInfoID]);
+  }, [studentInfoID, sendingInstitutionInfoID]);
 
   return (
     <Tabs variant='colorful' colorScheme='gray'>
@@ -293,7 +292,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <SendingInstitutionInfoForm
-            sendingInstitutionInfo = {sendingInstitutionInfo}
+            sendingInstitutionInfo={sendingInstitutionInfo}
             pageName='Gönderen Kurum /Üniversite Bilgisi'
             heiId='iyte.edu.tr'
             heiName='Izmir Institute Of Technology'

@@ -15,12 +15,10 @@ import SelectDepartment from '../form-components/selectboxes/SelectDepartment';
 import { Department } from '@/models/response/departmentResponse';
 import { InstitutionInfo } from '@/models/response/institutionInfoResponse';
 import SelectInstitution from '../form-components/selectboxes/SelectInstitution';
-import useCreate from '@/hooks/create/useCreate';
 import useRead from '@/hooks/read/useRead';
 import useUpdate from '@/hooks/update/useUpdate';
 import { SendingInstitutionInfo } from '@/models/request/sendingInstitutionInfoRequest';
 import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
-import { send } from 'process';
 
 type InstitutionInformationFormProps = {
   pageName: String;
@@ -54,18 +52,7 @@ export default function InstitutionInformationForm({
   sendingInstitutionInfoId,
   sendingInstitutionInfo,
 }: InstitutionInformationFormProps) {
-  const [formValues, setFormValues] = useState<FormData>({
-    hei_id: '',
-    department_id: 0,
-    academic_personal_name: '',
-    academic_personal_surname: '',
-    academic_personal_eposta: '',
-    administrative_personal_name: '',
-    administrative_personal_surname: '',
-    administrative_personal_eposta: '',
-    phone_number: '',
-    extension: '',
-  });
+
   const { GetUniversityFullname } = useRead();
   const {
     InsertEmptyRowToSendingInstitutionInfo,
@@ -81,7 +68,6 @@ export default function InstitutionInformationForm({
   const [department, setDepartment] = useState('');
   const [departmentID, setDepartmentID] = useState(0);
   const [institutionInfoId, setInstitutionInfoId] = useState(institutionInfoID);
-  const [sendingInstitutionInfoResponse, setSendingInstitutionInfoResponse] = useState<SendingInstitutionInfoResponse>();
   const toast = useToast();
 
   //useForm hook
@@ -213,22 +199,24 @@ export default function InstitutionInformationForm({
   };
 
   useEffect(() => {
-    console.log('girdim sendingInstitutionInfoResponse:  xx', sendingInstitutionInfoResponse);
+    console.log('girdim sendingInstitutionInfoResponse:  xx', sendingInstitutionInfo);
     
-    if (sendingInstitutionInfoResponse != undefined  && Object.keys(sendingInstitutionInfoResponse).length !== 0) {
-      console.log('sendingInstitutionInfoResponse:  xx', sendingInstitutionInfoResponse);
+    if (sendingInstitutionInfo != undefined  && Object.keys(sendingInstitutionInfo).length !== 0) {
+      console.log('sendingInstitutionInfoResponse:  xx', sendingInstitutionInfo);
       
-      setValue('department_id', sendingInstitutionInfoResponse.universityDepartment_id);
-      setValue('academic_personal_name', sendingInstitutionInfoResponse.academicPersonnelContactName);
-      setValue('academic_personal_surname', sendingInstitutionInfoResponse.academicPersonnelContactSurname);
-      setValue('academic_personal_eposta', sendingInstitutionInfoResponse.academicPersonnelContactEmail);
-      setValue('administrative_personal_name', sendingInstitutionInfoResponse.administrativePersonnelContactName);
-      setValue('administrative_personal_surname', sendingInstitutionInfoResponse.administrativePersonnelContactSurname);
-      setValue('administrative_personal_eposta', sendingInstitutionInfoResponse.administrativePersonnelContactEmail);
-      setValue('phone_number', sendingInstitutionInfoResponse.phoneNumberE164);
-      setValue('extension', sendingInstitutionInfoResponse.phoneNumberExt);
+      setValue('department_id', sendingInstitutionInfo.universityDepartment_id);
+      console.log('sendingInstitutionInfoResponse.universityDepartment_id:  xx', sendingInstitutionInfo.universityDepartment_id);
+      setDepartmentID(sendingInstitutionInfo.universityDepartment_id);
+      setValue('academic_personal_name', sendingInstitutionInfo.academicPersonnelContactName);
+      setValue('academic_personal_surname', sendingInstitutionInfo.academicPersonnelContactSurname);
+      setValue('academic_personal_eposta', sendingInstitutionInfo.academicPersonnelContactEmail);
+      setValue('administrative_personal_name', sendingInstitutionInfo.administrativePersonnelContactName);
+      setValue('administrative_personal_surname', sendingInstitutionInfo.administrativePersonnelContactSurname);
+      setValue('administrative_personal_eposta', sendingInstitutionInfo.administrativePersonnelContactEmail);
+      setValue('phone_number', sendingInstitutionInfo.phoneNumberE164);
+      setValue('extension', sendingInstitutionInfo.phoneNumberExt);
 
-    }} , [sendingInstitutionInfoResponse]);
+    }} , [sendingInstitutionInfo]);
 
   return (
     <Stack
@@ -268,9 +256,10 @@ export default function InstitutionInformationForm({
               error={errors.hei_id?.message}
             />
             <SelectDepartment
+              inputValue={departmentID}
               id='department_id'
               register={register('department_id')}
-              placeHolder=''
+              placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
               param={universityId}
@@ -295,7 +284,7 @@ export default function InstitutionInformationForm({
             <TextInput
               id='academic_personal_eposta'
               label='Akademik Personelin E-postası'
-              placeholder={formValues.academic_personal_eposta}
+              placeholder=''
               error={errors.academic_personal_eposta?.message}
               register={register('academic_personal_eposta')}
             />
@@ -304,7 +293,7 @@ export default function InstitutionInformationForm({
             <TextInput
               id='administrative_personal_name'
               label='İdari Personelin İsmi'
-              placeholder={formValues.administrative_personal_name}
+              placeholder=''
               error={errors.administrative_personal_name?.message}
               register={register('administrative_personal_name')}
             />
@@ -312,7 +301,7 @@ export default function InstitutionInformationForm({
             <TextInput
               id='administrative_personal_surname'
               label='İdari Personelin Soy İsmi'
-              placeholder={formValues.administrative_personal_surname}
+              placeholder=''
               error={errors.administrative_personal_surname?.message}
               register={register('administrative_personal_surname')}
             />
@@ -320,7 +309,7 @@ export default function InstitutionInformationForm({
             <TextInput
               id='administrative_personal_eposta'
               label='İdari Personelin E-postası'
-              placeholder={formValues.administrative_personal_eposta}
+              placeholder=''
               error={errors.administrative_personal_eposta?.message}
               register={register('administrative_personal_eposta')}
             />
@@ -328,14 +317,14 @@ export default function InstitutionInformationForm({
             <TextInput
               id='phone_number'
               label='Telefon Numarası (E164 Formatında Belirtiniz)'
-              placeholder={formValues.phone_number}
+              placeholder=''
               error={errors.phone_number?.message}
               register={register('phone_number')}
             />
             <TextInput
               id='extension'
               label='Dahili'
-              placeholder={formValues.extension}
+              placeholder=''
               error={errors.extension?.message}
               register={register('extension')}
             />

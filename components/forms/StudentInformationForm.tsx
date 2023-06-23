@@ -385,7 +385,7 @@ export default function StudentInformationForm({
               register={register('eur_student_identifier')}
             />
             <TextInput
-              placeholder={iscedExplanation}
+              placeholder=''
               label='ISCED Explanation'
               id='isced_explanation'
               error={errors.isced_explanation?.message}
