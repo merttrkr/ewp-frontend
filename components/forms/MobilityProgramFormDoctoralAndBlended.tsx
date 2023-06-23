@@ -73,7 +73,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
   const [addControl, setAddControl] = useState(0);
-  const [deleted, setDeleteControl] = useState(0);
+  const [deletedControl, setDeleteControl] = useState(0);
   const [blendedOrDoctorateApprovedArray, setBlendedOrDoctorateApprovedArray] =
     useState<Course[]>([]);
   const [
