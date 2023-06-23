@@ -99,6 +99,7 @@ export default function MobilityProgramFormLongTerm({
         const result = await InsertEmptyRowToProposedMobilityProgramme(
           requestUrl
         );
+        console.log('inserted new line to mob type ' + pmpID);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -240,6 +241,9 @@ export default function MobilityProgramFormLongTerm({
   };
 
   useEffect(() => {
+    console.log('use efffect long term');
+
+    handleInsertEmptyRowToProposedMobilityProgramme();
     handleGetTableANotApprovedCourses();
     handleGetTableBNotApprovedCourses();
     handleGetTableAApprovedCourses();
@@ -250,7 +254,7 @@ export default function MobilityProgramFormLongTerm({
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
-      await handleInsertEmptyRowToProposedMobilityProgramme();
+      console.log('submitted mob long term');
       await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
       await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
       await handleSaveProposedMobilityProgrammeA(values);
