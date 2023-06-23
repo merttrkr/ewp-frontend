@@ -108,8 +108,8 @@ export default function InitialFocus({
         numberOfTerms: course.numberOfTerms,
         totalNumberOfTerms: course.totalNumberOfTerms,
         courseCode: course.courseCode,
-        recognitionConditions: course.recognitionConditions ?? '',
-        courseShortDescription: course.courseShortDescription ?? '',
+        recognitionConditions: course.recognitionConditions,
+        courseShortDescription: course.courseShortDescription,
         isApproved: 0,
         proposedMobilityProgramme_id: pmpID,
         tableType: tableType,
@@ -133,8 +133,8 @@ export default function InitialFocus({
         totalNumberOfTerms: values.total_term_count,
         courseCode: values.course_code,
         status: 'inserted',
-        recognitionConditions: values.recognition_conditions,
-        courseShortDescription: values.course_description,
+        recognitionConditions: values.recognition_conditions ?? ' ',
+        courseShortDescription: values.course_description ?? '',
       };
       console.log('pmp id', pmpID);
       console.log('commitmentID', commitmentID);
