@@ -24,6 +24,7 @@ type ModalInputProps = {
   placeholder: string;
   tableType?: string;
   pmpID: number;
+  onAdd: () => void;
 };
 type FormData = {
   course_name: string;
@@ -40,6 +41,7 @@ export default function InitialFocus({
   placeholder,
   tableType,
   pmpID,
+  onAdd,
 }: ModalInputProps) {
   const { InsertLASelectedCourse } = useUpdate();
   const { GenerateNewIdForCommitment, GenerateNewIdForVirtualComponent } =
@@ -89,8 +91,11 @@ export default function InitialFocus({
   }
 
   useEffect(() => {
-    handleGenerateNewIdForCommitment();
-    handleGenerateNewIdForVirtualComponent();
+    if (tableType === 'C') {
+      handleGenerateNewIdForVirtualComponent();
+    } else {
+      handleGenerateNewIdForCommitment();
+    }
   }, []);
 
   async function handleInsertLASelectedCourse(course: Course) {
@@ -132,13 +137,13 @@ export default function InitialFocus({
         courseShortDescription: values.course_description,
       };
       console.log('pmp id', pmpID);
-
       console.log('commitmentID', commitmentID);
       console.log('Course', result);
-
       await handleInsertLASelectedCourse(result);
+      onAdd();
       resolve();
       reset();
+      onClose();
     });
   }
 
