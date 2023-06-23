@@ -77,6 +77,23 @@ export default function VirtualComponentForm({
     control,
   } = useForm<FormData>();
 
+  async function handleInsertEmptyRowToVirtualComponent() {
+    const fetchInsertEmptyRowToVirtualComponent = async () => {
+      const requestUrl =
+        'https://localhost:5001/spInsertEmptyRowToVirtualComponent?virtualComponent_id=' +
+        pmpID;
+
+      try {
+        const result = await InsertEmptyRowToVirtualComponent(requestUrl);
+        console.log('inserted new line to mob type ' + pmpID);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (pmpID != 0) {
+      fetchInsertEmptyRowToVirtualComponent();
+    }
+  }
   const handleGetTableCNotApprovedCourses = async () => {
     try {
       const courses = await GetTableCNotApprovedCoursesForChangeProposals(
@@ -113,6 +130,9 @@ export default function VirtualComponentForm({
   };
 
   useEffect(() => {
+    console.log('here in useffectt');
+
+    handleInsertEmptyRowToVirtualComponent();
     handleGetTableCNotApprovedCourses();
     handleGetTableCApprovedCourses();
     handleGetTotalCourseCreditsForTableC();
@@ -120,15 +140,11 @@ export default function VirtualComponentForm({
 
   useEffect(() => {
     //when you add
-    console.log('use efffect doctora on Add');
+    console.log('use efffect virtual on Add');
     handleGetTableCNotApprovedCourses();
     handleGetTotalCourseCreditsForTableC();
   }, [addControl]);
 
-  const handleAddComponent = (component: Course) => {
-    const newArray: Course[] = [...tableCNotApprovedArray, component];
-    setTableCNotApprovedArray(newArray);
-  };
   const handleDeleteComponent = (component: Course) => {
     const newArray: Course[] = tableCNotApprovedArray.filter(
       (item) => item !== component
