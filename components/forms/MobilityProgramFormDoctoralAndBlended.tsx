@@ -193,7 +193,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetApprovedCoursesOfBlendedOrDoctorate();
     handleGetTotalCourseCreditsForBlendedOrDoctorate();
-  }, []);
+  }, [pmpID]);
 
   useEffect(() => {
     //when you add
