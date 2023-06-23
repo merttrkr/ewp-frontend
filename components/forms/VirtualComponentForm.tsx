@@ -26,10 +26,12 @@ import { useForm } from 'react-hook-form';
 import SelectLanguage from '../form-components/selectboxes/SelectLanguage';
 import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLevel';
 import useRead from '@/hooks/read/useRead';
+import useUpdate from '@/hooks/update/useUpdate';
 import { Course } from '@/models/response/courseResponse';
 
-type MobilityProgramFormProps = {
+type VirtualComponentFormProps = {
   pageName: String;
+  pmpID: number;
 };
 type FormData = {
   link: string;
@@ -38,14 +40,16 @@ type FormData = {
   language: string;
   language_level: string;
 };
-export default function MobilityProgramForm({
+export default function VirtualComponentForm({
   pageName,
-}: MobilityProgramFormProps) {
+  pmpID,
+}: VirtualComponentFormProps) {
   const {
     GetTableCApprovedCoursesForChangeProposals,
     GetTableCNotApprovedCoursesForChangeProposals,
     GetTotalCourseCreditsForTableC,
   } = useRead();
+  const { InsertEmptyRowToVirtualComponent } = useUpdate();
 
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -56,11 +60,12 @@ export default function MobilityProgramForm({
   const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
+  const [addControl, setAddControl] = useState(0);
+  const [deletedControl, setDeleteControl] = useState(0);
   const [tableCNotApprovedArray, setTableCNotApprovedArray] = useState<
     Course[]
   >([]);
   const [tableCApprovedArray, setTableCApprovedArray] = useState<Course[]>([]);
-  const [pmpID, setPmpID] = useState(26);
   const [totalCCourseCredits, setTotalCCourseCredits] = useState(0);
   const toast = useToast();
 
@@ -111,7 +116,14 @@ export default function MobilityProgramForm({
     handleGetTableCNotApprovedCourses();
     handleGetTableCApprovedCourses();
     handleGetTotalCourseCreditsForTableC();
-  }, []);
+  }, [pmpID]);
+
+  useEffect(() => {
+    //when you add
+    console.log('use efffect doctora on Add');
+    handleGetTableCNotApprovedCourses();
+    handleGetTotalCourseCreditsForTableC();
+  }, [addControl]);
 
   const handleAddComponent = (component: Course) => {
     const newArray: Course[] = [...tableCNotApprovedArray, component];
@@ -207,7 +219,10 @@ export default function MobilityProgramForm({
             <AddComponentModal
               placeholder='Ders Ekle +'
               tableType='C'
-              sendModal={handleAddComponent}
+              onAdd={() => {
+                setAddControl((prevAddControl) => prevAddControl + 1);
+              }}
+              pmpID={pmpID}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
