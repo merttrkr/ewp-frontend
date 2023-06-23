@@ -131,15 +131,13 @@ const useUpdate = () => {
       recognitionConditions ?? ''
     );
     const encodedCourseShortDescription = encodeURIComponent(
-      courseShortDescription ?? ''
+      courseShortDescription ? courseShortDescription : ''
     );
-    let url = '';
-    if (tableType === undefined) {
-      url = `https://localhost:5001/spInsertLASelectedCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&isApproved=${isApproved}&proposedMobilityProgramme_id=${proposedMobilityProgramme_id}`;
-    } else {
-      url = `https://localhost:5001/spInsertLASelectedCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&isApproved=${isApproved}&proposedMobilityProgramme_id=${proposedMobilityProgramme_id}&tableType=${tableType}`;
-    }
+    let url = `https://localhost:5001/spInsertLASelectedCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&isApproved=${isApproved}&proposedMobilityProgramme_id=${proposedMobilityProgramme_id}`;
 
+    if (tableType !== undefined) {
+      url += `&tableType=${tableType}`;
+    }
     console.log('url: ', url);
 
     const result: number = await makeRequest<number>(url);
