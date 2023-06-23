@@ -18,7 +18,6 @@ import { useForm } from 'react-hook-form';
 import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
 import useCreate from '@/hooks/create/useCreate';
-import { SendingInstitutionInfoForm } from '@/models/response/institutionInfoFormResponse';
 import { CourseRequest } from '@/models/request/courseRequest';
 
 type ModalInputProps = {
@@ -88,6 +87,7 @@ export default function InitialFocus({
     };
     fetchNewIdForVirtualComponent();
   }
+
   useEffect(() => {
     handleGenerateNewIdForCommitment();
     handleGenerateNewIdForVirtualComponent();
@@ -95,6 +95,7 @@ export default function InitialFocus({
 
   async function handleInsertLASelectedCourse(course: Course) {
     try {
+      console.log('tableType:', tableType);
       const request: CourseRequest = {
         courseTitle: course.courseTitle,
         courseCreditType_id: 1,
@@ -104,18 +105,19 @@ export default function InitialFocus({
         courseCode: course.courseCode,
         recognitionConditions: course.recognitionConditions ?? '',
         courseShortDescription: course.courseShortDescription ?? '',
-        tableType: tableType,
         isApproved: 0,
         proposedMobilityProgramme_id: pmpID,
+        tableType: tableType,
       };
 
       await InsertLASelectedCourse(request);
+      console.log('inserted La selected course pmpID: ', pmpID);
     } catch (error) {
       console.error('Error inserting selected course:', error);
     }
   }
 
-  function onSubmit(values: FormData) {
+  function onSubmitAdd(values: FormData) {
     return new Promise<void>(async (resolve) => {
       const result: Course = {
         id: commitmentID,
@@ -129,6 +131,11 @@ export default function InitialFocus({
         recognitionConditions: values.recognition_conditions,
         courseShortDescription: values.course_description,
       };
+      console.log('pmp id', pmpID);
+
+      console.log('commitmentID', commitmentID);
+      console.log('Course', result);
+
       await handleInsertLASelectedCourse(result);
       resolve();
       reset();
@@ -147,7 +154,7 @@ export default function InitialFocus({
           <ModalHeader color={HeadingColor}>Yeni Ders Ekle</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={3}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form>
               <Flex gap={5}>
                 <Stack w={'50%'}>
                   <TextInput
@@ -221,7 +228,11 @@ export default function InitialFocus({
                 </Stack>
               </Flex>
               <ModalFooter mt={2}>
-                <Button variant={'autoWidthFull'} mr={3} type='submit'>
+                <Button
+                  variant={'autoWidthFull'}
+                  mr={3}
+                  onClick={handleSubmit(onSubmitAdd)}
+                >
                   Kaydet
                 </Button>
                 <Button variant={'clear'} type='reset'>
