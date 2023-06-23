@@ -19,6 +19,7 @@ import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
 import useCreate from '@/hooks/create/useCreate';
 import { CourseRequest } from '@/models/request/courseRequest';
+import { VirtualCourseRequest } from '@/models/request/virtualCourseRequest';
 
 type ModalInputProps = {
   placeholder: string;
@@ -43,7 +44,7 @@ export default function InitialFocus({
   pmpID,
   onAdd,
 }: ModalInputProps) {
-  const { InsertLASelectedCourse } = useUpdate();
+  const { InsertLASelectedCourse, InsertLAVirtualCourse } = useUpdate();
   const { GenerateNewIdForCommitment, GenerateNewIdForVirtualComponent } =
     useCreate();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -73,6 +74,7 @@ export default function InitialFocus({
       // Handle error: display an error message to the user or perform other error handling tasks
     }
   }
+
   async function handleGenerateNewIdForVirtualComponent() {
     const fetchNewIdForVirtualComponent = async () => {
       try {
@@ -80,6 +82,7 @@ export default function InitialFocus({
           'https://localhost:5001/spGenerateNewIdForVirtualComponent'
         );
         if (data) {
+          console.log('virtual comp id generated ', data);
           setVirtualComponentID(data);
         }
       } catch (error) {
@@ -121,11 +124,37 @@ export default function InitialFocus({
       console.error('Error inserting selected course:', error);
     }
   }
+  async function handleInsertLAVirtualCourse(course: Course) {
+    try {
+      const request: VirtualCourseRequest = {
+        courseTitle: course.courseTitle,
+        courseCreditType_id: 1,
+        courseCreditValue: course.courseCreditValue,
+        numberOfTerms: course.numberOfTerms,
+        totalNumberOfTerms: course.totalNumberOfTerms,
+        courseCode: course.courseCode,
+        recognitionConditions: course.recognitionConditions,
+        courseShortDescription: course.courseShortDescription,
+        isApproved: 0,
+        virtualComponent_id: virtualComponentID,
+        tableType: 'C',
+        proposedMobilityProgramme_id: pmpID,
+      };
+
+      await InsertLAVirtualCourse(request);
+      console.log(
+        'inserted LA virtual course virtualComponentID: ',
+        virtualComponentID
+      );
+    } catch (error) {
+      console.error('Error inserting virtual course:', error);
+    }
+  }
 
   function onSubmitAdd(values: FormData) {
     return new Promise<void>(async (resolve) => {
       const result: Course = {
-        id: commitmentID,
+        id: tableType === 'C' ? virtualComponentID : commitmentID,
         courseCreditType: 'ECTS',
         courseTitle: values.course_name,
         courseCreditValue: values.credit_value,
@@ -139,7 +168,13 @@ export default function InitialFocus({
       console.log('pmp id', pmpID);
       console.log('commitmentID', commitmentID);
       console.log('Course', result);
-      await handleInsertLASelectedCourse(result);
+      if (tableType === 'C') {
+        console.log('table C');
+
+        await handleInsertLAVirtualCourse(result);
+      } else {
+        await handleInsertLASelectedCourse(result);
+      }
       onAdd();
       resolve();
       reset();
