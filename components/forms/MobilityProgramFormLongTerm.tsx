@@ -100,17 +100,17 @@ export default function MobilityProgramFormLongTerm({
       const requestUrl =
         'https://localhost:5001/spInsertEmptyRowToProposedMobilityProgramme?pmp_id=' +
         pmpID;
-
       try {
-        const result = await InsertEmptyRowToProposedMobilityProgramme(
-          requestUrl
-        );
-        console.log('inserted new line to mob type ' + pmpID);
+        await InsertEmptyRowToProposedMobilityProgramme(requestUrl);
+        console.log('***********inserted new line to mob type ' + pmpID);
       } catch (error) {
         console.error('Error:', error);
       }
     };
+    console.log('******************************');
+    console.log('here pmp' + pmpID);
     if (pmpID != 0) {
+      console.log('here pmp ' + pmpID);
       fetchInsertEmptyRowToProposedMobilityProgramme();
     }
   }
@@ -184,6 +184,17 @@ export default function MobilityProgramFormLongTerm({
       console.error('Error fetching total course credits for Table B:', error);
     }
   };
+  useEffect(() => {
+    console.log('initial ');
+    console.log('use effect');
+    handleInsertEmptyRowToProposedMobilityProgramme();
+    handleGetTableANotApprovedCourses();
+    handleGetTableBNotApprovedCourses();
+    handleGetTableAApprovedCourses();
+    handleGetTableBApprovedCourses();
+    handleGetTotalCourseCreditsForTableA();
+    handleGetTotalCourseCreditsForTableB();
+  }, [pmpID]);
 
   const handleSavePlannedStartingDateOfMobility = async (date: string) => {
     try {
@@ -247,25 +258,15 @@ export default function MobilityProgramFormLongTerm({
   };
 
   useEffect(() => {
-    handleInsertEmptyRowToProposedMobilityProgramme();
-    handleGetTableANotApprovedCourses();
-    handleGetTableBNotApprovedCourses();
-    handleGetTableAApprovedCourses();
-    handleGetTableBApprovedCourses();
-    handleGetTotalCourseCreditsForTableA();
-    handleGetTotalCourseCreditsForTableB();
-  }, []);
-
-  useEffect(() => {
     //when you add to table A
-    console.log('use effect on add');
+    console.log('use effect on add A');
     handleGetTableANotApprovedCourses();
     handleGetTotalCourseCreditsForTableA(); // Call the new function
   }, [addControlA]);
 
   useEffect(() => {
     //when you add to table B
-    console.log('use effect on add');
+    console.log('use effect on add B');
     handleGetTableBNotApprovedCourses();
     handleGetTotalCourseCreditsForTableB(); // Call the new function
   }, [addControlB]);
