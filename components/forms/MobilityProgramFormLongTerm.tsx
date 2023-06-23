@@ -102,15 +102,12 @@ export default function MobilityProgramFormLongTerm({
         pmpID;
       try {
         await InsertEmptyRowToProposedMobilityProgramme(requestUrl);
-        console.log('***********inserted new line to mob type ' + pmpID);
+        console.log('inserted new line to mob type ' + pmpID);
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    console.log('******************************');
-    console.log('here pmp' + pmpID);
     if (pmpID != 0) {
-      console.log('here pmp ' + pmpID);
       fetchInsertEmptyRowToProposedMobilityProgramme();
     }
   }
@@ -185,8 +182,6 @@ export default function MobilityProgramFormLongTerm({
     }
   };
   useEffect(() => {
-    console.log('initial ');
-    console.log('use effect');
     handleInsertEmptyRowToProposedMobilityProgramme();
     handleGetTableANotApprovedCourses();
     handleGetTableBNotApprovedCourses();
@@ -259,21 +254,18 @@ export default function MobilityProgramFormLongTerm({
 
   useEffect(() => {
     //when you add to table A
-    console.log('use effect on add A');
     handleGetTableANotApprovedCourses();
     handleGetTotalCourseCreditsForTableA(); // Call the new function
   }, [addControlA]);
 
   useEffect(() => {
     //when you add to table B
-    console.log('use effect on add B');
     handleGetTableBNotApprovedCourses();
     handleGetTotalCourseCreditsForTableB(); // Call the new function
   }, [addControlB]);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
-      console.log('submitted mob long term');
       await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
       await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
       await handleSaveProposedMobilityProgrammeA(values);

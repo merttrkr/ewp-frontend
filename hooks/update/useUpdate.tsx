@@ -138,8 +138,6 @@ const useUpdate = () => {
     if (tableType !== undefined) {
       url += `&tableType=${tableType}`;
     }
-    console.log('url: ', url);
-
     const result: number = await makeRequest<number>(url);
 
     return result;
