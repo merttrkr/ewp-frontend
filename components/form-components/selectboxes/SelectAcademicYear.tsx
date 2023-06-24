@@ -15,6 +15,7 @@ type SelectAcademicYearProps = {
   register: any;
   onChange: (value: AcademicYearInfo | null) => void; // New prop for handling value change
   error: string | undefined;
+  inputValue?: string | number;
 };
 
 const SelectAcademicYear: React.FC<SelectAcademicYearProps> = ({
@@ -24,6 +25,7 @@ const SelectAcademicYear: React.FC<SelectAcademicYearProps> = ({
   placeholder,
   register,
   error,
+  inputValue = null,
   onChange, // Add the new onChange prop
 }) => {
   const { GetAcademicYearInfo } = useRead();
@@ -47,6 +49,20 @@ const SelectAcademicYear: React.FC<SelectAcademicYearProps> = ({
   }, []);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+
+  
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedDepartman = academicYearArray.find(
+        (type) => type.academicYear_id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedDepartman || null);
+    }
+  }, [inputValue, academicYearArray, onChange]);
+
   return (
     <ThemeProvider theme={theme}>
       {
