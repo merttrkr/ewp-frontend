@@ -52,7 +52,6 @@ export default function InstitutionInformationForm({
   sendingInstitutionInfoId,
   sendingInstitutionInfo,
 }: InstitutionInformationFormProps) {
-
   const { GetUniversityFullname } = useRead();
   const {
     InsertEmptyRowToSendingInstitutionInfo,
@@ -199,24 +198,44 @@ export default function InstitutionInformationForm({
   };
 
   useEffect(() => {
-    console.log('girdim sendingInstitutionInfoResponse:  xx', sendingInstitutionInfo);
-    
-    if (sendingInstitutionInfo != undefined  && Object.keys(sendingInstitutionInfo).length !== 0) {
-      console.log('sendingInstitutionInfoResponse:  xx', sendingInstitutionInfo);
-      
+    if (
+      sendingInstitutionInfo != undefined &&
+      Object.keys(sendingInstitutionInfo).length !== 0
+    ) {
       setValue('department_id', sendingInstitutionInfo.universityDepartment_id);
-      console.log('sendingInstitutionInfoResponse.universityDepartment_id:  xx', sendingInstitutionInfo.universityDepartment_id);
+      console.log(
+        'sendingInstitutionInfoResponse.universityDepartment_id:  xx',
+        sendingInstitutionInfo.universityDepartment_id
+      );
       setDepartmentID(sendingInstitutionInfo.universityDepartment_id);
-      setValue('academic_personal_name', sendingInstitutionInfo.academicPersonnelContactName);
-      setValue('academic_personal_surname', sendingInstitutionInfo.academicPersonnelContactSurname);
-      setValue('academic_personal_eposta', sendingInstitutionInfo.academicPersonnelContactEmail);
-      setValue('administrative_personal_name', sendingInstitutionInfo.administrativePersonnelContactName);
-      setValue('administrative_personal_surname', sendingInstitutionInfo.administrativePersonnelContactSurname);
-      setValue('administrative_personal_eposta', sendingInstitutionInfo.administrativePersonnelContactEmail);
+      setValue(
+        'academic_personal_name',
+        sendingInstitutionInfo.academicPersonnelContactName
+      );
+      setValue(
+        'academic_personal_surname',
+        sendingInstitutionInfo.academicPersonnelContactSurname
+      );
+      setValue(
+        'academic_personal_eposta',
+        sendingInstitutionInfo.academicPersonnelContactEmail
+      );
+      setValue(
+        'administrative_personal_name',
+        sendingInstitutionInfo.administrativePersonnelContactName
+      );
+      setValue(
+        'administrative_personal_surname',
+        sendingInstitutionInfo.administrativePersonnelContactSurname
+      );
+      setValue(
+        'administrative_personal_eposta',
+        sendingInstitutionInfo.administrativePersonnelContactEmail
+      );
       setValue('phone_number', sendingInstitutionInfo.phoneNumberE164);
       setValue('extension', sendingInstitutionInfo.phoneNumberExt);
-
-    }} , [sendingInstitutionInfo]);
+    }
+  }, [sendingInstitutionInfo]);
 
   return (
     <Stack
