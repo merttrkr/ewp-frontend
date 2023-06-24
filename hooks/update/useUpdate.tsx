@@ -552,7 +552,18 @@ const useUpdate = () => {
 
     return result;
   };
-
+  //https://localhost:5001/spSaveVirtualComponent?virtualComponent_id=81
+  const SaveVirtualComponent = async (request: string): Promise<string> => {
+    const result: string = await makeRequest<string>(request);
+    return result;
+  };
+  //https://localhost:5001/spSaveVirtualComponentIdToLearningAgreementTable?virtualComponent_id=81&learningAgreement_id=45
+  const SaveVirtualComponentIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<string> => {
+    const result: string = await makeRequest<string>(request);
+    return result;
+  };
   return {
     sendIIANotification,
     UpdateStateOfBilateralAgreement,
@@ -579,6 +590,9 @@ const useUpdate = () => {
     SaveReceivingInstitutionCourseCatalogueLink,
     SaveLanguageId,
     SaveLanguageLevelId,
+
+    SaveVirtualComponent,
+    SaveVirtualComponentIdToLearningAgreementTable,
 
     InsertLASelectedCourse,
     InsertLAVirtualCourse,
