@@ -25,6 +25,7 @@ type ModalInputProps = {
   placeholder: string;
   tableType?: string;
   pmpID: number;
+  virtualComponentID?: number;
   onAdd: () => void;
 };
 type FormData = {
@@ -42,18 +43,14 @@ export default function InitialFocus({
   placeholder,
   tableType,
   pmpID,
+  virtualComponentID,
   onAdd,
 }: ModalInputProps) {
-  const {
-    InsertLASelectedCourse,
-    InsertLAVirtualCourse,
-    SaveVirtualComponent,
-  } = useUpdate();
+  const { InsertLASelectedCourse, InsertLAVirtualCourse } = useUpdate();
   const { GenerateNewIdForCommitment, GenerateNewIdForVirtualComponent } =
     useCreate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [commitmentID, setCommitmentID] = useState(0);
-  const [virtualComponentID, setVirtualComponentID] = useState(0);
 
   const HeadingColor = useColorModeValue('gray.800', 'gray.300');
   const {
@@ -79,30 +76,8 @@ export default function InitialFocus({
     }
   }
 
-  async function handleGenerateNewIdForVirtualComponent() {
-    const fetchNewIdForVirtualComponent = async () => {
-      try {
-        const data = await GenerateNewIdForVirtualComponent(
-          'https://localhost:5001/spGenerateNewIdForVirtualComponent'
-        );
-        if (data) {
-          console.log('virtual comp id generated ', data);
-          setVirtualComponentID(data);
-        }
-      } catch (error) {
-        // Handle error
-        console.error('Error generating ID for virtual component:', error);
-      }
-    };
-    fetchNewIdForVirtualComponent();
-  }
-
   useEffect(() => {
-    if (tableType === 'C') {
-      handleGenerateNewIdForVirtualComponent();
-    } else {
-      handleGenerateNewIdForCommitment();
-    }
+    handleGenerateNewIdForCommitment();
   }, []);
 
   async function handleInsertLASelectedCourse(course: Course) {
@@ -131,7 +106,7 @@ export default function InitialFocus({
   async function handleInsertLAVirtualCourse(course: Course) {
     try {
       console.log('virtualComponentID before insert : ', virtualComponentID);
-      const request: VirtualCourseRequest = {
+      const request: CourseRequest = {
         courseTitle: course.courseTitle,
         courseCreditType_id: 1,
         courseCreditValue: course.courseCreditValue,
@@ -155,27 +130,11 @@ export default function InitialFocus({
       console.error('Error inserting virtual course:', error);
     }
   }
-  async function handleSaveVirtualComponent() {
-    const fetchSaveVirtualComponent = async () => {
-      const requestUrl =
-        'https://localhost:5001/spSaveVirtualComponent?virtualComponent_id=' +
-        virtualComponentID;
 
-      try {
-        const result = await SaveVirtualComponent(requestUrl);
-        console.log('saved virtual comp ' + pmpID);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    if (virtualComponentID != 0) {
-      fetchSaveVirtualComponent();
-    }
-  }
   function onSubmitAdd(values: FormData) {
     return new Promise<void>(async (resolve) => {
       const result: Course = {
-        id: tableType === 'C' ? virtualComponentID : commitmentID,
+        id: commitmentID,
         courseCreditType: 'ECTS',
         courseTitle: values.course_name,
         courseCreditValue: values.credit_value,
@@ -185,13 +144,13 @@ export default function InitialFocus({
         status: 'inserted',
         recognitionConditions: values.recognition_conditions ?? ' ',
         courseShortDescription: values.course_description ?? '',
+        virtualComponent_id: virtualComponentID,
       };
       console.log('pmp id', pmpID);
       console.log('commitmentID', commitmentID);
       console.log('Course', result);
       if (tableType === 'C') {
         console.log('table C');
-
         await handleInsertLAVirtualCourse(result);
       } else {
         await handleInsertLASelectedCourse(result);
@@ -205,7 +164,7 @@ export default function InitialFocus({
 
   return (
     <>
-      <Button variant='autoWidthFull' width={150} onClick={onOpen}>
+      <Button variant='autoWidthFull' onClick={onOpen}>
         {placeholder}
       </Button>
 

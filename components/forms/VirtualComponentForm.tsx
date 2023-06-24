@@ -28,6 +28,8 @@ import SelectLanguageLevel from '../form-components/selectboxes/SelectLanguageLe
 import useRead from '@/hooks/read/useRead';
 import useUpdate from '@/hooks/update/useUpdate';
 import { Course } from '@/models/response/courseResponse';
+import useDelete from '@/hooks/delete/useDelete';
+import useCreate from '@/hooks/create/useCreate';
 
 type VirtualComponentFormProps = {
   pageName: String;
@@ -49,24 +51,31 @@ export default function VirtualComponentForm({
     GetTableCNotApprovedCoursesForChangeProposals,
     GetTotalCourseCreditsForTableC,
   } = useRead();
-  const { InsertEmptyRowToVirtualComponent } = useUpdate();
-
+  const { GenerateNewIdForVirtualComponent } = useCreate();
+  const {
+    InsertEmptyRowToVirtualComponent,
+    SaveVirtualComponent,
+    SaveVirtualComponentIdToLearningAgreementTable,
+  } = useUpdate();
+  const { RemoveVirtualCourseById } = useDelete();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
   //usestates
+  const [learningAgreementId, setLearningAgreementId] = useState(70);
   const [language, setLanguage] = useState('');
   const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
   const [addControl, setAddControl] = useState(0);
-  const [deletedControl, setDeleteControl] = useState(0);
+  const [deleteControl, setDeleteControl] = useState(0);
   const [tableCNotApprovedArray, setTableCNotApprovedArray] = useState<
     Course[]
   >([]);
   const [tableCApprovedArray, setTableCApprovedArray] = useState<Course[]>([]);
   const [totalCCourseCredits, setTotalCCourseCredits] = useState(0);
+  const [virtualComponentID, setVirtualComponentID] = useState(0);
   const toast = useToast();
 
   const {
@@ -77,28 +86,65 @@ export default function VirtualComponentForm({
     control,
   } = useForm<FormData>();
 
-  async function handleInsertEmptyRowToVirtualComponent() {
-    const fetchInsertEmptyRowToVirtualComponent = async () => {
-      const requestUrl =
-        'https://localhost:5001/spInsertEmptyRowToVirtualComponent?virtualComponent_id=' +
-        pmpID;
-
+  async function handleGenerateNewIdForVirtualComponent() {
+    const fetchNewIdForVirtualComponent = async () => {
       try {
-        const result = await InsertEmptyRowToVirtualComponent(requestUrl);
-        console.log('inserted new line to mob type ' + pmpID);
+        const data = await GenerateNewIdForVirtualComponent(
+          'https://localhost:5001/spGenerateNewIdForVirtualComponent'
+        );
+        if (data) {
+          console.log('virtual comp id generated ', data);
+          setVirtualComponentID(data);
+        }
+      } catch (error) {
+        // Handle error
+        console.error('Error generating ID for virtual component:', error);
+      }
+    };
+    fetchNewIdForVirtualComponent();
+  }
+
+  async function handleRemoveVirtualCoursesById(courseId: number) {
+    console.log('deleted id : ', courseId);
+
+    const fetchRemoveVirtualCoursesById = async () => {
+      const requestUrl =
+        'https://localhost:5001/spRemoveVirtualCoursesById?virtualCourse_id=' +
+        courseId;
+      try {
+        await RemoveVirtualCourseById(requestUrl);
+        console.log('removed course: ' + courseId);
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    if (pmpID != 0) {
+    if (courseId != 0) {
+      fetchRemoveVirtualCoursesById();
+    }
+  }
+  async function handleInsertEmptyRowToVirtualComponent() {
+    const fetchInsertEmptyRowToVirtualComponent = async () => {
+      const requestUrl =
+        'https://localhost:5001/spInsertEmptyRowToVirtualComponent?virtualComponent_id=' +
+        virtualComponentID;
+
+      try {
+        await InsertEmptyRowToVirtualComponent(requestUrl);
+        console.log('inserted new line to virtual comp ' + virtualComponentID);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (virtualComponentID != 0) {
       fetchInsertEmptyRowToVirtualComponent();
     }
   }
+
   const handleGetTableCNotApprovedCourses = async () => {
     try {
       const courses = await GetTableCNotApprovedCoursesForChangeProposals(
-        'https://localhost:5001/spGetTableCNotApprovedCoursesForChangeProposals?pmp_id=' +
-          pmpID
+        'https://localhost:5001/spGetTableCNotApprovedCoursesForChangeProposals?virtualComponent_id=' +
+          virtualComponentID
       );
       setTableCNotApprovedArray(courses);
     } catch (error) {
@@ -129,27 +175,67 @@ export default function VirtualComponentForm({
     }
   };
 
+  async function handleSaveVirtualComponent() {
+    const fetchSaveVirtualComponent = async () => {
+      const requestUrl =
+        'https://localhost:5001/spSaveVirtualComponent?virtualComponent_id=' +
+        virtualComponentID;
+
+      try {
+        const result = await SaveVirtualComponent(requestUrl);
+        console.log('saved virtual comp ' + pmpID);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (virtualComponentID != 0) {
+      fetchSaveVirtualComponent();
+    }
+  }
+  async function handleSaveVirtualComponentIdToLearningAgreementTable() {
+    const fetchSaveVirtualComponentIdToLearningAgreementTable = async () => {
+      const requestUrl =
+        'https://localhost:5001/spSaveVirtualComponentIdToLearningAgreementTable?virtualComponent_id=' +
+        virtualComponentID +
+        '&learningAgreement_id=' +
+        learningAgreementId;
+      try {
+        const result = await SaveVirtualComponentIdToLearningAgreementTable(
+          requestUrl
+        );
+        console.log('saved virtual comp to la ' + pmpID);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (virtualComponentID != 0) {
+      fetchSaveVirtualComponentIdToLearningAgreementTable();
+    }
+  }
+  useEffect(() => {
+    console.log('create vC');
+    handleGenerateNewIdForVirtualComponent();
+  }, []);
+
   useEffect(() => {
     console.log('here in useffectt');
-
     handleInsertEmptyRowToVirtualComponent();
+    handleSaveVirtualComponent();
+    handleSaveVirtualComponentIdToLearningAgreementTable();
     handleGetTableCNotApprovedCourses();
     handleGetTableCApprovedCourses();
     handleGetTotalCourseCreditsForTableC();
-  }, [pmpID]);
+  }, [virtualComponentID]);
 
   useEffect(() => {
-    //when you add
-    console.log('use efffect virtual on Add');
+    //when you add or delete
     handleGetTableCNotApprovedCourses();
     handleGetTotalCourseCreditsForTableC();
-  }, [addControl]);
+  }, [addControl, deleteControl]);
 
   const handleDeleteComponent = (component: Course) => {
-    const newArray: Course[] = tableCNotApprovedArray.filter(
-      (item) => item !== component
-    );
-    setTableCNotApprovedArray(newArray);
+    handleRemoveVirtualCoursesById(component.id);
+    setDeleteControl((prevAddControl) => prevAddControl + 1);
   };
 
   const onSubmit = (values: FormData) => {
@@ -239,6 +325,7 @@ export default function VirtualComponentForm({
                 setAddControl((prevAddControl) => prevAddControl + 1);
               }}
               pmpID={pmpID}
+              virtualComponentID={virtualComponentID}
             ></AddComponentModal>
             <Text fontSize={'md'} fontWeight={'bold'} color={HeadingColor}>
               Onaylanmış Teklifler
