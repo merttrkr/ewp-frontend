@@ -20,12 +20,14 @@ import useUpdate from '@/hooks/update/useUpdate';
 import { ReceivingInstitutionInfo } from '@/models/request/receivingInstitutionInfoRequest';
 import SelectAcademicYear from '../form-components/selectboxes/SelectAcademicYear';
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
+import { ReceivingInstitutionInfoResponse } from '@/models/response/receivingInstitutionInfoResponse';
 
 type ReceivingInstitutionInfoFormProps = {
   pageName: String;
   institutionInfoID?: number;
   learningAgreementId: number;
   receivingInstitutionInfoId: number;
+  receivingInstitutionInfo?: ReceivingInstitutionInfoResponse;
 };
 
 type FormData = {
@@ -44,17 +46,9 @@ export default function ReceivingInstitutionInfoForm({
   institutionInfoID = 0,
   learningAgreementId,
   receivingInstitutionInfoId,
+  receivingInstitutionInfo,
 }: ReceivingInstitutionInfoFormProps) {
-  const [formValues, setFormValues] = useState<FormData>({
-    hei_id: '',
-    department_id: 0,
-    academic_year: '',
-    academic_personal_name: '',
-    academic_personal_surname: '',
-    academic_personal_eposta: '',
-    phone_number: '',
-    extension: '',
-  });
+
   const { GetUniversityFullname } = useRead();
   const {
     InsertEmptyRowToReceivingInstitutionInfo,
@@ -72,6 +66,7 @@ export default function ReceivingInstitutionInfoForm({
   const [institutionInfoId, setInstitutionInfoId] = useState(institutionInfoID);
   const [academicYear, setAcademicYear] = useState('');
   const [academicYearID, setAcademicYearID] = useState(0);
+  const [receivingInstitutionUniqueID, setReceivingInstitutionUniqueID] = useState(0);
   const toast = useToast();
 
   //useForm hook
@@ -204,6 +199,22 @@ export default function ReceivingInstitutionInfoForm({
       setAcademicYear(''); // or any default value you want
     }
   };
+  useEffect(() => {
+    console.log('girdim receivinginsresponse:  xx', receivingInstitutionInfo);
+    
+    if (receivingInstitutionInfo != undefined  && Object.keys(receivingInstitutionInfo).length !== 0) {
+      setValue('hei_id', receivingInstitutionInfo.heiId);
+      setValue('department_id', receivingInstitutionInfo.universityDepartment_id);
+      setAcademicYearID(receivingInstitutionInfo.academicYear_id);
+      setReceivingInstitutionUniqueID(receivingInstitutionInfo.university_id);
+      setDepartmentID(receivingInstitutionInfo.universityDepartment_id);
+      setValue('academic_personal_name', receivingInstitutionInfo.academicPersonnelContactName);
+      setValue('academic_personal_surname', receivingInstitutionInfo.academicPersonnelContactSurname);
+      setValue('academic_personal_eposta', receivingInstitutionInfo.academicPersonnelContactEmail);
+      setValue('phone_number', receivingInstitutionInfo.phoneNumberE164);
+      setValue('extension', receivingInstitutionInfo.phoneNumberExt);
+
+    }} , [receivingInstitutionInfo]);
 
   return (
     <Stack
@@ -234,28 +245,32 @@ export default function ReceivingInstitutionInfoForm({
         <Flex flexWrap={['wrap', null, 'nowrap']}>
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
+              inputValue={receivingInstitutionUniqueID}
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
               register={register('hei_id')}
-              placeHolder={''}
+              placeHolder={universityName}
               selectLabel='Kurum / Üniversite Adı'
               onChange={handleSelectChangeInstitution}
               error={errors.hei_id?.message}
             />
             <SelectDepartment
+              inputValue={departmentID}
               id='department_id'
               register={register('department_id')}
-              placeHolder=''
+              placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
               param={universityId}
               error={errors.department_id?.message}
             />
             <SelectAcademicYear
+              
+              inputValue={academicYearID}
               id='academic_year'
               error={errors.academic_year?.message}
               register={register('academic_year')}
-              placeholder=''
+              placeholder={academicYear}
               selectLabel='Öğrenim Anlaşmasının Geçerli Olacağı Akademik Yıl'
               onChange={handleAcademicYearChange}
             />
@@ -264,14 +279,14 @@ export default function ReceivingInstitutionInfoForm({
             <TextInput
               id='academic_personal_name'
               label='Yetkilinin İsmi'
-              placeholder={formValues.academic_personal_name}
+              placeholder=''
               error={errors.academic_personal_name?.message}
               register={register('academic_personal_name')}
             />
             <TextInput
               id='academic_personal_surname'
               label='Yetkilinin Soy İsmi'
-              placeholder={formValues.academic_personal_surname}
+              placeholder=''
               error={errors.academic_personal_surname?.message}
               register={register('academic_personal_surname')}
             />
@@ -279,21 +294,21 @@ export default function ReceivingInstitutionInfoForm({
             <TextInput
               id='academic_personal_eposta'
               label='Yetkilinin E-postası'
-              placeholder={formValues.academic_personal_eposta}
+              placeholder=''
               error={errors.academic_personal_eposta?.message}
               register={register('academic_personal_eposta')}
             />
             <TextInput
               id='phone_number'
               label='Telefon Numarası (E164 Formatında Belirtiniz)'
-              placeholder={formValues.phone_number}
+              placeholder=''
               error={errors.phone_number?.message}
               register={register('phone_number')}
             />
             <TextInput
               id='extension'
               label='Dahili'
-              placeholder={formValues.extension}
+              placeholder=''
               error={errors.extension?.message}
               register={register('extension')}
             />
