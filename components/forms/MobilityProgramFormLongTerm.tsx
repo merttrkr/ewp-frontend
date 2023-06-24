@@ -31,6 +31,7 @@ import useRead from '@/hooks/read/useRead';
 import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
 import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
+import useDelete from '@/hooks/delete/useDelete';
 
 type MobilityProgramFormLongTermProps = {
   pageName: String;
@@ -64,6 +65,7 @@ export default function MobilityProgramFormLongTerm({
     SaveProposedMobilityProgramme,
   } = useUpdate();
 
+  const { RemoveSelectedCourseById } = useDelete();
   //use states
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
@@ -109,6 +111,22 @@ export default function MobilityProgramFormLongTerm({
     };
     if (pmpID != 0) {
       fetchInsertEmptyRowToProposedMobilityProgramme();
+    }
+  }
+  async function handleRemoveSelectedCourseById(courseId: number) {
+    const fetchRemoveSelectedCourseById = async () => {
+      const requestUrl =
+        'https://localhost:5001/spRemoveSelectedCourseById?selectedCourse_id=' +
+        courseId;
+      try {
+        await RemoveSelectedCourseById(requestUrl);
+        console.log('removed course: ' + courseId);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (pmpID != 0) {
+      fetchRemoveSelectedCourseById();
     }
   }
 
@@ -256,13 +274,13 @@ export default function MobilityProgramFormLongTerm({
     //when you add to table A
     handleGetTableANotApprovedCourses();
     handleGetTotalCourseCreditsForTableA(); // Call the new function
-  }, [addControlA]);
+  }, [addControlA, deletedControlA]);
 
   useEffect(() => {
     //when you add to table B
     handleGetTableBNotApprovedCourses();
     handleGetTotalCourseCreditsForTableB(); // Call the new function
-  }, [addControlB]);
+  }, [addControlB, deletedControlB]);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
@@ -340,18 +358,15 @@ export default function MobilityProgramFormLongTerm({
   };
 
   const handleDeleteComponentA = (component: Course) => {
-    const newArray: Course[] = tableANotApprovedArray.filter(
-      (item) => item !== component
-    );
-    setTableANotApprovedArray(newArray);
+    handleRemoveSelectedCourseById(component.id);
+    setDeleteControlA((prevAddControl) => prevAddControl + 1);
   };
 
   const handleDeleteComponentB = (component: Course) => {
-    const newArray: Course[] = tableBNotApprovedArray.filter(
-      (item) => item !== component
-    );
-    setTableBNotApprovedArray(newArray);
+    handleRemoveSelectedCourseById(component.id);
+    setDeleteControlB((prevAddControl) => prevAddControl + 1);
   };
+
   return (
     <Stack
       marginBottom='20'
