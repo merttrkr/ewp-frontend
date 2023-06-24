@@ -98,7 +98,7 @@ export default function TabComponent() {
     }
   };
   const handleGetReceivingInstitutionInfoById = async () => {
-    console.log('sendingInstitutionInfoID istek atıyorum :', receivingInstitutionInfoID);
+    console.log('receivingInstitutionInfoID istek atıyorum :', receivingInstitutionInfoID);
 
     const request =
       'https://localhost:5001/spGetReceivingInstitutionInfoById?receivingInstitutionInfo_id='
@@ -109,7 +109,7 @@ export default function TabComponent() {
       if (receivingInstitutionInfoResponse && Object.keys(receivingInstitutionInfoResponse).length !== 0) {
         setReceivingInstitutionInfo(receivingInstitutionInfoResponse)
       }
-      console.log("sendingInstitutionInfoResponse:", receivingInstitutionInfoResponse);
+      console.log("ilk istek receivingInstitutionInfoResponse:", receivingInstitutionInfoResponse);
 
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
@@ -235,6 +235,7 @@ export default function TabComponent() {
         await Promise.all([
           handleGetStudentInfoById(),
           handleGetSendingInstitutionInfoById(),
+          handleGetReceivingInstitutionInfoById(),
           (studentInfoID === 0) &&
           handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
@@ -327,6 +328,7 @@ export default function TabComponent() {
             learningAgreementId={learningAgreementID}
           />
           <ReceivingInstitutionInfoForm
+            receivingInstitutionInfo={receivingInstitutionInfo}
             pageName='Alıcı Kurum /Üniversite Bilgisi'
             receivingInstitutionInfoId={receivingInstitutionInfoID}
             learningAgreementId={learningAgreementID}
