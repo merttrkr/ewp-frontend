@@ -125,7 +125,7 @@ export default function MobilityProgramFormLongTerm({
         console.error('Error:', error);
       }
     };
-    if (pmpID != 0) {
+    if (courseId != 0) {
       fetchRemoveSelectedCourseById();
     }
   }
@@ -271,13 +271,13 @@ export default function MobilityProgramFormLongTerm({
   };
 
   useEffect(() => {
-    //when you add to table A
+    //when you add to table A or delete
     handleGetTableANotApprovedCourses();
     handleGetTotalCourseCreditsForTableA(); // Call the new function
   }, [addControlA, deletedControlA]);
 
   useEffect(() => {
-    //when you add to table B
+    //when you add to table B or delete
     handleGetTableBNotApprovedCourses();
     handleGetTotalCourseCreditsForTableB(); // Call the new function
   }, [addControlB, deletedControlB]);
