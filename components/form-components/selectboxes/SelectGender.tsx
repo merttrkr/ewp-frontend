@@ -19,7 +19,7 @@ type SelectGenderProps = {
 };
 
 const SelectGender: React.FC<SelectGenderProps> = ({
-  inputValue,
+  inputValue = null,
   isDisabled = false,
   selectLabel,
   id = 'default-select',
