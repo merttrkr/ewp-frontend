@@ -48,7 +48,6 @@ export default function ReceivingInstitutionInfoForm({
   receivingInstitutionInfoId,
   receivingInstitutionInfo,
 }: ReceivingInstitutionInfoFormProps) {
-
   const { GetUniversityFullname } = useRead();
   const {
     InsertEmptyRowToReceivingInstitutionInfo,
@@ -66,7 +65,8 @@ export default function ReceivingInstitutionInfoForm({
   const [institutionInfoId, setInstitutionInfoId] = useState(institutionInfoID);
   const [academicYear, setAcademicYear] = useState('');
   const [academicYearID, setAcademicYearID] = useState(0);
-  const [receivingInstitutionUniqueID, setReceivingInstitutionUniqueID] = useState(0);
+  const [receivingInstitutionUniqueID, setReceivingInstitutionUniqueID] =
+    useState(0);
   const toast = useToast();
 
   //useForm hook
@@ -200,21 +200,34 @@ export default function ReceivingInstitutionInfoForm({
     }
   };
   useEffect(() => {
-    console.log('girdim receivinginsresponse:  xx', receivingInstitutionInfo);
-    
-    if (receivingInstitutionInfo != undefined  && Object.keys(receivingInstitutionInfo).length !== 0) {
+    if (
+      receivingInstitutionInfo != undefined &&
+      Object.keys(receivingInstitutionInfo).length !== 0
+    ) {
       setValue('hei_id', receivingInstitutionInfo.heiId);
-      setValue('department_id', receivingInstitutionInfo.universityDepartment_id);
+      setValue(
+        'department_id',
+        receivingInstitutionInfo.universityDepartment_id
+      );
       setAcademicYearID(receivingInstitutionInfo.academicYear_id);
       setReceivingInstitutionUniqueID(receivingInstitutionInfo.university_id);
       setDepartmentID(receivingInstitutionInfo.universityDepartment_id);
-      setValue('academic_personal_name', receivingInstitutionInfo.academicPersonnelContactName);
-      setValue('academic_personal_surname', receivingInstitutionInfo.academicPersonnelContactSurname);
-      setValue('academic_personal_eposta', receivingInstitutionInfo.academicPersonnelContactEmail);
+      setValue(
+        'academic_personal_name',
+        receivingInstitutionInfo.academicPersonnelContactName
+      );
+      setValue(
+        'academic_personal_surname',
+        receivingInstitutionInfo.academicPersonnelContactSurname
+      );
+      setValue(
+        'academic_personal_eposta',
+        receivingInstitutionInfo.academicPersonnelContactEmail
+      );
       setValue('phone_number', receivingInstitutionInfo.phoneNumberE164);
       setValue('extension', receivingInstitutionInfo.phoneNumberExt);
-
-    }} , [receivingInstitutionInfo]);
+    }
+  }, [receivingInstitutionInfo]);
 
   return (
     <Stack
@@ -265,7 +278,6 @@ export default function ReceivingInstitutionInfoForm({
               error={errors.department_id?.message}
             />
             <SelectAcademicYear
-              
               inputValue={academicYearID}
               id='academic_year'
               error={errors.academic_year?.message}
