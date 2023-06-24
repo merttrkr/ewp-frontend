@@ -17,7 +17,7 @@ type SelectDepartmentProps = {
   onChange: (value: Department | null) => void; // New prop for handling value change
   param: string;
   error: string | undefined;
-  inputValue: string | number ;
+  inputValue?: string | number ;
 };
 
 const Select: React.FC<SelectDepartmentProps> = ({
