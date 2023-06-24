@@ -11,7 +11,6 @@ import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequ
 import { IIANotificationRequest } from '@/models/request/IIANotificationRequest';
 import { ReceivingInstitutionInfo } from '@/models/request/receivingInstitutionInfoRequest';
 import { CourseRequest } from '@/models/request/courseRequest';
-import { VirtualCourseRequest } from '@/models/request/virtualCourseRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -146,7 +145,7 @@ const useUpdate = () => {
 
   //https://localhost:5001/spInsertLAVirtualCourse?courseTitle=HCI&courseCreditType_id=1&courseCreditValue=2&numberOfTerms=4&totalNumberOfTerms=12&courseCode=322&recognitionConditions=none&courseShortDescription=none&tableType=C&isApproved=0&virtualComponent_id=34
   const InsertLAVirtualCourse = async (
-    request: VirtualCourseRequest
+    request: CourseRequest
   ): Promise<number> => {
     const {
       courseTitle,
@@ -169,9 +168,8 @@ const useUpdate = () => {
     const encodedCourseShortDescription = encodeURIComponent(
       courseShortDescription ? courseShortDescription : ''
     );
-    const encodedTableType = encodeURIComponent(tableType);
 
-    let url = `https://localhost:5001/spInsertLAVirtualCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&tableType=${encodedTableType}&isApproved=${isApproved}&virtualComponent_id=${virtualComponent_id}`;
+    let url = `https://localhost:5001/spInsertLAVirtualCourse?courseTitle=${encodedCourseTitle}&courseCreditType_id=${courseCreditType_id}&courseCreditValue=${courseCreditValue}&numberOfTerms=${numberOfTerms}&totalNumberOfTerms=${totalNumberOfTerms}&courseCode=${encodedCourseCode}&recognitionConditions=${encodedRecognitionConditions}&courseShortDescription=${encodedCourseShortDescription}&tableType=${tableType}&isApproved=${isApproved}&virtualComponent_id=${virtualComponent_id}`;
 
     const result: number = await makeRequest<number>(url);
 
