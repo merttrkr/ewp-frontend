@@ -16,6 +16,7 @@ type SelectInstitutionProps = {
   onChange: (value: InstitutionInfo | null) => void;
   error: string | undefined;
   apiURL: string; // Add the prop for the API URL
+  inputValue: number |string ;
 };
 
 const Select: React.FC<SelectInstitutionProps> = ({
@@ -27,6 +28,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
   onChange,
   error,
   apiURL,
+  inputValue,
 }) => {
   const theme = createTheme({
     // your theme configuration
@@ -51,7 +53,21 @@ const Select: React.FC<SelectInstitutionProps> = ({
     };
     fetchInitialData();
   }, [apiURL]);
+
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedDepartman = institutionInfoArray.find(
+        (type) => type.uniqueId === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedDepartman || null);
+    }
+  }, [inputValue, institutionInfoArray, onChange]);
+
   return (
     <ThemeProvider theme={theme}>
       <FormControl>
@@ -59,7 +75,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
           <label htmlFor={id}>{selectLabel}</label>
         </Heading>
         <Autocomplete
-        disabled={isDisabled}
+          disabled={isDisabled}
           onChange={(event, value) => onChange(value || null)}
           disablePortal
           id={id}
