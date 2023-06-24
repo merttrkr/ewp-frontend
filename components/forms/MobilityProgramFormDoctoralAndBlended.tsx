@@ -32,6 +32,7 @@ import useRead from '@/hooks/read/useRead';
 import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
 import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
+import useDelete from '@/hooks/delete/useDelete';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
@@ -61,6 +62,8 @@ export default function MobilityProgramFormDoctoralAndBlended({
     SavePlannedEndDateOfMobility,
     SaveProposedMobilityProgramme,
   } = useUpdate();
+
+  const { RemoveSelectedCourseById } = useDelete();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -73,7 +76,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
   const [addControl, setAddControl] = useState(0);
-  const [deletedControl, setDeleteControl] = useState(0);
+  const [deleteControl, setDeleteControl] = useState(0);
   const [blendedOrDoctorateApprovedArray, setBlendedOrDoctorateApprovedArray] =
     useState<Course[]>([]);
   const [
@@ -90,6 +93,22 @@ export default function MobilityProgramFormDoctoralAndBlended({
     setValue,
     control,
   } = useForm<FormData>();
+  async function handleRemoveSelectedCourseById(courseId: number) {
+    const fetchRemoveSelectedCourseById = async () => {
+      const requestUrl =
+        'https://localhost:5001/spRemoveSelectedCourseById?selectedCourse_id=' +
+        courseId;
+      try {
+        await RemoveSelectedCourseById(requestUrl);
+        console.log('removed course: ' + courseId);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (courseId != 0) {
+      fetchRemoveSelectedCourseById();
+    }
+  }
   async function handleInsertEmptyRowToProposedMobilityProgramme() {
     const fetchInsertEmptyRowToProposedMobilityProgramme = async () => {
       const requestUrl =
@@ -196,11 +215,10 @@ export default function MobilityProgramFormDoctoralAndBlended({
   }, [pmpID]);
 
   useEffect(() => {
-    //when you add
-    console.log('use efffect doctora on Add');
+    //when you add or delete
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetTotalCourseCreditsForBlendedOrDoctorate();
-  }, [addControl]);
+  }, [addControl, deleteControl]);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
@@ -272,10 +290,8 @@ export default function MobilityProgramFormDoctoralAndBlended({
   };
 
   const handleDeleteComponent = (component: Course) => {
-    const newArray: Course[] = blendedOrDoctorateNotApprovedArray.filter(
-      (item) => item !== component
-    );
-    setBlendedOrDoctorateNotApprovedArray(newArray);
+    handleRemoveSelectedCourseById(component.id);
+    setDeleteControl((prevAddControl) => prevAddControl + 1);
   };
 
   return (
