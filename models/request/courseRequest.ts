@@ -10,4 +10,5 @@ export interface CourseRequest {
     tableType?: string,
     isApproved: number,
     proposedMobilityProgramme_id: number,
+    virtualComponent_id?: number,
 }

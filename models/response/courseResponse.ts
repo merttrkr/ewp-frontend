@@ -9,4 +9,5 @@ export interface Course {
     status: string;
     recognitionConditions?: string;
     courseShortDescription?: string;
+    virtualComponent_id?: number;
 }
