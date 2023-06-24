@@ -11,19 +11,17 @@ const useDelete = () => {
       throw new Error(`Error! status: ${response.status}`);
     }
 
-    return response.json() as Promise<T>;
+    return response.text() as Promise<T>;
   };
   //https://localhost:5001/spRemoveSelectedCourseById?selectedCourse_id=12
   const RemoveSelectedCourseById = async (request: string): Promise<void> => {
     await makeRequest<string>(request);
   };
-  //https://localhost:5001/spDeleteRowFromVirtualComponent?virtualComponent_id=81
-  const DeleteRowFromVirtualComponent = async (
-    request: string
-  ): Promise<void> => {
+  //https://localhost:5001/spRemoveVirtualCoursesById?virtualCourse_id=56
+  const RemoveVirtualCourseById = async (request: string): Promise<void> => {
     await makeRequest<string>(request);
   };
-  return { RemoveSelectedCourseById, DeleteRowFromVirtualComponent };
+  return { RemoveSelectedCourseById, RemoveVirtualCourseById };
 };
 
 export default useDelete;
