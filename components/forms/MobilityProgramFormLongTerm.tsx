@@ -67,6 +67,7 @@ export default function MobilityProgramFormLongTerm({
 
   const { RemoveSelectedCourseById } = useDelete();
   //use states
+  const [learningAgreementId, setLearningAgreementId] = useState(70);
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
   const [language, setLanguage] = useState('');
@@ -84,9 +85,9 @@ export default function MobilityProgramFormLongTerm({
   const [totalACourseCredits, setTotalACourseCredits] = useState(0);
   const [totalBCourseCredits, setTotalBCourseCredits] = useState(0);
   const [addControlA, setAddControlA] = useState(0);
-  const [deletedControlA, setDeleteControlA] = useState(0);
+  const [deleteControlA, setDeleteControlA] = useState(0);
   const [addControlB, setAddControlB] = useState(0);
-  const [deletedControlB, setDeleteControlB] = useState(0);
+  const [deleteControlB, setDeleteControlB] = useState(0);
   const toast = useToast();
 
   const {
@@ -274,13 +275,13 @@ export default function MobilityProgramFormLongTerm({
     //when you add to table A or delete
     handleGetTableANotApprovedCourses();
     handleGetTotalCourseCreditsForTableA(); // Call the new function
-  }, [addControlA, deletedControlA]);
+  }, [addControlA, deleteControlA]);
 
   useEffect(() => {
     //when you add to table B or delete
     handleGetTableBNotApprovedCourses();
     handleGetTotalCourseCreditsForTableB(); // Call the new function
-  }, [addControlB, deletedControlB]);
+  }, [addControlB, deleteControlB]);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
