@@ -44,7 +44,11 @@ export default function InitialFocus({
   pmpID,
   onAdd,
 }: ModalInputProps) {
-  const { InsertLASelectedCourse, InsertLAVirtualCourse } = useUpdate();
+  const {
+    InsertLASelectedCourse,
+    InsertLAVirtualCourse,
+    SaveVirtualComponent,
+  } = useUpdate();
   const { GenerateNewIdForCommitment, GenerateNewIdForVirtualComponent } =
     useCreate();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -126,6 +130,7 @@ export default function InitialFocus({
   }
   async function handleInsertLAVirtualCourse(course: Course) {
     try {
+      console.log('virtualComponentID before insert : ', virtualComponentID);
       const request: VirtualCourseRequest = {
         courseTitle: course.courseTitle,
         courseCreditType_id: 1,
@@ -150,7 +155,23 @@ export default function InitialFocus({
       console.error('Error inserting virtual course:', error);
     }
   }
+  async function handleSaveVirtualComponent() {
+    const fetchSaveVirtualComponent = async () => {
+      const requestUrl =
+        'https://localhost:5001/spSaveVirtualComponent?virtualComponent_id=' +
+        virtualComponentID;
 
+      try {
+        const result = await SaveVirtualComponent(requestUrl);
+        console.log('saved virtual comp ' + pmpID);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (virtualComponentID != 0) {
+      fetchSaveVirtualComponent();
+    }
+  }
   function onSubmitAdd(values: FormData) {
     return new Promise<void>(async (resolve) => {
       const result: Course = {
