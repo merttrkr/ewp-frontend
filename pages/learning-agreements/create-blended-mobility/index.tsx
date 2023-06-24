@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import useRead from '@/hooks/read/useRead';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
+import { ReceivingInstitutionInfoResponse } from '@/models/response/receivingInstitutionInfoResponse';
 
 export default function TabComponent() {
   const {
@@ -31,7 +32,11 @@ export default function TabComponent() {
     GenerateNewIdForProposedMobilityProgramme,
 
   } = useCreate();
-  const { GetStudentInfoById, GetSendingInstitutionInfoById } = useRead();
+  const { 
+    GetStudentInfoById,
+    GetSendingInstitutionInfoById,
+    GetReceivingInstitutionInfoById,
+   } = useRead();
   const router = useRouter();
 
   const [omobilityID, setOmobilityID] = useState('');
@@ -47,6 +52,7 @@ export default function TabComponent() {
   const [urlSetted, setUrlSetted] = useState(false);
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
   const [sendingInstitutionInfo, setSendingInstitutionInfo] = useState<SendingInstitutionInfoResponse>();
+  const [receivingInstitutionInfo, setReceivingInstitutionInfo] = useState<ReceivingInstitutionInfoResponse>();
   const {
     studentInfoId,
     proposedMobilityProgrammeId,
@@ -84,6 +90,26 @@ export default function TabComponent() {
         setSendingInstitutionInfo(sendingInstitutionInfoResponse)
       }
       console.log("sendingInstitutionInfoResponse:", sendingInstitutionInfoResponse);
+
+      // Handle the received studentInfo data: update state, display to the user, etc.
+    } catch (error) {
+      console.error('Error fetching student info:', error);
+      // Handle error: display an error message to the user or perform other error handling tasks
+    }
+  };
+  const handleGetReceivingInstitutionInfoById = async () => {
+    console.log('sendingInstitutionInfoID istek atıyorum :', receivingInstitutionInfoID);
+
+    const request =
+      'https://localhost:5001/spGetReceivingInstitutionInfoById?receivingInstitutionInfo_id='
+      +
+      receivingInstitutionInfoID;
+    try {
+      const receivingInstitutionInfoResponse = await GetReceivingInstitutionInfoById(request);
+      if (receivingInstitutionInfoResponse && Object.keys(receivingInstitutionInfoResponse).length !== 0) {
+        setReceivingInstitutionInfo(receivingInstitutionInfoResponse)
+      }
+      console.log("sendingInstitutionInfoResponse:", receivingInstitutionInfoResponse);
 
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
