@@ -17,8 +17,13 @@ const useDelete = () => {
   const RemoveSelectedCourseById = async (request: string): Promise<void> => {
     await makeRequest<string>(request);
   };
-
-  return { RemoveSelectedCourseById };
+  //https://localhost:5001/spDeleteRowFromVirtualComponent?virtualComponent_id=81
+  const DeleteRowFromVirtualComponent = async (
+    request: string
+  ): Promise<void> => {
+    await makeRequest<string>(request);
+  };
+  return { RemoveSelectedCourseById, DeleteRowFromVirtualComponent };
 };
 
 export default useDelete;
