@@ -16,7 +16,7 @@ type SelectInstitutionProps = {
   onChange: (value: InstitutionInfo | null) => void;
   error: string | undefined;
   apiURL: string; // Add the prop for the API URL
-  inputValue: number |string ;
+  inputValue?: number |string ;
 };
 
 const Select: React.FC<SelectInstitutionProps> = ({
@@ -28,7 +28,7 @@ const Select: React.FC<SelectInstitutionProps> = ({
   onChange,
   error,
   apiURL,
-  inputValue,
+  inputValue= null,
 }) => {
   const theme = createTheme({
     // your theme configuration
