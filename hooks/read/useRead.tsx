@@ -257,7 +257,7 @@ const useAgreement = () => {
     const courses: Course[] = await makeRequest<Course[]>(request);
     return courses;
   };
-  //https://localhost:5001/spGetTableCNotApprovedCoursesForChangeProposals?pmp_id=28
+  //https://localhost:5001/spGetTableCNotApprovedCoursesForChangeProposals?virtualComponent_id=28
   const GetTableCNotApprovedCoursesForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
@@ -265,7 +265,7 @@ const useAgreement = () => {
     return courses;
   };
 
-  //https://localhost:5001/spGetTableCApprovedCoursesForChangeProposals?pmp_id=26'
+  //https://localhost:5001/spGetTableCApprovedCoursesForChangeProposals?virtualComponent_id=28'
   const GetTableCApprovedCoursesForChangeProposals = async (
     request: string
   ): Promise<Course[]> => {
@@ -344,13 +344,12 @@ const useAgreement = () => {
   };
   //https://localhost:5001/spGetReceivingInstitutionInfoById?receivingInstitutionInfo_id=40
   const GetReceivingInstitutionInfoById = async (
-      request: string
-    ): Promise<ReceivingInstitutionInfoResponse> => {
-      const receivingInstitutionInfo: ReceivingInstitutionInfoResponse =
-        await makeRequest<ReceivingInstitutionInfoResponse>(request);
-      return receivingInstitutionInfo;
-    };
-  
+    request: string
+  ): Promise<ReceivingInstitutionInfoResponse> => {
+    const receivingInstitutionInfo: ReceivingInstitutionInfoResponse =
+      await makeRequest<ReceivingInstitutionInfoResponse>(request);
+    return receivingInstitutionInfo;
+  };
 
   //https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=21
   const GetSendingHeiId = async (request: string): Promise<string> => {
