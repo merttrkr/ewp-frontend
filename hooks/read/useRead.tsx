@@ -24,6 +24,7 @@ import { Nationality } from '@/models/response/nationalityResponse';
 import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/response/organizationIdsAndCollaborationConditionIdsResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
+import { ReceivingInstitutionInfoResponse } from '@/models/response/receivingInstitutionInfoResponse';
 import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
@@ -341,6 +342,15 @@ const useAgreement = () => {
       await makeRequest<SendingInstitutionInfoResponse>(request);
     return sendingInstitutionInfo;
   };
+  //https://localhost:5001/spGetReceivingInstitutionInfoById?receivingInstitutionInfo_id=40
+  const GetReceivingInstitutionInfoById = async (
+      request: string
+    ): Promise<ReceivingInstitutionInfoResponse> => {
+      const receivingInstitutionInfo: ReceivingInstitutionInfoResponse =
+        await makeRequest<ReceivingInstitutionInfoResponse>(request);
+      return receivingInstitutionInfo;
+    };
+  
 
   //https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=21
   const GetSendingHeiId = async (request: string): Promise<string> => {
@@ -367,6 +377,7 @@ const useAgreement = () => {
   };
 
   return {
+    GetReceivingInstitutionInfoById,
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
     CheckIfBilateralAgreementIsInEffect,
