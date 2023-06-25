@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Stack,
   Heading,
@@ -16,6 +15,7 @@ type TextInputProps = {
   register: any;
   type?: string;
   isDisabled?: boolean;
+  onChange?: (value: string | null) => void;
 };
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -26,8 +26,11 @@ const TextInput: React.FC<TextInputProps> = ({
   error,
   register,
   placeholder,
+  onChange,
 }) => {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+
+
   return (
     <FormControl isInvalid={!!error}>
       <Heading
@@ -52,6 +55,7 @@ const TextInput: React.FC<TextInputProps> = ({
         _placeholder={{
           color: 'gray.500',
         }}
+       
       />
       {error && <span style={{ color: 'red' }}>{error}</span>}
     </FormControl>
