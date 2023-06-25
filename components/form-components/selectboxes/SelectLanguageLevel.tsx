@@ -15,6 +15,7 @@ type SelectLanguageLevelProps = {
   register: any;
   onChange: (value: LanguageLevel | null) => void; // New prop for handling value change
   error: string | undefined;
+  inputValue?: string | number;
 };
 
 const SelectLanguageLevel: React.FC<SelectLanguageLevelProps> = ({
@@ -24,6 +25,7 @@ const SelectLanguageLevel: React.FC<SelectLanguageLevelProps> = ({
   placeholder,
   register,
   error,
+  inputValue= null,
   onChange, // Add the new onChange prop
 }) => {
   const { GetLanguageLevels } = useRead();
@@ -47,6 +49,19 @@ const SelectLanguageLevel: React.FC<SelectLanguageLevelProps> = ({
   }, []);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedDepartman = languageLevelArray.find(
+        (type) => type.langLevel_id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedDepartman || null);
+    }
+  }, [inputValue, languageLevelArray, onChange]);
+
   return (
     <ThemeProvider theme={theme}>
       {
