@@ -32,11 +32,13 @@ import useRead from '@/hooks/read/useRead';
 import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
 import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
+import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
 import useDelete from '@/hooks/delete/useDelete';
 
 type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
   pmpID: number;
+  proposedMobilityProgramme?: ProposedMobilityProgrammeResponse;
 };
 
 type FormData = {
@@ -48,6 +50,7 @@ type FormData = {
 };
 
 export default function MobilityProgramFormDoctoralAndBlended({
+  proposedMobilityProgramme,
   pageName,
   pmpID,
 }: MobilityProgramFormDoctoralAndBlendedProps) {
@@ -266,6 +269,24 @@ export default function MobilityProgramFormDoctoralAndBlended({
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetTotalCourseCreditsForBlendedOrDoctorate();
   }, [addControl, deleteControl]);
+
+  useEffect(() => {
+    //page init
+    console.log('use efffect doctora on init');
+    console.log('proposedMobilityProgramme' + proposedMobilityProgramme);
+    
+    if (proposedMobilityProgramme != undefined  && Object.keys(proposedMobilityProgramme).length !== 0) {
+      setValue('mobility_start_date', proposedMobilityProgramme.plannedStartingDateOfMobility);
+      setValue('mobility_end_date', proposedMobilityProgramme.plannedEndDateOfMobility);
+      setValue('link', proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink);
+      setMobilityStartDate(proposedMobilityProgramme.plannedStartingDateOfMobility);
+      setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility);
+      setLanguageID(proposedMobilityProgramme.language_id);
+      setLanguageLevelID(proposedMobilityProgramme.languageLevel_id);
+    }
+
+  }, [proposedMobilityProgramme]);
+
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
@@ -517,7 +538,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
             <TextInput
               label='Alıcı Kurumdaki Kurs Kataloğu Linki'
-              placeholder='www...'
+              placeholder=''
               id='link'
               error={errors.link?.message}
               register={
@@ -530,14 +551,10 @@ export default function MobilityProgramFormDoctoralAndBlended({
             <Flex gap={4}>
               <Box w={'50%'}>
                 <SelectLanguage
+                  inputValue={languageID}
                   id='language'
                   error={errors.language?.message}
-                  register={
-                    (register('language'),
-                    {
-                      required: 'This is required',
-                    })
-                  }
+                  register={register('language')}
                   placeholder={language}
                   selectLabel='Yabancı Dil'
                   onChange={handleLanguageChange}
@@ -546,6 +563,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
 
               <Box w={'50%'}>
                 <SelectLanguageLevel
+                  inputValue={languageLevelID}
                   id='language_level'
                   error={errors.language_level?.message}
                   register={
@@ -554,7 +572,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
                       required: 'This is required',
                     })
                   }
-                  placeholder={languageLevel}
+                  placeholder={languageLevel}                  
                   selectLabel='Seviyesi'
                   onChange={handleLanguageLevelChange}
                 ></SelectLanguageLevel>
