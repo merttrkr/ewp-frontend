@@ -79,7 +79,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
   //use states
-  const [learningAgreementId, setLearningAgreementId] = useState(70);
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
   const [language, setLanguage] = useState('');
@@ -111,7 +110,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
           'https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=' +
             pmpID +
             '&learningAgreement_id=' +
-            learningAgreementId
+            learningAgreementID
         );
       };
     fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
