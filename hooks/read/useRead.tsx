@@ -26,6 +26,7 @@ import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
 import { ReceivingInstitutionInfoResponse } from '@/models/response/receivingInstitutionInfoResponse';
 import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
+import { SignatureResponse } from '@/models/response/signatureResponse';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 import { SubjectArea } from '@/models/response/subjectAreaResponse';
 
@@ -378,10 +379,11 @@ const useAgreement = () => {
   const GetSignatureForCommitment = async (
     request: string
   ): Promise<SignatureResponse> => {
-    const response: SignatureResponse =
-    await makeRequest<SignatureResponse>(request);
-    console.log('signature response'+ response);
-    
+    const response: SignatureResponse = await makeRequest<SignatureResponse>(
+      request
+    );
+    console.log('signature response' + response);
+
     return response;
   };
 

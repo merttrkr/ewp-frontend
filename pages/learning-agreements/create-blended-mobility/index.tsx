@@ -73,7 +73,6 @@ export default function TabComponent() {
     sendingInstitutionInfoId,
     receivingInstitutionInfoId,
     commitmentId,
-    virtualComponentId,
   } = router.query;
 
   const handleGetStudentInfoById = async () => {
