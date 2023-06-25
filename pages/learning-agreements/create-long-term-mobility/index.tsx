@@ -168,6 +168,7 @@ export default function TabComponent() {
             mobilityType='Long-term Mobility'
             mobilityTypeId={mobilityTypeId}
             studentInfoId={studentInfoID}
+            learningAgreementID={learningAgreementID}
           />
         </TabPanel>
         <TabPanel>
@@ -189,16 +190,21 @@ export default function TabComponent() {
           <MobilityProgramFormLongTerm
             pageName={'Hareketlilik Programı'}
             pmpID={proposedMobilityProgrammeID}
+            learningAgreementID={learningAgreementID}
           ></MobilityProgramFormLongTerm>
         </TabPanel>
         <TabPanel>
           <VirtualComponentForm
             pageName={'Virtual Compnent'}
             pmpID={proposedMobilityProgrammeID}
+            learningAgreementID={learningAgreementID}
           ></VirtualComponentForm>
         </TabPanel>
         <TabPanel>
-          <CommitmentSignatureForm pageName='Taahhüt Metni'></CommitmentSignatureForm>
+          <CommitmentSignatureForm
+            pageName='Taahhüt Metni'
+            learningAgreementID={learningAgreementID}
+          ></CommitmentSignatureForm>
         </TabPanel>
       </TabPanels>
     </Tabs>
