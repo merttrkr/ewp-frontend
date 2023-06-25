@@ -11,6 +11,7 @@ import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequ
 import { IIANotificationRequest } from '@/models/request/IIANotificationRequest';
 import { ReceivingInstitutionInfo } from '@/models/request/receivingInstitutionInfoRequest';
 import { CourseRequest } from '@/models/request/courseRequest';
+import { OLANotificationRequest } from '@/models/request/OLANotificationRequest';
 import { CommitmentRequest } from '@/models/request/commitmentRequest';
 
 const useUpdate = () => {
@@ -542,6 +543,17 @@ const useUpdate = () => {
     const { notifier_hei_id, iia_id, partner_hei_id } = request;
 
     const url = `https://localhost:5001/sendNotificationToPartner?notifier_hei_id=${notifier_hei_id}&iia_id=${iia_id}&partner_hei_id=${partner_hei_id}`;
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
+  //https://localhost:5001/sendOLANotificationToPartner?sending_hei_id=iyte.edu.tr&omobility_id=omob&partner_hei_id=partner
+  const sendOLANotification = async (
+    request: OLANotificationRequest
+  ): Promise<number> => {
+    const { sending_hei_id, omobility_id , partner_hei_id } = request;
+
+    const url = `https://localhost:5001/sendOLANotificationToPartner?sending_hei_id=${sending_hei_id}&omobility_id=${omobility_id}&partner_hei_id=${partner_hei_id}`;
     const result: number = await makeRequest<number>(url);
 
     return result;
