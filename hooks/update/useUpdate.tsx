@@ -458,21 +458,6 @@ const useUpdate = () => {
     return result;
   };
 
-  //https:localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=10&learningAgreement_id=2
-  const SaveReceivingInstitutionInfoIdToLearningAgreementTable = async (
-    request: string
-  ): Promise<number> => {
-    const result: number = await makeRequest<number>(request);
-    return result;
-  };
-  //https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=34&learningAgreement_id=122
-  const SaveSendingInstitutionInfoIdToLearningAgreementTable = async (
-    request: string
-  ): Promise<number> => {
-    const result: number = await makeRequest<number>(request);
-    return result;
-  };
-
   // https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=56&plannedStartingDateOfMobility=2026.06.07
   const SavePlannedStartingDateOfMobility = async (
     request: string
@@ -565,11 +550,48 @@ const useUpdate = () => {
     const result: string = await makeRequest<string>(request);
     return result;
   };
+  //save id to learning agreement
+
   //https://localhost:5001/spSaveVirtualComponentIdToLearningAgreementTable?virtualComponent_id=81&learningAgreement_id=45
   const SaveVirtualComponentIdToLearningAgreementTable = async (
     request: string
   ): Promise<string> => {
     const result: string = await makeRequest<string>(request);
+    return result;
+  };
+  //https:localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=10&learningAgreement_id=2
+  const SaveReceivingInstitutionInfoIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+    return result;
+  };
+  //https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=90&learningAgreement_id=34
+  const SaveProposedMobilityProgrammeIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+    return result;
+  };
+  //https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=34&learningAgreement_id=122
+  const SaveSendingInstitutionInfoIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+    return result;
+  };
+  //https://localhost:5001/spSaveCommitmentIdToLearningAgreementTable?commitment_id=35&learningAgreement_id=34
+  const SaveCommitmentIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+    return result;
+  };
+  //https://localhost:5001/spSaveStudentInfoIdToLearningAgreementTable?studentInfo_id=23&learningAgreement_id=34
+  const SaveStudentInfoIdToLearningAgreementTable = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
     return result;
   };
   return {
@@ -584,14 +606,14 @@ const useUpdate = () => {
     SetSigningPerson,
     UpdateDateOfBilateralAgreement,
     SaveOrganizationInfo,
-    SaveSendingInstitutionInfoIdToLearningAgreementTable,
+
     AddSendingInstitutionInfo,
     AddReceivingInstitutionInfo,
     AddOrganizationInfoToBilateralAgreement,
     SaveStudentInfo,
     SaveSendingInstitutionInfo,
     SaveReceivingInstitutionInfo,
-    SaveReceivingInstitutionInfoIdToLearningAgreementTable,
+
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,
     SaveProposedMobilityProgramme,
@@ -601,7 +623,13 @@ const useUpdate = () => {
     SaveProvisionsLinkIfEducationUnsuccessful,
 
     SaveVirtualComponent,
+
     SaveVirtualComponentIdToLearningAgreementTable,
+    SaveSendingInstitutionInfoIdToLearningAgreementTable,
+    SaveReceivingInstitutionInfoIdToLearningAgreementTable,
+    SaveProposedMobilityProgrammeIdToLearningAgreementTable,
+    SaveCommitmentIdToLearningAgreementTable,
+    SaveStudentInfoIdToLearningAgreementTable,
 
     InsertLASelectedCourse,
     InsertLAVirtualCourse,
