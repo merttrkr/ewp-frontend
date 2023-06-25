@@ -32,11 +32,13 @@ import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
 import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequest';
 import useDelete from '@/hooks/delete/useDelete';
+import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
 
 type MobilityProgramFormLongTermProps = {
   pageName: String;
   pmpID: number;
   learningAgreementID: number;
+  proposedMobilityProgramme?: ProposedMobilityProgrammeResponse; 
 };
 type FormData = {
   mobility_start_date: string;
@@ -50,6 +52,7 @@ export default function MobilityProgramFormLongTerm({
   pageName,
   pmpID,
   learningAgreementID,
+  proposedMobilityProgramme,
 }: MobilityProgramFormLongTermProps) {
   const {
     GetTableANotApprovedCoursesForChangeProposals,
