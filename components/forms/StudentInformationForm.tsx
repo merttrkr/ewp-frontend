@@ -246,6 +246,8 @@ export default function StudentInformationForm({
     if (value !== '') {
       setValue('student_birthdate', value); // You can format the date value as needed
       setStudentBirthdate(value);
+      console.log('studentBirthdate: ', value);
+      
     } else {
       setValue('student_birthdate', ''); // or any default value you want
       setStudentBirthdate('');
@@ -261,11 +263,12 @@ export default function StudentInformationForm({
       setValue('student_email', studentInfo.email);
       setValue('eur_student_identifier', studentInfo.globalId);
       setValue('isced_explanation', studentInfo.subjectAreaDescription);
-      setValue('student_birthdate', studentInfo.birthdate);
-
+      setValue('student_birthdate', studentInfo.birthdate.split("T")[0]);
+      console.log('studentInfo.birthdate: ', studentInfo.birthdate.split("T")[0]);
+      
       setEducationTypeAndLevelID(studentInfo.educationTypeAndLevel_id);
       setGenderID(studentInfo.gender_id);
-      setStudentBirthdate(studentInfo.birthdate);
+      setStudentBirthdate(studentInfo.birthdate.split("T")[0]);
       setValue('omobility_id', omobilityId);
       setOmobility_id(omobilityId);
       setSelectedNationalityID(studentInfo.nationality_id);
