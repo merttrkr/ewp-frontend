@@ -61,6 +61,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,
     SaveProposedMobilityProgramme,
+    SaveReceivingInstitutionCourseCatalogueLink,
+    SaveLanguageId,
+    SaveLanguageLevelId,
   } = useUpdate();
 
   const { RemoveSelectedCourseById } = useDelete();
@@ -117,9 +120,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
         pmpID;
 
       try {
-        const result = await InsertEmptyRowToProposedMobilityProgramme(
-          requestUrl
-        );
+        await InsertEmptyRowToProposedMobilityProgramme(requestUrl);
         console.log('inserted new line to mob type ' + pmpID);
       } catch (error) {
         console.error('Error:', error);
@@ -166,12 +167,11 @@ export default function MobilityProgramFormDoctoralAndBlended({
       console.error('Error fetching total course credits:', error);
     }
   };
-
+  // save mobility dates
   const handleSavePlannedStartingDateOfMobility = async (date: string) => {
     try {
       const request = `https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=${pmpID}&plannedStartingDateOfMobility=${date}`;
       await SavePlannedStartingDateOfMobility(request);
-      setMobilityStartDate(date);
     } catch (error) {
       console.error('Error saving planned starting date:', error);
     }
@@ -181,9 +181,41 @@ export default function MobilityProgramFormDoctoralAndBlended({
     try {
       const request = `https://localhost:5001/spSavePlannedEndDateOfMobility?pmp_id=${pmpID}&plannedEndDateOfMobility=${date}`;
       await SavePlannedEndDateOfMobility(request);
-      setMobilityEndDate(date);
     } catch (error) {
       console.error('Error saving planned end date:', error);
+    }
+  };
+  //save language
+  const handleSaveLanguageId = async () => {
+    try {
+      const request =
+        `https://localhost:5001/spSaveLanguageId?pmp_id=${pmpID}&language_id=` +
+        languageID;
+      await SaveLanguageId(request);
+    } catch (error) {
+      console.error('Error saving lang id:', error);
+    }
+  };
+
+  const handleSaveLanguageLevelId = async () => {
+    try {
+      const request =
+        `https://localhost:5001/spSaveLanguageLevelId?pmp_id='+${pmpID}+'&languageLevel_id=` +
+        languageLevelID;
+      await SaveLanguageLevelId(request);
+    } catch (error) {
+      console.error('Error saving lang level id:', error);
+    }
+  };
+  const handleSaveReceivingInstitutionCourseCatalogueLink = async (
+    link: string
+  ) => {
+    try {
+      const request = `https://localhost:5001/spSaveReceivingInstitutionCourseCatalogueLink?pmp_id=${pmpID}&receivingInstitutionCourseCatalogueLink=${link}`;
+
+      await SaveReceivingInstitutionCourseCatalogueLink(request);
+    } catch (error) {
+      console.error('Error saving catalog link:', error);
     }
   };
 
@@ -225,6 +257,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
     return new Promise<void>(async (resolve, reject) => {
       await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
       await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
+      await handleSaveLanguageId();
+      await handleSaveLanguageLevelId();
+      await handleSaveReceivingInstitutionCourseCatalogueLink(values.link);
       await handleSaveProposedMobilityProgramme(values);
       try {
         toast({
