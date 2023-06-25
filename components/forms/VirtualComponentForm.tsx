@@ -407,32 +407,6 @@ export default function VirtualComponentForm({
             </Text>
             <Text>{totalCCourseCredits}</Text>
           </Flex>
-
-          <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
-            <Flex gap={4}>
-              <Box w={'50%'}>
-                <SelectLanguage
-                  id='language'
-                  error={errors.language?.message}
-                  register={register('language')}
-                  placeholder=''
-                  selectLabel='Yabancı Dil'
-                  onChange={handleLanguageChange}
-                ></SelectLanguage>
-              </Box>
-
-              <Box w={'50%'}>
-                <SelectLanguageLevel
-                  id='language_level'
-                  error={errors.language_level?.message}
-                  register={register('language_level')}
-                  placeholder=''
-                  selectLabel='Seviyesi'
-                  onChange={handleLanguageLevelChange}
-                ></SelectLanguageLevel>
-              </Box>
-            </Flex>
-          </Flex>
         </Flex>
         <Flex justify={'right'} gap={2}>
           <Button variant='submit' type='submit'>
