@@ -57,10 +57,18 @@ const Select: React.FC<SelectDepartmentProps> = ({
 
   useEffect(() => {
     // Check if inputValue is provided and not null
-    if (inputValue !== null) {
+    if (inputValue !== null && typeof inputValue === 'number') {
       // Find the nationality with matching id
       const selectedDepartman = departmentArray.find(
         (type) => type.id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedDepartman || null);
+    }
+    if (inputValue !== null && typeof inputValue === 'string') {
+      // Find the nationality with matching id
+      const selectedDepartman = departmentArray.find(
+        (type) => type.organizationalUnitName === inputValue
       );
       // Call the onChange prop with the selected nationality
       onChange(selectedDepartman || null);
