@@ -539,6 +539,16 @@ const useUpdate = () => {
 
     return result;
   };
+
+  //https://localhost:5001/spSaveProvisionsLinkIfEducationUnsuccessful?pmp_id=23&provisionsLinkIfEducationUnsuccessful=no
+  const SaveProvisionsLinkIfEducationUnsuccessful = async (
+    request: string
+  ): Promise<number> => {
+    const result: number = await makeRequest<number>(request);
+
+    return result;
+  };
+
   //https://localhost:5001/sendNotificationToPartner?notifier_hei_id=iyte.edu.tr&iia_id=773B75A4-35E9-4E8F-966C-10179654F697&partner_hei_id=selcuk.edu.tr
   const sendIIANotification = async (
     request: IIANotificationRequest
@@ -588,6 +598,7 @@ const useUpdate = () => {
     SaveReceivingInstitutionCourseCatalogueLink,
     SaveLanguageId,
     SaveLanguageLevelId,
+    SaveProvisionsLinkIfEducationUnsuccessful,
 
     SaveVirtualComponent,
     SaveVirtualComponentIdToLearningAgreementTable,
