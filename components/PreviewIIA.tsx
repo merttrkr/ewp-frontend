@@ -154,7 +154,7 @@ const PreviewIIA: React.FC<PreviewIIAProps> = ({ IIA, BilateralAgreement }) => {
           <Flex
             fontSize={['sm', 'md', 'md']}
             width={['100%', '33%', '33%']}
-            justify="left"
+            justify="center"
             pl={1}
             color={TitleColor}
             fontWeight="medium"
@@ -177,7 +177,7 @@ const PreviewIIA: React.FC<PreviewIIAProps> = ({ IIA, BilateralAgreement }) => {
           <Flex
             fontSize={['sm', 'md', 'md']}
             width={['100%', '33%', '33%']}
-            justify="left"
+            justify="center"
             pl={1}
             color={TitleColor}
             fontWeight="medium"

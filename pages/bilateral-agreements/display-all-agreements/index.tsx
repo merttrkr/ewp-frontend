@@ -84,19 +84,17 @@ export default function DisplayAgreements() {
           </Heading>
         </Flex>
       ) : (
+        <Flex width="100%" direction={'column'} gap={2} justifyContent={['center', null, 'right']}>
 
+          {currentAgreements.map((agreement) => (
+            <PreviewIIA
+              key={agreement.bilateralAgreement_id}
+              IIA={agreement.ownIIACode || '-'}
+              BilateralAgreement={agreement}
+            />
+          ))}
 
-<Flex width="100%" direction={['column', 'column', 'row']} gap={2} justifyContent={['center', null, 'right']}>
-  <SimpleGrid columns={[1, 1, 2, 3]} gap={4} px={4} py={2} width="100%">
-    {currentAgreements.map((agreement) => (
-      <PreviewIIA
-        key={agreement.bilateralAgreement_id}
-        IIA={agreement.ownIIACode || '-'}
-        BilateralAgreement={agreement}
-      />
-    ))}
-  </SimpleGrid>
-</Flex>
+        </Flex>
 
       )}
 
