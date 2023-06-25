@@ -11,6 +11,7 @@ import { MobilityProgrammeRequest } from '@/models/request/mobilityProgrammeRequ
 import { IIANotificationRequest } from '@/models/request/IIANotificationRequest';
 import { ReceivingInstitutionInfo } from '@/models/request/receivingInstitutionInfoRequest';
 import { CourseRequest } from '@/models/request/courseRequest';
+import { CommitmentRequest } from '@/models/request/commitmentRequest';
 
 const useUpdate = () => {
   const makeRequest = async <T,>(request: string): Promise<T> => {
@@ -594,6 +595,53 @@ const useUpdate = () => {
     const result: number = await makeRequest<number>(request);
     return result;
   };
+  //https://localhost:5001/spSaveCommitment?sendingHeiId=iyte.edu.tr&commitment_id=12&studentSignature=ssaxsdfd&sendingHeiSignature=ghsgghds&sendingHeiResponsibleFullname=ali&sendingHeiResponsiblePosition=academic%20personal&sendingHeiResponsibleEmail=ahashjs&receivingHeiSignature=xklkslsalk%C5%9Fsdl%C5%9Fsx%C5%9F&receivingHeiResponsibleFullname=jkc%20kxzklkskal&receivingHeiResponsiblePosition=jsjjkaskjskk&receivingHeiResponsibleEmail=kjas%C4%B1aslasl&commentForRejection=jasjuhakak
+  const SaveCommitment = async (
+    request: CommitmentRequest
+  ): Promise<number> => {
+    const {
+      sendingHeiId,
+      commitment_id,
+      studentSignature,
+      sendingHeiSignature,
+      sendingHeiResponsibleFullname,
+      sendingHeiResponsiblePosition,
+      sendingHeiResponsibleEmail,
+      receivingHeiSignature,
+      receivingHeiResponsibleFullname,
+      receivingHeiResponsiblePosition,
+      receivingHeiResponsibleEmail,
+      commentForRejection,
+    } = request;
+
+    const encodedSendingHeiId = encodeURIComponent(sendingHeiId);
+    const encodedSendingHeiResponsibleFullname = encodeURIComponent(
+      sendingHeiResponsibleFullname
+    );
+    const encodedSendingHeiResponsiblePosition = encodeURIComponent(
+      sendingHeiResponsiblePosition
+    );
+    const encodedSendingHeiResponsibleEmail = encodeURIComponent(
+      sendingHeiResponsibleEmail
+    );
+    const encodedReceivingHeiResponsibleFullname = encodeURIComponent(
+      receivingHeiResponsibleFullname
+    );
+    const encodedReceivingHeiResponsiblePosition = encodeURIComponent(
+      receivingHeiResponsiblePosition
+    );
+    const encodedReceivingHeiResponsibleEmail = encodeURIComponent(
+      receivingHeiResponsibleEmail
+    );
+    const encodedCommentForRejection = encodeURIComponent(commentForRejection);
+
+    const url = `https://localhost:5001/spSaveCommitment?sendingHeiId=${encodedSendingHeiId}&commitment_id=${commitment_id}&studentSignature=${studentSignature}&sendingHeiSignature=${sendingHeiSignature}&sendingHeiResponsibleFullname=${encodedSendingHeiResponsibleFullname}&sendingHeiResponsiblePosition=${encodedSendingHeiResponsiblePosition}&sendingHeiResponsibleEmail=${encodedSendingHeiResponsibleEmail}&receivingHeiSignature=${receivingHeiSignature}&receivingHeiResponsibleFullname=${encodedReceivingHeiResponsibleFullname}&receivingHeiResponsiblePosition=${encodedReceivingHeiResponsiblePosition}&receivingHeiResponsibleEmail=${encodedReceivingHeiResponsibleEmail}&commentForRejection=${encodedCommentForRejection}`;
+
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
+
   return {
     sendIIANotification,
     UpdateStateOfBilateralAgreement,
@@ -621,6 +669,7 @@ const useUpdate = () => {
     SaveLanguageId,
     SaveLanguageLevelId,
     SaveProvisionsLinkIfEducationUnsuccessful,
+    SaveCommitment,
 
     SaveVirtualComponent,
 
