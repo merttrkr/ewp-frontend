@@ -458,6 +458,7 @@ const handleGetSignatureByCommitmentID = async () => {
           <CommitmentSignatureForm
             pageName='Taahhüt Metni'
             learningAgreementID={learningAgreementID}
+            signatureInfo={signature}
           ></CommitmentSignatureForm>
         </TabPanel>
       </TabPanels>
