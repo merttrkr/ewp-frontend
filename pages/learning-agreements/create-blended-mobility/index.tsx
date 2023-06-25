@@ -21,6 +21,7 @@ import useRead from '@/hooks/read/useRead';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
 import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
 import { ReceivingInstitutionInfoResponse } from '@/models/response/receivingInstitutionInfoResponse';
+import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
 
 export default function TabComponent() {
   const {
@@ -36,6 +37,7 @@ export default function TabComponent() {
     GetStudentInfoById,
     GetSendingInstitutionInfoById,
     GetReceivingInstitutionInfoById,
+    GetProposedMobilityProgrammeById
    } = useRead();
   const router = useRouter();
 
@@ -53,6 +55,7 @@ export default function TabComponent() {
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
   const [sendingInstitutionInfo, setSendingInstitutionInfo] = useState<SendingInstitutionInfoResponse>();
   const [receivingInstitutionInfo, setReceivingInstitutionInfo] = useState<ReceivingInstitutionInfoResponse>();
+  const [proposedMobilityProgramme, setProposedMobilityProgramme] = useState<ProposedMobilityProgrammeResponse>();
   const {
     studentInfoId,
     proposedMobilityProgrammeId,
@@ -117,6 +120,20 @@ export default function TabComponent() {
       // Handle error: display an error message to the user or perform other error handling tasks
     }
   };
+  const handleGetProposedMobilityProgrammeById = async () => {
+    console.log('proposedMobilityProgrammeID istek atıyorum :', proposedMobilityProgrammeID);
+
+    try {
+      const proposedMobilityProgrammeResponse = await GetProposedMobilityProgrammeById(proposedMobilityProgrammeID);
+      if (proposedMobilityProgrammeResponse && Object.keys(proposedMobilityProgrammeResponse).length !== 0) {
+        setProposedMobilityProgramme(proposedMobilityProgrammeResponse)
+      }
+      console.log("ilk istek receivingInstitutionInfoResponse:", proposedMobilityProgrammeResponse);
+    } catch (error) {
+      console.error('Error fetching student info:', error);
+      // Handle error: display an error message to the user or perform other error handling tasks
+    }
+  }
 
   async function handleGenerateOmobilityId() {
     try {
@@ -220,7 +237,7 @@ export default function TabComponent() {
 
   useEffect(() => {
     setStudentInfoID(Number(studentInfoId) || studentInfoID);
-    setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || studentInfoID);
+    setProposedMobilityProgrammeID(Number(proposedMobilityProgrammeId) || proposedMobilityProgrammeID);
     setSendingInstitutionInfoID(Number(sendingInstitutionInfoId) || sendingInstitutionInfoID);
     setReceivingInstitutionInfoID(Number(receivingInstitutionInfoId) || studentInfoID);
     setUrlSetted(true);
@@ -236,6 +253,7 @@ export default function TabComponent() {
           handleGetStudentInfoById(),
           handleGetSendingInstitutionInfoById(),
           handleGetReceivingInstitutionInfoById(),
+          handleGetProposedMobilityProgrammeById(),
           (studentInfoID === 0) &&
           handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
@@ -275,6 +293,8 @@ export default function TabComponent() {
           console.log('Student Info ID:', studentInfoID),
           handleGetStudentInfoById(),
           handleGetSendingInstitutionInfoById(),
+          handleGetReceivingInstitutionInfoById(),
+          handleGetProposedMobilityProgrammeById(),
         ]);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -336,6 +356,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <MobilityProgramFormDoctoralAndBlended
+            proposedMobilityProgramme={proposedMobilityProgramme}
             pageName={'Hareketlilik Programı'}
             pmpID={proposedMobilityProgrammeID}
           ></MobilityProgramFormDoctoralAndBlended>
