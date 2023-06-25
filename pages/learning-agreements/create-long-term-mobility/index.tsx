@@ -34,6 +34,7 @@ export default function TabComponent() {
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
     GenerateNewIdForCommitment,
+    GenerateNewIdForVirtualComponent,
   } = useCreate();
   const {
     GetStudentInfoById,
@@ -66,6 +67,7 @@ export default function TabComponent() {
     useState<ProposedMobilityProgrammeResponse>();
   const [signature, setSignature] = useState<SignatureResponse>();
   const [commitmentID, setCommitmentID] = useState(0);
+  const [virtualComponentID, setVirtualComponentID] = useState(0);
 
   const {
     studentInfoId,
@@ -324,6 +326,27 @@ export default function TabComponent() {
       // Handle error: display an error message to the user or perform other error handling tasks
     }
   }
+
+  async function handleGenerateNewIdForVirtualComponent() {
+      try {
+        const data = await GenerateNewIdForVirtualComponent(
+          'https://localhost:5001/spGenerateNewIdForVirtualComponent'
+        );
+        if (
+          data !== null &&
+          data !== undefined &&
+          virtualComponentID === 0
+        ) {
+          console.log('virtual comp id generated ', data);
+          setVirtualComponentID(data);
+        }
+      } catch (error) {
+        // Handle error
+        console.error('Error generating ID for virtual component:', error);
+      }
+    };
+
+  
   async function handleInsertEmptyRowToLearningAgreement(laId: number) {
     try {
       const data = await InsertEmptyRowToLearningAgreement(
@@ -349,6 +372,7 @@ export default function TabComponent() {
       Number(receivingInstitutionInfoId) || studentInfoID
     );
     setCommitmentID(Number(commitmentId) || commitmentID);
+    setVirtualComponentID(Number(virtualComponentId) || virtualComponentID);
     setUrlSetted(true);
   }, [
     studentInfoId,
@@ -386,6 +410,7 @@ export default function TabComponent() {
           proposedMobilityProgrammeID === 0 &&
             handleGenerateNewIdForProposedMobilityProgramme(),
           commitmentID === 0 && handleGenerateNewIdForCommitment(),
+          virtualComponentID === 0 && handleGenerateNewIdForVirtualComponent(),
         ]);
       } catch (error) {
         console.error('Error generating data:', error);
@@ -422,6 +447,8 @@ export default function TabComponent() {
 
     fetchData();
   }, [studentInfoID, sendingInstitutionInfoID]);
+
+
 
   return (
     <Tabs variant='colorful' colorScheme='gray'>
@@ -482,7 +509,8 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <VirtualComponentForm
-            pageName={'Virtual Compnent'}
+            virtualComponentID={virtualComponentID}
+            pageName={'Virtual Component'}
             pmpID={proposedMobilityProgrammeID}
             learningAgreementID={learningAgreementID}
           ></VirtualComponentForm>
