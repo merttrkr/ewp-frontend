@@ -67,7 +67,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
     SavePlannedEndDateOfMobility,
     SaveProposedMobilityProgramme,
     SaveReceivingInstitutionCourseCatalogueLink,
-    SaveProvisionsLinkIfEducationUnsuccessful,
     SaveProposedMobilityProgrammeIdToLearningAgreementTable,
     SaveLanguageId,
     SaveLanguageLevelId,
@@ -238,18 +237,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
       console.error('Error saving catalog link:', error);
     }
   };
-  const handleSaveProvisionsLinkIfEducationUnsuccessful = async (
-    link: string
-  ) => {
-    //this is not on the form
-    try {
-      const request = `https://localhost:5001/spSaveProvisionsLinkIfEducationUnsuccessful?pmp_id=${pmpID}&provisionsLinkIfEducationUnsuccessful=${link}`;
-
-      await SaveProvisionsLinkIfEducationUnsuccessful(request);
-    } catch (error) {
-      console.error('Error saving provisions link:', error);
-    }
-  };
 
   const handleSaveProposedMobilityProgramme = async (values: FormData) => {
     const { link, mobility_start_date, mobility_end_date } = values;
@@ -293,7 +280,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
       await handleSaveLanguageId();
       await handleSaveLanguageLevelId();
       await handleSaveReceivingInstitutionCourseCatalogueLink(values.link);
-      await handleSaveProvisionsLinkIfEducationUnsuccessful('-');
       await handleSaveProposedMobilityProgramme(values);
       try {
         toast({
