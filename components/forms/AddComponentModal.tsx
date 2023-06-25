@@ -17,9 +17,7 @@ import TextInput from '../form-components/inputs/TextInput';
 import { useForm } from 'react-hook-form';
 import { Course } from '@/models/response/courseResponse';
 import useUpdate from '@/hooks/update/useUpdate';
-import useCreate from '@/hooks/create/useCreate';
 import { CourseRequest } from '@/models/request/courseRequest';
-import { VirtualCourseRequest } from '@/models/request/virtualCourseRequest';
 
 type ModalInputProps = {
   placeholder: string;
@@ -47,10 +45,7 @@ export default function InitialFocus({
   onAdd,
 }: ModalInputProps) {
   const { InsertLASelectedCourse, InsertLAVirtualCourse } = useUpdate();
-  const { GenerateNewIdForCommitment, GenerateNewIdForVirtualComponent } =
-    useCreate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [commitmentID, setCommitmentID] = useState(0);
 
   const HeadingColor = useColorModeValue('gray.800', 'gray.300');
   const {
@@ -60,38 +55,18 @@ export default function InitialFocus({
     reset,
   } = useForm<FormData>();
 
-  async function handleGenerateNewIdForCommitment() {
-    try {
-      const data = await GenerateNewIdForCommitment(
-        'https://localhost:5001/spGenerateNewIdForCommitment'
-      );
-      if (data !== null && data !== undefined) {
-        setCommitmentID(data);
-      } else {
-        throw new Error('No data received for commitment ID');
-      }
-    } catch (error) {
-      console.error('Error generating commitment ID:', error);
-      // Handle error: display an error message to the user or perform other error handling tasks
-    }
-  }
-
-  useEffect(() => {
-    handleGenerateNewIdForCommitment();
-  }, []);
-
-  async function handleInsertLASelectedCourse(course: Course) {
+  async function handleInsertLASelectedCourse(course: FormData) {
     try {
       console.log('tableType:', tableType);
       const request: CourseRequest = {
-        courseTitle: course.courseTitle,
+        courseTitle: course.course_name,
         courseCreditType_id: 1,
-        courseCreditValue: course.courseCreditValue,
-        numberOfTerms: course.numberOfTerms,
-        totalNumberOfTerms: course.totalNumberOfTerms,
-        courseCode: course.courseCode,
-        recognitionConditions: course.recognitionConditions,
-        courseShortDescription: course.courseShortDescription,
+        courseCreditValue: course.credit_value,
+        numberOfTerms: course.term_count,
+        totalNumberOfTerms: course.total_term_count,
+        courseCode: course.course_code,
+        recognitionConditions: course.recognition_conditions,
+        courseShortDescription: course.course_description,
         isApproved: 0,
         proposedMobilityProgramme_id: pmpID,
         tableType: tableType,
@@ -103,18 +78,18 @@ export default function InitialFocus({
       console.error('Error inserting selected course:', error);
     }
   }
-  async function handleInsertLAVirtualCourse(course: Course) {
+  async function handleInsertLAVirtualCourse(course: FormData) {
     try {
       console.log('virtualComponentID before insert : ', virtualComponentID);
       const request: CourseRequest = {
-        courseTitle: course.courseTitle,
+        courseTitle: course.course_name,
         courseCreditType_id: 1,
-        courseCreditValue: course.courseCreditValue,
-        numberOfTerms: course.numberOfTerms,
-        totalNumberOfTerms: course.totalNumberOfTerms,
-        courseCode: course.courseCode,
-        recognitionConditions: course.recognitionConditions,
-        courseShortDescription: course.courseShortDescription,
+        courseCreditValue: course.credit_value,
+        numberOfTerms: course.term_count,
+        totalNumberOfTerms: course.total_term_count,
+        courseCode: course.course_code,
+        recognitionConditions: course.recognition_conditions ?? '',
+        courseShortDescription: course.recognition_conditions ?? '',
         isApproved: 0,
         virtualComponent_id: virtualComponentID,
         tableType: 'C',
@@ -133,27 +108,11 @@ export default function InitialFocus({
 
   function onSubmitAdd(values: FormData) {
     return new Promise<void>(async (resolve) => {
-      const result: Course = {
-        id: commitmentID,
-        courseCreditType: 'ECTS',
-        courseTitle: values.course_name,
-        courseCreditValue: values.credit_value,
-        numberOfTerms: values.term_count,
-        totalNumberOfTerms: values.total_term_count,
-        courseCode: values.course_code,
-        status: 'inserted',
-        recognitionConditions: values.recognition_conditions ?? ' ',
-        courseShortDescription: values.course_description ?? '',
-        virtualComponent_id: virtualComponentID,
-      };
-      console.log('pmp id', pmpID);
-      console.log('commitmentID', commitmentID);
-      console.log('Course', result);
       if (tableType === 'C') {
         console.log('table C');
-        await handleInsertLAVirtualCourse(result);
+        await handleInsertLAVirtualCourse(values);
       } else {
-        await handleInsertLASelectedCourse(result);
+        await handleInsertLASelectedCourse(values);
       }
       onAdd();
       resolve();
