@@ -110,12 +110,17 @@ export default function MobilityProgramFormLongTerm({
   async function handleSaveProposedMobilityProgrammeIdToLearningAgreementTable() {
     const fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable =
       async () => {
-        await SaveProposedMobilityProgrammeIdToLearningAgreementTable(
-          'https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=' +
-            pmpID +
-            '&learningAgreement_id=' +
-            learningAgreementID
-        );
+        try {
+          await SaveProposedMobilityProgrammeIdToLearningAgreementTable(
+            'https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=' +
+              pmpID +
+              '&learningAgreement_id=' +
+              learningAgreementID
+          );
+          console.log('saved to la long term mob ' + pmpID);
+        } catch (error) {
+          console.error('Error:', error);
+        }
       };
     fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
   }
