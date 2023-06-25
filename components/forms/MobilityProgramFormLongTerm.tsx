@@ -68,7 +68,11 @@ export default function MobilityProgramFormLongTerm({
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,
     SaveProposedMobilityProgramme,
+    SaveReceivingInstitutionCourseCatalogueLink,
+    SaveProvisionsLinkIfEducationUnsuccessful,
     SaveProposedMobilityProgrammeIdToLearningAgreementTable,
+    SaveLanguageId,
+    SaveLanguageLevelId,
   } = useUpdate();
 
   const { RemoveSelectedCourseById } = useDelete();
@@ -248,7 +252,52 @@ export default function MobilityProgramFormLongTerm({
       console.error('Error saving planned end date:', error);
     }
   };
+  //save language
+  const handleSaveLanguageId = async () => {
+    try {
+      const request =
+        `https://localhost:5001/spSaveLanguageId?pmp_id=${pmpID}&language_id=` +
+        languageID;
+      await SaveLanguageId(request);
+    } catch (error) {
+      console.error('Error saving lang id:', error);
+    }
+  };
 
+  const handleSaveLanguageLevelId = async () => {
+    try {
+      const request =
+        `https://localhost:5001/spSaveLanguageLevelId?pmp_id='+${pmpID}+'&languageLevel_id=` +
+        languageLevelID;
+      await SaveLanguageLevelId(request);
+    } catch (error) {
+      console.error('Error saving lang level id:', error);
+    }
+  };
+  //save links
+  const handleSaveReceivingInstitutionCourseCatalogueLink = async (
+    link: string
+  ) => {
+    try {
+      const request = `https://localhost:5001/spSaveReceivingInstitutionCourseCatalogueLink?pmp_id=${pmpID}&receivingInstitutionCourseCatalogueLink=${link}`;
+
+      await SaveReceivingInstitutionCourseCatalogueLink(request);
+    } catch (error) {
+      console.error('Error saving catalog link:', error);
+    }
+  };
+  const handleSaveProvisionsLinkIfEducationUnsuccessful = async (
+    link: string
+  ) => {
+    //this is not on the form
+    try {
+      const request = `https://localhost:5001/spSaveProvisionsLinkIfEducationUnsuccessful?pmp_id=${pmpID}&provisionsLinkIfEducationUnsuccessful=${link}`;
+
+      await SaveProvisionsLinkIfEducationUnsuccessful(request);
+    } catch (error) {
+      console.error('Error saving provisions link:', error);
+    }
+  };
   const handleSaveProposedMobilityProgramme = async (values: FormData) => {
     const { link, mobility_start_date, mobility_end_date, provision_link } =
       values;
@@ -287,6 +336,12 @@ export default function MobilityProgramFormLongTerm({
     return new Promise<void>(async (resolve, reject) => {
       await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
       await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
+      await handleSaveLanguageId();
+      await handleSaveLanguageLevelId();
+      await handleSaveReceivingInstitutionCourseCatalogueLink(values.link);
+      await handleSaveProvisionsLinkIfEducationUnsuccessful(
+        values.provision_link
+      );
       await handleSaveProposedMobilityProgramme(values);
 
       try {
