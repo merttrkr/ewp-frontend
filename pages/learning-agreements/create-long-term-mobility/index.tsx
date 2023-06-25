@@ -5,6 +5,7 @@ import SendingInstitutionInfoForm from '@/components/forms/SendingInstitutionInf
 import StudentInformationForm from '@/components/forms/StudentInformationForm';
 import VirtualComponentForm from '@/components/forms/VirtualComponentForm';
 import useCreate from '@/hooks/create/useCreate';
+import useUpdate from '@/hooks/update/useUpdate';
 import {
   Flex,
   Heading,
@@ -27,7 +28,7 @@ export default function TabComponent() {
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
   } = useCreate();
-
+  const { InsertEmptyRowToLearningAgreement } = useUpdate();
   const [omobilityID, setOmobilityID] = useState('');
   const [learningAgreementID, setLearningAgreementID] = useState(0);
   const [studentInfoID, setStudentInfoID] = useState(0);
@@ -53,15 +54,33 @@ export default function TabComponent() {
   }
 
   async function handleGenerateNewIdForLearningAgreement() {
-    const fetchLearningAgreementID = async () => {
+    try {
       const data = await GenerateNewIdForLearningAgreement(
         'https://localhost:5001/spGenerateNewIdForLearningAgreement'
       );
-      if (data) {
+      if (data !== null && data !== undefined && learningAgreementID === 0) {
         setLearningAgreementID(data);
+        handleInsertEmptyRowToLearningAgreement(data);
+      } else {
+        throw new Error('No data received for learning agreement ID');
       }
-    };
-    fetchLearningAgreementID();
+    } catch (error) {
+      console.error('Error generating learning agreement ID:', error);
+      // Handle error: display an error message to the user or perform other error handling tasks
+    }
+  }
+
+  async function handleInsertEmptyRowToLearningAgreement(laId: number) {
+    try {
+      const data = await InsertEmptyRowToLearningAgreement(
+        'https://localhost:5001/spInsertEmptyRowToLearningAgreement?learningAgreement_id=' +
+          laId
+      );
+      console.log('inserted empty la row ', laId);
+    } catch (error) {
+      console.error('Error inserting learning agreement:', error);
+      // Handle error: display an error message to the user or perform other error handling tasks
+    }
   }
 
   async function handleGenerateNewIdForStudentInfo() {
