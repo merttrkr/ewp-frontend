@@ -81,7 +81,7 @@ export default function InstitutionInformationForm({
   //values of the form
   const [institution, setInstitution] = useState('');
   const [department, setDepartment] = useState('');
-  const [authorizedSignotary, setAuthorizedSignotary]= useState('');
+  const [authorizedSignotary, setAuthorizedSignotary] = useState('');
   const [contactPerson, setContactPerson] = useState('');
   const [IIACode, setIIACode] = useState('');
   const [IIAID, setIIAID] = useState('');
@@ -152,9 +152,7 @@ export default function InstitutionInformationForm({
 
   async function handleSetSigningPerson() {
     const setSigningPerson = async () => {
-
-      
-      if (organizationInfoId != 0 ) {
+      if (organizationInfoId != 0 && authorizedSignotaryPersonID != 0) {
 
         await SetSigningPerson(
           'https://localhost:5001/spSetSigningPerson?organizationInfo_id=' +
@@ -163,42 +161,49 @@ export default function InstitutionInformationForm({
           authorizedSignotaryPersonID
         );
       }
-      
+
     };
     setSigningPerson();
   }
 
   async function handleAddOrganizationContactInfo() {
+
     const addContactPromises = contactPersonID.map(async (item) => {
-      await AddOrganizationContactInfo(
-        'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
+      if (organizationInfoId != 0 && item != 0) {
+        await AddOrganizationContactInfo(
+          'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
           organizationInfoId +
           '&contact_id=' +
           item
-      );
+        );
+      }
+
     });
-  
+
     try {
       await Promise.all(addContactPromises);
       // All requests completed successfully
       // Add any additional logic here
     } catch (error) {
-      console.log('girdim'+ error);
-      
+      console.log('girdim' + error);
+
       // Error occurred during one or more requests
       // Handle or log the error as needed
     }
   }
-  
+
 
   async function handleSetUniversityIdOfOrganizationInfo() {
     const setUniversityIdOfOrganizationInfo = async () => {
-      await SetUniversityIdOfOrganizationInfo(
-        'https://localhost:5001/spSetUniversityIdOfOrganizationInfo?hei_id=' +
-        institution +
-        '&organizationInfo_id=' +
-        organizationInfoId
-      );
+      if (institutionID != 0 && organizationInfoId != 0){
+        await SetUniversityIdOfOrganizationInfo(
+          'https://localhost:5001/spSetUniversityIdOfOrganizationInfo?hei_id=' +
+          institution +
+          '&organizationInfo_id=' +
+          organizationInfoId
+        );
+      }
+     
     };
     setUniversityIdOfOrganizationInfo();
   }
@@ -303,6 +308,7 @@ export default function InstitutionInformationForm({
       setValue('hei_id', value.heiId);
       setInstitution(value.heiId);
       setInstitutionId(value.uniqueId);
+
     } else {
       setValue('hei_id', '');
       setInstitution('');
@@ -326,15 +332,15 @@ export default function InstitutionInformationForm({
       setContactPersonID([]); // or any default value you want
     }
   };
-  
-  
+
+
   const handleAuthorizedSignerSelectChangeContact = (value: Contact | Contact[] | null) => {
 
-    if (value && !Array.isArray(value) ) {
+    if (value && !Array.isArray(value)) {
       setValue('authorized_signotary', value.fullName);
       setAuthorizedSignotary(value.fullName);
       console.log(value.id);
-    
+
       setauthorizedSignotaryPersonID(value.id);
     } else {
       setValue('authorized_signotary', ''); // or any default value you want
@@ -342,8 +348,8 @@ export default function InstitutionInformationForm({
       setauthorizedSignotaryPersonID(0); // or any default value you want
     }
   };
-  
-  
+
+
   const handleSelectChangeDepartment = (value: Department | null) => {
     if (value) {
       setValue('departmant_name', value.organizationalUnitName);
@@ -399,12 +405,12 @@ export default function InstitutionInformationForm({
 
   return (
     <Stack
-       marginBottom={['20', null, '0']}
+      marginBottom={['20', null, '0']}
       px={[3, 6]}
       py={[2, 3]}
       w={['100%', null, 'auto']}
       bg={HeaderBackground}
-     
+
       borderBottom='1px'
       borderColor={BorderColor}
       borderRadius={'xl'}
@@ -427,6 +433,7 @@ export default function InstitutionInformationForm({
         <Flex direction={['column', 'row']}>
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
+              inputValue={institution}
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
               register={register('hei_id')}
@@ -465,6 +472,7 @@ export default function InstitutionInformationForm({
           </Stack>
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectDepartment
+            inputValue={department}
               id='departmant_name'
               register={register('departmant_name')}
               placeHolder={department}
