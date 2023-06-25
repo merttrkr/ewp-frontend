@@ -35,6 +35,7 @@ type VirtualComponentFormProps = {
   pageName: String;
   pmpID: number;
   learningAgreementID: number;
+  virtualComponentID: number;
 };
 type FormData = {
   link: string;
@@ -44,6 +45,7 @@ type FormData = {
   language_level: string;
 };
 export default function VirtualComponentForm({
+  virtualComponentID,
   pageName,
   pmpID,
   learningAgreementID,
@@ -65,7 +67,7 @@ export default function VirtualComponentForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
   //usestates
-  const [learningAgreementId, setLearningAgreementId] = useState(70);
+
   const [language, setLanguage] = useState('');
   const [languageID, setLanguageID] = useState(0);
   const [languageLevel, setLanguageLevel] = useState('');
@@ -77,7 +79,7 @@ export default function VirtualComponentForm({
   >([]);
   const [tableCApprovedArray, setTableCApprovedArray] = useState<Course[]>([]);
   const [totalCCourseCredits, setTotalCCourseCredits] = useState(0);
-  const [virtualComponentID, setVirtualComponentID] = useState(0);
+  
   const toast = useToast();
 
   const {
@@ -88,23 +90,7 @@ export default function VirtualComponentForm({
     control,
   } = useForm<FormData>();
 
-  async function handleGenerateNewIdForVirtualComponent() {
-    const fetchNewIdForVirtualComponent = async () => {
-      try {
-        const data = await GenerateNewIdForVirtualComponent(
-          'https://localhost:5001/spGenerateNewIdForVirtualComponent'
-        );
-        if (data) {
-          console.log('virtual comp id generated ', data);
-          setVirtualComponentID(data);
-        }
-      } catch (error) {
-        // Handle error
-        console.error('Error generating ID for virtual component:', error);
-      }
-    };
-    fetchNewIdForVirtualComponent();
-  }
+
 
   async function handleRemoveVirtualCoursesById(courseId: number) {
     console.log('deleted id : ', courseId);
@@ -200,7 +186,7 @@ export default function VirtualComponentForm({
         'https://localhost:5001/spSaveVirtualComponentIdToLearningAgreementTable?virtualComponent_id=' +
         virtualComponentID +
         '&learningAgreement_id=' +
-        learningAgreementId;
+        learningAgreementID;
       try {
         const result = await SaveVirtualComponentIdToLearningAgreementTable(
           requestUrl
@@ -214,10 +200,7 @@ export default function VirtualComponentForm({
       fetchSaveVirtualComponentIdToLearningAgreementTable();
     }
   }
-  useEffect(() => {
-    console.log('create vC');
-    handleGenerateNewIdForVirtualComponent();
-  }, []);
+
 
   useEffect(() => {
     console.log('here in useffectt');
@@ -423,32 +406,6 @@ export default function VirtualComponentForm({
               Derslerin Toplam Kredi Değeri:
             </Text>
             <Text>{totalCCourseCredits}</Text>
-          </Flex>
-
-          <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
-            <Flex gap={4}>
-              <Box w={'50%'}>
-                <SelectLanguage
-                  id='language'
-                  error={errors.language?.message}
-                  register={register('language')}
-                  placeholder=''
-                  selectLabel='Yabancı Dil'
-                  onChange={handleLanguageChange}
-                ></SelectLanguage>
-              </Box>
-
-              <Box w={'50%'}>
-                <SelectLanguageLevel
-                  id='language_level'
-                  error={errors.language_level?.message}
-                  register={register('language_level')}
-                  placeholder=''
-                  selectLabel='Seviyesi'
-                  onChange={handleLanguageLevelChange}
-                ></SelectLanguageLevel>
-              </Box>
-            </Flex>
           </Flex>
         </Flex>
         <Flex justify={'right'} gap={2}>
