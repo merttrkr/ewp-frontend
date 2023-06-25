@@ -23,6 +23,7 @@ import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitu
 import { ReceivingInstitutionInfoResponse } from '@/models/response/receivingInstitutionInfoResponse';
 import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
 import useUpdate from '@/hooks/update/useUpdate';
+import { set } from 'react-hook-form';
 
 export default function TabComponent() {
   const {
@@ -38,6 +39,7 @@ export default function TabComponent() {
     GetSendingInstitutionInfoById,
     GetReceivingInstitutionInfoById,
     GetProposedMobilityProgrammeById,
+    GetSignatureForCommitment,
   } = useRead();
 
   const { InsertEmptyRowToLearningAgreement } = useUpdate();
@@ -61,11 +63,15 @@ export default function TabComponent() {
     useState<ReceivingInstitutionInfoResponse>();
   const [proposedMobilityProgramme, setProposedMobilityProgramme] =
     useState<ProposedMobilityProgrammeResponse>();
+  const [signature, setSignature] = useState<SignatureResponse>();
+  const [commitmentID, setCommitmentID] = useState(0);
+
   const {
     studentInfoId,
     proposedMobilityProgrammeId,
     sendingInstitutionInfoId,
     receivingInstitutionInfoId,
+    commitmentId,
     virtualComponentId,
   } = router.query;
 
@@ -167,6 +173,23 @@ export default function TabComponent() {
       // Handle error: display an error message to the user or perform other error handling tasks
     }
   };
+
+const handleGetSignatureByCommitmentID = async () => {
+  console.log('commitmentID istek atıyorum :', commitmentID);
+  try {
+    const request = 'https://localhost:5001/spGetSignatureForCommitment?commitment_id=' + commitmentID;
+    const SignatureResponse = await GetSignatureForCommitment(request);
+    console.log('SignatureResponse ilk çağrı :', SignatureResponse);
+
+    if (SignatureResponse && Object.keys(SignatureResponse).length !== 0) {
+      setSignature(SignatureResponse)
+    }
+    console.log("ilk istek receivingInstitutionInfoResponse:", SignatureResponse);
+  } catch (error) {
+    console.error('Error fetching student info:', error);
+    // Handle error: display an error message to the user or perform other error handling tasks
+  }
+}
   //generate ids
   async function handleGenerateOmobilityId() {
     try {
@@ -301,6 +324,7 @@ export default function TabComponent() {
     setReceivingInstitutionInfoID(
       Number(receivingInstitutionInfoId) || studentInfoID
     );
+    setCommitmentID(Number(commitmentId) || commitmentID);
     setUrlSetted(true);
   }, [
     studentInfoId,
@@ -320,6 +344,7 @@ export default function TabComponent() {
           handleGetSendingInstitutionInfoById(),
           handleGetReceivingInstitutionInfoById(),
           handleGetProposedMobilityProgrammeById(),
+          handleGetSignatureByCommitmentID(),
           studentInfoID === 0 && handleGenerateNewIdForStudentInfo(),
           (omobilityID === '' ||
             omobilityID === undefined ||
@@ -360,6 +385,7 @@ export default function TabComponent() {
           handleGetSendingInstitutionInfoById(),
           handleGetReceivingInstitutionInfoById(),
           handleGetProposedMobilityProgrammeById(),
+          handleGetSignatureByCommitmentID(),
         ]);
       } catch (error) {
         console.error('Error fetching data:', error);
