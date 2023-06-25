@@ -17,16 +17,20 @@ import { useState, useEffect } from 'react';
 
 import { createCanvas, CanvasRenderingContext2D } from 'canvas';
 import useUpdate from '@/hooks/update/useUpdate';
+import useRead from '@/hooks/read/useRead';
+import { CommitmentRequest } from '@/models/request/commitmentRequest';
 
 type CommitmentSignatureFormProps = {
   pageName: String;
   learningAgreementID: number;
   signatureInfo?: SignatureResponse;
   commitmentID: number;
+  sendingInstitutionInfoId: number;
 };
 
 type FormData = {
   student_signature: string;
+  sender_signature: string | null;
   sender_name: string;
   sender_position: string;
   sender_email: string;
@@ -42,15 +46,19 @@ export default function CommitmentSignatureForm({
   learningAgreementID,
   signatureInfo,
   commitmentID,
+  sendingInstitutionInfoId,
 }: CommitmentSignatureFormProps) {
   const {
     SaveCommitmentIdToLearningAgreementTable,
     InsertEmptyRowToCommitment,
+    SaveCommitment,
   } = useUpdate();
+  const { GetSendingHeiId } = useRead();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
+  const [sendingHeiId, setSendingHeiId] = useState('');
   const [studentSignature, setStudentSignature] = useState<string>(
     textToBase64Image(' ')
   );
@@ -65,6 +73,26 @@ export default function CommitmentSignatureForm({
     setValue,
     control,
   } = useForm<FormData>();
+
+  async function handleGetSendingHeiId() {
+    const fetchGetSendingHeiId = async () => {
+      const requestUrl =
+        'https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=' +
+        sendingInstitutionInfoId;
+
+      try {
+        const result = await GetSendingHeiId(requestUrl);
+        if (result) {
+          setSendingHeiId(result);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (sendingInstitutionInfoId != 0) {
+      fetchGetSendingHeiId();
+    }
+  }
 
   async function handleInsertEmptyRowToCommitment() {
     const fetchInsertEmptyRowToCommitment = async () => {
@@ -95,7 +123,31 @@ export default function CommitmentSignatureForm({
     };
     fetchSaveCommitmentIdToLearningAgreementTable();
   }
+
+  async function handleSaveCommitment(values: FormData) {
+    try {
+      const request: CommitmentRequest = {
+        sendingHeiId: '',
+        commitment_id: commitmentID,
+        studentSignature: values.student_signature,
+        sendingHeiSignature: '',
+        sendingHeiResponsibleFullname: values.sender_name,
+        sendingHeiResponsiblePosition: values.sender_position,
+        sendingHeiResponsibleEmail: values.sender_email,
+        receivingHeiSignature: values.receiver_signature ?? '',
+        receivingHeiResponsibleFullname: values.receiver_name ?? '',
+        receivingHeiResponsiblePosition: values.receiver_position ?? '',
+        receivingHeiResponsibleEmail: values.receiver_email ?? '',
+        commentForRejection: values.comment ?? '',
+      };
+      await SaveCommitment(request);
+      console.log('Saving commitment: ', commitmentID);
+    } catch (error) {
+      console.log('Error saving commitment: ', error);
+    }
+  }
   useEffect(() => {
+    handleGetSendingHeiId();
     handleInsertEmptyRowToCommitment();
     handleSaveCommitmentIdToLearningAgreementTable();
   }, [commitmentID]);
@@ -325,10 +377,19 @@ export default function CommitmentSignatureForm({
             Sıfırla
           </Button>
         </Flex>
-        <Flex pt={4} justifyContent={'right'}>
-          <Button variant='autoWidthFull'>
-            Anlaşma Oluşturma Sürecini Tamamla ve Alıcı Kuruma Bildirim Gönder
-          </Button>
+        <Flex pt={4} gap={4} justifyContent='right'>
+          {sendingHeiId === 'iyte.edu.tr' ? (
+            <Button variant='autoWidthFull'>
+              Anlaşma Oluşturma Sürecini Tamamla ve Alıcı Kuruma Bildirim Gönder
+            </Button>
+          ) : (
+            <>
+              <Button variant='autoWidthFull'>Anlaşmayı Onayla</Button>
+              <Button variant='autoWidthFull'>
+                Yazılan Yoruma Göre Anlaşmada Güncelleme Talep Et
+              </Button>
+            </>
+          )}
         </Flex>
       </Box>
     </Stack>
