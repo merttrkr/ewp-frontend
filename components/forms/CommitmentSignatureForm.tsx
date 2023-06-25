@@ -43,7 +43,10 @@ export default function CommitmentSignatureForm({
   signatureInfo,
   commitmentID,
 }: CommitmentSignatureFormProps) {
-  const { SaveCommitmentIdToLearningAgreementTable } = useUpdate();
+  const {
+    SaveCommitmentIdToLearningAgreementTable,
+    InsertEmptyRowToCommitment,
+  } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
@@ -62,6 +65,25 @@ export default function CommitmentSignatureForm({
     setValue,
     control,
   } = useForm<FormData>();
+
+  async function handleInsertEmptyRowToCommitment() {
+    const fetchInsertEmptyRowToCommitment = async () => {
+      const requestUrl =
+        'https://localhost:5001/spInsertEmptyRowToCommitment?commitment_id=' +
+        commitmentID;
+
+      try {
+        await InsertEmptyRowToCommitment(requestUrl);
+        console.log('inserted new line to commitment ' + commitmentID);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    if (commitmentID != 0) {
+      fetchInsertEmptyRowToCommitment();
+    }
+  }
+
   async function handleSaveCommitmentIdToLearningAgreementTable() {
     const fetchSaveCommitmentIdToLearningAgreementTable = async () => {
       await SaveCommitmentIdToLearningAgreementTable(
@@ -73,6 +95,11 @@ export default function CommitmentSignatureForm({
     };
     fetchSaveCommitmentIdToLearningAgreementTable();
   }
+  useEffect(() => {
+    handleInsertEmptyRowToCommitment();
+    handleSaveCommitmentIdToLearningAgreementTable();
+  }, [commitmentID]);
+
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       try {
