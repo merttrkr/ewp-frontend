@@ -19,6 +19,7 @@ import { createCanvas, CanvasRenderingContext2D } from 'canvas';
 import useUpdate from '@/hooks/update/useUpdate';
 import useRead from '@/hooks/read/useRead';
 import { CommitmentRequest } from '@/models/request/commitmentRequest';
+import { SignatureResponse } from '@/models/response/signatureResponse';
 
 type CommitmentSignatureFormProps = {
   pageName: String;
@@ -30,7 +31,7 @@ type CommitmentSignatureFormProps = {
 
 type FormData = {
   student_signature: string;
-  sender_signature: string | null;
+  sender_signature: string;
   sender_name: string;
   sender_position: string;
   sender_email: string;
@@ -63,6 +64,9 @@ export default function CommitmentSignatureForm({
     textToBase64Image(' ')
   );
   const [receiverSignature, setReceiverSignature] = useState<string>(
+    textToBase64Image(' ')
+  );
+  const [senderSignature, setSenderSignature] = useState<string>(
     textToBase64Image(' ')
   );
   const toast = useToast();
@@ -127,10 +131,10 @@ export default function CommitmentSignatureForm({
   async function handleSaveCommitment(values: FormData) {
     try {
       const request: CommitmentRequest = {
-        sendingHeiId: '',
+        sendingHeiId: sendingHeiId,
         commitment_id: commitmentID,
         studentSignature: values.student_signature,
-        sendingHeiSignature: '',
+        sendingHeiSignature: values.sender_signature,
         sendingHeiResponsibleFullname: values.sender_name,
         sendingHeiResponsiblePosition: values.sender_position,
         sendingHeiResponsibleEmail: values.sender_email,
@@ -154,6 +158,7 @@ export default function CommitmentSignatureForm({
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
+      await handleSaveCommitment(values);
       try {
         toast({
           title: 'Kayıt Başarılı.',
@@ -182,6 +187,10 @@ export default function CommitmentSignatureForm({
   useEffect(() => {
     if (signatureInfo != undefined && Object.keys(signatureInfo).length !== 0) {
       setValue('student_signature', signatureInfo.studentSignatureInBase64);
+      setValue(
+        'sender_signature',
+        signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64
+      );
       setValue(
         'sender_name',
         signatureInfo.sendingInstitutionIndividualResponsibleFullname
@@ -239,7 +248,12 @@ export default function CommitmentSignatureForm({
   const handleReceiverSignatureChange = (value: string | null) => {
     setReceiverSignature(textToBase64Image(value || ' '));
   };
-
+  const handleSenderSignatureChange = (value: string | null) => {
+    setSenderSignature(textToBase64Image(value || ' '));
+  };
+  const handleStudentSignatureChange = (value: string | null) => {
+    setStudentSignature(textToBase64Image(value || ' '));
+  };
   return (
     <Stack
       marginBottom='20'
@@ -284,9 +298,37 @@ export default function CommitmentSignatureForm({
                 fontWeight={'bold'}
                 color={HeadingColor}
               >
-                Öğrenci İmzası
+                Öğrenci İmzası Ön izleme
               </Heading>
               <img width='500' height='200' src={`${studentSignature}`} />
+              <SignatureInput
+                onChange={handleStudentSignatureChange}
+                id='student_signature'
+                register={register('student_signature')}
+                placeholder='Ad Soyad'
+                label='Öğrenci İmzası'
+                error={errors.student_signature?.message}
+              />
+            </Flex>
+
+            <Flex gap={3} direction={'column'}>
+              <Heading
+                as='text'
+                size='sm'
+                fontWeight={'bold'}
+                color={HeadingColor}
+              >
+                Sorumlu Kişinin İmzası Ön İzleme
+              </Heading>
+              <img width='500' height='200' src={`${senderSignature}`} />
+              <SignatureInput
+                onChange={handleSenderSignatureChange}
+                id='sender_signature'
+                register={register('sender_signature')}
+                placeholder='Ad Soyad'
+                label='Sorumlu Kişi İmzası'
+                error={errors.sender_signature?.message}
+              />
             </Flex>
 
             <TextInput
@@ -330,15 +372,16 @@ export default function CommitmentSignatureForm({
                 Sorumlu Kişinin İmzası Ön İzleme
               </Heading>
               <img width='500' height='200' src={`${receiverSignature}`} />
+              <SignatureInput
+                onChange={handleReceiverSignatureChange}
+                id='receiver_signature'
+                register={register('receiver_signature')}
+                placeholder='Ad Soyad'
+                label='Sorumlu Kişi İmzası'
+                error={errors.receiver_signature?.message}
+              />
             </Flex>
-            <SignatureInput
-              onChange={handleReceiverSignatureChange}
-              id='receiver_signature'
-              register={register('receiver_signature')}
-              placeholder='Ad Soyad'
-              label='Sorumlu Kişi İmzası'
-              error={errors.receiver_signature?.message}
-            />
+
             <TextInput
               id='receiver_name'
               label='Sorumlu Kişinin Adı Soyadı'
