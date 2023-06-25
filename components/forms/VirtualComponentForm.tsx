@@ -55,12 +55,16 @@ export default function VirtualComponentForm({
     GetTableCNotApprovedCoursesForChangeProposals,
     GetTotalCourseCreditsForTableC,
   } = useRead();
-  const { GenerateNewIdForVirtualComponent } = useCreate();
   const {
     InsertEmptyRowToVirtualComponent,
     SaveVirtualComponent,
     SaveVirtualComponentIdToLearningAgreementTable,
+    SaveLanguageId,
+    SaveLanguageLevelId,
+    SavePlannedStartingDateOfMobility,
+    SavePlannedEndDateOfMobility,
   } = useUpdate();
+
   const { RemoveVirtualCourseById } = useDelete();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
@@ -79,7 +83,7 @@ export default function VirtualComponentForm({
   >([]);
   const [tableCApprovedArray, setTableCApprovedArray] = useState<Course[]>([]);
   const [totalCCourseCredits, setTotalCCourseCredits] = useState(0);
-  
+
   const toast = useToast();
 
   const {
@@ -89,8 +93,46 @@ export default function VirtualComponentForm({
     setValue,
     control,
   } = useForm<FormData>();
+  // save mobility dates
+  const handleSavePlannedStartingDateOfMobility = async (date: string) => {
+    try {
+      const request = `https://localhost:5001/spSavePlannedStartingDateOfMobility?pmp_id=${pmpID}&plannedStartingDateOfMobility=${date}`;
+      await SavePlannedStartingDateOfMobility(request);
+    } catch (error) {
+      console.error('Error saving planned starting date:', error);
+    }
+  };
 
+  const handleSavePlannedEndDateOfMobility = async (date: string) => {
+    try {
+      const request = `https://localhost:5001/spSavePlannedEndDateOfMobility?pmp_id=${pmpID}&plannedEndDateOfMobility=${date}`;
+      await SavePlannedEndDateOfMobility(request);
+    } catch (error) {
+      console.error('Error saving planned end date:', error);
+    }
+  };
+  //save language
+  const handleSaveLanguageId = async () => {
+    try {
+      const request =
+        `https://localhost:5001/spSaveLanguageId?pmp_id=${pmpID}&language_id=` +
+        languageID;
+      await SaveLanguageId(request);
+    } catch (error) {
+      console.error('Error saving lang id:', error);
+    }
+  };
 
+  const handleSaveLanguageLevelId = async () => {
+    try {
+      const request =
+        `https://localhost:5001/spSaveLanguageLevelId?pmp_id='+${pmpID}+'&languageLevel_id=` +
+        languageLevelID;
+      await SaveLanguageLevelId(request);
+    } catch (error) {
+      console.error('Error saving lang level id:', error);
+    }
+  };
 
   async function handleRemoveVirtualCoursesById(courseId: number) {
     console.log('deleted id : ', courseId);
@@ -191,7 +233,7 @@ export default function VirtualComponentForm({
         const result = await SaveVirtualComponentIdToLearningAgreementTable(
           requestUrl
         );
-        console.log('saved virtual comp to la ' + pmpID);
+        console.log('saved virtual comp to la ' + virtualComponentID);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -200,7 +242,6 @@ export default function VirtualComponentForm({
       fetchSaveVirtualComponentIdToLearningAgreementTable();
     }
   }
-
 
   useEffect(() => {
     console.log('here in useffectt');
@@ -223,7 +264,11 @@ export default function VirtualComponentForm({
     setDeleteControl((prevAddControl) => prevAddControl + 1);
   };
 
-  const onSubmit = (values: FormData) => {
+  const onSubmit = async (values: FormData) => {
+    await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
+    await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
+    await handleSaveLanguageId();
+    await handleSaveLanguageLevelId();
     return new Promise<void>(async (resolve, reject) => {
       try {
         toast({
