@@ -32,6 +32,7 @@ export default function TabComponent() {
     GenerateNewIdForSendingInstitutionInfo,
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
+    GenerateNewIdForCommitment,
   } = useCreate();
   const {
     GetStudentInfoById,
@@ -148,6 +149,7 @@ export default function TabComponent() {
       // Handle error: display an error message to the user or perform other error handling tasks
     }
   };
+
   const handleGetProposedMobilityProgrammeById = async () => {
     console.log(
       'proposedMobilityProgrammeID istek atıyorum :',
@@ -195,6 +197,23 @@ export default function TabComponent() {
     }
   };
   //generate ids
+
+  async function handleGenerateNewIdForCommitment() {
+    try {
+      const data = await GenerateNewIdForCommitment(
+        'https://localhost:5001/spGenerateNewIdForCommitment'
+      );
+      if (data !== null && data !== undefined) {
+        setCommitmentID(data);
+      } else {
+        throw new Error('No data received for commitment ID');
+      }
+    } catch (error) {
+      console.error('Error generating commitment ID:', error);
+      // Handle error: display an error message to the user or perform other error handling tasks
+    }
+  }
+
   async function handleGenerateOmobilityId() {
     try {
       const data = await GenerateOmobilityId(
@@ -365,6 +384,7 @@ export default function TabComponent() {
             handleGenerateNewIdForReceivingInstitutionInfo(),
           proposedMobilityProgrammeID === 0 &&
             handleGenerateNewIdForProposedMobilityProgramme(),
+          commitmentID === 0 && handleGenerateNewIdForCommitment(),
         ]);
       } catch (error) {
         console.error('Error generating data:', error);
@@ -463,6 +483,7 @@ export default function TabComponent() {
             pageName='Taahhüt Metni'
             learningAgreementID={learningAgreementID}
             signatureInfo={signature}
+            commitmentID={commitmentID}
           ></CommitmentSignatureForm>
         </TabPanel>
       </TabPanels>
