@@ -9,6 +9,7 @@ type SignatureInputProps = {
   register: any;
   type?: string;
   isDisabled?: boolean;
+  onChange?: (value: string | null) => void;
 };
 
 const SignatureInput: React.FC<SignatureInputProps> = ({
@@ -19,8 +20,15 @@ const SignatureInput: React.FC<SignatureInputProps> = ({
   error,
   register,
   placeholder,
+  onChange,
 }) => {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    onChange && onChange(value);
+  };
+
   return (
     <FormControl>
       <Heading
@@ -43,6 +51,7 @@ const SignatureInput: React.FC<SignatureInputProps> = ({
         placeholder={placeholder}
         {...register}
         isDisabled={isDisabled}
+         onChange={handleChange} // Add the onChange event handler
         type={type}
         bg='gray.100'
         border={0}

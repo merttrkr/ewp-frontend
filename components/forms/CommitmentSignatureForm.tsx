@@ -12,35 +12,40 @@ import {
 
 import TextInput from '@/components/form-components/inputs/TextInput';
 import SignatureInput from '../form-components/inputs/SignatureInput';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { set, useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+
+import { createCanvas, CanvasRenderingContext2D } from 'canvas';
 
 type CommitmentSignatureFormProps = {
   pageName: String;
   learningAgreementID: number;
+  signatureInfo?: SignatureResponse;
 };
 
 type FormData = {
-  signature: string;
-  sender_signature: string;
+  student_signature: string;
   sender_name: string;
-  sender_surname: string;
+  sender_position: string;
   sender_email: string;
-  receiver_signature: string;
-  receiver_name: string;
-  receiver_surname: string;
-  receiver_email: string;
-  comment: string;
+  receiver_signature: string | null;
+  receiver_name: string | null;
+  receiver_position: string | null;
+  receiver_email: string | null;
+  comment: string | null;
 };
 
 export default function CommitmentSignatureForm({
   pageName,
   learningAgreementID,
+  signatureInfo,
 }: CommitmentSignatureFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
+  const [studentSignature, setStudentSignature] = useState<string>(textToBase64Image(' '));
+  const [receiverSignature, setReceiverSignature] = useState<string>(textToBase64Image(' '));
   const toast = useToast();
   const {
     handleSubmit,
@@ -50,21 +55,10 @@ export default function CommitmentSignatureForm({
     control,
   } = useForm<FormData>();
 
-  const [formValues, setFormValues] = useState<FormData>({
-    sender_signature: '',
-    sender_name: '',
-    sender_surname: '',
-    sender_email: '',
-    receiver_signature: '',
-    receiver_name: '',
-    receiver_surname: '',
-    receiver_email: '',
-    comment: '',
-    signature: '',
-  });
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       try {
+
         toast({
           title: 'Kayıt Başarılı.',
           description: 'Form başarıyla kaydedildi.',
@@ -88,6 +82,50 @@ export default function CommitmentSignatureForm({
       }
     });
   };
+
+  useEffect(() => {
+    if (
+      signatureInfo != undefined &&
+      Object.keys(signatureInfo).length !== 0
+    ) {
+      setValue('student_signature', signatureInfo.studentSignatureInBase64);
+      setValue('sender_name', signatureInfo.sendingInstitutionIndividualResponsibleFullname);
+      setValue('sender_position', signatureInfo.sendingInstitutionIndividualResponsiblePosition);
+      setValue('sender_email', signatureInfo.sendingInstitutionIndividualResponsibleEmail);
+
+      setValue('receiver_signature', signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64);
+      setValue('receiver_name', signatureInfo.receivingInstitutionIndividualResponsibleFullname);
+      setValue('receiver_position', signatureInfo.receivingInstitutionIndividualResponsiblePosition);
+      setValue('receiver_email', signatureInfo.receivingInstitutionIndividualResponsibleEmail);
+      setValue('comment', signatureInfo.commentForRejection);
+      setStudentSignature(signatureInfo.studentSignatureInBase64 || textToBase64Image(' '));
+
+    }
+  }, [signatureInfo]);
+
+
+  function textToBase64Image(text: string): string {
+    const canvas = createCanvas(950, 200); // Set canvas width and height
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+    // Draw text on the canvas
+    ctx.fillStyle = '#ffffff'; // Set background color to white
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = 'italic 50px Cursive';
+    ctx.fillStyle = '#000000'; // Set text color to black
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+    // Convert canvas to base64 image
+    const base64Image = canvas.toDataURL('image/png');
+    return base64Image;
+  }
+
+  const handleReceiverSignatureChange = (value: string | null) => {
+    setReceiverSignature(textToBase64Image(value || ' '));
+  };
+
 
   return (
     <Stack
@@ -126,36 +164,41 @@ export default function CommitmentSignatureForm({
             >
               Gönderen Kurum
             </Heading>
-            <SignatureInput
-              id='sender_signature'
-              register={register('sender_signature')}
-              placeholder='imza'
-              label='Sorumlu Kişi İmzası'
-              error={errors.sender_signature?.message}
-            />
+            <Flex gap={3} direction={'column'}>
+              <Heading
+                as='text'
+                size='sm'
+                fontWeight={'bold'}
+                color={HeadingColor}
+              >
+                Öğrenci İmzası
+              </Heading>
+              <img width='500' height='200' src={`${studentSignature}`} />
+            </Flex>
+
+
             <TextInput
               id='sender_name'
               label='Sorumlu Kişinin Adı Soyadı'
-              placeholder={formValues.sender_name}
+              placeholder=''
               error={errors.sender_name?.message}
               register={register('sender_name')}
             />
             <TextInput
-              id='sender_surname'
+              id='sender_position'
               label='Mevkisi / Pozisyonu'
-              placeholder={formValues.sender_surname}
-              error={errors.sender_surname?.message}
-              register={register('sender_surname')}
+              placeholder=''
+              error={errors.sender_position?.message}
+              register={register('sender_position')}
             />
             <TextInput
               id='sender_email'
               label='E-postası'
-              placeholder={formValues.sender_email}
+              placeholder=''
               error={errors.sender_email?.message}
               register={register('sender_email')}
             />
           </Stack>
-
           <Stack w='50%' spacing={4} p='5'>
             <Heading
               as='text'
@@ -165,11 +208,22 @@ export default function CommitmentSignatureForm({
             >
               Alıcı Kurum
             </Heading>
-
+            <Flex gap={3} direction={'column'}>
+              <Heading
+                as='text'
+                size='sm'
+                fontWeight={'bold'}
+                color={HeadingColor}
+              >
+                Sorumlu Kişinin İmzası Ön İzleme
+              </Heading>
+              <img width='500' height='200' src={`${receiverSignature}`} />
+            </Flex>
             <SignatureInput
+              onChange={handleReceiverSignatureChange}
               id='receiver_signature'
               register={register('receiver_signature')}
-              placeholder='imza'
+              placeholder='Ad Soyad'
               label='Sorumlu Kişi İmzası'
               error={errors.receiver_signature?.message}
             />
@@ -181,23 +235,23 @@ export default function CommitmentSignatureForm({
               register={register('receiver_name')}
             />
             <TextInput
-              id='receiver_surname'
+              id='receiver_position'
               label='Mevkisi / Pozisyonu'
-              placeholder={formValues.receiver_surname}
-              error={errors.receiver_surname?.message}
-              register={register('receiver_surname')}
+              placeholder=''
+              error={errors.receiver_position?.message}
+              register={register('receiver_position')}
             />
             <TextInput
               id='receiver_email'
               label='E-postası'
-              placeholder={formValues.receiver_email}
+              placeholder=''
               error={errors.receiver_email?.message}
               register={register('receiver_email')}
             />
             <TextInput
               id='comment'
               label='Alıcı Kurumun Anlaşmayı Neden Onaylamadığını Açıklayan Yorum'
-              placeholder={formValues.comment}
+              placeholder=''
               error={errors.comment?.message}
               register={register('comment')}
             ></TextInput>
