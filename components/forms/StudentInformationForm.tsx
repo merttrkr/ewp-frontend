@@ -68,7 +68,11 @@ export default function StudentInformationForm({
     setValue,
     control,
   } = useForm<FormData>();
-  const { InsertEmptyRowToStudentInfo, SaveStudentInfo } = useUpdate();
+  const {
+    InsertEmptyRowToStudentInfo,
+    SaveStudentInfo,
+    SaveStudentInfoIdToLearningAgreementTable,
+  } = useUpdate();
   //color
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -96,6 +100,18 @@ export default function StudentInformationForm({
   const [mobility_type, setMobility_type] = useState('');
   const [mobility_type_id, setMobility_type_id] = useState(0);
   const [subjectAreaId, setSubjectAreaId] = useState(0);
+
+  async function handleSaveStudentInfoIdToLearningAgreementTable() {
+    const fetchSaveStudentInfoIdToLearningAgreementTable = async () => {
+      await SaveStudentInfoIdToLearningAgreementTable(
+        'https://localhost:5001/spSaveStudentInfoIdToLearningAgreementTable?studentInfo_id=' +
+          studentInfoId +
+          '&learningAgreement_id=' +
+          learningAgreementID
+      );
+    };
+    fetchSaveStudentInfoIdToLearningAgreementTable();
+  }
 
   async function handleInsertEmptyRowToStudentInfo() {
     const insertEmptyRowToStudentInfo = async () => {
@@ -147,7 +163,7 @@ export default function StudentInformationForm({
         console.log('studentInfoId:', studentInfoId);
         await handleInsertEmptyRowToStudentInfo();
         await handleSaveStudentInfo(values);
-
+        await handleSaveStudentInfoIdToLearningAgreementTable();
         toast({
           title: 'Kayıt Başarılı.',
           description: 'Öğrenciye Ait Bilgiler başarıyla kaydedildi.',
