@@ -15,9 +15,11 @@ type SelectLanguageProps = {
   register: any;
   onChange: (value: Language | null) => void; // New prop for handling value change
   error: string | undefined;
+  inputValue?: string | number;
 };
 
 const SelectLanguage: React.FC<SelectLanguageProps> = ({
+  inputValue = null,
   isDisabled = false,
   selectLabel,
   id = 'default-select',
@@ -41,6 +43,19 @@ const SelectLanguage: React.FC<SelectLanguageProps> = ({
     };
     fetchInitialData();
   }, []);
+
+
+  useEffect(() => {
+    // Check if inputValue is provided and not null
+    if (inputValue !== null) {
+      // Find the nationality with matching id
+      const selectedDepartman = languageArray.find(
+        (type) => type.lang_id === inputValue
+      );
+      // Call the onChange prop with the selected nationality
+      onChange(selectedDepartman || null);
+    }
+  }, [inputValue, languageArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
