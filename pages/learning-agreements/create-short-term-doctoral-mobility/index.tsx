@@ -26,7 +26,9 @@ export default function TabComponent() {
     GenerateNewIdForSendingInstitutionInfo,
     GenerateNewIdForReceivingInstitutionInfo,
     GenerateNewIdForProposedMobilityProgramme,
+    GenerateNewIdForCommitment,
   } = useCreate();
+
   const { InsertEmptyRowToLearningAgreement } = useUpdate();
   const [omobilityID, setOmobilityID] = useState('');
   const [learningAgreementID, setLearningAgreementID] = useState(0);
@@ -37,7 +39,7 @@ export default function TabComponent() {
   const [proposedMobilityProgrammeID, setProposedMobilityProgrammeID] =
     useState(0);
   const [mobilityTypeId, setMobilityTypeId] = useState(3);
-
+  const [commitmentID, setCommitmentID] = useState(0);
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
 
   async function handleGenerateOmobilityId() {
@@ -50,6 +52,22 @@ export default function TabComponent() {
       }
     };
     fetchOmobilityID();
+  }
+
+  async function handleGenerateNewIdForCommitment() {
+    try {
+      const data = await GenerateNewIdForCommitment(
+        'https://localhost:5001/spGenerateNewIdForCommitment'
+      );
+      if (data !== null && data !== undefined) {
+        setCommitmentID(data);
+      } else {
+        throw new Error('No data received for commitment ID');
+      }
+    } catch (error) {
+      console.error('Error generating commitment ID:', error);
+      // Handle error: display an error message to the user or perform other error handling tasks
+    }
   }
 
   async function handleGenerateNewIdForLearningAgreement() {
@@ -137,6 +155,7 @@ export default function TabComponent() {
     handleGenerateNewIdForSendingInstitutionInfo();
     handleGenerateNewIdForReceivingInstitutionInfo();
     handleGenerateNewIdForProposedMobilityProgramme();
+    handleGenerateNewIdForCommitment();
   }, []);
 
   return (
@@ -196,6 +215,7 @@ export default function TabComponent() {
           <CommitmentSignatureForm
             pageName='Taahhüt Metni'
             learningAgreementID={learningAgreementID}
+            commitmentID={commitmentID}
           ></CommitmentSignatureForm>
         </TabPanel>
       </TabPanels>
