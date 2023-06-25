@@ -62,6 +62,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     SavePlannedEndDateOfMobility,
     SaveProposedMobilityProgramme,
     SaveReceivingInstitutionCourseCatalogueLink,
+    SaveProvisionsLinkIfEducationUnsuccessful,
     SaveLanguageId,
     SaveLanguageLevelId,
   } = useUpdate();
@@ -207,6 +208,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
       console.error('Error saving lang level id:', error);
     }
   };
+  //save links
   const handleSaveReceivingInstitutionCourseCatalogueLink = async (
     link: string
   ) => {
@@ -216,6 +218,18 @@ export default function MobilityProgramFormDoctoralAndBlended({
       await SaveReceivingInstitutionCourseCatalogueLink(request);
     } catch (error) {
       console.error('Error saving catalog link:', error);
+    }
+  };
+  const handleSaveProvisionsLinkIfEducationUnsuccessful = async (
+    link: string
+  ) => {
+    //this is not on the form
+    try {
+      const request = `https://localhost:5001/spSaveProvisionsLinkIfEducationUnsuccessful?pmp_id=${pmpID}&provisionsLinkIfEducationUnsuccessful=${link}`;
+
+      await SaveProvisionsLinkIfEducationUnsuccessful(request);
+    } catch (error) {
+      console.error('Error saving provisions link:', error);
     }
   };
 
@@ -229,12 +243,12 @@ export default function MobilityProgramFormDoctoralAndBlended({
       receivingInstitutionCourseCatalogueLink: link,
       language_id: languageID,
       languageLevel_id: languageLevelID,
-      provisionsLinkIfEducationUnsuccessful: '',
+      provisionsLinkIfEducationUnsuccessful: '-',
     };
 
     try {
-      const result = await SaveProposedMobilityProgramme(request);
-      // Handle the result if needed
+      await SaveProposedMobilityProgramme(request);
+      console.log('saved the proposedMobilityProgramme with id ', pmpID);
     } catch (error) {
       console.error('Error saving proposed mobility program:', error);
     }
@@ -260,6 +274,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
       await handleSaveLanguageId();
       await handleSaveLanguageLevelId();
       await handleSaveReceivingInstitutionCourseCatalogueLink(values.link);
+      await handleSaveProvisionsLinkIfEducationUnsuccessful('-');
       await handleSaveProposedMobilityProgramme(values);
       try {
         toast({
