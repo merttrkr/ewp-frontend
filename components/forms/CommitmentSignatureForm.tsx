@@ -17,6 +17,7 @@ import { useState } from 'react';
 
 type CommitmentSignatureFormProps = {
   pageName: String;
+  learningAgreementID: number;
 };
 
 type FormData = {
@@ -34,6 +35,7 @@ type FormData = {
 
 export default function CommitmentSignatureForm({
   pageName,
+  learningAgreementID,
 }: CommitmentSignatureFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');

@@ -39,6 +39,7 @@ type MobilityProgramFormDoctoralAndBlendedProps = {
   pageName: String;
   pmpID: number;
   proposedMobilityProgramme?: ProposedMobilityProgrammeResponse;
+  learningAgreementID: number;
 };
 
 type FormData = {
@@ -53,6 +54,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
   proposedMobilityProgramme,
   pageName,
   pmpID,
+  learningAgreementID,
 }: MobilityProgramFormDoctoralAndBlendedProps) {
   const {
     GetApprovedCoursesOfBlendedOrDoctorateForChangeProposals,
@@ -270,9 +272,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
     handleGetTotalCourseCreditsForBlendedOrDoctorate();
   }, [addControl, deleteControl]);
 
-
-
-
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
@@ -354,19 +353,38 @@ export default function MobilityProgramFormDoctoralAndBlended({
   useEffect(() => {
     //page init
     console.log('use efffect doctora on init');
-    console.log('proposedMobilityProgramme' + proposedMobilityProgramme?.receivingInstitutionCourseCatalogueLink);
-    
-    if (proposedMobilityProgramme != undefined  && Object.keys(proposedMobilityProgramme).length !== 0) {
-      console.log('proposedMobilityProgramme xxxx' + proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink);
-      setValue('mobility_start_date', proposedMobilityProgramme.plannedStartingDateOfMobility);
-      setValue('mobility_end_date', proposedMobilityProgramme.plannedEndDateOfMobility);
-      setValue('link', proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink);
-      setMobilityStartDate(proposedMobilityProgramme.plannedStartingDateOfMobility);
+    console.log(
+      'proposedMobilityProgramme' +
+        proposedMobilityProgramme?.receivingInstitutionCourseCatalogueLink
+    );
+
+    if (
+      proposedMobilityProgramme != undefined &&
+      Object.keys(proposedMobilityProgramme).length !== 0
+    ) {
+      console.log(
+        'proposedMobilityProgramme xxxx' +
+          proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink
+      );
+      setValue(
+        'mobility_start_date',
+        proposedMobilityProgramme.plannedStartingDateOfMobility
+      );
+      setValue(
+        'mobility_end_date',
+        proposedMobilityProgramme.plannedEndDateOfMobility
+      );
+      setValue(
+        'link',
+        proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink
+      );
+      setMobilityStartDate(
+        proposedMobilityProgramme.plannedStartingDateOfMobility
+      );
       setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility);
       setLanguageID(proposedMobilityProgramme.language_id);
       setLanguageLevelID(proposedMobilityProgramme.languageLevel_id);
     }
-
   }, [proposedMobilityProgramme]);
 
   return (
@@ -575,7 +593,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
                       required: 'This is required',
                     })
                   }
-                  placeholder={languageLevel}                  
+                  placeholder={languageLevel}
                   selectLabel='Seviyesi'
                   onChange={handleLanguageLevelChange}
                 ></SelectLanguageLevel>

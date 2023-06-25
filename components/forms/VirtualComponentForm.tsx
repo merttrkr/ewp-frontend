@@ -34,6 +34,7 @@ import useCreate from '@/hooks/create/useCreate';
 type VirtualComponentFormProps = {
   pageName: String;
   pmpID: number;
+  learningAgreementID: number;
 };
 type FormData = {
   link: string;
@@ -45,6 +46,7 @@ type FormData = {
 export default function VirtualComponentForm({
   pageName,
   pmpID,
+  learningAgreementID,
 }: VirtualComponentFormProps) {
   const {
     GetTableCApprovedCoursesForChangeProposals,

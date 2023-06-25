@@ -34,6 +34,7 @@ type StudentInformationFormProps = {
   mobilityTypeId: number;
   studentInfoId: number;
   studentInfo: StudentInfoResponse | undefined;
+  learningAgreementID: number;
 };
 type FormData = {
   education_type_and_level: string;
@@ -57,6 +58,7 @@ export default function StudentInformationForm({
   mobilityType,
   mobilityTypeId,
   studentInfoId,
+  learningAgreementID,
 }: StudentInformationFormProps) {
   //useForm hook
   const {
@@ -235,8 +237,8 @@ export default function StudentInformationForm({
   };
   useEffect(() => {
     console.log('girdim studentInfo:  xx', studentInfo);
-    
-    if (studentInfo != undefined  && Object.keys(studentInfo).length !== 0) {
+
+    if (studentInfo != undefined && Object.keys(studentInfo).length !== 0) {
       console.log('studentInfo:  xx', studentInfo);
       setValue('student_name', studentInfo.name);
       setValue('student_surname', studentInfo.surname);
@@ -252,7 +254,8 @@ export default function StudentInformationForm({
       setOmobility_id(omobilityId);
       setSelectedNationalityID(studentInfo.nationality_id);
       setSubjectAreaId(studentInfo.subjectArea_id);
-    }} , [studentInfo]);
+    }
+  }, [studentInfo]);
 
   return (
     <Stack
@@ -342,7 +345,7 @@ export default function StudentInformationForm({
               id='isced_code_and_fields'
               error={errors.isced_code_and_fields?.message}
               register={register('isced_code_and_fields')}
-              placeholder=  {ISCEDCodeAndFields}
+              placeholder={ISCEDCodeAndFields}
               selectLabel='ISCED Kodu ve Konu Alanları'
               onChange={handleISCEDchange}
             ></SelectISCED>

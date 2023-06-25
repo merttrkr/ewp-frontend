@@ -36,6 +36,7 @@ import useDelete from '@/hooks/delete/useDelete';
 type MobilityProgramFormLongTermProps = {
   pageName: String;
   pmpID: number;
+  learningAgreementID: number;
 };
 type FormData = {
   mobility_start_date: string;
@@ -48,6 +49,7 @@ type FormData = {
 export default function MobilityProgramFormLongTerm({
   pageName,
   pmpID,
+  learningAgreementID,
 }: MobilityProgramFormLongTermProps) {
   const {
     GetTableANotApprovedCoursesForChangeProposals,
