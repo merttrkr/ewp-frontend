@@ -16,11 +16,13 @@ import { set, useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 
 import { createCanvas, CanvasRenderingContext2D } from 'canvas';
+import useUpdate from '@/hooks/update/useUpdate';
 
 type CommitmentSignatureFormProps = {
   pageName: String;
   learningAgreementID: number;
   signatureInfo?: SignatureResponse;
+  commitmentID: number;
 };
 
 type FormData = {
@@ -39,13 +41,19 @@ export default function CommitmentSignatureForm({
   pageName,
   learningAgreementID,
   signatureInfo,
+  commitmentID,
 }: CommitmentSignatureFormProps) {
+  const { SaveCommitmentIdToLearningAgreementTable } = useUpdate();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const FormBackground = useColorModeValue('gray.50', 'gray.700');
-  const [studentSignature, setStudentSignature] = useState<string>(textToBase64Image(' '));
-  const [receiverSignature, setReceiverSignature] = useState<string>(textToBase64Image(' '));
+  const [studentSignature, setStudentSignature] = useState<string>(
+    textToBase64Image(' ')
+  );
+  const [receiverSignature, setReceiverSignature] = useState<string>(
+    textToBase64Image(' ')
+  );
   const toast = useToast();
   const {
     handleSubmit,
@@ -54,11 +62,20 @@ export default function CommitmentSignatureForm({
     setValue,
     control,
   } = useForm<FormData>();
-
+  async function handleSaveCommitmentIdToLearningAgreementTable() {
+    const fetchSaveCommitmentIdToLearningAgreementTable = async () => {
+      await SaveCommitmentIdToLearningAgreementTable(
+        'https://localhost:5001/spSaveCommitmentIdToLearningAgreementTable?commitment_id=' +
+          commitmentID +
+          '&learningAgreement_id=' +
+          learningAgreementID
+      );
+    };
+    fetchSaveCommitmentIdToLearningAgreementTable();
+  }
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
       try {
-
         toast({
           title: 'Kayıt Başarılı.',
           description: 'Form başarıyla kaydedildi.',
@@ -84,25 +101,43 @@ export default function CommitmentSignatureForm({
   };
 
   useEffect(() => {
-    if (
-      signatureInfo != undefined &&
-      Object.keys(signatureInfo).length !== 0
-    ) {
+    if (signatureInfo != undefined && Object.keys(signatureInfo).length !== 0) {
       setValue('student_signature', signatureInfo.studentSignatureInBase64);
-      setValue('sender_name', signatureInfo.sendingInstitutionIndividualResponsibleFullname);
-      setValue('sender_position', signatureInfo.sendingInstitutionIndividualResponsiblePosition);
-      setValue('sender_email', signatureInfo.sendingInstitutionIndividualResponsibleEmail);
+      setValue(
+        'sender_name',
+        signatureInfo.sendingInstitutionIndividualResponsibleFullname
+      );
+      setValue(
+        'sender_position',
+        signatureInfo.sendingInstitutionIndividualResponsiblePosition
+      );
+      setValue(
+        'sender_email',
+        signatureInfo.sendingInstitutionIndividualResponsibleEmail
+      );
 
-      setValue('receiver_signature', signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64);
-      setValue('receiver_name', signatureInfo.receivingInstitutionIndividualResponsibleFullname);
-      setValue('receiver_position', signatureInfo.receivingInstitutionIndividualResponsiblePosition);
-      setValue('receiver_email', signatureInfo.receivingInstitutionIndividualResponsibleEmail);
+      setValue(
+        'receiver_signature',
+        signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64
+      );
+      setValue(
+        'receiver_name',
+        signatureInfo.receivingInstitutionIndividualResponsibleFullname
+      );
+      setValue(
+        'receiver_position',
+        signatureInfo.receivingInstitutionIndividualResponsiblePosition
+      );
+      setValue(
+        'receiver_email',
+        signatureInfo.receivingInstitutionIndividualResponsibleEmail
+      );
       setValue('comment', signatureInfo.commentForRejection);
-      setStudentSignature(signatureInfo.studentSignatureInBase64 || textToBase64Image(' '));
-
+      setStudentSignature(
+        signatureInfo.studentSignatureInBase64 || textToBase64Image(' ')
+      );
     }
   }, [signatureInfo]);
-
 
   function textToBase64Image(text: string): string {
     const canvas = createCanvas(950, 200); // Set canvas width and height
@@ -125,7 +160,6 @@ export default function CommitmentSignatureForm({
   const handleReceiverSignatureChange = (value: string | null) => {
     setReceiverSignature(textToBase64Image(value || ' '));
   };
-
 
   return (
     <Stack
@@ -175,7 +209,6 @@ export default function CommitmentSignatureForm({
               </Heading>
               <img width='500' height='200' src={`${studentSignature}`} />
             </Flex>
-
 
             <TextInput
               id='sender_name'
