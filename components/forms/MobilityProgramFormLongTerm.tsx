@@ -65,6 +65,7 @@ export default function MobilityProgramFormLongTerm({
     SavePlannedStartingDateOfMobility,
     SavePlannedEndDateOfMobility,
     SaveProposedMobilityProgramme,
+    SaveProposedMobilityProgrammeIdToLearningAgreementTable,
   } = useUpdate();
 
   const { RemoveSelectedCourseById } = useDelete();
@@ -99,6 +100,19 @@ export default function MobilityProgramFormLongTerm({
     setValue,
     control,
   } = useForm<FormData>();
+
+  async function handleSaveProposedMobilityProgrammeIdToLearningAgreementTable() {
+    const fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable =
+      async () => {
+        await SaveProposedMobilityProgrammeIdToLearningAgreementTable(
+          'https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=' +
+            pmpID +
+            '&learningAgreement_id=' +
+            learningAgreementId
+        );
+      };
+    fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
+  }
 
   async function handleInsertEmptyRowToProposedMobilityProgramme() {
     const fetchInsertEmptyRowToProposedMobilityProgramme = async () => {
@@ -204,6 +218,7 @@ export default function MobilityProgramFormLongTerm({
   };
   useEffect(() => {
     handleInsertEmptyRowToProposedMobilityProgramme();
+    handleSaveProposedMobilityProgrammeIdToLearningAgreementTable();
     handleGetTableANotApprovedCourses();
     handleGetTableBNotApprovedCourses();
     handleGetTableAApprovedCourses();

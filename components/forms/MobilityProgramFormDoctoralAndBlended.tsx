@@ -68,6 +68,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     SaveProposedMobilityProgramme,
     SaveReceivingInstitutionCourseCatalogueLink,
     SaveProvisionsLinkIfEducationUnsuccessful,
+    SaveProposedMobilityProgrammeIdToLearningAgreementTable,
     SaveLanguageId,
     SaveLanguageLevelId,
   } = useUpdate();
@@ -103,6 +104,19 @@ export default function MobilityProgramFormDoctoralAndBlended({
     setValue,
     control,
   } = useForm<FormData>();
+  async function handleSaveProposedMobilityProgrammeIdToLearningAgreementTable() {
+    const fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable =
+      async () => {
+        await SaveProposedMobilityProgrammeIdToLearningAgreementTable(
+          'https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=' +
+            pmpID +
+            '&learningAgreement_id=' +
+            learningAgreementId
+        );
+      };
+    fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
+  }
+
   async function handleRemoveSelectedCourseById(courseId: number) {
     const fetchRemoveSelectedCourseById = async () => {
       const requestUrl =
@@ -261,6 +275,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
 
   useEffect(() => {
     handleInsertEmptyRowToProposedMobilityProgramme();
+    handleSaveProposedMobilityProgrammeIdToLearningAgreementTable();
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetApprovedCoursesOfBlendedOrDoctorate();
     handleGetTotalCourseCreditsForBlendedOrDoctorate();
