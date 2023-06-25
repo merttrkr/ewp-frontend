@@ -24,6 +24,7 @@ import { ReceivingInstitutionInfoResponse } from '@/models/response/receivingIns
 import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
 import useUpdate from '@/hooks/update/useUpdate';
 import VirtualComponentForm from '@/components/forms/VirtualComponentForm';
+import { SignatureResponse } from '@/models/response/signatureResponse';
 
 export default function TabComponent() {
   const {
