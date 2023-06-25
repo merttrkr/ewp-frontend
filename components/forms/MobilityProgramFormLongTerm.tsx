@@ -38,15 +38,15 @@ type MobilityProgramFormLongTermProps = {
   pageName: String;
   pmpID: number;
   learningAgreementID: number;
-  proposedMobilityProgramme?: ProposedMobilityProgrammeResponse; 
+  proposedMobilityProgramme?: ProposedMobilityProgrammeResponse;
 };
 type FormData = {
   mobility_start_date: string;
   mobility_end_date: string;
   language: string;
   language_level: string;
-  link_a: string;
-  link_b: string;
+  link: string;
+  provision_link: string;
 };
 export default function MobilityProgramFormLongTerm({
   pageName,
@@ -73,7 +73,6 @@ export default function MobilityProgramFormLongTerm({
 
   const { RemoveSelectedCourseById } = useDelete();
   //use states
-  const [learningAgreementId, setLearningAgreementId] = useState(70);
   const [mobilityStartDate, setMobilityStartDate] = useState('');
   const [mobilityEndDate, setMobilityEndDate] = useState('');
   const [language, setLanguage] = useState('');
@@ -111,7 +110,7 @@ export default function MobilityProgramFormLongTerm({
           'https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=' +
             pmpID +
             '&learningAgreement_id=' +
-            learningAgreementId
+            learningAgreementID
         );
       };
     fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
@@ -250,37 +249,18 @@ export default function MobilityProgramFormLongTerm({
     }
   };
 
-  const handleSaveProposedMobilityProgrammeA = async (values: FormData) => {
-    const { link_a, mobility_start_date, mobility_end_date } = values;
+  const handleSaveProposedMobilityProgramme = async (values: FormData) => {
+    const { link, mobility_start_date, mobility_end_date, provision_link } =
+      values;
 
     const request: MobilityProgrammeRequest = {
       pmp_id: pmpID,
       plannedStartingDateOfMobility: mobility_start_date,
       plannedEndDateOfMobility: mobility_end_date,
-      receivingInstitutionCourseCatalogueLink: link_a,
+      receivingInstitutionCourseCatalogueLink: link,
       language_id: languageID,
       languageLevel_id: languageLevelID,
-      provisionsLinkIfEducationUnsuccessful: '',
-    };
-    try {
-      const result = await SaveProposedMobilityProgramme(request);
-      // Handle the result if needed
-    } catch (error) {
-      console.error('Error saving proposed mobility program:', error);
-    }
-  };
-
-  const handleSaveProposedMobilityProgrammeB = async (values: FormData) => {
-    const { link_b, mobility_start_date, mobility_end_date } = values;
-
-    const request: MobilityProgrammeRequest = {
-      pmp_id: pmpID,
-      plannedStartingDateOfMobility: mobility_start_date,
-      plannedEndDateOfMobility: mobility_end_date,
-      receivingInstitutionCourseCatalogueLink: link_b,
-      language_id: languageID,
-      languageLevel_id: languageLevelID,
-      provisionsLinkIfEducationUnsuccessful: '',
+      provisionsLinkIfEducationUnsuccessful: provision_link,
     };
 
     try {
@@ -307,8 +287,8 @@ export default function MobilityProgramFormLongTerm({
     return new Promise<void>(async (resolve, reject) => {
       await handleSavePlannedStartingDateOfMobility(values.mobility_start_date);
       await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
-      await handleSaveProposedMobilityProgrammeA(values);
-      await handleSaveProposedMobilityProgrammeB(values);
+      await handleSaveProposedMobilityProgramme(values);
+
       try {
         toast({
           title: 'Kayıt Başarılı.',
@@ -542,9 +522,9 @@ export default function MobilityProgramFormLongTerm({
             <TextInput
               label='Alıcı Kurumdaki Kurs Kataloğu Linki'
               placeholder='www.iyte.edu.tr'
-              id='link_a'
-              error={errors.link_a?.message}
-              register={register('link_a')}
+              id='link'
+              error={errors.link?.message}
+              register={register('link')}
             ></TextInput>
             <Flex gap={4}>
               <Box w={'50%'}>
@@ -679,13 +659,6 @@ export default function MobilityProgramFormLongTerm({
           </Flex>
 
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
-            <TextInput
-              label='Alıcı Kurumdaki Kurs Kataloğu Linki'
-              placeholder='www...'
-              id='link_b'
-              error={errors.link_b?.message}
-              register={register('link_b')}
-            ></TextInput>
             <Flex gap={4}>
               <Box w={'50%'}>
                 <SelectLanguage
@@ -709,6 +682,13 @@ export default function MobilityProgramFormLongTerm({
                 ></SelectLanguageLevel>
               </Box>
             </Flex>
+            <TextInput
+              label='Öğrencinin talep ettiği dersleri tamamlayamaması durumunda uygulanacak hükümlerin linki'
+              placeholder='www...'
+              id='provision_link'
+              error={errors.provision_link?.message}
+              register={register('provision_link')}
+            ></TextInput>
           </Flex>
         </Flex>
 
