@@ -18,6 +18,7 @@ import { useState } from 'react';
 type CommitmentSignatureFormProps = {
   pageName: String;
   learningAgreementID: number;
+  signatureInfo?: SignatureResponse;
 };
 
 type FormData = {
@@ -36,6 +37,7 @@ type FormData = {
 export default function CommitmentSignatureForm({
   pageName,
   learningAgreementID,
+  signatureInfo,
 }: CommitmentSignatureFormProps) {
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
@@ -126,6 +128,7 @@ export default function CommitmentSignatureForm({
             >
               Gönderen Kurum
             </Heading>
+            
             <SignatureInput
               id='sender_signature'
               register={register('sender_signature')}
