@@ -270,22 +270,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
     handleGetTotalCourseCreditsForBlendedOrDoctorate();
   }, [addControl, deleteControl]);
 
-  useEffect(() => {
-    //page init
-    console.log('use efffect doctora on init');
-    console.log('proposedMobilityProgramme' + proposedMobilityProgramme);
-    
-    if (proposedMobilityProgramme != undefined  && Object.keys(proposedMobilityProgramme).length !== 0) {
-      setValue('mobility_start_date', proposedMobilityProgramme.plannedStartingDateOfMobility);
-      setValue('mobility_end_date', proposedMobilityProgramme.plannedEndDateOfMobility);
-      setValue('link', proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink);
-      setMobilityStartDate(proposedMobilityProgramme.plannedStartingDateOfMobility);
-      setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility);
-      setLanguageID(proposedMobilityProgramme.language_id);
-      setLanguageLevelID(proposedMobilityProgramme.languageLevel_id);
-    }
 
-  }, [proposedMobilityProgramme]);
 
 
   const onSubmit = (values: FormData) => {
@@ -365,6 +350,24 @@ export default function MobilityProgramFormDoctoralAndBlended({
     handleRemoveSelectedCourseById(component.id);
     setDeleteControl((prevAddControl) => prevAddControl + 1);
   };
+
+  useEffect(() => {
+    //page init
+    console.log('use efffect doctora on init');
+    console.log('proposedMobilityProgramme' + proposedMobilityProgramme?.receivingInstitutionCourseCatalogueLink);
+    
+    if (proposedMobilityProgramme != undefined  && Object.keys(proposedMobilityProgramme).length !== 0) {
+      console.log('proposedMobilityProgramme xxxx' + proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink);
+      setValue('mobility_start_date', proposedMobilityProgramme.plannedStartingDateOfMobility);
+      setValue('mobility_end_date', proposedMobilityProgramme.plannedEndDateOfMobility);
+      setValue('link', proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink);
+      setMobilityStartDate(proposedMobilityProgramme.plannedStartingDateOfMobility);
+      setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility);
+      setLanguageID(proposedMobilityProgramme.language_id);
+      setLanguageLevelID(proposedMobilityProgramme.languageLevel_id);
+    }
+
+  }, [proposedMobilityProgramme]);
 
   return (
     <Stack
