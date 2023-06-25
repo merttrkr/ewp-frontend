@@ -378,8 +378,13 @@ export default function MobilityProgramFormDoctoralAndBlended({
           <Stack w='50%'>
             <DateInput
               id='mobility_start_date'
-              register={register('mobility_start_date')}
-              placeholder=''
+              register={
+                (register('mobility_start_date'),
+                {
+                  required: 'This is required',
+                })
+              }
+              placeholder={mobilityStartDate}
               label='Hareketliliğin Başlangıç Tarihi'
               onChange={handleMobilityStartDateChange}
               error={errors.mobility_start_date?.message}
@@ -388,8 +393,13 @@ export default function MobilityProgramFormDoctoralAndBlended({
           <Stack w='50%'>
             <DateInput
               id='mobility_end_date'
-              register={register('mobility_end_date')}
-              placeholder=''
+              register={
+                (register('mobility_end_date'),
+                {
+                  required: 'This is required',
+                })
+              }
+              placeholder={mobilityEndDate}
               label='Hareketliliğin Bitiş Tarihi'
               onChange={handleMobilityEndDateChange}
               error={errors.mobility_end_date?.message}
@@ -510,15 +520,25 @@ export default function MobilityProgramFormDoctoralAndBlended({
               placeholder='www...'
               id='link'
               error={errors.link?.message}
-              register={register('link')}
+              register={
+                (register('link'),
+                {
+                  required: 'This is required',
+                })
+              }
             ></TextInput>
             <Flex gap={4}>
               <Box w={'50%'}>
                 <SelectLanguage
                   id='language'
                   error={errors.language?.message}
-                  register={register('language')}
-                  placeholder=''
+                  register={
+                    (register('language'),
+                    {
+                      required: 'This is required',
+                    })
+                  }
+                  placeholder={language}
                   selectLabel='Yabancı Dil'
                   onChange={handleLanguageChange}
                 ></SelectLanguage>
@@ -528,8 +548,13 @@ export default function MobilityProgramFormDoctoralAndBlended({
                 <SelectLanguageLevel
                   id='language_level'
                   error={errors.language_level?.message}
-                  register={register('language_level')}
-                  placeholder=''
+                  register={
+                    (register('language_level'),
+                    {
+                      required: 'This is required',
+                    })
+                  }
+                  placeholder={languageLevel}
                   selectLabel='Seviyesi'
                   onChange={handleLanguageLevelChange}
                 ></SelectLanguageLevel>
