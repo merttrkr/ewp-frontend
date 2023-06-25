@@ -374,8 +374,19 @@ const useAgreement = () => {
 
     return response;
   };
+  //https://localhost:5001/spGetSignatureForCommitment?commitment_id=34
+  const GetSignatureForCommitment = async (
+    request: string
+  ): Promise<SignatureResponse> => {
+    const response: SignatureResponse =
+    await makeRequest<SignatureResponse>(request);
+    console.log('signature response'+ response);
+    
+    return response;
+  };
 
   return {
+    GetSignatureForCommitment,
     GetReceivingInstitutionInfoById,
     GetOrganizationIdsAndCollaborationConditionIds,
     GetBilateralAgreements,
