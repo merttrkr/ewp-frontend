@@ -239,7 +239,23 @@ export default function CommitmentSignatureForm({
         signatureInfo.receivingInstitutionIndividualResponsibleEmail
       );
       setValue('comment', signatureInfo.commentForRejection);
-  
+      if(signatureInfo.studentSignatureInBase64?.startsWith('data:image/png;base64,') == false){
+        setStudentSignature(textToBase64Image(signatureInfo.studentSignatureInBase64));
+      }
+      else{
+        setStudentSignature(signatureInfo.studentSignatureInBase64);
+      }
+      if (signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64?.startsWith('data:image/png;base64,') == false) {
+        setSenderSignature(textToBase64Image(signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64));
+      }
+      else{
+        setSenderSignature(signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64);
+      }
+      if (signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64?.startsWith('data:image/png;base64,') == false) {
+        setReceiverSignature(textToBase64Image(signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64));
+      }
+      
+      
     }
   }, [signatureInfo]);
 
