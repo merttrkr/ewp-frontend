@@ -22,7 +22,7 @@ type PreviewOrSaveFormProps = {
   organizationInfoId: number;
   saveState: number;
   newPartnerCollaborationConditionId: number;
-  newCollaborationConditionId : number; 
+  newCollaborationConditionId: number;
   partnerOrganizationInfoId: number;
 };
 
@@ -40,7 +40,8 @@ export default function PreviewOrSaveForm({
   const BorderColor = useColorModeValue('gray.200', 'gray.600');
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
-  const [partnerOrganizationInfo, setPartnerOrganizationInfo] = useState<OrganizationInfo>();
+  const [partnerOrganizationInfo, setPartnerOrganizationInfo] =
+    useState<OrganizationInfo>();
   const [contactPerson, setContactPerson] = useState([] as string[]);
   const toast = useToast();
 
@@ -57,7 +58,7 @@ export default function PreviewOrSaveForm({
     UpdateStateOfBilateralAgreement,
     sendIIANotification,
   } = useUpdate();
-  
+
   const {
     GetCollaborationConditionTypes,
     GetLanguages,
@@ -73,7 +74,7 @@ export default function PreviewOrSaveForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-        organizationInfoId
+          organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setOrganizationInfo(data);
@@ -87,7 +88,7 @@ export default function PreviewOrSaveForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-        partnerOrganizationInfoId
+          partnerOrganizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setPartnerOrganizationInfo(data);
@@ -102,11 +103,13 @@ export default function PreviewOrSaveForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-        organizationInfoId
+          organizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data && data.length > 0) {
         // Assuming the fetched data is an array of contact persons
-        const senderContactPersons = data.map((contactPerson: string) => contactPerson);
+        const senderContactPersons = data.map(
+          (contactPerson: string) => contactPerson
+        );
         setContactPerson(senderContactPersons);
       }
     };
@@ -120,7 +123,7 @@ export default function PreviewOrSaveForm({
       iia_id: organizationInfo?.IIAID ?? '',
       partner_hei_id: partnerOrganizationInfo?.heiId ?? '',
     };
-  
+
     try {
       const result = await sendIIANotification(notificationRequest);
       console.log(result); // You can handle the result as needed
@@ -136,15 +139,12 @@ export default function PreviewOrSaveForm({
       console.error(error); // Handle the error if necessary
     }
   }
-  
-  
-
 
   async function handleUpdateDateOfBilateralAgreement() {
     const updateDateOfBilateralAgreement = async () => {
       await UpdateDateOfBilateralAgreement(
         'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=' +
-        bilateralAgreementID
+          bilateralAgreementID
       );
     };
     updateDateOfBilateralAgreement();
@@ -153,19 +153,20 @@ export default function PreviewOrSaveForm({
   async function handleUpdateStateOfBilateralAgreement(state: string) {
     const updateDateOfBilateralAgreement = async () => {
       await UpdateDateOfBilateralAgreement(
-        'https://localhost:5001/spUpdateStateOfBilateralAgreement?bilateralAgreement_id=21&new_state='+ state +
-        bilateralAgreementID
+        'https://localhost:5001/spUpdateStateOfBilateralAgreement?bilateralAgreement_id=21&new_state=' +
+          state +
+          bilateralAgreementID
       );
     };
     updateDateOfBilateralAgreement();
-  }  
+  }
   useEffect(() => {
     handleGetOrganizationInfo();
     handleGetSelectedContactInfoOfOrganizationInfo();
     handleGetPartnerOrganizationInfo();
   }, [saveState, organizationInfoId, partnerOrganizationInfoId]);
 
-  function handleSaveAsDraft(){
+  function handleSaveAsDraft() {
     handleUpdateStateOfBilateralAgreement('Taslak');
     handleUpdateDateOfBilateralAgreement();
     toast({
@@ -178,7 +179,7 @@ export default function PreviewOrSaveForm({
     });
   }
 
-  function handlesendNotification(){
+  function handlesendNotification() {
     handleUpdateStateOfBilateralAgreement('Teklif');
     handleUpdateDateOfBilateralAgreement();
     toast({
@@ -192,7 +193,6 @@ export default function PreviewOrSaveForm({
   }
   return (
     <Stack
-      marginBottom='20'
       px={6}
       py={6}
       w='100%'
@@ -213,11 +213,26 @@ export default function PreviewOrSaveForm({
       >
         {pageName}
       </Heading>
-      <Flex gap={3} direction={['column', 'column', 'row']} justifyContent={['center', 'center', 'space-between']} p={6}>
-        <Button onClick={handleSaveAsDraft} variant='condition' type='submit' mb={[4, 4, 0]}>
+      <Flex
+        gap={3}
+        direction={['column', 'column', 'row']}
+        justifyContent={['center', 'center', 'space-between']}
+        p={6}
+      >
+        <Button
+          onClick={handleSaveAsDraft}
+          variant='condition'
+          type='submit'
+          mb={[4, 4, 0]}
+        >
           Anlaşmayı Taslak Olarak Kaydet
         </Button>
-        <Button onClick={handlesendNotification} variant='autoWidthFull' type='reset' mb={[4, 4, 0]}>
+        <Button
+          onClick={handlesendNotification}
+          variant='autoWidthFull'
+          type='reset'
+          mb={[4, 4, 0]}
+        >
           Karşı Kuruma Anlaşma Bildirimi Gönder
         </Button>
         <Button variant='autoWidthFull' type='reset'>

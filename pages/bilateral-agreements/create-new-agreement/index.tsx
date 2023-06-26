@@ -5,7 +5,7 @@ import {
   TabPanels,
   Tabs,
   Flex,
-  Text,
+  Box,
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -91,7 +91,7 @@ export default function TabComponent() {
     const fetchBilateralAgreementIsInEffect = async () => {
       const data = await CheckIfBilateralAgreementIsInEffect(
         'https://localhost:5001/spCheckIfBilateralAgreementIsInEffect?bilateralAgreement_id=' +
-        bilateralAgreementID
+          bilateralAgreementID
       );
       if (data) {
         setbilateralAgreementState(data);
@@ -100,16 +100,12 @@ export default function TabComponent() {
     fetchBilateralAgreementIsInEffect();
   }
   useEffect(() => {
-
     if (saveState != 0) {
-      console.log("saveState ", saveState , " newOrganizationInfoId ", newOrganizationInfoId, " newPartnerOrganizationInfoId ", newPartnerOrganizationInfoId);
-      
       setNewOrganizationInfoId(newOrganizationInfoId);
       setNewPartnerOrganizationInfoId(newPartnerOrganizationInfoId);
     }
   }, [saveState]);
-  console.log("saveState ", saveState , " newOrganizationInfoId ", newOrganizationInfoId, " newPartnerOrganizationInfoId ", newPartnerOrganizationInfoId);
-  console.log("saveState ", saveState , " newcollabıd ", newCollaborationConditionId, " newPartnercollabıd ", newPartnerCollaborationConditionId);
+
   useEffect(() => {
     handleIDForBoth();
     handleIDForBothCollaborationCondition();
@@ -121,7 +117,6 @@ export default function TabComponent() {
   }, [bilateralAgreementID]);
   const handleSaveStateUpdate = () => {
     setSaveState((prevState) => prevState + 1);
-
   };
 
   return (
@@ -142,6 +137,7 @@ export default function TabComponent() {
             isPartnerValue={0}
             bilateralAgreementID={bilateralAgreementID}
           />
+          <Box height={10}></Box>
           <InstitutionInformationFormIIA
             onSave={handleSaveStateUpdate}
             saveState={saveState}
@@ -164,6 +160,7 @@ export default function TabComponent() {
             partnerCollaborationConditionId={newPartnerCollaborationConditionId}
             isPartnerValue={0}
           />
+          <Box height={10}></Box>
           <InstitutionConditionsForm
             saveState={saveState}
             pageName='Partner Kuruma Ait Koşullar'
@@ -179,17 +176,22 @@ export default function TabComponent() {
         <TabPanel>
           <PreviewOrSaveForm
             partnerOrganizationInfoId={newOrganizationInfoId}
-            newPartnerCollaborationConditionId = {newPartnerCollaborationConditionId}
-            newCollaborationConditionId = {newCollaborationConditionId}
+            newPartnerCollaborationConditionId={
+              newPartnerCollaborationConditionId
+            }
+            newCollaborationConditionId={newCollaborationConditionId}
             saveState={saveState}
             organizationInfoId={newOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
             pageName='Kurumuma Ait Bilgiler'
           />
+          <Box height={10}></Box>
           <PreviewOrSaveForm
             partnerOrganizationInfoId={newOrganizationInfoId}
-            newPartnerCollaborationConditionId = {newPartnerCollaborationConditionId}
-            newCollaborationConditionId = {newCollaborationConditionId}
+            newPartnerCollaborationConditionId={
+              newPartnerCollaborationConditionId
+            }
+            newCollaborationConditionId={newCollaborationConditionId}
             saveState={saveState}
             organizationInfoId={newPartnerOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
@@ -216,10 +218,11 @@ export default function TabComponent() {
               textAlign={['center', 'center', 'left']}
             >
               Anlaşma Yürürlük Durumu:{' '}
-              {bilateralAgreementState === 'Hayır' ? 'Yürürlükte değil' : 'Yürürlükte'}
+              {bilateralAgreementState === 'Hayır'
+                ? 'Yürürlükte değil'
+                : 'Yürürlükte'}
             </Heading>
           </Flex>
-
         </TabPanel>
       </TabPanels>
     </Tabs>
