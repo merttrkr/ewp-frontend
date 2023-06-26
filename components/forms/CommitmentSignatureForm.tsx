@@ -29,7 +29,7 @@ type CommitmentSignatureFormProps = {
   sendingInstitutionInfoId: number;
   omobilityID: string;
   receivingInstitutionHeiID?: string;
-  pmpID:number;
+  pmpID: number;
 };
 
 type FormData = {
@@ -88,7 +88,6 @@ export default function CommitmentSignatureForm({
 
   async function handleGetSendingHeiId() {
     const fetchGetSendingHeiId = async () => {
-      
       const requestUrl =
         'https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=' +
         sendingInstitutionInfoId;
@@ -156,16 +155,16 @@ export default function CommitmentSignatureForm({
         commentForRejection: values.comment ?? '',
       };
       console.log('request', request);
-      
+
       await SaveCommitment(request);
     } catch (error) {
       console.error('Error saving commitment: ', error);
     }
   }
   useEffect(() => {
-
-       handleInsertEmptyRowToCommitment()
-      .then(() => handleSaveCommitmentIdToLearningAgreementTable());
+    handleInsertEmptyRowToCommitment().then(() =>
+      handleSaveCommitmentIdToLearningAgreementTable()
+    );
   }, [commitmentID]);
   useEffect(() => {
     handleGetSendingHeiId();
@@ -203,7 +202,7 @@ export default function CommitmentSignatureForm({
     console.log('signatureInfo', signatureInfo);
     if (signatureInfo != undefined && Object.keys(signatureInfo).length !== 0) {
       console.log('signatureInfo', signatureInfo);
-      
+
       setValue('student_signature', signatureInfo.studentSignatureInBase64);
       setValue(
         'sender_signature',
@@ -239,23 +238,43 @@ export default function CommitmentSignatureForm({
         signatureInfo.receivingInstitutionIndividualResponsibleEmail
       );
       setValue('comment', signatureInfo.commentForRejection);
-      if(signatureInfo.studentSignatureInBase64?.startsWith('data:image/png;base64,') == false){
-        setStudentSignature(textToBase64Image(signatureInfo.studentSignatureInBase64));
-      }
-      else{
+      if (
+        signatureInfo.studentSignatureInBase64?.startsWith(
+          'data:image/png;base64,'
+        ) == false
+      ) {
+        setStudentSignature(
+          textToBase64Image(signatureInfo.studentSignatureInBase64)
+        );
+      } else {
         setStudentSignature(signatureInfo.studentSignatureInBase64);
       }
-      if (signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64?.startsWith('data:image/png;base64,') == false) {
-        setSenderSignature(textToBase64Image(signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64));
+      if (
+        signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64?.startsWith(
+          'data:image/png;base64,'
+        ) == false
+      ) {
+        setSenderSignature(
+          textToBase64Image(
+            signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64
+          )
+        );
+      } else {
+        setSenderSignature(
+          signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64
+        );
       }
-      else{
-        setSenderSignature(signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64);
+      if (
+        signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64?.startsWith(
+          'data:image/png;base64,'
+        ) == false
+      ) {
+        setReceiverSignature(
+          textToBase64Image(
+            signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64
+          )
+        );
       }
-      if (signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64?.startsWith('data:image/png;base64,') == false) {
-        setReceiverSignature(textToBase64Image(signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64));
-      }
-      
-      
     }
   }, [signatureInfo]);
 
@@ -290,15 +309,14 @@ export default function CommitmentSignatureForm({
     const notificationRequest = {
       sending_hei_id: sendingHeiId,
       omobility_id: omobilityID,
-      partner_hei_id:receivingInstitutionHeiID,
+      partner_hei_id: receivingInstitutionHeiID,
     };
-  
+
     try {
       if (notificationRequest.partner_hei_id != undefined) {
         const result = await sendOLANotification(notificationRequest);
         console.log(result); // You can handle the result as needed
       }
- 
     } catch (error) {
       toast({
         title: 'Bildirim Gönderilemedi.',
@@ -311,21 +329,20 @@ export default function CommitmentSignatureForm({
       console.error(error); // Handle the error if necessary
     }
   }
-  async function handleOLAUpdateNotification(isApproved : boolean) {
+  async function handleOLAUpdateNotification(isApproved: boolean) {
     const notificationRequest = {
       sending_hei_id: sendingHeiId,
       learningAgreementId: learningAgreementID,
       proposedMobilityProgrammeId: pmpID,
-      isApproved :isApproved,
+      isApproved: isApproved,
       virtualComponentId: 0,
     };
-  
+
     try {
       if (notificationRequest != undefined) {
         const result = await sendOLAUpdateNotification(notificationRequest);
         console.log(result); // You can handle the result as needed
       }
- 
     } catch (error) {
       toast({
         title: 'Bildirim Gönderilemedi.',
@@ -388,7 +405,12 @@ export default function CommitmentSignatureForm({
               <SignatureInput
                 onChange={handleStudentSignatureChange}
                 id='student_signature'
-                register={register('student_signature')}
+                register={
+                  (register('student_signature'),
+                  {
+                    required: 'This is required',
+                  })
+                }
                 placeholder='Ad Soyad'
                 label='Öğrenci İmzası'
                 error={errors.student_signature?.message}
@@ -408,7 +430,12 @@ export default function CommitmentSignatureForm({
               <SignatureInput
                 onChange={handleSenderSignatureChange}
                 id='sender_signature'
-                register={register('sender_signature')}
+                register={
+                  (register('sender_signature'),
+                  {
+                    required: 'This is required',
+                  })
+                }
                 placeholder='Ad Soyad'
                 label='Sorumlu Kişi İmzası'
                 error={errors.sender_signature?.message}
