@@ -264,7 +264,7 @@ export default function InstitutionInformationForm({
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
               inputValue={universityId}
-              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
+              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName='
               id='instution_name'
               register={register('hei_id', {
                 required: 'This is required',

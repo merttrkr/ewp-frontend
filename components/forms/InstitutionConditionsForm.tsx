@@ -618,7 +618,7 @@ export default function InstitutionConditionsForm({
         <Flex flexWrap={['wrap', null, 'nowrap']}>
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
-              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
+              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName='
               id='sender_instution_name'
               register={register('sender_hei_id')}
               isDisabled
@@ -685,7 +685,7 @@ export default function InstitutionConditionsForm({
           </Stack>
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
-              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
+              apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName='
               id='receiver_instution_name'
               register={register('receiver_hei_id')}
               placeHolder={receiverInstitution}
