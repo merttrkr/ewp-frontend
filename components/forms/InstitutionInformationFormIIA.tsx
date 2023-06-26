@@ -95,7 +95,6 @@ export default function InstitutionInformationForm({
   const [organizationInfo, setOrganizationInfo] = useState<OrganizationInfo>();
   const [signingDateInp, setSigningDateInp] = useState<string>('');
 
-
   //useForm hook
   const {
     handleSubmit,
@@ -134,7 +133,7 @@ export default function InstitutionInformationForm({
     const insertEmptyRowToBilateralAgreement = async () => {
       await InsertEmptyRowToBilateralAgreement(
         'https://localhost:5001/spInsertEmptyRowToBilateralAgreement?bilateralAgreement_id=' +
-        id
+          id
       );
     };
     insertEmptyRowToBilateralAgreement();
@@ -144,7 +143,7 @@ export default function InstitutionInformationForm({
     const insertEmptyRowToOrganizationInfo = async () => {
       await InsertEmptyRowToOrganizationInfo(
         'https://localhost:5001/spInsertEmptyRowToOrganizationInfo?organizationInfo_id=' +
-        id
+          id
       );
     };
     insertEmptyRowToOrganizationInfo();
@@ -153,31 +152,27 @@ export default function InstitutionInformationForm({
   async function handleSetSigningPerson() {
     const setSigningPerson = async () => {
       if (organizationInfoId != 0 && authorizedSignotaryPersonID != 0) {
-
         await SetSigningPerson(
           'https://localhost:5001/spSetSigningPerson?organizationInfo_id=' +
-          organizationInfoId +
-          '&signingPerson_id=' +
-          authorizedSignotaryPersonID
+            organizationInfoId +
+            '&signingPerson_id=' +
+            authorizedSignotaryPersonID
         );
       }
-
     };
     setSigningPerson();
   }
 
   async function handleAddOrganizationContactInfo() {
-
     const addContactPromises = contactPersonID.map(async (item) => {
       if (organizationInfoId != 0 && item != 0) {
         await AddOrganizationContactInfo(
           'https://localhost:5001/spAddOrganizationContactInfo?organizationInfo_id=' +
-          organizationInfoId +
-          '&contact_id=' +
-          item
+            organizationInfoId +
+            '&contact_id=' +
+            item
         );
       }
-
     });
 
     try {
@@ -185,25 +180,22 @@ export default function InstitutionInformationForm({
       // All requests completed successfully
       // Add any additional logic here
     } catch (error) {
-      console.log('girdim' + error);
-
+      console.log('Error: ' + error);
       // Error occurred during one or more requests
       // Handle or log the error as needed
     }
   }
 
-
   async function handleSetUniversityIdOfOrganizationInfo() {
     const setUniversityIdOfOrganizationInfo = async () => {
-      if (institutionID != 0 && organizationInfoId != 0){
+      if (institutionID != 0 && organizationInfoId != 0) {
         await SetUniversityIdOfOrganizationInfo(
           'https://localhost:5001/spSetUniversityIdOfOrganizationInfo?hei_id=' +
-          institution +
-          '&organizationInfo_id=' +
-          organizationInfoId
+            institution +
+            '&organizationInfo_id=' +
+            organizationInfoId
         );
       }
-     
     };
     setUniversityIdOfOrganizationInfo();
   }
@@ -212,7 +204,7 @@ export default function InstitutionInformationForm({
     const updateDateOfBilateralAgreement = async () => {
       await UpdateDateOfBilateralAgreement(
         'https://localhost:5001/spUpdateLastUpdateDateOfBilateralAgremeent?bilateralAgreement_id=' +
-        bilateralAgreementID
+          bilateralAgreementID
       );
     };
     updateDateOfBilateralAgreement();
@@ -253,7 +245,7 @@ export default function InstitutionInformationForm({
     const setCreatorOfBilateralAgreement = async () => {
       await SetCreatorOfBilateralAgreement(
         'https://localhost:5001/spSetCreatorOfBilateralAgreement?bilateralAgreement_id=' +
-        bilateralAgreementID
+          bilateralAgreementID
       );
     };
     setCreatorOfBilateralAgreement();
@@ -271,11 +263,8 @@ export default function InstitutionInformationForm({
         await handleSetSigningPerson();
         await handleAddOrganizationContactInfo();
         await handleUpdateDateOfBilateralAgreement();
-
         await handleSaveOrganizationInfo();
-
         await handleAddOrganizationInfoToBilateralAgreement();
-
         await handleSetCreatorOfBilateralAgreement();
         onSave();
 
@@ -308,7 +297,6 @@ export default function InstitutionInformationForm({
       setValue('hei_id', value.heiId);
       setInstitution(value.heiId);
       setInstitutionId(value.uniqueId);
-
     } else {
       setValue('hei_id', '');
       setInstitution('');
@@ -317,10 +305,12 @@ export default function InstitutionInformationForm({
 
   const handleSelectChangeContact = (value: Contact | Contact[] | null) => {
     if (Array.isArray(value)) {
-      const contactPersonNames = value.map(contact => contact.fullName).join(', ');
+      const contactPersonNames = value
+        .map((contact) => contact.fullName)
+        .join(', ');
       setValue('contact_persons', contactPersonNames);
       setContactPerson(contactPersonNames);
-      const contactPersonIDs = value.map(contact => contact.id);
+      const contactPersonIDs = value.map((contact) => contact.id);
       setContactPersonID(contactPersonIDs);
     } else if (value) {
       setValue('contact_persons', value.fullName);
@@ -333,9 +323,9 @@ export default function InstitutionInformationForm({
     }
   };
 
-
-  const handleAuthorizedSignerSelectChangeContact = (value: Contact | Contact[] | null) => {
-
+  const handleAuthorizedSignerSelectChangeContact = (
+    value: Contact | Contact[] | null
+  ) => {
     if (value && !Array.isArray(value)) {
       setValue('authorized_signotary', value.fullName);
       setAuthorizedSignotary(value.fullName);
@@ -348,7 +338,6 @@ export default function InstitutionInformationForm({
       setauthorizedSignotaryPersonID(0); // or any default value you want
     }
   };
-
 
   const handleSelectChangeDepartment = (value: Department | null) => {
     if (value) {
@@ -382,7 +371,7 @@ export default function InstitutionInformationForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-        organizationInfoId
+          organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setOrganizationInfo(data);
@@ -410,7 +399,6 @@ export default function InstitutionInformationForm({
       py={[2, 3]}
       w={['100%', null, 'auto']}
       bg={HeaderBackground}
-
       borderBottom='1px'
       borderColor={BorderColor}
       borderRadius={'xl'}
@@ -436,7 +424,12 @@ export default function InstitutionInformationForm({
               inputValue={institution}
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
-              register={register('hei_id')}
+              register={
+                (register('hei_id'),
+                {
+                  required: 'This is required',
+                })
+              }
               placeHolder={institution}
               selectLabel='Kurum / Üniversite Adı'
               onChange={handleSelectChangeInstitution}
@@ -454,7 +447,12 @@ export default function InstitutionInformationForm({
               isMultiple
               id='contact_persons'
               error={errors.contact_persons?.message}
-              register={register('contact_persons')}
+              register={
+                (register('contact_persons'),
+                {
+                  required: 'This is required',
+                })
+              }
               placeholder={contactPerson}
               selectLabel='İletişim Kurulabilecek Yetkililer'
               onChange={handleSelectChangeContact}
@@ -465,16 +463,26 @@ export default function InstitutionInformationForm({
               id='authorized_signotary'
               selectLabel='Anlaşmayı İmzalayacak Yetkili'
               error={errors.authorized_signotary?.message}
-              register={register('authorized_signotary')}
+              register={
+                (register('authorized_signotary'),
+                {
+                  required: 'This is required',
+                })
+              }
               onChange={handleAuthorizedSignerSelectChangeContact}
               param={institution}
             />
           </Stack>
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectDepartment
-            inputValue={department}
+              inputValue={department}
               id='departmant_name'
-              register={register('departmant_name')}
+              register={
+                (register('departmant_name'),
+                {
+                  required: 'This is required',
+                })
+              }
               placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
@@ -491,7 +499,12 @@ export default function InstitutionInformationForm({
             />
             <DateInput
               id='signing_date'
-              register={register('signing_date')}
+              register={
+                (register('signing_date'),
+                {
+                  required: 'This is required',
+                })
+              }
               placeholder={signingDateInp}
               label='İmzalanma Tarihi'
               onChange={handleSigningDateChange}

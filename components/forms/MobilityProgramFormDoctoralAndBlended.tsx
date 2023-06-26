@@ -378,7 +378,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
       setMobilityStartDate(
         proposedMobilityProgramme.plannedStartingDateOfMobility.split('T')[0]
       );
-      setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility.split('T')[0]);
+      setMobilityEndDate(
+        proposedMobilityProgramme.plannedEndDateOfMobility.split('T')[0]
+      );
       setLanguageID(proposedMobilityProgramme.language_id);
       setLanguageLevelID(proposedMobilityProgramme.languageLevel_id);
     }
@@ -572,7 +574,12 @@ export default function MobilityProgramFormDoctoralAndBlended({
                   inputValue={languageID}
                   id='language'
                   error={errors.language?.message}
-                  register={register('language')}
+                  register={
+                    (register('language'),
+                    {
+                      required: 'This is required',
+                    })
+                  }
                   placeholder={language}
                   selectLabel='Yabancı Dil'
                   onChange={handleLanguageChange}

@@ -437,7 +437,7 @@ export default function MobilityProgramFormLongTerm({
       Object.keys(proposedMobilityProgramme).length !== 0
     ) {
       console.log('proposedMobilityProgramme', proposedMobilityProgramme);
-      
+
       setValue(
         'mobility_start_date',
         proposedMobilityProgramme.plannedStartingDateOfMobility?.split('T')[0]
@@ -453,7 +453,9 @@ export default function MobilityProgramFormLongTerm({
       setMobilityStartDate(
         proposedMobilityProgramme.plannedStartingDateOfMobility?.split('T')[0]
       );
-      setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility?.split('T')[0]);
+      setMobilityEndDate(
+        proposedMobilityProgramme.plannedEndDateOfMobility?.split('T')[0]
+      );
       setLanguageID(proposedMobilityProgramme.language_id);
       setLanguageLevelID(proposedMobilityProgramme.languageLevel_id);
     }
@@ -492,7 +494,12 @@ export default function MobilityProgramFormLongTerm({
           <Stack w='50%'>
             <DateInput
               id='mobility_start_date'
-              register={register('mobility_start_date')}
+              register={
+                (register('mobility_start_date'),
+                {
+                  required: 'This is required',
+                })
+              }
               placeholder={mobilityStartDate}
               label='Hareketliliğin Başlangıç Tarihi'
               onChange={handleMobilityStartDateChange}
@@ -502,7 +509,12 @@ export default function MobilityProgramFormLongTerm({
           <Stack w='50%'>
             <DateInput
               id='mobility_end_date'
-              register={register('mobility_end_date')}
+              register={
+                (register('mobility_end_date'),
+                {
+                  required: 'This is required',
+                })
+              }
               placeholder={mobilityEndDate}
               label='Hareketliliğin Bitiş Tarihi'
               onChange={handleMobilityEndDateChange}
@@ -615,7 +627,12 @@ export default function MobilityProgramFormLongTerm({
               placeholder='www.iyte.edu.tr'
               id='link'
               error={errors.link?.message}
-              register={register('link')}
+              register={
+                (register('link'),
+                {
+                  required: 'This is required',
+                })
+              }
             ></TextInput>
             <Flex gap={4}>
               <Box w={'50%'}>
@@ -623,7 +640,12 @@ export default function MobilityProgramFormLongTerm({
                   inputValue={languageID}
                   id='language'
                   error={errors.language?.message}
-                  register={register('language')}
+                  register={
+                    (register('language'),
+                    {
+                      required: 'This is required',
+                    })
+                  }
                   placeholder={language}
                   selectLabel='Yabancı Dil'
                   onChange={handleLanguageChange}
@@ -635,7 +657,12 @@ export default function MobilityProgramFormLongTerm({
                   inputValue={languageLevelID}
                   id='language_level'
                   error={errors.language_level?.message}
-                  register={register('language_level')}
+                  register={
+                    (register('language_level'),
+                    {
+                      required: 'This is required',
+                    })
+                  }
                   placeholder={languageLevel}
                   selectLabel='Seviyesi'
                   onChange={handleLanguageLevelChange}
@@ -752,13 +779,17 @@ export default function MobilityProgramFormLongTerm({
           </Flex>
 
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
-     
             <TextInput
               label='Öğrencinin talep ettiği dersleri tamamlayamaması durumunda uygulanacak hükümlerin linki'
               placeholder='www...'
               id='provision_link'
               error={errors.provision_link?.message}
-              register={register('provision_link')}
+              register={
+                (register('provision_link'),
+                {
+                  required: 'This is required',
+                })
+              }
             ></TextInput>
           </Flex>
         </Flex>

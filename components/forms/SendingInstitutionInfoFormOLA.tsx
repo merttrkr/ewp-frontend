@@ -266,7 +266,12 @@ export default function InstitutionInformationForm({
               inputValue={universityId}
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
-              register={register('hei_id')}
+              register={
+                (register('hei_id'),
+                {
+                  required: 'This is required',
+                })
+              }
               placeHolder={heiName}
               selectLabel='Kurum / Üniversite Adı'
               onChange={handleSelectChangeInstitution}
@@ -275,7 +280,12 @@ export default function InstitutionInformationForm({
             <SelectDepartment
               inputValue={departmentID}
               id='department_id'
-              register={register('department_id')}
+              register={
+                (register('department_id'),
+                {
+                  required: 'This is required',
+                })
+              }
               placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
@@ -287,7 +297,12 @@ export default function InstitutionInformationForm({
               label='Akademik Personelin İsmi'
               placeholder=''
               error={errors.academic_personal_name?.message}
-              register={register('academic_personal_name')}
+              register={
+                (register('academic_personal_name'),
+                {
+                  required: 'This is required',
+                })
+              }
             />
 
             <TextInput
@@ -295,7 +310,12 @@ export default function InstitutionInformationForm({
               label='Akademik Personelin Soy İsmi'
               placeholder=''
               error={errors.academic_personal_surname?.message}
-              register={register('academic_personal_surname')}
+              register={
+                (register('academic_personal_surname'),
+                {
+                  required: 'This is required',
+                })
+              }
             />
 
             <TextInput
@@ -303,7 +323,12 @@ export default function InstitutionInformationForm({
               label='Akademik Personelin E-postası'
               placeholder=''
               error={errors.academic_personal_eposta?.message}
-              register={register('academic_personal_eposta')}
+              register={
+                (register('academic_personal_eposta'),
+                {
+                  required: 'This is required',
+                })
+              }
             />
           </Stack>
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
@@ -312,7 +337,12 @@ export default function InstitutionInformationForm({
               label='İdari Personelin İsmi'
               placeholder=''
               error={errors.administrative_personal_name?.message}
-              register={register('administrative_personal_name')}
+              register={
+                (register('administrative_personal_name'),
+                {
+                  required: 'This is required',
+                })
+              }
             />
 
             <TextInput
@@ -320,7 +350,12 @@ export default function InstitutionInformationForm({
               label='İdari Personelin Soy İsmi'
               placeholder=''
               error={errors.administrative_personal_surname?.message}
-              register={register('administrative_personal_surname')}
+              register={
+                (register('administrative_personal_surname'),
+                {
+                  required: 'This is required',
+                })
+              }
             />
             <Box height={1}></Box>
             <TextInput
@@ -328,7 +363,12 @@ export default function InstitutionInformationForm({
               label='İdari Personelin E-postası'
               placeholder=''
               error={errors.administrative_personal_eposta?.message}
-              register={register('administrative_personal_eposta')}
+              register={
+                (register('administrative_personal_eposta'),
+                {
+                  required: 'This is required',
+                })
+              }
             />
 
             <TextInput
@@ -336,14 +376,24 @@ export default function InstitutionInformationForm({
               label='Telefon Numarası (E164 Formatında Belirtiniz)'
               placeholder=''
               error={errors.phone_number?.message}
-              register={register('phone_number')}
+              register={
+                (register('phone_number'),
+                {
+                  required: 'This is required',
+                })
+              }
             />
             <TextInput
               id='extension'
               label='Dahili'
               placeholder=''
               error={errors.extension?.message}
-              register={register('extension')}
+              register={
+                (register('extension'),
+                {
+                  required: 'This is required',
+                })
+              }
             />
           </Stack>
         </Flex>
