@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import TextInput from '../form-components/inputs/TextInput';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 //selectboxes
 import SelectContact from '../form-components/selectboxes/SelectContact';
@@ -332,7 +332,7 @@ export default function InstitutionInformationForm({
       console.log(value.id);
 
       setauthorizedSignotaryPersonID(value.id);
-    } else {
+    } else {   
       setValue('authorized_signotary', ''); // or any default value you want
       setAuthorizedSignotary(''); // or any default value you want
       setauthorizedSignotaryPersonID(0); // or any default value you want
@@ -340,13 +340,15 @@ export default function InstitutionInformationForm({
   };
 
   const handleSelectChangeDepartment = (value: Department | null) => {
-    if (value) {
+    
+    if (value?.organizationalUnitName && value?.id) {
+      
       setValue('departmant_name', value.organizationalUnitName);
       setDepartment(value.organizationalUnitName);
       setDepartmentID(value.id);
     } else {
-      setValue('departmant_name', ''); // or any default value you want
-      setDepartment(''); // or any default value you want
+      console.log('else' + value?.organizationalUnitName);
+
     }
   };
 
@@ -355,19 +357,25 @@ export default function InstitutionInformationForm({
   }, [organizationInfoId]);
 
   useEffect(() => {
-    if (organizationInfo) {
+    if (organizationInfo!= undefined && Object.keys(organizationInfo).length !== 0) {
+      setValue('hei_id', organizationInfo?.heiId);
+      setValue('departmant_name', organizationInfo?.ounitName);
+      setValue('IIA_Code', organizationInfo?.IIACode);
+      setValue('IIA_ID', organizationInfo?.IIAID);
+      setValue('authorized_signotary', organizationInfo?.signingPersonFullName);
+      setValue('signing_date', organizationInfo?.signingDate);  
       setInstitution(organizationInfo?.heiId);
-      setDepartment(organizationInfo?.ounitName);
+      setDepartment(organizationInfo?.ounitName);     
       setIIACode(organizationInfo?.IIACode);
       setIIAID(organizationInfo?.IIAID);
       setSigningDateInp(organizationInfo?.signingDate);
       setAuthorizedSignotary(organizationInfo?.signingPersonFullName);
       setContactPerson(organizationInfo?.signingPersonFullName);
-      setSigningDateInp(organizationInfo?.signingDate);
     }
   }, [organizationInfo]);
 
   async function handleGetOrganizationInfo() {
+    
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
