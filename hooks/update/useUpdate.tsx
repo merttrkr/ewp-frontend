@@ -661,7 +661,8 @@ const useUpdate = () => {
     const encodedCommentForRejection = encodeURIComponent(commentForRejection);
 
     const url = `https://localhost:5001/spSaveCommitment?sendingHeiId=${encodedSendingHeiId}&commitment_id=${commitment_id}&studentSignature=${studentSignature}&sendingHeiSignature=${sendingHeiSignature}&sendingHeiResponsibleFullname=${encodedSendingHeiResponsibleFullname}&sendingHeiResponsiblePosition=${encodedSendingHeiResponsiblePosition}&sendingHeiResponsibleEmail=${encodedSendingHeiResponsibleEmail}&receivingHeiSignature=${receivingHeiSignature}&receivingHeiResponsibleFullname=${encodedReceivingHeiResponsibleFullname}&receivingHeiResponsiblePosition=${encodedReceivingHeiResponsiblePosition}&receivingHeiResponsibleEmail=${encodedReceivingHeiResponsibleEmail}&commentForRejection=${encodedCommentForRejection}`;
-
+    console.log('urlm'+ url);
+    
     const result: number = await makeRequest<number>(url);
 
     return result;
