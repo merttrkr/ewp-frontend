@@ -365,20 +365,20 @@ export default function MobilityProgramFormDoctoralAndBlended({
     ) {
       setValue(
         'mobility_start_date',
-        proposedMobilityProgramme.plannedStartingDateOfMobility
+        proposedMobilityProgramme.plannedStartingDateOfMobility.split('T')[0]
       );
       setValue(
         'mobility_end_date',
-        proposedMobilityProgramme.plannedEndDateOfMobility
+        proposedMobilityProgramme.plannedEndDateOfMobility.split('T')[0]
       );
       setValue(
         'link',
         proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink
       );
       setMobilityStartDate(
-        proposedMobilityProgramme.plannedStartingDateOfMobility
+        proposedMobilityProgramme.plannedStartingDateOfMobility.split('T')[0]
       );
-      setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility);
+      setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility.split('T')[0]);
       setLanguageID(proposedMobilityProgramme.language_id);
       setLanguageLevelID(proposedMobilityProgramme.languageLevel_id);
     }
