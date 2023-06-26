@@ -72,9 +72,7 @@ export default function VirtualComponentForm({
   const HeadingColor = useColorModeValue('gray.600', 'gray.300');
   //usestates
 
-  const [language, setLanguage] = useState('');
   const [languageID, setLanguageID] = useState(0);
-  const [languageLevel, setLanguageLevel] = useState('');
   const [languageLevelID, setLanguageLevelID] = useState(0);
   const [addControl, setAddControl] = useState(0);
   const [deleteControl, setDeleteControl] = useState(0);
@@ -182,7 +180,7 @@ export default function VirtualComponentForm({
     try {
       const courses = await GetTableCApprovedCoursesForChangeProposals(
         'https://localhost:5001/spGetTableCApprovedCoursesForChangeProposals?pmp_id=' +
-          pmpID
+          virtualComponentID
       );
       setTableCApprovedArray(courses);
     } catch (error) {
@@ -193,7 +191,7 @@ export default function VirtualComponentForm({
     try {
       const totalCredits = await GetTotalCourseCreditsForTableC(
         'https://localhost:5001/spGetTotalCourseCreditsForTableC?pmp_id=' +
-          pmpID
+          virtualComponentID
       );
       setTotalCCourseCredits(totalCredits);
     } catch (error) {
@@ -286,26 +284,7 @@ export default function VirtualComponentForm({
       }
     });
   };
-  const handleLanguageChange = (value: Language | null) => {
-    if (value) {
-      setValue('language', value.definition);
-      setLanguage(value.definition);
-      setLanguageID(value.lang_id);
-    } else {
-      setValue('language', '');
-      setLanguage(''); // or any default value you want
-    }
-  };
-  const handleLanguageLevelChange = (value: LanguageLevel | null) => {
-    if (value) {
-      setValue('language_level', value.code);
-      setLanguageLevel(value.code);
-      setLanguageLevelID(value.langLevel_id);
-    } else {
-      setValue('language_level', '');
-      setLanguageLevel(''); // or any default value you want
-    }
-  };
+
   return (
     <Stack
       marginBottom='20'
