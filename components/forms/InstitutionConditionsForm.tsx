@@ -38,6 +38,7 @@ import { useToast } from '@chakra-ui/react';
 import { IdForBothCollaborationConditionResponse } from '@/models/response/idForBothCollaborationConditionResponse';
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { CollaborationConditionResponse } from '@/models/response/collaborationConditionResponse';
+import { CollaborationConditionLanguage } from '@/models/response/selectedCollaborationConditionLanguageSkillOfOrganizationResponse';
 type InstitutionConditionsFormProps = {
   pageName: String;
   subText: String;
@@ -86,6 +87,7 @@ export default function InstitutionConditionsForm({
     GetSelectedContactInfoOfOrganizationInfo,
     GetOrganizationInfo,
     GetOrganizationCollaborationCondition,
+    GetSelectedCollaborationConditionLanguageSkillOfOrganization,
   } = useRead();
 
   const toast = useToast();
@@ -95,6 +97,7 @@ export default function InstitutionConditionsForm({
     UpdateDateOfBilateralAgreement,
     SaveCollaborationCondition,
     AddCollaborationConditionToBilateralAgreement,
+
   } = useUpdate();
 
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -232,10 +235,11 @@ export default function InstitutionConditionsForm({
         collaborationCondition[0]?.educationTypeAndLevel
       );
       setISCEDCodeAndFields(collaborationCondition[0]?.subjectArea);
-      
+
       handleGetSelectedContactInfoOfOrganizationInfo();
       handleGetSelectedPartnerContactInfoOfOrganizationInfo();
-      
+      handleGetSelectedCollaborationConditionLanguageSkillOfOrganization();
+
     }
   }, [
     organizationInfo,
@@ -248,7 +252,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-          partnerOrganizationInfoId
+        partnerOrganizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setPartnerOrganizationInfo(data);
@@ -344,7 +348,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-          organizationInfoId
+        organizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         const contactPersonNames = data
@@ -359,7 +363,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-          partnerOrganizationInfoId
+        partnerOrganizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         const contactPersonNames = data
@@ -375,7 +379,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-          organizationInfoId
+        organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setOrganizationInfo(data);
@@ -450,14 +454,14 @@ export default function InstitutionConditionsForm({
       setValue('sender_department', value.organizationalUnitName);
       setSenderDepartment(value.organizationalUnitName);
       setSenderDepartmentID(value.id);
-    } 
+    }
   };
   const handleReceiverDepartmentChange = (value: Department | null) => {
     if (value) {
       setValue('receiver_department', value.organizationalUnitName);
       setReceiverDepartment(value.organizationalUnitName);
       setReceiverDepartmentID(value.id);
-    } 
+    }
   };
 
   const handleSenderContactChange = (value: Contact | Contact[] | null) => {
@@ -525,7 +529,7 @@ export default function InstitutionConditionsForm({
       setValue('isced_code_and_fields', value.subjectArea);
       setISCEDCodeAndFields(value.subjectArea);
       setISCEDCodeAndFieldsID(value.subjectAreaId);
-    } 
+    }
   };
   const handleConditionChange = (value: CollaborationConditionType | null) => {
     if (value) {
@@ -543,9 +547,6 @@ export default function InstitutionConditionsForm({
       setValue('education_type_and_level', value.educationTypeAndLevel);
       setEducationTypeAndLevel(value.educationTypeAndLevel);
       setEducationTypeAndLevelID(value.educationTypeAndLevel_id);
-    } else {
-      setValue('education_type_and_level', '');
-      setEducationTypeAndLevel(''); // or any default value you want
     }
   };
   const handleLanguageChange = (value: Language | null) => {
@@ -553,9 +554,6 @@ export default function InstitutionConditionsForm({
       setValue('language', value.definition);
       setLanguage(value.definition);
       setLanguageID(value.lang_id);
-    } else {
-      setValue('language', '');
-      setLanguage(''); // or any default value you want
     }
   };
   const handleLanguageLevelChange = (value: LanguageLevel | null) => {
@@ -563,12 +561,28 @@ export default function InstitutionConditionsForm({
       setValue('language_level', value.code);
       setLanguageLevel(value.code);
       setLanguageLevelID(value.langLevel_id);
-    } else {
-      setValue('language_level', '');
-      setLanguageLevel(''); // or any default value you want
     }
   };
+  async function handleGetSelectedCollaborationConditionLanguageSkillOfOrganization() {
+    const getSelectedCollaborationConditionLanguageSkillOfOrganization = async () => {
+      const result: CollaborationConditionLanguage = (await 
+      GetSelectedCollaborationConditionLanguageSkillOfOrganization
+      ('https://localhost:5001/spGetSelectedCollaborationConditionLanguageSkillOfOrganization?organizationCollaborationCondition_id=' + collaborationConditionId))[0];
+      if (result) {
+        setLanguage(result.definition);
+        setValue('language', result.definition);
+        setValue('language_level', result.code);
+        setLanguageLevel(result.code);
+        console.log('result', result);
+      }
 
+
+    };
+    if (collaborationConditionId != 0) {
+      getSelectedCollaborationConditionLanguageSkillOfOrganization();
+
+    }
+  }
   return (
     <Stack
       marginBottom={['20', null, '0']}
@@ -659,9 +673,7 @@ export default function InstitutionConditionsForm({
               inputValue={ISCEDCodeAndFields}
               id='isced_code_and_fields'
               error={errors.isced_code_and_fields?.message}
-              register={register('isced_code_and_fields', {
-                required: 'This is required',
-              })}
+              register={register('isced_code_and_fields')}
               placeholder={ISCEDCodeAndFields}
               selectLabel='ISCED Kodu ve Konu Alanları'
               onChange={handleISCEDchange}
