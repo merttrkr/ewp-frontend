@@ -276,12 +276,14 @@ export default function StudentInformationForm({
   };
   useEffect(() => {
     if (studentInfo != undefined && Object.keys(studentInfo).length !== 0) {
+      console.log('studentInfo artık:', studentInfo);
       setValue('student_name', studentInfo.name);
       setValue('student_surname', studentInfo.surname);
       setValue('student_email', studentInfo.email);
       setValue('eur_student_identifier', studentInfo.globalId);
       setValue('isced_explanation', studentInfo.subjectAreaDescription);
       setValue('student_birthdate', studentInfo.birthdate?.split('T')[0]);
+      setValue('omobility_id', studentInfo.omobility_id);
       setEducationTypeAndLevelID(studentInfo.educationTypeAndLevel_id);
       setGenderID(studentInfo.gender_id);
       setStudentBirthdate(studentInfo.birthdate?.split('T')[0]);
@@ -343,7 +345,7 @@ export default function StudentInformationForm({
             />
             <TextInput
               id='student_name'
-              placeholder={studentName}
+              placeholder=''
               label='Öğrencinin İsmi'
               error={errors.student_name?.message}
               register={register('student_name')}
