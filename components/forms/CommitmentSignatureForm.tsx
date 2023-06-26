@@ -27,6 +27,9 @@ type CommitmentSignatureFormProps = {
   signatureInfo?: SignatureResponse;
   commitmentID: number;
   sendingInstitutionInfoId: number;
+  omobilityID: string;
+  receivingInstitutionHeiID?: string;
+  pmpID:number;
 };
 
 type FormData = {
@@ -48,11 +51,16 @@ export default function CommitmentSignatureForm({
   signatureInfo,
   commitmentID,
   sendingInstitutionInfoId,
+  omobilityID,
+  receivingInstitutionHeiID = '',
+  pmpID,
 }: CommitmentSignatureFormProps) {
   const {
     SaveCommitmentIdToLearningAgreementTable,
     InsertEmptyRowToCommitment,
     SaveCommitment,
+    sendOLANotification,
+    sendOLAUpdateNotification,
   } = useUpdate();
   const { GetSendingHeiId } = useRead();
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -254,6 +262,58 @@ export default function CommitmentSignatureForm({
   const handleStudentSignatureChange = (value: string | null) => {
     setStudentSignature(textToBase64Image(value || ' '));
   };
+  async function handleOLANotification() {
+    const notificationRequest = {
+      sending_hei_id: sendingHeiId,
+      omobility_id: omobilityID,
+      partner_hei_id:receivingInstitutionHeiID,
+    };
+  
+    try {
+      if (notificationRequest.partner_hei_id != undefined) {
+        const result = await sendOLANotification(notificationRequest);
+        console.log(result); // You can handle the result as needed
+      }
+ 
+    } catch (error) {
+      toast({
+        title: 'Bildirim Gönderilemedi.',
+        description: 'Bildirim Gönderilemedi.',
+        status: 'error',
+        position: 'top-right',
+        duration: 5000,
+        isClosable: true,
+      });
+      console.error(error); // Handle the error if necessary
+    }
+  }
+  async function handleOLAUpdateNotification(isApproved : boolean) {
+    const notificationRequest = {
+      sending_hei_id: sendingHeiId,
+      learningAgreementId: learningAgreementID,
+      proposedMobilityProgrammeId: pmpID,
+      isApproved :isApproved,
+      virtualComponentId: 0,
+    };
+  
+    try {
+      if (notificationRequest != undefined) {
+        const result = await sendOLAUpdateNotification(notificationRequest);
+        console.log(result); // You can handle the result as needed
+      }
+ 
+    } catch (error) {
+      toast({
+        title: 'Bildirim Gönderilemedi.',
+        description: 'Bildirim Gönderilemedi.',
+        status: 'error',
+        position: 'top-right',
+        duration: 5000,
+        isClosable: true,
+      });
+      console.error(error); // Handle the error if necessary
+    }
+  }
   return (
     <Stack
       marginBottom='20'
