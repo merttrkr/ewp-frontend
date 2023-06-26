@@ -117,7 +117,7 @@ export default function MobilityProgramFormLongTerm({
               '&learningAgreement_id=' +
               learningAgreementID
           );
-          console.log('saved to la long term mob ' + pmpID);
+          console.log('Saved to la long term mob pmpId:' + pmpID);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -132,7 +132,6 @@ export default function MobilityProgramFormLongTerm({
         pmpID;
       try {
         await InsertEmptyRowToProposedMobilityProgramme(requestUrl);
-        console.log('inserted new line to mob type ' + pmpID);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -148,7 +147,6 @@ export default function MobilityProgramFormLongTerm({
         courseId;
       try {
         await RemoveSelectedCourseById(requestUrl);
-        console.log('removed course: ' + courseId);
       } catch (error) {
         console.error('Error:', error);
       }

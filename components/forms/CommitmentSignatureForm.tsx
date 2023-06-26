@@ -86,6 +86,8 @@ export default function CommitmentSignatureForm({
 
       try {
         const result = await GetSendingHeiId(requestUrl);
+        console.log('result GetSendingHeiId ', result);
+
         if (result) {
           setSendingHeiId(result);
         }
@@ -106,7 +108,6 @@ export default function CommitmentSignatureForm({
 
       try {
         await InsertEmptyRowToCommitment(requestUrl);
-        console.log('inserted new line to commitment ' + commitmentID);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -145,9 +146,8 @@ export default function CommitmentSignatureForm({
         commentForRejection: values.comment ?? '',
       };
       await SaveCommitment(request);
-      console.log('Saving commitment: ', commitmentID);
     } catch (error) {
-      console.log('Error saving commitment: ', error);
+      console.error('Error saving commitment: ', error);
     }
   }
   useEffect(() => {
@@ -362,6 +362,7 @@ export default function CommitmentSignatureForm({
             >
               Alıcı Kurum
             </Heading>
+
             <Flex gap={3} direction={'column'}>
               <Heading
                 as='text'

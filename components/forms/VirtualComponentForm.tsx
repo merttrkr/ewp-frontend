@@ -135,15 +135,12 @@ export default function VirtualComponentForm({
   };
 
   async function handleRemoveVirtualCoursesById(courseId: number) {
-    console.log('deleted id : ', courseId);
-
     const fetchRemoveVirtualCoursesById = async () => {
       const requestUrl =
         'https://localhost:5001/spRemoveVirtualCoursesById?virtualCourse_id=' +
         courseId;
       try {
         await RemoveVirtualCourseById(requestUrl);
-        console.log('removed course: ' + courseId);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -160,7 +157,6 @@ export default function VirtualComponentForm({
 
       try {
         await InsertEmptyRowToVirtualComponent(requestUrl);
-        console.log('inserted new line to virtual comp ' + virtualComponentID);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -213,7 +209,6 @@ export default function VirtualComponentForm({
 
       try {
         const result = await SaveVirtualComponent(requestUrl);
-        console.log('saved virtual comp ' + pmpID);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -233,7 +228,9 @@ export default function VirtualComponentForm({
         const result = await SaveVirtualComponentIdToLearningAgreementTable(
           requestUrl
         );
-        console.log('saved virtual comp to la ' + virtualComponentID);
+        console.log(
+          'Saved virtual comp to la  virtual comp id: ' + virtualComponentID
+        );
       } catch (error) {
         console.error('Error:', error);
       }
@@ -244,7 +241,6 @@ export default function VirtualComponentForm({
   }
 
   useEffect(() => {
-    console.log('here in useffectt');
     handleInsertEmptyRowToVirtualComponent();
     handleSaveVirtualComponent();
     handleSaveVirtualComponentIdToLearningAgreementTable();

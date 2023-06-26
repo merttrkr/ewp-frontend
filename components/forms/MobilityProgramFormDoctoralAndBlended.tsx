@@ -102,15 +102,23 @@ export default function MobilityProgramFormDoctoralAndBlended({
     setValue,
     control,
   } = useForm<FormData>();
+
   async function handleSaveProposedMobilityProgrammeIdToLearningAgreementTable() {
     const fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable =
       async () => {
-        await SaveProposedMobilityProgrammeIdToLearningAgreementTable(
+        const requestUrl =
           'https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=' +
-            pmpID +
-            '&learningAgreement_id=' +
-            learningAgreementID
-        );
+          pmpID +
+          '&learningAgreement_id=' +
+          learningAgreementID;
+        try {
+          await SaveProposedMobilityProgrammeIdToLearningAgreementTable(
+            requestUrl
+          );
+          console.log('Saved to la doctoral blended mob pmpId:' + pmpID);
+        } catch (error) {
+          console.error('Error:', error);
+        }
       };
     fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
   }
@@ -122,7 +130,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
         courseId;
       try {
         await RemoveSelectedCourseById(requestUrl);
-        console.log('removed course: ' + courseId);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -139,7 +146,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
 
       try {
         await InsertEmptyRowToProposedMobilityProgramme(requestUrl);
-        console.log('inserted new line to mob type ' + pmpID);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -253,7 +259,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
 
     try {
       await SaveProposedMobilityProgramme(request);
-      console.log('saved the proposedMobilityProgramme with id ', pmpID);
     } catch (error) {
       console.error('Error saving proposed mobility program:', error);
     }
@@ -352,20 +357,10 @@ export default function MobilityProgramFormDoctoralAndBlended({
 
   useEffect(() => {
     //page init
-    console.log('use efffect doctora on init');
-    console.log(
-      'proposedMobilityProgramme' +
-        proposedMobilityProgramme?.receivingInstitutionCourseCatalogueLink
-    );
-
     if (
       proposedMobilityProgramme != undefined &&
       Object.keys(proposedMobilityProgramme).length !== 0
     ) {
-      console.log(
-        'proposedMobilityProgramme xxxx' +
-          proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink
-      );
       setValue(
         'mobility_start_date',
         proposedMobilityProgramme.plannedStartingDateOfMobility

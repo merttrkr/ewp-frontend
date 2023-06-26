@@ -331,7 +331,7 @@ const useAgreement = () => {
     request: string
   ): Promise<StudentInfoResponse> => {
     const studentInfo: StudentInfoResponse =
-      await makeRequest<StudentInfoResponse>(request);
+      await makeRequestText<StudentInfoResponse>(request);
     return studentInfo;
   };
 
@@ -382,7 +382,6 @@ const useAgreement = () => {
     const response: SignatureResponse = await makeRequest<SignatureResponse>(
       request
     );
-    console.log('signature response' + response);
 
     return response;
   };

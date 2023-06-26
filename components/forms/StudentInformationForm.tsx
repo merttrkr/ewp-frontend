@@ -246,28 +246,19 @@ export default function StudentInformationForm({
     if (value !== '') {
       setValue('student_birthdate', value); // You can format the date value as needed
       setStudentBirthdate(value);
-      console.log('studentBirthdate: ', value);
     } else {
       setValue('student_birthdate', ''); // or any default value you want
       setStudentBirthdate('');
     }
   };
   useEffect(() => {
-    console.log('girdim studentInfo:  xx', studentInfo);
-
     if (studentInfo != undefined && Object.keys(studentInfo).length !== 0) {
-      console.log('studentInfo:  xx', studentInfo);
       setValue('student_name', studentInfo.name);
       setValue('student_surname', studentInfo.surname);
       setValue('student_email', studentInfo.email);
       setValue('eur_student_identifier', studentInfo.globalId);
       setValue('isced_explanation', studentInfo.subjectAreaDescription);
       setValue('student_birthdate', studentInfo.birthdate?.split('T')[0]);
-      console.log(
-        'studentInfo.birthdate: ',
-        studentInfo.birthdate?.split('T')[0]
-      );
-
       setEducationTypeAndLevelID(studentInfo.educationTypeAndLevel_id);
       setGenderID(studentInfo.gender_id);
       setStudentBirthdate(studentInfo.birthdate?.split('T')[0]);
