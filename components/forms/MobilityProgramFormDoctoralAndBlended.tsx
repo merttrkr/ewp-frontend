@@ -419,12 +419,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
           <Stack w='50%'>
             <DateInput
               id='mobility_start_date'
-              register={
-                (register('mobility_start_date'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('mobility_start_date', {
+                required: 'This is required',
+              })}
               placeholder={mobilityStartDate}
               label='Hareketliliğin Başlangıç Tarihi'
               onChange={handleMobilityStartDateChange}
@@ -434,12 +431,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
           <Stack w='50%'>
             <DateInput
               id='mobility_end_date'
-              register={
-                (register('mobility_end_date'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('mobility_end_date', {
+                required: 'This is required',
+              })}
               placeholder={mobilityEndDate}
               label='Hareketliliğin Bitiş Tarihi'
               onChange={handleMobilityEndDateChange}
@@ -574,12 +568,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
                   inputValue={languageID}
                   id='language'
                   error={errors.language?.message}
-                  register={
-                    (register('language'),
-                    {
-                      required: 'This is required',
-                    })
-                  }
+                  register={register('language', {
+                    required: 'This is required',
+                  })}
                   placeholder={language}
                   selectLabel='Yabancı Dil'
                   onChange={handleLanguageChange}
@@ -591,12 +582,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
                   inputValue={languageLevelID}
                   id='language_level'
                   error={errors.language_level?.message}
-                  register={
-                    (register('language_level'),
-                    {
-                      required: 'This is required',
-                    })
-                  }
+                  register={register('language_level', {
+                    required: 'This is required',
+                  })}
                   placeholder={languageLevel}
                   selectLabel='Seviyesi'
                   onChange={handleLanguageLevelChange}

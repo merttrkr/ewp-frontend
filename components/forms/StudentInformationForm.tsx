@@ -422,24 +422,18 @@ export default function StudentInformationForm({
               id='eur_student_identifier'
               label='European Student Identifier'
               error={errors.eur_student_identifier?.message}
-              register={
-                (register('eur_student_identifier'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('eur_student_identifier', {
+                required: 'This is required',
+              })}
             />
             <TextInput
               placeholder=''
               label='ISCED Explanation'
               id='isced_explanation'
               error={errors.isced_explanation?.message}
-              register={
-                (register('isced_explanation'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('isced_explanation', {
+                required: 'This is required',
+              })}
             />
           </Stack>
         </Flex>

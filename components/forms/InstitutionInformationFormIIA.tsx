@@ -424,12 +424,9 @@ export default function InstitutionInformationForm({
               inputValue={institution}
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName=all'
               id='instution_name'
-              register={
-                (register('hei_id'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('hei_id', {
+                required: 'This is required',
+              })}
               placeHolder={institution}
               selectLabel='Kurum / Üniversite Adı'
               onChange={handleSelectChangeInstitution}
@@ -447,12 +444,9 @@ export default function InstitutionInformationForm({
               isMultiple
               id='contact_persons'
               error={errors.contact_persons?.message}
-              register={
-                (register('contact_persons'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('contact_persons', {
+                required: 'This is required',
+              })}
               placeholder={contactPerson}
               selectLabel='İletişim Kurulabilecek Yetkililer'
               onChange={handleSelectChangeContact}
@@ -477,12 +471,9 @@ export default function InstitutionInformationForm({
             <SelectDepartment
               inputValue={department}
               id='departmant_name'
-              register={
-                (register('departmant_name'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('departmant_name', {
+                required: 'This is required',
+              })}
               placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
@@ -499,12 +490,9 @@ export default function InstitutionInformationForm({
             />
             <DateInput
               id='signing_date'
-              register={
-                (register('signing_date'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('signing_date', {
+                required: 'This is required',
+              })}
               placeholder={signingDateInp}
               label='İmzalanma Tarihi'
               onChange={handleSigningDateChange}

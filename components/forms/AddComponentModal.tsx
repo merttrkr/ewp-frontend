@@ -53,6 +53,7 @@ export default function InitialFocus({
     register,
     formState: { errors, isSubmitting },
     reset,
+    setValue,
   } = useForm<FormData>();
 
   async function handleInsertLASelectedCourse(course: FormData) {
@@ -141,12 +142,9 @@ export default function InitialFocus({
                     id='course_name'
                     placeholder=''
                     error={errors.course_name?.message}
-                    register={
-                      (register('course_name'),
-                      {
-                        required: 'This is required',
-                      })
-                    }
+                    register={register('course_name', {
+                      required: 'This is required',
+                    })}
                   />
 
                   <TextInput
@@ -154,12 +152,9 @@ export default function InitialFocus({
                     placeholder=''
                     label='Dersin Kredi Değeri'
                     error={errors.credit_value?.message}
-                    register={
-                      (register('credit_value'),
-                      {
-                        required: 'This is required',
-                      })
-                    }
+                    register={register('credit_value', {
+                      required: 'This is required',
+                    })}
                   />
 
                   <TextInput
@@ -167,12 +162,9 @@ export default function InitialFocus({
                     placeholder=''
                     label='Toplam Eğitim Dönemi Sayısı'
                     error={errors.total_term_count?.message}
-                    register={
-                      (register('total_term_count'),
-                      {
-                        required: 'This is required',
-                      })
-                    }
+                    register={register('total_term_count', {
+                      required: 'This is required',
+                    })}
                   />
 
                   {(tableType === 'C' || !tableType) && (
@@ -181,27 +173,20 @@ export default function InitialFocus({
                       placeholder=''
                       label='Dersi Tanımlayan Kısa Açıklama'
                       error={errors.course_description?.message}
-                      register={
-                        (register('course_description'),
-                        {
-                          required: 'This is required',
-                        })
-                      }
+                      register={register('course_description', {
+                        required: 'This is required',
+                      })}
                     />
                   )}
                 </Stack>
                 <Stack w={'50%'}>
                   <TextInput
+                    isDisabled
                     id='credit_type'
                     placeholder='ECTS'
                     label='Dersin Kredi Tipi'
                     error={errors.credit_type?.message}
-                    register={
-                      (register('credit_type'),
-                      {
-                        required: 'This is required',
-                      })
-                    }
+                    register={register('credit_type')}
                   />
 
                   <TextInput
@@ -209,12 +194,9 @@ export default function InitialFocus({
                     placeholder=''
                     label='Eğitim Dönemi Sayısı'
                     error={errors.term_count?.message}
-                    register={
-                      (register('term_count'),
-                      {
-                        required: 'This is required',
-                      })
-                    }
+                    register={register('term_count', {
+                      required: 'This is required',
+                    })}
                   />
 
                   <TextInput
@@ -222,12 +204,9 @@ export default function InitialFocus({
                     placeholder=''
                     label='Dersin Kodu'
                     error={errors.course_code?.message}
-                    register={
-                      (register('course_code'),
-                      {
-                        required: 'This is required',
-                      })
-                    }
+                    register={register('course_code', {
+                      required: 'This is required',
+                    })}
                   />
 
                   {tableType !== 'A' && (
@@ -236,12 +215,9 @@ export default function InitialFocus({
                       placeholder=''
                       label='Dersin Tanınma Koşulları'
                       error={errors.recognition_conditions?.message}
-                      register={
-                        (register('recognition_conditions'),
-                        {
-                          required: 'This is required',
-                        })
-                      }
+                      register={register('recognition_conditions', {
+                        required: 'This is required',
+                      })}
                     />
                   )}
                 </Stack>
