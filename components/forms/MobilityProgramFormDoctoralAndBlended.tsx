@@ -247,8 +247,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
 
   const handleSaveProposedMobilityProgramme = async (values: FormData) => {
     const { link, mobility_start_date, mobility_end_date } = values;
-
     const request: MobilityProgrammeRequest = {
+    
+      
       pmp_id: pmpID,
       plannedStartingDateOfMobility: mobility_start_date,
       plannedEndDateOfMobility: mobility_end_date,
@@ -371,6 +372,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
         'mobility_end_date',
         proposedMobilityProgramme.plannedEndDateOfMobility?.split('T')[0]
       );
+      
       setValue(
         'link',
         proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink
@@ -556,7 +558,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
               id='link'
               error={errors.link?.message}
               register={
-                (register('link'),
+                register('link',
                 {
                   required: 'This is required',
                 })
