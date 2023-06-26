@@ -52,14 +52,24 @@ const SelectEducationTypeAndLevel: React.FC<
 
   useEffect(() => {
     // Check if inputValue is provided and not null
-    if (inputValue !== null) {
+    if (typeof inputValue === 'number') {
       // Find the nationality with matching id
-      const selectedGender = educationTypeAndLevelArray.find(
+      const educationTypeAndLevel = educationTypeAndLevelArray.find(
         (type) => type.educationTypeAndLevel_id === inputValue
       );
-      // Call the onChange prop with the selected nationality
-      onChange(selectedGender || null);
+      onChange(educationTypeAndLevel || null);
     }
+      if (typeof inputValue === 'string') {
+        const educationTypeAndLevel = educationTypeAndLevelArray.find(
+          (type) => type.educationTypeAndLevel === inputValue
+        );
+        onChange(educationTypeAndLevel || null);
+      }
+      
+    
+      // Call the onChange prop with the selected nationality
+
+    
   }, [inputValue, educationTypeAndLevelArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
