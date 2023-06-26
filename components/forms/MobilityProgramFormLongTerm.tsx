@@ -430,6 +430,35 @@ export default function MobilityProgramFormLongTerm({
     setDeleteControlB((prevAddControl) => prevAddControl + 1);
   };
 
+  useEffect(() => {
+    //page init
+    if (
+      proposedMobilityProgramme != undefined &&
+      Object.keys(proposedMobilityProgramme).length !== 0
+    ) {
+      console.log('proposedMobilityProgramme', proposedMobilityProgramme);
+      
+      setValue(
+        'mobility_start_date',
+        proposedMobilityProgramme.plannedStartingDateOfMobility?.split('T')[0]
+      );
+      setValue(
+        'mobility_end_date',
+        proposedMobilityProgramme.plannedEndDateOfMobility?.split('T')[0]
+      );
+      setValue(
+        'link',
+        proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink
+      );
+      setMobilityStartDate(
+        proposedMobilityProgramme.plannedStartingDateOfMobility?.split('T')[0]
+      );
+      setMobilityEndDate(proposedMobilityProgramme.plannedEndDateOfMobility?.split('T')[0]);
+      setLanguageID(proposedMobilityProgramme.language_id);
+      setLanguageLevelID(proposedMobilityProgramme.languageLevel_id);
+    }
+  }, [proposedMobilityProgramme]);
+
   return (
     <Stack
       marginBottom='20'
@@ -591,6 +620,7 @@ export default function MobilityProgramFormLongTerm({
             <Flex gap={4}>
               <Box w={'50%'}>
                 <SelectLanguage
+                  inputValue={languageID}
                   id='language'
                   error={errors.language?.message}
                   register={register('language')}
@@ -602,6 +632,7 @@ export default function MobilityProgramFormLongTerm({
 
               <Box w={'50%'}>
                 <SelectLanguageLevel
+                  inputValue={languageLevelID}
                   id='language_level'
                   error={errors.language_level?.message}
                   register={register('language_level')}
