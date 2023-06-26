@@ -464,6 +464,7 @@ export default function TabComponent() {
             sendingInstitutionInfoId={sendingInstitutionInfoID}
             learningAgreementId={learningAgreementID}
           />
+          <Box height={10}></Box>
           <ReceivingInstitutionInfoForm
             receivingInstitutionInfo={receivingInstitutionInfo}
             pageName='Alıcı Kurum /Üniversite Bilgisi'
@@ -482,7 +483,7 @@ export default function TabComponent() {
         <TabPanel>
           <CommitmentSignatureForm
             virtualComponent_id={Number(virtualComponent_id)}
-            pmpID={proposedMobilityProgrammeID}  
+            pmpID={proposedMobilityProgrammeID}
             omobilityID={omobilityID}
             receivingInstitutionHeiID={receivingInstitutionInfo?.heiId}
             pageName='Taahhüt Metni'
