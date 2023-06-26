@@ -144,7 +144,7 @@ export default function CommitmentSignatureForm({
       const request: CommitmentRequest = {
         sendingHeiId: sendingHeiId,
         commitment_id: commitmentID,
-        studentSignature: values.student_signature,
+        studentSignature: studentSignature,
         sendingHeiSignature: values.sender_signature,
         sendingHeiResponsibleFullname: values.sender_name,
         sendingHeiResponsiblePosition: values.sender_position,
@@ -200,6 +200,7 @@ export default function CommitmentSignatureForm({
   };
 
   useEffect(() => {
+    console.log('signatureInfo', signatureInfo);
     if (signatureInfo != undefined && Object.keys(signatureInfo).length !== 0) {
       console.log('signatureInfo', signatureInfo);
       
@@ -238,9 +239,7 @@ export default function CommitmentSignatureForm({
         signatureInfo.receivingInstitutionIndividualResponsibleEmail
       );
       setValue('comment', signatureInfo.commentForRejection);
-      setStudentSignature(
-        signatureInfo.studentSignatureInBase64 || textToBase64Image(' ')
-      );
+  
     }
   }, [signatureInfo]);
 
