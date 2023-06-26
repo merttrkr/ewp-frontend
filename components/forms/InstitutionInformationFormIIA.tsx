@@ -444,9 +444,7 @@ export default function InstitutionInformationForm({
               isMultiple
               id='contact_persons'
               error={errors.contact_persons?.message}
-              register={register('contact_persons', {
-                required: 'This is required',
-              })}
+              register={register('contact_persons')}
               placeholder={contactPerson}
               selectLabel='İletişim Kurulabilecek Yetkililer'
               onChange={handleSelectChangeContact}
@@ -457,12 +455,7 @@ export default function InstitutionInformationForm({
               id='authorized_signotary'
               selectLabel='Anlaşmayı İmzalayacak Yetkili'
               error={errors.authorized_signotary?.message}
-              register={
-                (register('authorized_signotary'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('authorized_signotary')}
               onChange={handleAuthorizedSignerSelectChangeContact}
               param={institution}
             />
@@ -471,9 +464,7 @@ export default function InstitutionInformationForm({
             <SelectDepartment
               inputValue={department}
               id='departmant_name'
-              register={register('departmant_name', {
-                required: 'This is required',
-              })}
+              register={register('departmant_name')}
               placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
