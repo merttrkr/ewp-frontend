@@ -25,6 +25,7 @@ import { OrganizationIdsAndCollaborationConditionIdsResponse } from '@/models/re
 import { OrganizationInfo } from '@/models/response/organizationInfoResponse';
 import { ProposedMobilityProgrammeResponse } from '@/models/response/proposedMobilityProgrammeResponse';
 import { ReceivingInstitutionInfoResponse } from '@/models/response/receivingInstitutionInfoResponse';
+import { CollaborationConditionLanguage } from '@/models/response/selectedCollaborationConditionLanguageSkillOfOrganizationResponse';
 import { SendingInstitutionInfoResponse } from '@/models/response/sendingInstitutionInfoResponse';
 import { SignatureResponse } from '@/models/response/signatureResponse';
 import { StudentInfoResponse } from '@/models/response/studentInfoResponse';
@@ -389,8 +390,8 @@ const useAgreement = () => {
   //https://localhost:5001/spGetSelectedCollaborationConditionLanguageSkillOfOrganization?organizationCollaborationCondition_id=12
   const GetSelectedCollaborationConditionLanguageSkillOfOrganization = async (
     request: string
-  ): Promise<SignatureResponse> => {
-    const response: SignatureResponse = await makeRequest<SignatureResponse>(
+  ): Promise<CollaborationConditionLanguage[]> => {
+    const response: CollaborationConditionLanguage[] = await makeRequest<CollaborationConditionLanguage[]>(
       request
     );
 
@@ -398,6 +399,7 @@ const useAgreement = () => {
   };
 
   return {
+    GetSelectedCollaborationConditionLanguageSkillOfOrganization,
     GetSignatureForCommitment,
     GetReceivingInstitutionInfoById,
     GetOrganizationIdsAndCollaborationConditionIds,
