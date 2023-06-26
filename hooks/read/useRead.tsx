@@ -385,6 +385,16 @@ const useAgreement = () => {
 
     return response;
   };
+  //https://localhost:5001/spGetSelectedCollaborationConditionLanguageSkillOfOrganization?organizationCollaborationCondition_id=12
+  const GetSelectedCollaborationConditionLanguageSkillOfOrganization = async (
+    request: string
+  ): Promise<SignatureResponse> => {
+    const response: SignatureResponse = await makeRequest<SignatureResponse>(
+      request
+    );
+
+    return response;
+  };
 
   return {
     GetSignatureForCommitment,
