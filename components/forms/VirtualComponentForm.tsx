@@ -208,7 +208,7 @@ export default function VirtualComponentForm({
         virtualComponentID;
 
       try {
-        const result = await SaveVirtualComponent(requestUrl);
+        await SaveVirtualComponent(requestUrl);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -225,25 +225,21 @@ export default function VirtualComponentForm({
         '&learningAgreement_id=' +
         learningAgreementID;
       try {
-        const result = await SaveVirtualComponentIdToLearningAgreementTable(
-          requestUrl
-        );
-        console.log(
-          'Saved virtual comp to la  virtual comp id: ' + virtualComponentID
-        );
+        await SaveVirtualComponentIdToLearningAgreementTable(requestUrl);
+        console.log('Saved virtual comp to la : ' + virtualComponentID);
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    if (virtualComponentID != 0) {
+    if (virtualComponentID !== 0 && learningAgreementID !== 0) {
       fetchSaveVirtualComponentIdToLearningAgreementTable();
     }
   }
 
   useEffect(() => {
-    handleInsertEmptyRowToVirtualComponent();
-    handleSaveVirtualComponent();
-    handleSaveVirtualComponentIdToLearningAgreementTable();
+    handleInsertEmptyRowToVirtualComponent().then(() =>
+      handleSaveVirtualComponentIdToLearningAgreementTable()
+    );
     handleGetTableCNotApprovedCourses();
     handleGetTableCApprovedCourses();
     handleGetTotalCourseCreditsForTableC();
@@ -265,6 +261,7 @@ export default function VirtualComponentForm({
     await handleSavePlannedEndDateOfMobility(values.mobility_end_date);
     await handleSaveLanguageId();
     await handleSaveLanguageLevelId();
+    await handleSaveVirtualComponent();
     return new Promise<void>(async (resolve, reject) => {
       try {
         toast({

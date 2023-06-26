@@ -122,7 +122,9 @@ export default function MobilityProgramFormLongTerm({
           console.error('Error:', error);
         }
       };
-    fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
+    if (pmpID !== 0 && learningAgreementID !== 0) {
+      fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
+    }
   }
 
   async function handleInsertEmptyRowToProposedMobilityProgramme() {
@@ -226,8 +228,10 @@ export default function MobilityProgramFormLongTerm({
     }
   };
   useEffect(() => {
-    handleInsertEmptyRowToProposedMobilityProgramme();
-    handleSaveProposedMobilityProgrammeIdToLearningAgreementTable();
+    handleInsertEmptyRowToProposedMobilityProgramme().then(() =>
+      handleSaveProposedMobilityProgrammeIdToLearningAgreementTable()
+    );
+
     handleGetTableANotApprovedCourses();
     handleGetTableBNotApprovedCourses();
     handleGetTableAApprovedCourses();

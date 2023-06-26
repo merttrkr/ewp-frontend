@@ -108,8 +108,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
       async () => {
         const requestUrl =
           'https://localhost:5001/spSaveProposedMobilityProgrammeIdToLearningAgreementTable?pmp_id=' +
-          pmpID +
-          '&learningAgreement_id=' +
+          +'&learningAgreement_id=' +
           learningAgreementID;
         try {
           await SaveProposedMobilityProgrammeIdToLearningAgreementTable(
@@ -120,7 +119,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
           console.error('Error:', error);
         }
       };
-    fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
+    if (pmpID !== 0 && learningAgreementID !== 0) {
+      fetchSaveProposedMobilityProgrammeIdToLearningAgreementTable();
+    }
   }
 
   async function handleRemoveSelectedCourseById(courseId: number) {
@@ -265,8 +266,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
   };
 
   useEffect(() => {
-    handleInsertEmptyRowToProposedMobilityProgramme();
-    handleSaveProposedMobilityProgrammeIdToLearningAgreementTable();
+    handleInsertEmptyRowToProposedMobilityProgramme().then(() =>
+      handleSaveProposedMobilityProgrammeIdToLearningAgreementTable()
+    );
     handleGetNotApprovedCoursesOfBlendedOrDoctorate();
     handleGetApprovedCoursesOfBlendedOrDoctorate();
     handleGetTotalCourseCreditsForBlendedOrDoctorate();

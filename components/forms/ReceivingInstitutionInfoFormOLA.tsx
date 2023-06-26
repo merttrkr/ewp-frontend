@@ -84,26 +84,28 @@ export default function ReceivingInstitutionInfoForm({
     }
   }, [institutionInfoID]);
 
-  async function handleGetUniversityFullname() {
-    /*const fetchUniversityFullname = async () => {
-      await GetUniversityFullname(
-        'https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=' +
-          institutionInfoId
-      );
-    };
-    fetchUniversityFullname();*/
-  }
-
   async function handleSaveReceivingInstitutionInfoIdToLearningAgreementTable() {
     const saveReceivingInstitutionInfoIdToLearningAgreementTable = async () => {
-      await SaveReceivingInstitutionInfoIdToLearningAgreementTable(
+      const requestUrl =
         'https://localhost:5001/spSaveReceivingInstitutionInfoIdToLearningAgreementTable?receivingInstitutionInfo_id=' +
-          receivingInstitutionInfoId +
-          '&learningAgreement_id=' +
-          learningAgreementId
-      );
+        receivingInstitutionInfoId +
+        '&learningAgreement_id=' +
+        learningAgreementId;
+      try {
+        await SaveReceivingInstitutionInfoIdToLearningAgreementTable(
+          requestUrl
+        );
+        console.log(
+          'Saved receiving institution id to LA :',
+          receivingInstitutionInfoId
+        );
+      } catch (error) {
+        console.error('Error: ', error);
+      }
     };
-    saveReceivingInstitutionInfoIdToLearningAgreementTable();
+    if (receivingInstitutionInfoId !== 0 && learningAgreementId !== 0) {
+      saveReceivingInstitutionInfoIdToLearningAgreementTable();
+    }
   }
 
   async function handleInsertEmptyRowToReceivingInstitutionInfo() {
@@ -135,15 +137,16 @@ export default function ReceivingInstitutionInfoForm({
 
     saveReceivingInstitutionInfo();
   }
+  useEffect(() => {
+    handleInsertEmptyRowToReceivingInstitutionInfo().then(() =>
+      handleSaveReceivingInstitutionInfoIdToLearningAgreementTable()
+    );
+  }, [receivingInstitutionInfoId]);
 
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
-      console.log('uni hei receiving:', universityId);
-      console.log('receiving inst id:', receivingInstitutionInfoId);
-      await handleInsertEmptyRowToReceivingInstitutionInfo();
       await handleSaveReceivingInstitutionInfo(values);
-      console.log('learningAgreementID', learningAgreementId);
-      await handleSaveReceivingInstitutionInfoIdToLearningAgreementTable();
+
       try {
         toast({
           title: 'Kayıt Başarılı.',

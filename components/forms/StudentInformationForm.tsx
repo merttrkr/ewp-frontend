@@ -103,24 +103,43 @@ export default function StudentInformationForm({
 
   async function handleSaveStudentInfoIdToLearningAgreementTable() {
     const fetchSaveStudentInfoIdToLearningAgreementTable = async () => {
-      await SaveStudentInfoIdToLearningAgreementTable(
+      const url =
         'https://localhost:5001/spSaveStudentInfoIdToLearningAgreementTable?studentInfo_id=' +
-          studentInfoId +
-          '&learningAgreement_id=' +
-          learningAgreementID
-      );
+        studentInfoId +
+        '&learningAgreement_id=' +
+        learningAgreementID;
+      try {
+        await SaveStudentInfoIdToLearningAgreementTable(url);
+        console.log('Saved studentInfoId to LA :', studentInfoId);
+      } catch (error) {
+        console.error('Error: ', error);
+      }
     };
-    fetchSaveStudentInfoIdToLearningAgreementTable();
+    if (studentInfoId !== 0 && learningAgreementID !== 0) {
+      console.log(
+        'learningAgreementID ',
+        learningAgreementID,
+        ' studentInfoId ',
+        studentInfoId
+      );
+
+      fetchSaveStudentInfoIdToLearningAgreementTable();
+    }
   }
 
   async function handleInsertEmptyRowToStudentInfo() {
     const insertEmptyRowToStudentInfo = async () => {
-      await InsertEmptyRowToStudentInfo(
+      const url =
         'https://localhost:5001/spInsertEmptyRowToStudentInfo?studentInfo_id=' +
-          studentInfoId +
-          '&mobilityType_id=' +
-          mobilityTypeId
-      );
+        studentInfoId +
+        '&mobilityType_id=' +
+        mobilityTypeId;
+      try {
+        await InsertEmptyRowToStudentInfo(url);
+        console.log('Inserted new row to la sudent info');
+      } catch (error) {
+        console.error('Error: ', error);
+      }
     };
     if (
       studentInfoId &&
@@ -156,14 +175,17 @@ export default function StudentInformationForm({
     saveStudentInfo();
   }
 
+  useEffect(() => {
+    handleInsertEmptyRowToStudentInfo().then(() =>
+      handleSaveStudentInfoIdToLearningAgreementTable()
+    );
+  }, [studentInfoId]);
+
   //submit
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        console.log('studentInfoId:', studentInfoId);
-        await handleInsertEmptyRowToStudentInfo();
         await handleSaveStudentInfo(values);
-        await handleSaveStudentInfoIdToLearningAgreementTable();
         toast({
           title: 'Kayıt Başarılı.',
           description: 'Öğrenciye Ait Bilgiler başarıyla kaydedildi.',
@@ -218,6 +240,7 @@ export default function StudentInformationForm({
       setISCEDCodeAndFields(''); // or any default value you want
     }
   };
+
   const handleEducationTypeAndLevelChange = (
     value: EducationTypeAndLevel | null
   ) => {

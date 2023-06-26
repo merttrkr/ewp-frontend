@@ -90,26 +90,26 @@ export default function InstitutionInformationForm({
     }
   }, [heiId]);
 
-  async function handleGetUniversityFullname() {
-    /*const fetchUniversityFullname = async () => {
-      await GetUniversityFullname(
-        'https://localhost:5001/spGetUniversityFullname?sendingInstitutionInfoId=' +
-          institutionInfoId
-      );
-    };
-    fetchUniversityFullname();*/
-  }
-
   async function handleSaveSendingInstitutionInfoIdToLearningAgreementTable() {
     const saveSendingInstitutionInfoIdToLearningAgreementTable = async () => {
-      await SaveSendingInstitutionInfoIdToLearningAgreementTable(
+      const requestUrl =
         'https://localhost:5001/spSaveSendingInstitutionInfoIdToLearningAgreementTable?sendingInstitutionInfo_id=' +
-          sendingInstitutionInfoId +
-          '&learningAgreement_id=' +
-          learningAgreementId
-      );
+        sendingInstitutionInfoId +
+        '&learningAgreement_id=' +
+        learningAgreementId;
+      try {
+        await SaveSendingInstitutionInfoIdToLearningAgreementTable(requestUrl);
+        console.log(
+          'Saved sending institution id to LA :',
+          sendingInstitutionInfoId
+        );
+      } catch (error) {
+        console.error('Error: ', error);
+      }
     };
-    saveSendingInstitutionInfoIdToLearningAgreementTable();
+    if (sendingInstitutionInfoId !== 0 && learningAgreementId !== 0) {
+      saveSendingInstitutionInfoIdToLearningAgreementTable();
+    }
   }
 
   async function handleInsertEmptyRowToSendingInstitutionInfo() {
@@ -143,14 +143,15 @@ export default function InstitutionInformationForm({
 
     saveSendingInstitutionInfo();
   }
+  useEffect(() => {
+    handleInsertEmptyRowToSendingInstitutionInfo().then(() =>
+      handleSaveSendingInstitutionInfoIdToLearningAgreementTable()
+    );
+  }, [sendingInstitutionInfoId]);
 
   function onSubmit(values: FormData) {
     return new Promise<void>(async (resolve, reject) => {
-      await handleInsertEmptyRowToSendingInstitutionInfo();
       await handleSaveSendingInstitutionInfo(values);
-      console.log('learningAgreementID', learningAgreementId);
-      console.log('institutionInfoID', sendingInstitutionInfoId);
-      await handleSaveSendingInstitutionInfoIdToLearningAgreementTable();
 
       try {
         toast({
@@ -203,10 +204,6 @@ export default function InstitutionInformationForm({
       Object.keys(sendingInstitutionInfo).length !== 0
     ) {
       setValue('department_id', sendingInstitutionInfo.universityDepartment_id);
-      console.log(
-        'sendingInstitutionInfoResponse.universityDepartment_id:  xx',
-        sendingInstitutionInfo.universityDepartment_id
-      );
       setDepartmentID(sendingInstitutionInfo.universityDepartment_id);
       setValue(
         'academic_personal_name',
