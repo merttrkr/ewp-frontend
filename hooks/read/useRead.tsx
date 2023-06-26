@@ -165,6 +165,7 @@ const useAgreement = () => {
   ): Promise<OrganizationInfo> => {
     const organizationInfo: OrganizationInfo =
       await makeRequest<OrganizationInfo>(request);
+      
     return organizationInfo;
   };
 

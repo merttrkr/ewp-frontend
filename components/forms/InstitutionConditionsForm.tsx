@@ -216,7 +216,6 @@ export default function InstitutionConditionsForm({
   useEffect(() => {
     if (collaborationCondition && organizationInfo && partnerOrganizationInfo) {
       setSenderInstitution(organizationInfo?.heiId);
-
       setReceiverInstitution(partnerOrganizationInfo?.heiId);
       setSenderDepartment(organizationInfo?.ounitName);
       setReceiverDepartment(partnerOrganizationInfo?.ounitName);
@@ -233,8 +232,10 @@ export default function InstitutionConditionsForm({
         collaborationCondition[0]?.educationTypeAndLevel
       );
       setISCEDCodeAndFields(collaborationCondition[0]?.subjectArea);
+      
       handleGetSelectedContactInfoOfOrganizationInfo();
       handleGetSelectedPartnerContactInfoOfOrganizationInfo();
+      
     }
   }, [
     organizationInfo,
@@ -449,20 +450,14 @@ export default function InstitutionConditionsForm({
       setValue('sender_department', value.organizationalUnitName);
       setSenderDepartment(value.organizationalUnitName);
       setSenderDepartmentID(value.id);
-    } else {
-      setValue('sender_department', ''); // or any default value you want
-      setSenderDepartment(''); // or any default value you want
-    }
+    } 
   };
   const handleReceiverDepartmentChange = (value: Department | null) => {
     if (value) {
       setValue('receiver_department', value.organizationalUnitName);
       setReceiverDepartment(value.organizationalUnitName);
       setReceiverDepartmentID(value.id);
-    } else {
-      setValue('receiver_department', ''); // or any default value you want
-      setReceiverDepartment(''); // or any default value you want
-    }
+    } 
   };
 
   const handleSenderContactChange = (value: Contact | Contact[] | null) => {
@@ -530,10 +525,7 @@ export default function InstitutionConditionsForm({
       setValue('isced_code_and_fields', value.subjectArea);
       setISCEDCodeAndFields(value.subjectArea);
       setISCEDCodeAndFieldsID(value.subjectAreaId);
-    } else {
-      setValue('isced_code_and_fields', '');
-      setISCEDCodeAndFields(''); // or any default value you want
-    }
+    } 
   };
   const handleConditionChange = (value: CollaborationConditionType | null) => {
     if (value) {
@@ -648,6 +640,7 @@ export default function InstitutionConditionsForm({
               param={senderInstitution}
             />
             <SelectAcademicYear
+              inputValue={startingAcademicYear}
               id='academicYearStart_id'
               error={errors.starting_academic_year?.message}
               register={register('starting_academic_year')}
@@ -663,6 +656,7 @@ export default function InstitutionConditionsForm({
               register={register('annual_mobility_amount')}
             />
             <SelectISCED
+              inputValue={ISCEDCodeAndFields}
               id='isced_code_and_fields'
               error={errors.isced_code_and_fields?.message}
               register={register('isced_code_and_fields', {
@@ -673,6 +667,7 @@ export default function InstitutionConditionsForm({
               onChange={handleISCEDchange}
             ></SelectISCED>
             <SelectEducationTypeAndLevel
+              inputValue={educationTypeAndLevel}
               id='education_type_and_level'
               register={register('education_type_and_level', {
                 required: 'This is required',
@@ -685,6 +680,7 @@ export default function InstitutionConditionsForm({
           </Stack>
           <Stack w={['100%', '50%']} spacing={4} p={[2, 5]}>
             <SelectInstitution
+              inputValue={receiverInstitution}
               apiURL='https://localhost:5001/spGetUniversityNamesForOrganization?uniShortName='
               id='receiver_instution_name'
               register={register('receiver_hei_id')}
@@ -696,6 +692,7 @@ export default function InstitutionConditionsForm({
             />
 
             <SelectDepartment
+              inputValue={receiverDepartment}
               id='receiver_department'
               register={register('receiver_department')}
               placeHolder={receiverDepartment}
@@ -740,24 +737,27 @@ export default function InstitutionConditionsForm({
             />
             <HStack spacing={4}>
               <SelectLanguage
+                inputValue={language}
                 id='language'
                 error={errors.language?.message}
                 register={register('language', {
                   required: 'This is required',
                 })}
-                placeholder='İNGİLİZCE'
+                placeholder={language}
                 selectLabel='Yabancı Dil'
                 onChange={handleLanguageChange}
               ></SelectLanguage>
 
               <Box w={'50%'}>
                 <SelectLanguageLevel
+                  inputValue={languageLevel}
+
                   id='language_level'
                   error={errors.language_level?.message}
                   register={register('language_level', {
                     required: 'This is required',
                   })}
-                  placeholder='B1'
+                  placeholder={languageLevel}
                   selectLabel='Seviyesi'
                   onChange={handleLanguageLevelChange}
                 ></SelectLanguageLevel>

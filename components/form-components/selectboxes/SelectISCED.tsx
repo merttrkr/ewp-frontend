@@ -48,14 +48,22 @@ const SelectISCED: React.FC<SelectISCEDProps> = ({
 
   useEffect(() => {
     // Check if inputValue is provided and not null
-    if (inputValue !== null) {
+    if (typeof inputValue === 'number') {
       // Find the nationality with matching id
       const selectedSubjectArea = subjectAreaArray.find(
         (type) => type.subjectAreaId === inputValue
       );
-      // Call the onChange prop with the selected nationality
       onChange(selectedSubjectArea || null);
     }
+      if (typeof inputValue === 'string') {
+        const selectedSubjectArea = subjectAreaArray.find(
+          (type) => type.subjectArea === inputValue
+        );
+        onChange(selectedSubjectArea || null);
+      }
+      // Call the onChange prop with the selected nationality
+      
+    
   }, [inputValue, subjectAreaArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');

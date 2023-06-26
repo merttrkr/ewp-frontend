@@ -50,14 +50,16 @@ const Select: React.FC<SelectDepartmentProps> = ({
         }
       }
     };
-    if (param) {
+    if (param !== '') {
       fetchInitialData();
     }
   }, [param]);
 
   useEffect(() => {
+    
     // Check if inputValue is provided and not null
     if (inputValue !== null && typeof inputValue === 'number') {
+      console.log('inputValue number  ' +inputValue );
       // Find the nationality with matching id
       const selectedDepartman = departmentArray.find(
         (type) => type.id === inputValue
@@ -65,8 +67,10 @@ const Select: React.FC<SelectDepartmentProps> = ({
       // Call the onChange prop with the selected nationality
       onChange(selectedDepartman || null);
     }
-    if (inputValue !== null && typeof inputValue === 'string') {
-      // Find the nationality with matching id
+    if (typeof inputValue === 'string' && inputValue !== '' ) {
+      console.log('inputValue string ' +inputValue );
+      
+      // Find the nationality with matching id      
       const selectedDepartman = departmentArray.find(
         (type) => type.organizationalUnitName === inputValue
       );
@@ -90,7 +94,7 @@ const Select: React.FC<SelectDepartmentProps> = ({
             <label htmlFor={id}>{selectLabel}</label>
           </Heading>
           <Autocomplete
-            onChange={(event, value) => onChange(value || null)}
+            onChange={(event, value) => onChange(value)}
             disablePortal
             id={id}
             disabled={isDisabled}

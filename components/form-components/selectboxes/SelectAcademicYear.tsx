@@ -6,6 +6,7 @@ import useRead from '@/hooks/read/useRead';
 import { AcademicYearInfo } from '@/models/response/academicYearResponse';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { type } from 'os';
 
 type SelectAcademicYearProps = {
   selectLabel: string;
@@ -53,14 +54,22 @@ const SelectAcademicYear: React.FC<SelectAcademicYearProps> = ({
   
   useEffect(() => {
     // Check if inputValue is provided and not null
-    if (inputValue !== null) {
+    if (typeof inputValue === 'number') {
       // Find the nationality with matching id
       const selectedDepartman = academicYearArray.find(
         (type) => type.academicYear_id === inputValue
       );
-      // Call the onChange prop with the selected nationality
-      onChange(selectedDepartman || null);
+      onChange(selectedDepartman || null);  
     }
+      if ( typeof inputValue  === 'string' ) {
+        const selectedDepartman = academicYearArray.find(
+          (type) => type.academicYear === inputValue
+        );
+        onChange(selectedDepartman || null);
+      }
+      // Call the onChange prop with the selected nationality
+     
+    
   }, [inputValue, academicYearArray, onChange]);
 
   return (
