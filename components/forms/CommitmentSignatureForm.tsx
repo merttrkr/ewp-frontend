@@ -30,6 +30,7 @@ type CommitmentSignatureFormProps = {
   omobilityID: string;
   receivingInstitutionHeiID?: string;
   pmpID: number;
+  virtualComponent_id?:number ;
 };
 
 type FormData = {
@@ -54,6 +55,8 @@ export default function CommitmentSignatureForm({
   omobilityID,
   receivingInstitutionHeiID = '',
   pmpID,
+  virtualComponent_id,
+
 }: CommitmentSignatureFormProps) {
   const {
     SaveCommitmentIdToLearningAgreementTable,
@@ -335,7 +338,7 @@ export default function CommitmentSignatureForm({
       learningAgreementId: learningAgreementID,
       proposedMobilityProgrammeId: pmpID,
       isApproved: isApproved,
-      virtualComponentId: 0,
+      virtualComponentId: virtualComponent_id?virtualComponent_id:0,
     };
 
     try {
@@ -355,6 +358,15 @@ export default function CommitmentSignatureForm({
       console.error(error); // Handle the error if necessary
     }
   }
+  const handleSendOLANotification = () => {
+     handleOLANotification();
+  };
+  const handleApproveOLAUpdateNotification = () => {
+    handleOLAUpdateNotification(true);
+  };
+  const handleRejectOLAUpdateNotification = () => {
+    handleOLAUpdateNotification(false);
+  };
   return (
     <Stack
       marginBottom='20'
@@ -528,13 +540,13 @@ export default function CommitmentSignatureForm({
         </Flex>
         <Flex pt={4} gap={4} justifyContent='right'>
           {sendingHeiId === 'iyte.edu.tr' ? (
-            <Button variant='autoWidthFull'>
+            <Button variant='autoWidthFull' onClick={handleSendOLANotification}>
               Anlaşma Oluşturma Sürecini Tamamla ve Alıcı Kuruma Bildirim Gönder
             </Button>
           ) : (
             <>
-              <Button variant='autoWidthFull'>Anlaşmayı Onayla</Button>
-              <Button variant='autoWidthFull'>
+              <Button variant='autoWidthFull' onClick={handleApproveOLAUpdateNotification}>Anlaşmayı Onayla</Button>
+              <Button variant='autoWidthFull' onClick={handleRejectOLAUpdateNotification}>
                 Yazılan Yoruma Göre Anlaşmada Güncelleme Talep Et
               </Button>
             </>
