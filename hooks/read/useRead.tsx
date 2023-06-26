@@ -354,7 +354,7 @@ const useAgreement = () => {
 
   //https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=21
   const GetSendingHeiId = async (request: string): Promise<string> => {
-    const hei: string = await makeRequest<string>(request);
+    const hei: string = await makeRequestText<string>(request);
     return hei;
   };
 
