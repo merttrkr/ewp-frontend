@@ -464,7 +464,7 @@ export default function MobilityProgramFormLongTerm({
             <DateInput
               id='mobility_start_date'
               register={register('mobility_start_date')}
-              placeholder=''
+              placeholder={mobilityStartDate}
               label='Hareketliliğin Başlangıç Tarihi'
               onChange={handleMobilityStartDateChange}
               error={errors.mobility_start_date?.message}
@@ -474,7 +474,7 @@ export default function MobilityProgramFormLongTerm({
             <DateInput
               id='mobility_end_date'
               register={register('mobility_end_date')}
-              placeholder=''
+              placeholder={mobilityEndDate}
               label='Hareketliliğin Bitiş Tarihi'
               onChange={handleMobilityEndDateChange}
               error={errors.mobility_end_date?.message}
@@ -594,7 +594,7 @@ export default function MobilityProgramFormLongTerm({
                   id='language'
                   error={errors.language?.message}
                   register={register('language')}
-                  placeholder=''
+                  placeholder={language}
                   selectLabel='Yabancı Dil'
                   onChange={handleLanguageChange}
                 ></SelectLanguage>
@@ -605,7 +605,7 @@ export default function MobilityProgramFormLongTerm({
                   id='language_level'
                   error={errors.language_level?.message}
                   register={register('language_level')}
-                  placeholder=''
+                  placeholder={languageLevel}
                   selectLabel='Seviyesi'
                   onChange={handleLanguageLevelChange}
                 ></SelectLanguageLevel>
@@ -721,29 +721,7 @@ export default function MobilityProgramFormLongTerm({
           </Flex>
 
           <Flex direction={'column'} rowGap={5} pt={'10'} pl={5}>
-            <Flex gap={4}>
-              <Box w={'50%'}>
-                <SelectLanguage
-                  id='language'
-                  error={errors.language?.message}
-                  register={register('language')}
-                  placeholder=''
-                  selectLabel='Yabancı Dil'
-                  onChange={handleLanguageChange}
-                ></SelectLanguage>
-              </Box>
-
-              <Box w={'50%'}>
-                <SelectLanguageLevel
-                  id='language_level'
-                  error={errors.language_level?.message}
-                  register={register('language_level')}
-                  placeholder=''
-                  selectLabel='Seviyesi'
-                  onChange={handleLanguageLevelChange}
-                ></SelectLanguageLevel>
-              </Box>
-            </Flex>
+     
             <TextInput
               label='Öğrencinin talep ettiği dersleri tamamlayamaması durumunda uygulanacak hükümlerin linki'
               placeholder='www...'

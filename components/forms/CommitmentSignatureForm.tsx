@@ -88,6 +88,7 @@ export default function CommitmentSignatureForm({
 
   async function handleGetSendingHeiId() {
     const fetchGetSendingHeiId = async () => {
+      
       const requestUrl =
         'https://localhost:5001/spGetSendingHeiId?sendingInstitutionInfoId=' +
         sendingInstitutionInfoId;
@@ -103,6 +104,7 @@ export default function CommitmentSignatureForm({
         console.error('Error:', error);
       }
     };
+
     if (sendingInstitutionInfoId != 0) {
       fetchGetSendingHeiId();
     }
@@ -147,22 +149,27 @@ export default function CommitmentSignatureForm({
         sendingHeiResponsibleFullname: values.sender_name,
         sendingHeiResponsiblePosition: values.sender_position,
         sendingHeiResponsibleEmail: values.sender_email,
-        receivingHeiSignature: values.receiver_signature ?? '',
+        receivingHeiSignature: values.receiver_signature ?? ' ',
         receivingHeiResponsibleFullname: values.receiver_name ?? '',
         receivingHeiResponsiblePosition: values.receiver_position ?? '',
         receivingHeiResponsibleEmail: values.receiver_email ?? '',
         commentForRejection: values.comment ?? '',
       };
+      console.log('request', request);
+      
       await SaveCommitment(request);
     } catch (error) {
       console.error('Error saving commitment: ', error);
     }
   }
   useEffect(() => {
-    handleGetSendingHeiId();
-    handleInsertEmptyRowToCommitment();
-    handleSaveCommitmentIdToLearningAgreementTable();
+
+       handleInsertEmptyRowToCommitment()
+      .then(() => handleSaveCommitmentIdToLearningAgreementTable());
   }, [commitmentID]);
+  useEffect(() => {
+    handleGetSendingHeiId();
+  }, [sendingInstitutionInfoId]);
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>(async (resolve, reject) => {
