@@ -250,12 +250,15 @@ export default function CommitmentSignatureForm({
           textToBase64Image(signatureInfo.studentSignatureInBase64)
         );
       } else {
-        setStudentSignature(signatureInfo.studentSignatureInBase64);
+        if(signatureInfo.studentSignatureInBase64 == ' '){
+          setStudentSignature(signatureInfo.studentSignatureInBase64);
+        }
+        
       }
       if (
         signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64?.startsWith(
           'data:image/png;base64,'
-        ) == false
+        ) == false 
       ) {
         setSenderSignature(
           textToBase64Image(
@@ -263,14 +266,17 @@ export default function CommitmentSignatureForm({
           )
         );
       } else {
-        setSenderSignature(
-          signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64
-        );
+        if(signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64 == ' '){
+          setSenderSignature(
+            signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64
+          );
+        }
+        
       }
       if (
         signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64?.startsWith(
           'data:image/png;base64,'
-        ) == false
+        ) == false 
       ) {
         setReceiverSignature(
           textToBase64Image(
