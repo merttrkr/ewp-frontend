@@ -281,11 +281,10 @@ export default function InstitutionInformationForm({
               inputValue={departmentID}
               id='department_id'
               register={
-                (register('department_id'),
+                register('department_id',
                 {
                   required: 'This is required',
-                })
-              }
+                })}
               placeHolder={department}
               selectLabel='Departman / Bölüm Adı'
               onChange={handleSelectChangeDepartment}
@@ -297,12 +296,9 @@ export default function InstitutionInformationForm({
               label='Akademik Personelin İsmi'
               placeholder=''
               error={errors.academic_personal_name?.message}
-              register={
-                (register('academic_personal_name'),
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('academic_personal_name', {
+                required: 'This is required',
+              })}
             />
 
             <TextInput
@@ -311,7 +307,7 @@ export default function InstitutionInformationForm({
               placeholder=''
               error={errors.academic_personal_surname?.message}
               register={
-                (register('academic_personal_surname'),
+                register('academic_personal_surname',
                 {
                   required: 'This is required',
                 })
@@ -324,7 +320,7 @@ export default function InstitutionInformationForm({
               placeholder=''
               error={errors.academic_personal_eposta?.message}
               register={
-                (register('academic_personal_eposta'),
+                register('academic_personal_eposta',
                 {
                   required: 'This is required',
                 })
@@ -338,7 +334,7 @@ export default function InstitutionInformationForm({
               placeholder=''
               error={errors.administrative_personal_name?.message}
               register={
-                (register('administrative_personal_name'),
+                register('administrative_personal_name',
                 {
                   required: 'This is required',
                 })
@@ -351,7 +347,7 @@ export default function InstitutionInformationForm({
               placeholder=''
               error={errors.administrative_personal_surname?.message}
               register={
-                (register('administrative_personal_surname'),
+                register('administrative_personal_surname',
                 {
                   required: 'This is required',
                 })
@@ -364,7 +360,7 @@ export default function InstitutionInformationForm({
               placeholder=''
               error={errors.administrative_personal_eposta?.message}
               register={
-                (register('administrative_personal_eposta'),
+                register('administrative_personal_eposta',
                 {
                   required: 'This is required',
                 })
@@ -377,7 +373,7 @@ export default function InstitutionInformationForm({
               placeholder=''
               error={errors.phone_number?.message}
               register={
-                (register('phone_number'),
+                register('phone_number',
                 {
                   required: 'This is required',
                 })
@@ -389,7 +385,7 @@ export default function InstitutionInformationForm({
               placeholder=''
               error={errors.extension?.message}
               register={
-                (register('extension'),
+                register('extension',
                 {
                   required: 'This is required',
                 })
