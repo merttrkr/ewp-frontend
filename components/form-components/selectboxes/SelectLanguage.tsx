@@ -47,15 +47,23 @@ const SelectLanguage: React.FC<SelectLanguageProps> = ({
 
   useEffect(() => {
     // Check if inputValue is provided and not null
-    if (inputValue !== null) {
+      if (typeof inputValue === 'number') {
       // Find the nationality with matching id
       const selectedDepartman = languageArray.find(
         (type) => type.lang_id === inputValue
       );
-      // Call the onChange prop with the selected nationality
       onChange(selectedDepartman || null);
     }
-  }, [inputValue, languageArray, onChange]);
+      if (typeof inputValue === 'string') {
+
+        const selectedDepartman = languageArray.find(
+          (type) => type.definition === inputValue
+        );
+        onChange(selectedDepartman || null);
+      }
+        // Call the onChange prop with the selected nationality
+      
+    }, [inputValue, languageArray, onChange]);
 
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   return (
