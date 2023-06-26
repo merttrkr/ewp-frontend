@@ -201,6 +201,8 @@ export default function CommitmentSignatureForm({
 
   useEffect(() => {
     if (signatureInfo != undefined && Object.keys(signatureInfo).length !== 0) {
+      console.log('signatureInfo', signatureInfo);
+      
       setValue('student_signature', signatureInfo.studentSignatureInBase64);
       setValue(
         'sender_signature',
