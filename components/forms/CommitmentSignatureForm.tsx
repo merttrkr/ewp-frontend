@@ -405,12 +405,9 @@ export default function CommitmentSignatureForm({
               <SignatureInput
                 onChange={handleStudentSignatureChange}
                 id='student_signature'
-                register={
-                  (register('student_signature'),
-                  {
-                    required: 'This is required',
-                  })
-                }
+                register={register('student_signature', {
+                  required: 'This is required',
+                })}
                 placeholder='Ad Soyad'
                 label='Öğrenci İmzası'
                 error={errors.student_signature?.message}
@@ -430,12 +427,9 @@ export default function CommitmentSignatureForm({
               <SignatureInput
                 onChange={handleSenderSignatureChange}
                 id='sender_signature'
-                register={
-                  (register('sender_signature'),
-                  {
-                    required: 'This is required',
-                  })
-                }
+                register={register('sender_signature', {
+                  required: 'This is required',
+                })}
                 placeholder='Ad Soyad'
                 label='Sorumlu Kişi İmzası'
                 error={errors.sender_signature?.message}
