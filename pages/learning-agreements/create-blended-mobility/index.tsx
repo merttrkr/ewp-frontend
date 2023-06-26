@@ -73,6 +73,7 @@ export default function TabComponent() {
     sendingInstitutionInfoId,
     receivingInstitutionInfoId,
     commitmentId,
+    virtualComponent_id,
   } = router.query;
 
   const handleGetStudentInfoById = async () => {
@@ -480,6 +481,7 @@ export default function TabComponent() {
         </TabPanel>
         <TabPanel>
           <CommitmentSignatureForm
+            virtualComponent_id={Number(virtualComponent_id)}
             pmpID={proposedMobilityProgrammeID}  
             omobilityID={omobilityID}
             receivingInstitutionHeiID={receivingInstitutionInfo?.heiId}
