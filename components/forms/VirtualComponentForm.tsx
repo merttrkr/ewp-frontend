@@ -179,7 +179,6 @@ export default function VirtualComponentForm({
         learningAgreementID;
       try {
         await SaveVirtualComponentIdToLearningAgreementTable(requestUrl);
-        console.log('Saved virtual comp to la : ' + virtualComponentID);
       } catch (error) {
         console.error('Error:', error);
       }

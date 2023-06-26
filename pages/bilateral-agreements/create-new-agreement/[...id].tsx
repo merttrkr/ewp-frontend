@@ -27,10 +27,15 @@ export default function TabComponent() {
   const HeadingColor = useColorModeValue('gray.600', 'gray.100');
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
 
-  const [newCollaborationConditionId, setNewCollaborationConditionId] = useState(0);
-  const [newPartnerCollaborationConditionId, setNewPartnerCollaborationConditionId] = useState(0);
+  const [newCollaborationConditionId, setNewCollaborationConditionId] =
+    useState(0);
+  const [
+    newPartnerCollaborationConditionId,
+    setNewPartnerCollaborationConditionId,
+  ] = useState(0);
   const [newOrganizationInfoId, setNewOrganizationInfoId] = useState(0);
-  const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] = useState(0);
+  const [newPartnerOrganizationInfoId, setNewPartnerOrganizationInfoId] =
+    useState(0);
   const [bilateralAgreementID, setBilateralAgreementID] = useState(0);
   const [bilateralAgreementState, setBilateralAgreementState] = useState('');
   const [saveState, setSaveState] = useState(0);
@@ -44,8 +49,6 @@ export default function TabComponent() {
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        console.log('id', id);
-  
         const ids = id[0].split(',').map(Number);
         const [
           organizationInfoId,
@@ -54,39 +57,31 @@ export default function TabComponent() {
           partnerCollaborationConditionId,
           agreementId,
         ] = ids;
-        console.log('ids', ids);
-  
+
         setNewOrganizationInfoId(organizationInfoId || 0);
         setNewPartnerOrganizationInfoId(partnerOrganizationInfoId || 0);
         setNewCollaborationConditionId(collaborationConditionId || 0);
-        setNewPartnerCollaborationConditionId(partnerCollaborationConditionId || 0);
+        setNewPartnerCollaborationConditionId(
+          partnerCollaborationConditionId || 0
+        );
         setBilateralAgreementID(agreementId || 0);
-  
-        console.log('partnerCollaborationConditionId', organizationInfoId);
-        console.log('partnerOrganizationInfoId', partnerOrganizationInfoId);
-        console.log('collaborationConditionId', collaborationConditionId);
-        console.log('partnerCollaborationConditionId', partnerCollaborationConditionId);
-        console.log('agreementId', agreementId);
-  
+
         // Check if any ID is missing and generate new states
         if (organizationInfoId === 0 || partnerOrganizationInfoId === 0) {
           handleIDForBoth();
         }
-        if (collaborationConditionId === 0 || partnerCollaborationConditionId === 0) {
+        if (
+          collaborationConditionId === 0 ||
+          partnerCollaborationConditionId === 0
+        ) {
           handleIDForBothCollaborationCondition();
         }
         if (agreementId === 0) {
           handleGenerateBilateralAgreementID();
         }
-  
-        console.log('updated partnerCollaborationConditionId', organizationInfoId);
-        console.log('updated partnerOrganizationInfoId', partnerOrganizationInfoId);
-        console.log('updated collaborationConditionId', collaborationConditionId);
-        console.log('updated partnerCollaborationConditionId', partnerCollaborationConditionId);
-        console.log('updated agreementId', agreementId);
       }
     };
-  
+
     fetchData();
   }, [id]);
 
@@ -113,8 +108,6 @@ export default function TabComponent() {
 
     if (data) {
       if (newOrganizationInfoId === 0) {
-        
-        
         setNewOrganizationInfoId(data[0].newOrganizationInfoId);
       }
       if (newPartnerOrganizationInfoId === 0) {
@@ -136,20 +129,21 @@ export default function TabComponent() {
   };
 
   const handleIDForBothCollaborationCondition = async () => {
-    const data = await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
-      'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition'
-    );
+    const data =
+      await GenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition(
+        'https://localhost:5001/spGenerateIdsForBothOrganizationAndPartnerOrganizationCollaborationCondition'
+      );
 
     if (data) {
       if (newCollaborationConditionId === 0) {
-        console.log('newCollaborationConditionId: '+ newCollaborationConditionId +'data[0].newOrganizationCollaborationConditionId: ' +data[0].newOrganizationCollaborationConditionId);
-        setNewCollaborationConditionId(data[0].newOrganizationCollaborationConditionId);
+        setNewCollaborationConditionId(
+          data[0].newOrganizationCollaborationConditionId
+        );
       }
       if (newPartnerCollaborationConditionId === 0) {
-        console.log('newPartnerCollaborationConditionId: '+ newPartnerCollaborationConditionId +'data[0].newPartnerOrganizationCollaborationConditionId): ' 
-        + data[0].newPartnerOrganizationCollaborationConditionId);
-
-        setNewPartnerCollaborationConditionId(data[0].newPartnerOrganizationCollaborationConditionId);
+        setNewPartnerCollaborationConditionId(
+          data[0].newPartnerOrganizationCollaborationConditionId
+        );
       }
     }
   };
@@ -157,16 +151,9 @@ export default function TabComponent() {
   const handleSaveStateUpdate = () => {
     setSaveState((prevState) => prevState + 1);
   };
-  useEffect(() => { 
-    console.log('newCollaborationConditionId: '+ newCollaborationConditionId);
-    console.log('newPartnerCollaborationConditionId: '+ newPartnerCollaborationConditionId);
-    console.log('newOrganizationInfoId: '+ newOrganizationInfoId);
-    console.log('newPartnerOrganizationInfoId: '+ newPartnerOrganizationInfoId);
-    console.log('bilateralAgreementID: '+ bilateralAgreementID);
 
-  }, [newCollaborationConditionId, newPartnerCollaborationConditionId, newOrganizationInfoId, newPartnerOrganizationInfoId, bilateralAgreementID]);
   return (
-    <Tabs variant="colorful" colorScheme="gray">
+    <Tabs variant='colorful' colorScheme='gray'>
       <TabList>
         <Tab>Partner Kurumların Bilgileri</Tab>
         <Tab>Partner Kurumların İş Birliği Koşulları</Tab>
@@ -177,8 +164,8 @@ export default function TabComponent() {
           <InstitutionInformationFormIIA
             onSave={handleSaveStateUpdate}
             saveState={saveState}
-            pageName="Kurum Bilgilerim"
-            subText="Lütfen kurumunuzun bilgilerini doldurunuz."
+            pageName='Kurum Bilgilerim'
+            subText='Lütfen kurumunuzun bilgilerini doldurunuz.'
             organizationInfoId={newOrganizationInfoId}
             isPartnerValue={0}
             bilateralAgreementID={bilateralAgreementID}
@@ -186,8 +173,8 @@ export default function TabComponent() {
           <InstitutionInformationFormIIA
             onSave={handleSaveStateUpdate}
             saveState={saveState}
-            pageName="Partner Kurum Bilgileri"
-            subText="Lütfen partner kurumun bilgilerini doldurunuz."
+            pageName='Partner Kurum Bilgileri'
+            subText='Lütfen partner kurumun bilgilerini doldurunuz.'
             organizationInfoId={newPartnerOrganizationInfoId}
             isPartnerValue={1}
             bilateralAgreementID={bilateralAgreementID}
@@ -196,8 +183,8 @@ export default function TabComponent() {
         <TabPanel>
           <InstitutionConditionsForm
             saveState={saveState}
-            pageName="Kurumuma Ait Koşullar"
-            subText="Lütfen kurumunuza ait koşulları doldurunuz."
+            pageName='Kurumuma Ait Koşullar'
+            subText='Lütfen kurumunuza ait koşulları doldurunuz.'
             collaborationConditionId={newCollaborationConditionId}
             bilateralAgreementID={bilateralAgreementID}
             organizationInfoId={newOrganizationInfoId}
@@ -207,8 +194,8 @@ export default function TabComponent() {
           />
           <InstitutionConditionsForm
             saveState={saveState}
-            pageName="Partner Kuruma Ait Koşullar"
-            subText="Lütfen partner kuruma ait koşulları doldurunuz."
+            pageName='Partner Kuruma Ait Koşullar'
+            subText='Lütfen partner kuruma ait koşulları doldurunuz.'
             collaborationConditionId={newPartnerCollaborationConditionId}
             bilateralAgreementID={bilateralAgreementID}
             organizationInfoId={newPartnerOrganizationInfoId}
@@ -220,44 +207,50 @@ export default function TabComponent() {
         <TabPanel>
           <PreviewOrSaveForm
             partnerOrganizationInfoId={newOrganizationInfoId}
-            newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
+            newPartnerCollaborationConditionId={
+              newPartnerCollaborationConditionId
+            }
             newCollaborationConditionId={newCollaborationConditionId}
             saveState={saveState}
             organizationInfoId={newOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
-            pageName="Kurumuma Ait Bilgiler"
+            pageName='Kurumuma Ait Bilgiler'
           />
           <PreviewOrSaveForm
             partnerOrganizationInfoId={newOrganizationInfoId}
-            newPartnerCollaborationConditionId={newPartnerCollaborationConditionId}
+            newPartnerCollaborationConditionId={
+              newPartnerCollaborationConditionId
+            }
             newCollaborationConditionId={newCollaborationConditionId}
             saveState={saveState}
             organizationInfoId={newPartnerOrganizationInfoId}
             bilateralAgreementID={bilateralAgreementID}
-            pageName="Partner Kuruma Ait Bilgiler"
+            pageName='Partner Kuruma Ait Bilgiler'
           />
           <Flex
             bgColor={HeaderBackground}
             mb={100}
-            borderRadius="md"
+            borderRadius='md'
             height={50}
-            flexDirection={["column", "column", "row"]}
-            alignItems={["center", "center", "flex-start"]}
-            justifyContent={["center", "center", "flex-start"]}
+            flexDirection={['column', 'column', 'row']}
+            alignItems={['center', 'center', 'flex-start']}
+            justifyContent={['center', 'center', 'flex-start']}
             px={[4, 4, 6]}
             py={[4, 4, 0]}
           >
             <Heading
               pl={6}
               py={4}
-              as="h3"
-              size="md"
-              fontWeight="medium"
+              as='h3'
+              size='md'
+              fontWeight='medium'
               color={HeadingColor}
-              textAlign={["center", "center", "left"]}
+              textAlign={['center', 'center', 'left']}
             >
-              Anlaşma Yürürlük Durumu:{" "}
-              {bilateralAgreementState === "Hayır" ? "Yürürlükte değil" : "Yürürlükte"}
+              Anlaşma Yürürlük Durumu:{' '}
+              {bilateralAgreementState === 'Hayır'
+                ? 'Yürürlükte değil'
+                : 'Yürürlükte'}
             </Heading>
           </Flex>
         </TabPanel>

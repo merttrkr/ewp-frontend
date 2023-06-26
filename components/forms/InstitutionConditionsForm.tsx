@@ -97,7 +97,6 @@ export default function InstitutionConditionsForm({
     UpdateDateOfBilateralAgreement,
     SaveCollaborationCondition,
     AddCollaborationConditionToBilateralAgreement,
-
   } = useUpdate();
 
   const HeaderBackground = useColorModeValue('gray.100', 'gray.800');
@@ -239,7 +238,6 @@ export default function InstitutionConditionsForm({
       handleGetSelectedContactInfoOfOrganizationInfo();
       handleGetSelectedPartnerContactInfoOfOrganizationInfo();
       handleGetSelectedCollaborationConditionLanguageSkillOfOrganization();
-
     }
   }, [
     organizationInfo,
@@ -252,7 +250,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-        partnerOrganizationInfoId
+          partnerOrganizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setPartnerOrganizationInfo(data);
@@ -348,7 +346,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-        organizationInfoId
+          organizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         const contactPersonNames = data
@@ -363,7 +361,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetSelectedContactInfoOfOrganizationInfo(
         'https://localhost:5001/spGetSelectedContactInfoOfOrganizationInfo?organizationInfo_id=' +
-        partnerOrganizationInfoId
+          partnerOrganizationInfoId
       ); // Call the GetSelectedContactInfoOfOrganizationInfo function
       if (data) {
         const contactPersonNames = data
@@ -379,7 +377,7 @@ export default function InstitutionConditionsForm({
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +
-        organizationInfoId
+          organizationInfoId
       ); // Call the GetOrganizationInfo function
       if (data) {
         setOrganizationInfo(data);
@@ -564,23 +562,23 @@ export default function InstitutionConditionsForm({
     }
   };
   async function handleGetSelectedCollaborationConditionLanguageSkillOfOrganization() {
-    const getSelectedCollaborationConditionLanguageSkillOfOrganization = async () => {
-      const result: CollaborationConditionLanguage = (await 
-      GetSelectedCollaborationConditionLanguageSkillOfOrganization
-      ('https://localhost:5001/spGetSelectedCollaborationConditionLanguageSkillOfOrganization?organizationCollaborationCondition_id=' + collaborationConditionId))[0];
-      if (result) {
-        setLanguage(result.definition);
-        setValue('language', result.definition);
-        setValue('language_level', result.code);
-        setLanguageLevel(result.code);
-        console.log('result', result);
-      }
-
-
-    };
+    const getSelectedCollaborationConditionLanguageSkillOfOrganization =
+      async () => {
+        const result: CollaborationConditionLanguage = (
+          await GetSelectedCollaborationConditionLanguageSkillOfOrganization(
+            'https://localhost:5001/spGetSelectedCollaborationConditionLanguageSkillOfOrganization?organizationCollaborationCondition_id=' +
+              collaborationConditionId
+          )
+        )[0];
+        if (result) {
+          setLanguage(result.definition);
+          setValue('language', result.definition);
+          setValue('language_level', result.code);
+          setLanguageLevel(result.code);
+        }
+      };
     if (collaborationConditionId != 0) {
       getSelectedCollaborationConditionLanguageSkillOfOrganization();
-
     }
   }
   return (
@@ -763,7 +761,6 @@ export default function InstitutionConditionsForm({
               <Box w={'50%'}>
                 <SelectLanguageLevel
                   inputValue={languageLevel}
-
                   id='language_level'
                   error={errors.language_level?.message}
                   register={register('language_level', {

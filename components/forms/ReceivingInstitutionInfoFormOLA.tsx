@@ -95,10 +95,6 @@ export default function ReceivingInstitutionInfoForm({
         await SaveReceivingInstitutionInfoIdToLearningAgreementTable(
           requestUrl
         );
-        console.log(
-          'Saved receiving institution id to LA :',
-          receivingInstitutionInfoId
-        );
       } catch (error) {
         console.error('Error: ', error);
       }

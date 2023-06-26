@@ -35,15 +35,6 @@ const PreviewIIA: React.FC<PreviewIIAProps> = ({ IIA, BilateralAgreement }) => {
       );
 
       if (data !== undefined && data !== null) {
-        console.log(
-          'details ',
-          data?.organizationInfo_id,
-          data?.partnerOrganizationInfo_id,
-          data?.collaborationCondition_id,
-          data?.partnerCollaborationCondition_id,
-          BilateralAgreement.bilateralAgreement_id
-        );
-
         setOrganizationIds([
           data?.organizationInfo_id,
           data?.partnerOrganizationInfo_id,
@@ -62,132 +53,172 @@ const PreviewIIA: React.FC<PreviewIIAProps> = ({ IIA, BilateralAgreement }) => {
   }, []);
 
   const renderNextLink = organizationIds.length > 0 && (
-    <NextLink href={`/bilateral-agreements/create-new-agreement/${organizationIds}`}>
-      <Button variant="autoWidthFull">Anlaşma Detaylarını Görüntüle</Button>
+    <NextLink
+      href={`/bilateral-agreements/create-new-agreement/${organizationIds}`}
+    >
+      <Button variant='autoWidthFull'>Anlaşma Detaylarını Görüntüle</Button>
     </NextLink>
   );
 
   return (
     <Stack
-      margin="6"
+      margin='6'
       bg={FormBackground}
-      borderRadius="xl"
-      align="center"
-      justify="center"
+      borderRadius='xl'
+      align='center'
+      justify='center'
     >
       <Flex
-        align="center"
+        align='center'
         justifyContent={['center', 'space-around', 'space-around']}
         bg={HeaderBackground}
-        w="full"
-        borderTopRadius="xl"
+        w='full'
+        borderTopRadius='xl'
         padding={3}
-        color="white"
+        color='white'
       >
-        <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+        <Flex
+          fontSize={['sm', 'md', 'md']}
+          width={['100%', '33%', '33%']}
+          justify='center'
+        >
           Kurum Adları
         </Flex>
-        <Flex width={['100%', '33%', '33%']} justify="center">
+        <Flex width={['100%', '33%', '33%']} justify='center'>
           <VStack>
-            <Text fontSize="md">Kendi Kurumum</Text>
-            <Text fontSize="sm" >{BilateralAgreement?.ownUniNameWithHeiId}</Text>
+            <Text fontSize='md'>Kendi Kurumum</Text>
+            <Text fontSize='sm'>{BilateralAgreement?.ownUniNameWithHeiId}</Text>
           </VStack>
         </Flex>
-        <Flex width={['100%', '33%', '33%']} justify="center">
+        <Flex width={['100%', '33%', '33%']} justify='center'>
           <VStack>
-            <Text fontSize="md">Partnerim</Text>
-            <Text fontSize="sm" >{BilateralAgreement?.partnerUniNameWithHeiId}</Text>
+            <Text fontSize='md'>Partnerim</Text>
+            <Text fontSize='sm'>
+              {BilateralAgreement?.partnerUniNameWithHeiId}
+            </Text>
           </VStack>
         </Flex>
       </Flex>
-      <Flex direction="column" width="full">
+      <Flex direction='column' width='full'>
         <HStack
-          justify="space-evenly"
-          borderBottom="2px"
+          justify='space-evenly'
+          borderBottom='2px'
           borderColor={BorderColor}
-          py="2"
+          py='2'
         >
           <Flex
             fontSize={['sm', 'md', 'md']}
             width={['100%', '33%', '33%']}
             color={TitleColor}
-            fontWeight="medium"
-            justify="center"
+            fontWeight='medium'
+            justify='center'
           >
             Anlaşmanın Durumu
           </Flex>
-          <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+          <Flex
+            fontSize={['sm', 'md', 'md']}
+            width={['100%', '33%', '33%']}
+            justify='center'
+          >
             {BilateralAgreement?.agreementState}
           </Flex>
-          <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+          <Flex
+            fontSize={['sm', 'md', 'md']}
+            width={['100%', '33%', '33%']}
+            justify='center'
+          >
             {BilateralAgreement?.agreementStateDescription}
           </Flex>
         </HStack>
         <HStack
-          justifyContent="space-evenly"
-          borderBottom="2px"
+          justifyContent='space-evenly'
+          borderBottom='2px'
           borderColor={BorderColor}
-          py="2"
+          py='2'
         >
           <Flex
             fontSize={['sm', 'md', 'md']}
             width={['100%', '33%', '33%']}
-            justify="center"
+            justify='center'
             color={TitleColor}
-            fontWeight="medium"
+            fontWeight='medium'
           >
             Anlaşmanın IIA Kodu
           </Flex>
-          <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+          <Flex
+            fontSize={['sm', 'md', 'md']}
+            width={['100%', '33%', '33%']}
+            justify='center'
+          >
             {BilateralAgreement?.ownIIACode}
           </Flex>
-          <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+          <Flex
+            fontSize={['sm', 'md', 'md']}
+            width={['100%', '33%', '33%']}
+            justify='center'
+          >
             {BilateralAgreement?.partnerIIACode}
           </Flex>
         </HStack>
         <HStack
-          justifyContent="space-evenly"
-          borderBottom="2px"
+          justifyContent='space-evenly'
+          borderBottom='2px'
           borderColor={BorderColor}
-          py="2"
+          py='2'
         >
           <Flex
             fontSize={['sm', 'md', 'md']}
             width={['100%', '33%', '33%']}
-            justify="center"
+            justify='center'
             pl={1}
             color={TitleColor}
-            fontWeight="medium"
+            fontWeight='medium'
           >
             Erasmus Kodu
           </Flex>
-          <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+          <Flex
+            fontSize={['sm', 'md', 'md']}
+            width={['100%', '33%', '33%']}
+            justify='center'
+          >
             {BilateralAgreement ? BilateralAgreement.ownErasmusIdCode : ''}
           </Flex>
-          <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+          <Flex
+            fontSize={['sm', 'md', 'md']}
+            width={['100%', '33%', '33%']}
+            justify='center'
+          >
             {BilateralAgreement ? BilateralAgreement.partnerErasmusIdCode : ''}
           </Flex>
         </HStack>
         <HStack
-          justifyContent="space-evenly"
-          borderBottom="2px"
+          justifyContent='space-evenly'
+          borderBottom='2px'
           borderColor={BorderColor}
-          py="2"
+          py='2'
         >
           <Flex
             fontSize={['sm', 'md', 'md']}
             width={['100%', '33%', '33%']}
-            justify="center"
+            justify='center'
             pl={1}
             color={TitleColor}
-            fontWeight="medium"
+            fontWeight='medium'
           >
             Son Güncellenme Tarihi
           </Flex>
-          <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+          <Flex
+            fontSize={['sm', 'md', 'md']}
+            width={['100%', '33%', '33%']}
+            justify='center'
+          >
             {BilateralAgreement?.generationDate}
           </Flex>
-          <Flex fontSize={['sm', 'md', 'md']} width={['100%', '33%', '33%']} justify="center">
+          <Flex
+            fontSize={['sm', 'md', 'md']}
+            width={['100%', '33%', '33%']}
+            justify='center'
+          >
             {BilateralAgreement?.lastUpdateDate}
           </Flex>
         </HStack>

@@ -93,11 +93,6 @@ export default function TabComponent() {
     }
   };
   const handleGetSendingInstitutionInfoById = async () => {
-    console.log(
-      'sendingInstitutionInfoID istek atıyorum :',
-      sendingInstitutionInfoID
-    );
-
     const request =
       'https://localhost:5001/spGetSendingInstitutionInfoById?sendingInstitutionInfo_id=' +
       sendingInstitutionInfoID;
@@ -110,10 +105,6 @@ export default function TabComponent() {
       ) {
         setSendingInstitutionInfo(sendingInstitutionInfoResponse);
       }
-      console.log(
-        'sendingInstitutionInfoResponse:',
-        sendingInstitutionInfoResponse
-      );
 
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
@@ -122,11 +113,6 @@ export default function TabComponent() {
     }
   };
   const handleGetReceivingInstitutionInfoById = async () => {
-    console.log(
-      'receivingInstitutionInfoID istek atıyorum :',
-      receivingInstitutionInfoID
-    );
-
     const request =
       'https://localhost:5001/spGetReceivingInstitutionInfoById?receivingInstitutionInfo_id=' +
       receivingInstitutionInfoID;
@@ -139,10 +125,6 @@ export default function TabComponent() {
       ) {
         setReceivingInstitutionInfo(receivingInstitutionInfoResponse);
       }
-      console.log(
-        'ilk istek receivingInstitutionInfoResponse:',
-        receivingInstitutionInfoResponse
-      );
 
       // Handle the received studentInfo data: update state, display to the user, etc.
     } catch (error) {
@@ -152,11 +134,6 @@ export default function TabComponent() {
   };
 
   const handleGetProposedMobilityProgrammeById = async () => {
-    console.log(
-      'proposedMobilityProgrammeID istek atıyorum :',
-      proposedMobilityProgrammeID
-    );
-
     try {
       const proposedMobilityProgrammeResponse =
         await GetProposedMobilityProgrammeById(proposedMobilityProgrammeID);
@@ -166,10 +143,6 @@ export default function TabComponent() {
       ) {
         setProposedMobilityProgramme(proposedMobilityProgrammeResponse);
       }
-      console.log(
-        'ilk istek receivingInstitutionInfoResponse:',
-        proposedMobilityProgrammeResponse
-      );
     } catch (error) {
       console.error('Error fetching student info:', error);
       // Handle error: display an error message to the user or perform other error handling tasks
@@ -177,21 +150,15 @@ export default function TabComponent() {
   };
 
   const handleGetSignatureByCommitmentID = async () => {
-    console.log('commitmentID istek atıyorum :', commitmentID);
     try {
       const request =
         'https://localhost:5001/spGetSignatureForCommitment?commitment_id=' +
         commitmentID;
       const SignatureResponse = await GetSignatureForCommitment(request);
-      console.log('SignatureResponse ilk çağrı :', SignatureResponse);
 
       if (SignatureResponse && Object.keys(SignatureResponse).length !== 0) {
         setSignature(SignatureResponse);
       }
-      console.log(
-        'ilk istek receivingInstitutionInfoResponse:',
-        SignatureResponse
-      );
     } catch (error) {
       console.error('Error fetching student info:', error);
       // Handle error: display an error message to the user or perform other error handling tasks
@@ -255,7 +222,6 @@ export default function TabComponent() {
       );
       if (data !== null && data !== undefined && studentInfoID === 0) {
         setStudentInfoID(data);
-        console.log('set ettim Student Info ID:', studentInfoID);
       } else {
         throw new Error('No data received for student info ID');
       }
@@ -330,7 +296,6 @@ export default function TabComponent() {
         'https://localhost:5001/spInsertEmptyRowToLearningAgreement?learningAgreement_id=' +
           laId
       );
-      console.log('inserted empty la row ', laId);
     } catch (error) {
       console.error('Error inserting learning agreement:', error);
       // Handle error: display an error message to the user or perform other error handling tasks
@@ -360,9 +325,6 @@ export default function TabComponent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('Student Info Id:', studentInfoId);
-        console.log('sendingInstitutionInfoId :', sendingInstitutionInfoId);
-
         await Promise.all([
           handleGetStudentInfoById(),
           handleGetSendingInstitutionInfoById(),
@@ -395,8 +357,6 @@ export default function TabComponent() {
       }
     };
     if (urlSetted) {
-      console.log('url setted');
-
       fetchData();
     }
   }, [urlSetted]);
@@ -405,7 +365,6 @@ export default function TabComponent() {
     const fetchData = async () => {
       try {
         await Promise.all([
-          console.log('Student Info ID:', studentInfoID),
           handleGetStudentInfoById(),
           handleGetSendingInstitutionInfoById(),
           handleGetReceivingInstitutionInfoById(),

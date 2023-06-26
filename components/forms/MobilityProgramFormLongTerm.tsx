@@ -117,7 +117,6 @@ export default function MobilityProgramFormLongTerm({
               '&learningAgreement_id=' +
               learningAgreementID
           );
-          console.log('Saved to la long term mob pmpId:' + pmpID);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -436,8 +435,6 @@ export default function MobilityProgramFormLongTerm({
       proposedMobilityProgramme != undefined &&
       Object.keys(proposedMobilityProgramme).length !== 0
     ) {
-      console.log('proposedMobilityProgramme', proposedMobilityProgramme);
-
       setValue(
         'mobility_start_date',
         proposedMobilityProgramme.plannedStartingDateOfMobility?.split('T')[0]

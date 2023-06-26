@@ -99,10 +99,6 @@ export default function InstitutionInformationForm({
         learningAgreementId;
       try {
         await SaveSendingInstitutionInfoIdToLearningAgreementTable(requestUrl);
-        console.log(
-          'Saved sending institution id to LA :',
-          sendingInstitutionInfoId
-        );
       } catch (error) {
         console.error('Error: ', error);
       }

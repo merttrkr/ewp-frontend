@@ -30,7 +30,7 @@ type CommitmentSignatureFormProps = {
   omobilityID: string;
   receivingInstitutionHeiID?: string;
   pmpID: number;
-  virtualComponent_id?:number ;
+  virtualComponent_id?: number;
 };
 
 type FormData = {
@@ -56,7 +56,6 @@ export default function CommitmentSignatureForm({
   receivingInstitutionHeiID = '',
   pmpID,
   virtualComponent_id,
-
 }: CommitmentSignatureFormProps) {
   const {
     SaveCommitmentIdToLearningAgreementTable,
@@ -97,7 +96,6 @@ export default function CommitmentSignatureForm({
 
       try {
         const result = await GetSendingHeiId(requestUrl);
-        console.log('result GetSendingHeiId ', result);
 
         if (result) {
           setSendingHeiId(result);
@@ -157,7 +155,6 @@ export default function CommitmentSignatureForm({
         receivingHeiResponsibleEmail: values.receiver_email ?? '',
         commentForRejection: values.comment ?? '',
       };
-      console.log('request', request);
 
       await SaveCommitment(request);
     } catch (error) {
@@ -202,10 +199,7 @@ export default function CommitmentSignatureForm({
   };
 
   useEffect(() => {
-    console.log('signatureInfo', signatureInfo);
     if (signatureInfo != undefined && Object.keys(signatureInfo).length !== 0) {
-      console.log('signatureInfo', signatureInfo);
-
       setValue('student_signature', signatureInfo.studentSignatureInBase64);
       setValue(
         'sender_signature',
@@ -250,15 +244,14 @@ export default function CommitmentSignatureForm({
           textToBase64Image(signatureInfo.studentSignatureInBase64)
         );
       } else {
-        if(signatureInfo.studentSignatureInBase64 == ' '){
+        if (signatureInfo.studentSignatureInBase64 == ' ') {
           setStudentSignature(signatureInfo.studentSignatureInBase64);
         }
-        
       }
       if (
         signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64?.startsWith(
           'data:image/png;base64,'
-        ) == false 
+        ) == false
       ) {
         setSenderSignature(
           textToBase64Image(
@@ -266,17 +259,19 @@ export default function CommitmentSignatureForm({
           )
         );
       } else {
-        if(signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64 == ' '){
+        if (
+          signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64 ==
+          ' '
+        ) {
           setSenderSignature(
             signatureInfo.signatureForSendingInstitutionIndividualResponsibleInBase64
           );
         }
-        
       }
       if (
         signatureInfo.signatureForReceivingInstitutionIndividualResponsibleInBase64?.startsWith(
           'data:image/png;base64,'
-        ) == false 
+        ) == false
       ) {
         setReceiverSignature(
           textToBase64Image(
@@ -324,7 +319,6 @@ export default function CommitmentSignatureForm({
     try {
       if (notificationRequest.partner_hei_id != undefined) {
         const result = await sendOLANotification(notificationRequest);
-        console.log(result); // You can handle the result as needed
       }
     } catch (error) {
       toast({
@@ -344,13 +338,12 @@ export default function CommitmentSignatureForm({
       learningAgreementId: learningAgreementID,
       proposedMobilityProgrammeId: pmpID,
       isApproved: isApproved,
-      virtualComponentId: virtualComponent_id?virtualComponent_id:0,
+      virtualComponentId: virtualComponent_id ? virtualComponent_id : 0,
     };
 
     try {
       if (notificationRequest != undefined) {
         const result = await sendOLAUpdateNotification(notificationRequest);
-        console.log(result); // You can handle the result as needed
       }
     } catch (error) {
       toast({
@@ -365,7 +358,7 @@ export default function CommitmentSignatureForm({
     }
   }
   const handleSendOLANotification = () => {
-     handleOLANotification();
+    handleOLANotification();
   };
   const handleApproveOLAUpdateNotification = () => {
     handleOLAUpdateNotification(true);
@@ -551,8 +544,16 @@ export default function CommitmentSignatureForm({
             </Button>
           ) : (
             <>
-              <Button variant='autoWidthFull' onClick={handleApproveOLAUpdateNotification}>Anlaşmayı Onayla</Button>
-              <Button variant='autoWidthFull' onClick={handleRejectOLAUpdateNotification}>
+              <Button
+                variant='autoWidthFull'
+                onClick={handleApproveOLAUpdateNotification}
+              >
+                Anlaşmayı Onayla
+              </Button>
+              <Button
+                variant='autoWidthFull'
+                onClick={handleRejectOLAUpdateNotification}
+              >
                 Yazılan Yoruma Göre Anlaşmada Güncelleme Talep Et
               </Button>
             </>

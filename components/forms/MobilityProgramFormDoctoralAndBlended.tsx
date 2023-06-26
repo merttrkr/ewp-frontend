@@ -114,7 +114,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
           await SaveProposedMobilityProgrammeIdToLearningAgreementTable(
             requestUrl
           );
-          console.log('Saved to la doctoral blended mob pmpId:' + pmpID);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -248,8 +247,6 @@ export default function MobilityProgramFormDoctoralAndBlended({
   const handleSaveProposedMobilityProgramme = async (values: FormData) => {
     const { link, mobility_start_date, mobility_end_date } = values;
     const request: MobilityProgrammeRequest = {
-    
-      
       pmp_id: pmpID,
       plannedStartingDateOfMobility: mobility_start_date,
       plannedEndDateOfMobility: mobility_end_date,
@@ -372,7 +369,7 @@ export default function MobilityProgramFormDoctoralAndBlended({
         'mobility_end_date',
         proposedMobilityProgramme.plannedEndDateOfMobility?.split('T')[0]
       );
-      
+
       setValue(
         'link',
         proposedMobilityProgramme.receivingInstitutionCourseCatalogueLink
@@ -557,12 +554,9 @@ export default function MobilityProgramFormDoctoralAndBlended({
               placeholder=''
               id='link'
               error={errors.link?.message}
-              register={
-                register('link',
-                {
-                  required: 'This is required',
-                })
-              }
+              register={register('link', {
+                required: 'This is required',
+              })}
             ></TextInput>
             <Flex gap={4}>
               <Box w={'50%'}>

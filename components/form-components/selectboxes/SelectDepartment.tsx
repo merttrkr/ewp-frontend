@@ -17,7 +17,7 @@ type SelectDepartmentProps = {
   onChange: (value: Department | null) => void; // New prop for handling value change
   param: string;
   error: string | undefined;
-  inputValue?: string | number ;
+  inputValue?: string | number;
 };
 
 const Select: React.FC<SelectDepartmentProps> = ({
@@ -44,7 +44,7 @@ const Select: React.FC<SelectDepartmentProps> = ({
           'https://localhost:5001/spGetOrganizationalUnitNamesForOrganization?heiId=' +
             param
         );
-        const data = (result ? result.departments : []); // Call the fetchData function
+        const data = result ? result.departments : []; // Call the fetchData function
         if (data) {
           setDepartmentArray(data); // Update the state with the fetched data
         }
@@ -56,10 +56,8 @@ const Select: React.FC<SelectDepartmentProps> = ({
   }, [param]);
 
   useEffect(() => {
-    
     // Check if inputValue is provided and not null
     if (inputValue !== null && typeof inputValue === 'number') {
-      console.log('inputValue number  ' +inputValue );
       // Find the nationality with matching id
       const selectedDepartman = departmentArray.find(
         (type) => type.id === inputValue
@@ -67,10 +65,8 @@ const Select: React.FC<SelectDepartmentProps> = ({
       // Call the onChange prop with the selected nationality
       onChange(selectedDepartman || null);
     }
-    if (typeof inputValue === 'string' && inputValue !== '' ) {
-      console.log('inputValue string ' +inputValue );
-      
-      // Find the nationality with matching id      
+    if (typeof inputValue === 'string' && inputValue !== '') {
+      // Find the nationality with matching id
       const selectedDepartman = departmentArray.find(
         (type) => type.organizationalUnitName === inputValue
       );

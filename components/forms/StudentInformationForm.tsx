@@ -110,19 +110,11 @@ export default function StudentInformationForm({
         learningAgreementID;
       try {
         await SaveStudentInfoIdToLearningAgreementTable(url);
-        console.log('Saved studentInfoId to LA :', studentInfoId);
       } catch (error) {
         console.error('Error: ', error);
       }
     };
     if (studentInfoId !== 0 && learningAgreementID !== 0) {
-      console.log(
-        'learningAgreementID ',
-        learningAgreementID,
-        ' studentInfoId ',
-        studentInfoId
-      );
-
       fetchSaveStudentInfoIdToLearningAgreementTable();
     }
   }
@@ -136,7 +128,6 @@ export default function StudentInformationForm({
         mobilityTypeId;
       try {
         await InsertEmptyRowToStudentInfo(url);
-        console.log('Inserted new row to la sudent info');
       } catch (error) {
         console.error('Error: ', error);
       }
@@ -276,7 +267,6 @@ export default function StudentInformationForm({
   };
   useEffect(() => {
     if (studentInfo != undefined && Object.keys(studentInfo).length !== 0) {
-      console.log('studentInfo artık:', studentInfo);
       setValue('student_name', studentInfo.name);
       setValue('student_surname', studentInfo.surname);
       setValue('student_email', studentInfo.email);

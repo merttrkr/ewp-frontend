@@ -285,8 +285,6 @@ const useUpdate = () => {
   const AddOrganizationContactInfo = async (
     request: string
   ): Promise<string> => {
-    console.log(request + ' request');
-
     const result: string = await makeRequest<string>(request);
     return result;
   };
@@ -552,25 +550,31 @@ const useUpdate = () => {
   const sendOLANotification = async (
     request: OLANotificationRequest
   ): Promise<number> => {
-    const { sending_hei_id, omobility_id , partner_hei_id } = request;
+    const { sending_hei_id, omobility_id, partner_hei_id } = request;
 
     const url = `https://localhost:5001/sendOLANotificationToPartner?sending_hei_id=${sending_hei_id}&omobility_id=${omobility_id}&partner_hei_id=${partner_hei_id}`;
     const result: number = await makeRequest<number>(url);
 
     return result;
   };
-    //https://localhost:5001/sendOLANotificationToPartner?sending_hei_id=iyte.edu.tr&omobility_id=omob&partner_hei_id=partner
-    const sendOLAUpdateNotification = async (
-      request: OLAUpdateNotificationRequest
-    ): Promise<number> => {
-      const { sending_hei_id, isApproved, learningAgreementId, proposedMobilityProgrammeId, virtualComponentId } = request;
-  
-      const url = `https://localhost:5001/sendOLAUpdateRequestToPartner?learningAgreementId=1&sendingHeiId=sending&isApproved=true&proposedMobilityProgrammeId=1&virtualComponentId=1
+  //https://localhost:5001/sendOLANotificationToPartner?sending_hei_id=iyte.edu.tr&omobility_id=omob&partner_hei_id=partner
+  const sendOLAUpdateNotification = async (
+    request: OLAUpdateNotificationRequest
+  ): Promise<number> => {
+    const {
+      sending_hei_id,
+      isApproved,
+      learningAgreementId,
+      proposedMobilityProgrammeId,
+      virtualComponentId,
+    } = request;
+
+    const url = `https://localhost:5001/sendOLAUpdateRequestToPartner?learningAgreementId=1&sendingHeiId=sending&isApproved=true&proposedMobilityProgrammeId=1&virtualComponentId=1
       `;
-      const result: number = await makeRequest<number>(url);
-  
-      return result;
-    };
+    const result: number = await makeRequest<number>(url);
+
+    return result;
+  };
   //https://localhost:5001/spSaveVirtualComponent?virtualComponent_id=81
   const SaveVirtualComponent = async (request: string): Promise<string> => {
     const result: string = await makeRequest<string>(request);
@@ -661,8 +665,7 @@ const useUpdate = () => {
     const encodedCommentForRejection = encodeURIComponent(commentForRejection);
 
     const url = `https://localhost:5001/spSaveCommitment?sendingHeiId=${encodedSendingHeiId}&commitment_id=${commitment_id}&studentSignature=${studentSignature}&sendingHeiSignature=${sendingHeiSignature}&sendingHeiResponsibleFullname=${encodedSendingHeiResponsibleFullname}&sendingHeiResponsiblePosition=${encodedSendingHeiResponsiblePosition}&sendingHeiResponsibleEmail=${encodedSendingHeiResponsibleEmail}&receivingHeiSignature=${receivingHeiSignature}&receivingHeiResponsibleFullname=${encodedReceivingHeiResponsibleFullname}&receivingHeiResponsiblePosition=${encodedReceivingHeiResponsiblePosition}&receivingHeiResponsibleEmail=${encodedReceivingHeiResponsibleEmail}&commentForRejection=${encodedCommentForRejection}`;
-    console.log('urlm'+ url);
-    
+
     const result: number = await makeRequest<number>(url);
 
     return result;

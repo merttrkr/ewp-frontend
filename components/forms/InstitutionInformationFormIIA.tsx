@@ -180,7 +180,7 @@ export default function InstitutionInformationForm({
       // All requests completed successfully
       // Add any additional logic here
     } catch (error) {
-      console.log('Error: ' + error);
+      console.error('Error: ' + error);
       // Error occurred during one or more requests
       // Handle or log the error as needed
     }
@@ -329,10 +329,9 @@ export default function InstitutionInformationForm({
     if (value && !Array.isArray(value)) {
       setValue('authorized_signotary', value.fullName);
       setAuthorizedSignotary(value.fullName);
-      console.log(value.id);
 
       setauthorizedSignotaryPersonID(value.id);
-    } else {   
+    } else {
       setValue('authorized_signotary', ''); // or any default value you want
       setAuthorizedSignotary(''); // or any default value you want
       setauthorizedSignotaryPersonID(0); // or any default value you want
@@ -340,15 +339,10 @@ export default function InstitutionInformationForm({
   };
 
   const handleSelectChangeDepartment = (value: Department | null) => {
-    
     if (value?.organizationalUnitName && value?.id) {
-      
       setValue('departmant_name', value.organizationalUnitName);
       setDepartment(value.organizationalUnitName);
       setDepartmentID(value.id);
-    } else {
-      console.log('else' + value?.organizationalUnitName);
-
     }
   };
 
@@ -357,15 +351,18 @@ export default function InstitutionInformationForm({
   }, [organizationInfoId]);
 
   useEffect(() => {
-    if (organizationInfo!= undefined && Object.keys(organizationInfo).length !== 0) {
+    if (
+      organizationInfo != undefined &&
+      Object.keys(organizationInfo).length !== 0
+    ) {
       setValue('hei_id', organizationInfo?.heiId);
       setValue('departmant_name', organizationInfo?.ounitName);
       setValue('IIA_Code', organizationInfo?.IIACode);
       setValue('IIA_ID', organizationInfo?.IIAID);
       setValue('authorized_signotary', organizationInfo?.signingPersonFullName);
-      setValue('signing_date', organizationInfo?.signingDate);  
+      setValue('signing_date', organizationInfo?.signingDate);
       setInstitution(organizationInfo?.heiId);
-      setDepartment(organizationInfo?.ounitName);     
+      setDepartment(organizationInfo?.ounitName);
       setIIACode(organizationInfo?.IIACode);
       setIIAID(organizationInfo?.IIAID);
       setSigningDateInp(organizationInfo?.signingDate);
@@ -375,7 +372,6 @@ export default function InstitutionInformationForm({
   }, [organizationInfo]);
 
   async function handleGetOrganizationInfo() {
-    
     const fetchInitialData = async () => {
       const data = await GetOrganizationInfo(
         'https://localhost:5001/spGetOrganizationInfo2?organizationInfo_id=' +

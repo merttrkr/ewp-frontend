@@ -58,7 +58,6 @@ export default function InitialFocus({
 
   async function handleInsertLASelectedCourse(course: FormData) {
     try {
-      console.log('tableType:', tableType);
       const request: CourseRequest = {
         courseTitle: course.course_name,
         courseCreditType_id: 1,
@@ -74,14 +73,12 @@ export default function InitialFocus({
       };
 
       await InsertLASelectedCourse(request);
-      console.log('inserted La selected course pmpID: ', pmpID);
     } catch (error) {
       console.error('Error inserting selected course:', error);
     }
   }
   async function handleInsertLAVirtualCourse(course: FormData) {
     try {
-      console.log('virtualComponentID before insert : ', virtualComponentID);
       const request: CourseRequest = {
         courseTitle: course.course_name,
         courseCreditType_id: 1,
@@ -98,10 +95,6 @@ export default function InitialFocus({
       };
 
       await InsertLAVirtualCourse(request);
-      console.log(
-        'inserted LA virtual course virtualComponentID: ',
-        virtualComponentID
-      );
     } catch (error) {
       console.error('Error inserting virtual course:', error);
     }
@@ -110,7 +103,6 @@ export default function InitialFocus({
   function onSubmitAdd(values: FormData) {
     return new Promise<void>(async (resolve) => {
       if (tableType === 'C') {
-        console.log('table C');
         await handleInsertLAVirtualCourse(values);
       } else {
         await handleInsertLASelectedCourse(values);

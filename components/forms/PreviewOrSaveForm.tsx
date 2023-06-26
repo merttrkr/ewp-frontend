@@ -126,7 +126,6 @@ export default function PreviewOrSaveForm({
 
     try {
       const result = await sendIIANotification(notificationRequest);
-      console.log(result); // You can handle the result as needed
     } catch (error) {
       toast({
         title: 'Bildirim Gönderilemedi.',
