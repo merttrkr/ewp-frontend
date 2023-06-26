@@ -331,7 +331,7 @@ const useAgreement = () => {
     request: string
   ): Promise<StudentInfoResponse> => {
     const studentInfo: StudentInfoResponse =
-      await makeRequestText<StudentInfoResponse>(request);
+      await makeRequest<StudentInfoResponse>(request);
     return studentInfo;
   };
 
