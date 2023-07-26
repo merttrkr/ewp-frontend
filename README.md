@@ -1,6 +1,13 @@
-You can see the demo version without backend https://ewp-frontend.vercel.app/
+# Erasmus Without Paper (IZTECH in-house)
+## Introduction
+Erasmus Without Paper (EWP) is an EU-funded cutting-edge project aimed at transforming the traditional paper-based processes of the Erasmus+ mobility program. The mission is to streamline administrative tasks, enhance efficiency, and contribute to environmental sustainability by replacing paperwork with a secure and efficient digital system. This is an in-house implementation of the EWP for the Izmir Institute of Technology.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+You can see the demo version without the backend https://ewp-frontend.vercel.app/
+
+## Technologies
+- NextJS
+- JavaScript
+- ChakraUI
 
 ## Getting Started
 
@@ -10,6 +17,4 @@ First, run the development server:
 npm install
 npm run dev
 ```
-Than you are good to go!
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Then you are good to go!
